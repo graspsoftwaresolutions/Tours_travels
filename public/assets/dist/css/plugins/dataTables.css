@@ -1,0 +1,414 @@
+.dataTables_wrapper {
+  background-color: #fff;
+}
+
+.dataTables_wrapper .btn, .dataTables_wrapper input {
+  border-radius: 2px;
+}
+
+.dataTables_wrapper .dt-header {
+  margin: 0px;
+  padding: 10px 0;
+  background-color: #f9f9f9;
+}
+
+.dataTables_wrapper .dt-footer {
+  margin: 0;
+  padding: 20px 0;
+  background-color: #f9f9f9;
+  border-top: 1px solid #dedede;
+}
+
+.dataTables_wrapper .DTTT.btn-group .btn-flat {
+  font-size: 12px;
+}
+
+.dataTables_wrapper .pagination {
+  margin: 0;
+}
+
+.table-datatable {
+  width: 100% !important;
+}
+
+table.dataTable thead th {
+  padding-top: 16px;
+  color: #dedede;
+}
+
+.light-skin table.dataTable thead th {
+  background-color: #3B3D51;
+  box-shadow: 0 5px 6px -5px rgba(0, 0, 0, 0.4);
+}
+
+.dark-skin table.dataTable thead th {
+  background-color: #222;
+  box-shadow: 0 5px 6px -5px rgba(0, 0, 0, 0.4);
+}
+
+table.dataTable th,
+table.dataTable td {
+  white-space: nowrap;
+}
+
+.dataTables_filter input {
+  font-size: 14px;
+}
+
+div.dataTables_length label {
+  font-weight: normal;
+}
+
+div.dataTables_length label select {
+  cursor: pointer;
+}
+
+div.dataTables_length label .view-rows {
+  width: 80px !important;
+}
+
+div.dataTables_filter label {
+  font-weight: normal;
+}
+
+div.dataTables_paginate {
+  float: right;
+}
+
+table.dataTable th:active {
+  outline: none;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  cursor: pointer;
+}
+
+table.dataTable thead .sorting:after {
+  content: "\f4e2";
+  display: block;
+}
+
+table.dataTable thead .sorting_asc:after {
+  content: "\f4bc";
+  display: block;
+}
+
+table.dataTable thead .sorting_desc:after {
+  content: "\f4bd";
+  display: block;
+}
+
+table.dataTable thead .sorting_asc_disabled:after {
+  content: "\f54c";
+  display: block;
+  opacity: .3;
+}
+
+table.dataTable thead .sorting_desc_disabled:after {
+  content: "\f54d";
+  display: block;
+  opacity: .3;
+}
+
+table.dataTable thead th {
+  position: relative;
+}
+
+table.dataTable thead th:after {
+  position: absolute;
+  top: 14px;
+  right: 2px;
+  font-family: MaterialDesignIcons;
+  font-size: 16px;
+}
+
+table.dataTable thead th:active, table.dataTable thead th:focus {
+  outline: none;
+}
+
+.dataTables_wrapper .dataTables_scroll {
+  clear: both;
+}
+
+.dataTables_wrapper .dataTables_scroll table {
+  margin-top: 0;
+}
+
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {
+  *margin-top: -1px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody th > div.dataTables_sizing,
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody td > div.dataTables_sizing {
+  height: 0;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody thead th:after {
+  display: none;
+}
+
+.dataTables_wrapper.no-footer div.dataTables_scrollHead table,
+.dataTables_wrapper.no-footer div.dataTables_scrollBody table {
+  border-bottom: none;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.DTTT_print_info {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -75px;
+  text-align: center;
+  padding: 10px 30px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
+}
+
+.DTTT_print_info h6 {
+  font-size: 17px;
+  line-height: 28px;
+  margin: 1em;
+}
+
+button.ColVis_Button {
+  position: relative;
+  width: 150px !important;
+  text-align: left;
+  padding: 6px 20px 6px 0;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+button.ColVis_Button:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "\f35d";
+  font-family: MaterialDesignIcons;
+  font-size: 22px;
+}
+
+ul.ColVis_collection {
+  background-color: #fff;
+  min-width: 148px;
+  margin-left: 2px;
+  padding-top: 5px;
+  padding-left: 0;
+  z-index: 20002;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+ul.ColVis_collection li {
+  position: relative;
+  list-style: none;
+  padding: 6px 4px 3px 8px;
+  cursor: pointer;
+  line-height: 30px;
+}
+
+ul.ColVis_collection li span {
+  font-weight: normal;
+  text-decoration: line-through;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+ul.ColVis_collection li:hover {
+  background-color: #eee;
+}
+
+ul.ColVis_collection li input {
+  display: none;
+}
+
+div.ColVis_collectionBackground {
+  display: none;
+}
+
+div.ColVis_catcher {
+  position: absolute;
+  z-index: 10101;
+}
+
+ul.ColVis_collection input[type=checkbox]:checked + span {
+  text-decoration: none;
+}
+
+ul.ColVis_collection input[type=checkbox]:checked + span:before {
+  content: "\f12c";
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  font-family: MaterialDesignIcons;
+  font-size: 16px;
+  color: #26A69A;
+}
+
+button.ColVis_Button::-moz-focus-inner {
+  border: none !important;
+  padding: 0;
+}
+
+button.ColVis_Button:focus {
+  outline: none;
+}
+
+/* ColReorder */
+table.DTCR_clonedTable {
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 202;
+}
+
+div.DTCR_pointer {
+  width: 1px;
+  background-color: #0259C4;
+  z-index: 201;
+}
+
+table.dataTable.dtr-inline.collapsed tbody td:first-child,
+table.dataTable.dtr-inline.collapsed tbody th:first-child {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+}
+
+table.dataTable.dtr-inline.collapsed tbody td:first-child:before,
+table.dataTable.dtr-inline.collapsed tbody th:first-child:before {
+  top: 9px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  position: absolute;
+  font-family: MaterialDesignIcons;
+  font-size: 20px;
+  text-align: center;
+  box-sizing: content-box;
+  content: "\f417";
+}
+
+table.dataTable.dtr-inline.collapsed tbody td:first-child.dataTables_empty:before,
+table.dataTable.dtr-inline.collapsed tbody th:first-child.dataTables_empty:before {
+  display: none;
+}
+
+table.dataTable.dtr-inline.collapsed tbody tr.parent td:first-child:before,
+table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
+  content: "\f376";
+}
+
+table.dataTable.dtr-inline.collapsed tbody tr.child td:before {
+  display: none;
+}
+
+table.dataTable.dtr-column tbody td.control,
+table.dataTable.dtr-column tbody th.control {
+  position: relative;
+  cursor: pointer;
+}
+
+table.dataTable.dtr-column tbody td.control:before,
+table.dataTable.dtr-column tbody th.control:before {
+  top: 50%;
+  left: 50%;
+  height: 16px;
+  width: 16px;
+  margin-top: -10px;
+  margin-left: -10px;
+  display: inline-block;
+  position: absolute;
+  font-family: MaterialDesignIcons;
+  font-size: 20px;
+  text-align: center;
+  box-sizing: content-box;
+  content: "\f417";
+}
+
+table.dataTable.dtr-column tbody tr.parent td.control:before,
+table.dataTable.dtr-column tbody tr.parent th.control:before {
+  content: "\f376";
+}
+
+table.dataTable tr.child {
+  padding: 0.5em 1em;
+}
+
+table.dataTable tr.child:hover {
+  background: transparent !important;
+}
+
+table.dataTable tr.child ul {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+table.dataTable tr.child ul li {
+  border-bottom: 1px solid #efefef;
+  padding: 0.5em 0;
+}
+
+table.dataTable tr.child ul li:first-child {
+  padding-top: 0;
+}
+
+table.dataTable tr.child ul li:last-child {
+  border-bottom: none;
+}
+
+table.dataTable tr.child span.dtr-title {
+  display: inline-block;
+  min-width: 75px;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  div.dataTables_filter label {
+    float: right;
+  }
+}
+
+.dark-skin .dataTables_wrapper, .dark-skin .dataTables_wrapper .dt-header,
+.dark-skin .dataTables_wrapper .dt-footer {
+  background-color: #262733;
+}
+
+.dark-skin .ColVis_collection {
+  background-color: #262733;
+}
+
+.dark-skin .ColVis_collection li:hover {
+  background-color: #3B3D51;
+}
+
+.dark-skin .DTTT.btn-group .btn-flat {
+  color: #dedede;
+}
+
+.dark-skin ul.ColVis_list-group {
+  background-color: #262733;
+}
+
+.dark-skin ul.ColVis_list-group li:hover {
+  background-color: #3B3D51;
+}
+
+.dark-skin ul.ColVis_list-group a {
+  color: #dedede;
+}
