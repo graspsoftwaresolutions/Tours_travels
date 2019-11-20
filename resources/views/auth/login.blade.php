@@ -49,16 +49,23 @@
                     <p class="form-type mt20">
                         <a class="btn-flat forgot-password waves-effect waves-theme text-blue-grey text-lighten-2" href="#">Forgot password</a>
                         
-                        <a href="register.html" class="btn-flat waves-effect waves-theme text-blue-grey text-lighten-2 pull-right">Register</a>
+    
                     </p>
                 </div>
             </form>
-            <form id="forgotPasswordForm">
+            <form id="forgotPasswordForm" method="POST" action="{{ route('password.email') }}">
+            @csrf
                 <div class="body">
                     <p class="text-center help-text pt40">Submit us your email address:</p>
                     <div class="form-group input-field label-float">
                         <i class="mdi mdi-email prefix"></i>
-                        <input id="regEmail" name="regEmail" type="text">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                       
                         <label for="regEmail">Your Email:</label>
                         <div class="input-highlight"></div>
 

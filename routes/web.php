@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@custom_login');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/logout','HomeController@logout')->name('logout');

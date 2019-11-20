@@ -12,6 +12,7 @@
         <a href="ajax/contacts-panel.html" class="aside-panel-trigger icon action mdi mdi-account-multiple"></a>
 
         <a href="ajax/menu-settings.html" class="aside-panel-trigger icon action mdi mdi-settings"></a>
+       
 
         <i class="icon action mdi toolbar-search visible-xs-inline-block"></i>
 
