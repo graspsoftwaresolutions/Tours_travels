@@ -32,5 +32,10 @@ class HomeController extends Controller
         Auth::logout();
         return view('auth.login');
     }
+
+    public function menuSettings()
+    {
+        return view('ajax.menu-settings');
+    }
     
 }

@@ -21,7 +21,7 @@
             </div>                  
               </a>
                 <ul id="settings-dropdown" class="sidemenu-dropdown">
-                  <li>
+                  <!--li>
               <a class="menu-dropdown" href="#">
                 <span class="text">Email</span>
               </a>
@@ -45,8 +45,8 @@
                   <a href="#:;" class="submenu-target"><i class="icon mdi mdi-delete"></i>Trash</a>
                 </li>
               </ul>
-            </li>
-            <li>
+            </li-->
+            <!--li>
               <a class="menu-dropdown" href="#">
                 <span class="text">Files</span>
               </a>
@@ -67,7 +67,7 @@
                   <a href="filemanager.html" class="submenu-target"><i class="icon mdi mdi-video"></i>Videos</a>
                 </li>
               </ul>
-            </li>
+            </li-->
                     <li>
                         <a href="#:;">Profile</a>
                     </li>
@@ -82,20 +82,20 @@
                 </ul>
             </li>
 
-        <!-- <li class="menubar-item">
-          <a class="menu-dropdown" href="#">
-            <i class="icon mdi mdi-speedometer"></i>
-            <span class="text">Dashboards</span>
-          </a>
-          <ul class="submenu lvl-1">
-            <li class="submenu-item">
-              <a href="index-2.html" class="submenu-target">Sales</a>
-            </li>
-            <li class="submenu-item">
-              <a href="helpdesk.html" class="submenu-target">Helpdesk</a>
-            </li>
-          </ul>
-        </li>        -->
+            <li class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-speedometer"></i>
+                <span class="text">Masters</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li class="submenu-item">
+                  <a href="#" class="submenu-target">Sales</a>
+                </li>
+                <li class="submenu-item">
+                  <a href="#" class="submenu-target">Helpdesk</a>
+                </li>
+              </ul>
+            </li>       
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
   </nav><!-- /.main-menu -->

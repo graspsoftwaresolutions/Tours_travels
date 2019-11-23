@@ -12,6 +12,8 @@
             <form id="signInForm" action="{{ route('login') }}" method="post">
                  @csrf
                 <div class="body">
+                  
+                    @include('includes.messages')
                     <div class="input-field label-float @error('email') is-invalid @enderror">
                         <i class="mdi mdi-account prefix"></i>
                         <input id="email" name="email" type="text" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -56,6 +58,7 @@
             <form id="forgotPasswordForm" method="POST" action="{{ route('password.email') }}">
             @csrf
                 <div class="body">
+                     @include('includes.messages')
                     <p class="text-center help-text pt40">Submit us your email address:</p>
                     <div class="form-group input-field label-float">
                         <i class="mdi mdi-email prefix"></i>
