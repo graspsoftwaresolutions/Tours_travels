@@ -5,7 +5,7 @@
     <!-- Wrapper to attach the scrollbar to -->
     <div id="mmScroll" class="scroller">
       <div class="sidemenu-header" >
-        <img src="demo/images/demo-13.jpg" alt="" class="img-responsive">    
+        <img src="{{ asset('public/assets/demo/images/demo-13.jpg') }}" alt="" class="img-responsive">    
       </div><!-- /.side-menu-header -->           
     
       <!-- Menu items -->
@@ -13,11 +13,11 @@
         <li class="user-menu">
           <a class="sidemenu-username media" href="#">
             <div class="media-left">
-              <img class="avatar circle" src="demo/images/faces/face-23.jpg" alt="">
+              <img class="avatar circle" src="{{ asset('public/assets/images/admin.png') }}" alt="">
             </div>
             <div class="media-body">
               <h5>Tours and Travels</h5>
-              <span class="media-subhead">admin@tours.com</span>
+              <span class="media-subhead">{{ Auth::user()->email }}</span>
             </div>                  
               </a>
                 <ul id="settings-dropdown" class="sidemenu-dropdown">
@@ -82,17 +82,20 @@
                 </ul>
             </li>
 
-            <li class="menubar-item">
+            <li id="master-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
-                <i class="icon mdi mdi-speedometer"></i>
+                <i class="icon mdi mdi-format-list-bulleted"></i>
                 <span class="text">Masters</span>
               </a>
               <ul class="submenu lvl-1">
-                <li class="submenu-item">
-                  <a href="#" class="submenu-target">Sales</a>
+                <li id="country_sidebar_li_id" class="submenu-item">
+                  <a id="country_sidebar_a_id" href="{{ route('master.country') }}" class="submenu-target">{{ __('Country Details') }}</a>
                 </li>
-                <li class="submenu-item">
-                  <a href="#" class="submenu-target">Helpdesk</a>
+                <li id="state_sidebar_li_id" class="submenu-item">
+                  <a id="state_sidebar_a_id" href="{{route('master.state')}}" class="submenu-target">{{ __('State Details') }}</a>
+                </li>
+                <li id="city_sidebar_li_id" class="submenu-item">
+                  <a id="city_sidebar_a_id" href="{{route('master.city')}}" class="submenu-target">{{ __('City Details') }}</a>
                 </li>
               </ul>
             </li>       

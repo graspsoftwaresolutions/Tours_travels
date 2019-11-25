@@ -7,6 +7,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>{{ config('app.name', 'Tours and Travels') }}</title>
+<link rel="apple-touch-icon" href="{{ asset('public/assets/images/logo.png') }}">
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('public/assets/images/logo.png') }}">
 <link href="{{ asset('public/assets/dist/css/plugins/jvectormap.css') }}" rel="stylesheet" type="text/css">
 
 <!-- c3 charts -->
@@ -22,7 +24,16 @@
 <link href="{{ asset('public/assets/demo/demo.css') }}" rel="stylesheet" type="text/css">		
 @section('headSection')
     @show
-
+<style>
+    .modal-header {
+        border-bottom: 0;
+        padding: 10px;
+    }
+    .input-field div.help-block{
+	    color: #A94442 !important;
+	    padding: 5px 10px;
+	}
+</style>
 @section('headSecondSection')
     @show
 

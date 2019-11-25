@@ -30,7 +30,7 @@
         </div-->        
 
         <div class="dropdown hb-user-dropdown pull-right">
-          <img class="circle hb-profile" data-toggle="dropdown" src="demo/images/faces/face-23.jpg" alt="">
+          <img class="circle hb-profile" data-toggle="dropdown" src="{{ asset('public/assets/demo/images/faces/face-23.jpg') }}" alt="">
           <ul class="dropdown-menu top-right">
             <li><a href="inbox.html">Inbox</a></li>
             <li><a href="#:;">Profile</a></li>
@@ -43,7 +43,7 @@
 
       </div><!-- /.pull-right -->
 
-      <div class="title brand-name">MDA</div>
+      <div class="title brand-name">TAT</div>
     </div><!-- /.toolbar -->
   </header>
 
