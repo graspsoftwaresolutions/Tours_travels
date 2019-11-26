@@ -13,8 +13,8 @@ class State extends Model
     ];
     public function saveStatedata($data=array())
     {
-        if (!empty($data['id'])) {
-            $savedata = state::find($data['id'])->update($data);
+        if (!empty($data['masterid'])) {
+            $savedata = state::find($data['masterid'])->update($data);
         } else {
             $savedata = state::create($data);
         }

@@ -95,7 +95,7 @@ class CommonController extends Controller
     public function CommonAjaxReturn($result, $deletetype, $deleteRoute,$edittype,$table,$editRoute=false){
         $data = array();
         $get_roles = Auth::user()->roles;
-		$user_role = $get_roles[0]->slug;
+		//$user_role = $get_roles[0]->slug;
 		$user_id = Auth::user()->id;
         if(!empty($result))
         {
@@ -111,13 +111,13 @@ class CommonController extends Controller
                         $autoid = $newvalue;
                         
                     }else{
-                        $memberscount = CommonHelper::mastersMembersCount($table,$autoid, $user_role, $user_id);
+                        //$memberscount = CommonHelper::mastersMembersCount($table,$autoid, $user_role, $user_id);
                         
                         if($table=='state' || $table=='company_branch')
                         {
                             if($serial == 1)
                             {
-                                $nestedData[$newkey] = $newvalue."&nbsp;&nbsp;&nbsp;".'<span class="badge badge pill light-blue mr-10">'.$memberscount.'</span>';
+                                $nestedData[$newkey] = $newvalue."&nbsp;&nbsp;&nbsp;";
                             }
                             else{
                                 $nestedData[$newkey] = $newvalue;
@@ -128,7 +128,7 @@ class CommonController extends Controller
 
                             if($serial == 0)
                             {
-                                $nestedData[$newkey] = $newvalue."&nbsp;&nbsp;&nbsp;".'<span class="badge badge pill light-blue mr-10">'.$memberscount.'</span>';
+                                $nestedData[$newkey] = $newvalue."&nbsp;&nbsp;&nbsp;";
                             }
                             else{
                                 $nestedData[$newkey] = $newvalue;
@@ -148,7 +148,7 @@ class CommonController extends Controller
 				{
 					$delete = "";
 				}else{
-                $delete =  route($deleteRoute, [app()->getLocale(),$autoid]) ;
+                $delete =  route($deleteRoute, [$autoid]) ;
 				}
                 if($edittype==0){
                     $edit =  "#";
@@ -156,27 +156,27 @@ class CommonController extends Controller
 				else if($edittype==2){
                     $edit =  "#";
                 }else{
-                    $edit =  route($editRoute,[app()->getLocale(),$enc_id]);
+                    $edit =  route($editRoute,[$enc_id]);
                 }
 				$actions ='';
 				
 				if($edittype!=2){
-					$actions ="<label style='width:100% !important;float:left;text-align:center;'><a style='' id='$edit' onClick='showeditForm($autoid);' class='' href='$edit'><i class='material-icons' style='color:#2196f3'>edit</i></a>";
+					$actions ="<a style='' id='$edit' onClick='showeditForm($autoid);' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>";
 				}
                
 
                 
                 if($deletetype==0){
                     $actions .="<a><form style='display:inline-block;' action='$delete' method='POST'>".method_field('DELETE').csrf_field();
-                    $actions .="<button  type='submit' class='' style='background:none;border:none;'  onclick='return ConfirmDeletion()'><i class='material-icons' style='color:red;'>delete</i></button> </form>";
+                    $actions .="&nbsp;&nbsp;<button  type='submit' class='btn btn-sm red waves-effect waves-circle waves-light' onclick='return ConfirmDeletion()'><i class='mdi mdi-delete'></i></button> </form>";
                 }
 				else if($deletetype==2){
                     $actions .="";
                 }
 				else{
-                    if($user_role=='union'){
-                        $actions .="&nbsp; <a href='$delete' onclick='return ConfirmDeletion()' ><i class='material-icons' style='color:red;'>delete</i></a></label>";
-                    }
+                   
+                    $actions .="&nbsp;&nbsp; <a href='$delete' class='btn btn-sm red waves-effect waves-circle waves-light' onclick='return ConfirmDeletion()' ><i class='mdi mdi-delete'></i></a>";
+                    
                     
                 }
                 

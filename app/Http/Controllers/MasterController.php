@@ -28,7 +28,7 @@ class MasterController extends CommonController {
     }
 
     public function countryList() {
-        $data['country_view'] = Country::all();
+        $data['country_view'] = Country::where('status','=','1')->get();
         return view('master.country.country_list')->with('data', $data);
     }
 
@@ -78,28 +78,27 @@ class MasterController extends CommonController {
         }
     }
 
-    public function countrydestroy($lang,$id)
+    public function countrydestroy($id)
 	{
         $Country = new Country();
-        $country_member =  DB::table('membership as m')->where('m.country_id','=',$id)->count();
-        $country_guar =  DB::table('member_guardian as mg')->where('mg.country_id','=',$id)->count();
-        $country_nominee =  DB::table('member_nominees as mn')->where('mn.country_id','=',$id)->count();
-        $country_company =  DB::table('company_branch as cb')->where('cb.country_id','=',$id)->count();
-        $country_state =  DB::table('state as s')->where('s.country_id','=',$id)->count();
-        $country_union =  DB::table('union_branch as ub')->where('ub.country_id','=',$id)->count();
-        
+        // $country_member =  DB::table('membership as m')->where('m.country_id','=',$id)->count();
+        // $country_guar =  DB::table('member_guardian as mg')->where('mg.country_id','=',$id)->count();
+        // $country_nominee =  DB::table('member_nominees as mn')->where('mn.country_id','=',$id)->count();
+        // $country_company =  DB::table('company_branch as cb')->where('cb.country_id','=',$id)->count();
+        // $country_state =  DB::table('state as s')->where('s.country_id','=',$id)->count();
+        // $country_union =  DB::table('union_branch as ub')->where('ub.country_id','=',$id)->count();
+        $country_count=0;
        // dd($country);
-        if($country_member > 0 || $country_guar > 0 || $country_guar > 0 || $country_nominee > 0 || $country_company > 0 || $country_state > 0 ||  $country_union > 0 )
+        if($country_count>0 )
         {
-            $defdaultLang = app()->getLocale();
-            return redirect($defdaultLang.'/country')->with('error','You cannot delete the country!');
+            return redirect('country')->with('error','You cannot delete the country!');
         }
         else{
             $Country->where('id','=',$id)->update(['status'=>'0']);
         }
        
-        $defdaultLang = app()->getLocale();
-        return redirect($defdaultLang.'/country')->with('message','Country Details Deleted Successfully!!');
+        
+        return redirect('/country')->with('message','Country Details Deleted Successfully!!');
 	}
 
     public function stateList()
@@ -111,7 +110,7 @@ class MasterController extends CommonController {
 	
 	public function stateSave(Request $request)
     {
-
+        $auto_id = $request->input('masterid');
         $request->validate([
             'country_id' => 'required',
 			'state_name' => 'required',
@@ -120,52 +119,63 @@ class MasterController extends CommonController {
 			'state_name.required' => 'please enter State name',
         ]);
         $data = $request->all();   
-        $defdaultLang = app()->getLocale();
+        
 
-        if(!empty($request->id)){
-            $data_exists = $this->mailExists($request->input('state_name'),$request->id);
+        if($auto_id!=''){
+            $data_exists = State::where([
+                        ['state_name','=',$request->input('state_name')],
+                        ['country_id','=',$request->input('country_id')],
+                        ['id','!=',$auto_id],
+                        ['status','=','1']
+                        ])->count();
         }else{
-            $data_exists = $this->mailExists($request->input('state_name'));       
+            $data_exists = State::where([
+                ['state_name','=',$request->input('state_name')],
+                ['country_id','=',$request->input('country_id')],
+                ['status','=','1'],     
+                ])->count(); 
         }
         if($data_exists>0)
         {
-            return  redirect($defdaultLang.'/state')->with('error','User Email Already Exists'); 
+            return  redirect('/state')->with('error','State Already Exists'); 
         }
         else{
 
             $saveState = $this->state->saveStatedata($data);
             
             if ($saveState == true) {
-                if(!empty($request->id))
+                if($auto_id!='')
                 {
-                    return redirect($defdaultLang . '/state')->with('message', 'State Name Updated Succesfully');
+                    return redirect('/state')->with('message', 'State Name Updated Succesfully');
                 }
                 else
                 {
-                    return redirect($defdaultLang . '/state')->with('message', 'State Name Added Succesfully');
+                    return redirect('/state')->with('message', 'State Name Added Succesfully');
                 }
             }
         }
     }
-	public function statedestroy($lang,$id)
+	public function statedestroy($id)
 	{
         $State = new state();
         //$State = state::find($id);
-        $state_membership =  DB::table('membership as m')->where('m.state_id','=',$id)->count();
-        $state_member_gua =  DB::table('member_guardian as mg')->where('mg.state_id','=',$id)->count();
-        $state_member_nomi =  DB::table('member_nominees as mn')->where('mn.state_id','=',$id)->count();
-        $state_company_bran =  DB::table('company_branch as cb')->where('cb.state_id','=',$id)->count();
-        $state_union_bran =  DB::table('union_branch as ub')->where('ub.state_id','=',$id)->count();
+        // $state_membership =  DB::table('membership as m')->where('m.state_id','=',$id)->count();
+        // $state_member_gua =  DB::table('member_guardian as mg')->where('mg.state_id','=',$id)->count();
+        // $state_member_nomi =  DB::table('member_nominees as mn')->where('mn.state_id','=',$id)->count();
+        // $state_company_bran =  DB::table('company_branch as cb')->where('cb.state_id','=',$id)->count();
+        // $state_union_bran =  DB::table('union_branch as ub')->where('ub.state_id','=',$id)->count();
 
-        $defdaultLang = app()->getLocale();
-        if($state_membership > 0 || $state_member_gua > 0 || $state_member_nomi > 0  || $state_company_bran > 0 ||  $state_union_bran > 0)
+        $statecount=0;
+
+       
+        if($statecount > 0 )
         {
-            return redirect($defdaultLang.'/state')->with('error','You cannot delete the state');
+            return redirect('/state')->with('error','You cannot delete the state');
         }
         else{
             $State->where('id','=',$id)->update(['status'=>'0']);
         }
-        return redirect($defdaultLang.'/state')->with('message','State Details Deleted Successfully!!');
+        return redirect('/state')->with('message','State Details Deleted Successfully!!');
 	}
 	
 		
@@ -180,7 +190,7 @@ class MasterController extends CommonController {
 	
 	public function citySave(Request $request)
     {
-
+        $auto_id = $request->input('masterid');
         $request->validate([
             'country_id' => 'required',
 			'state_id' => 'required',
@@ -191,12 +201,22 @@ class MasterController extends CommonController {
 			'city_name.required' => 'please enter City name',
         ]);
         $data = $request->all();   
-        $defdaultLang = app()->getLocale();
+        $defdaultLang = '';
 
-        if(!empty($request->id)){
-            $data_exists = $this->mailExists($request->input('city_name'),$request->id);
+        if($auto_id!=''){
+            $data_exists = City::where([
+                ['city_name','=',$request->input('city_name')],
+                ['state_id','=',$request->input('state_id')],
+                ['id','!=',$auto_id],
+                ['status','=','1']
+                ])->count();
         }else{
-            $data_exists = $this->mailExists($request->input('city_name'));
+            $data_exists = City::where([
+                        ['city_name','=',$request->input('city_name')],
+                        ['country_id','=',$request->input('country_id')],
+                        ['state_id','=',$request->input('state_id')],
+                        ['status','=','1'],     
+                        ])->count(); 
         }
         if($data_exists>0)
         {
@@ -207,7 +227,7 @@ class MasterController extends CommonController {
             $saveCity = $this->City->saveCitydata($data);
 
             if ($saveCity == true) {
-                if(!empty($request->id))
+                if($auto_id!='')
                 {
                     return redirect($defdaultLang . '/city')->with('message', 'City Name Updated Succesfully');
                 }
@@ -218,18 +238,19 @@ class MasterController extends CommonController {
             }
         }
     }
-	public function citydestroy($lang,$id)
+	public function citydestroy($id)
 	{
         $city = new City();
         $City = City::find($id);
-        $City_membership =  DB::table('membership as m')->where('m.city_id','=',$id)->count();
-        $City_member_gua =  DB::table('member_guardian as mg')->where('mg.city_id','=',$id)->count();
-        $City_member_nomi =  DB::table('member_nominees as mn')->where('mn.city_id','=',$id)->count();
-        $City_company_bran =  DB::table('company_branch as cb')->where('cb.city_id','=',$id)->count();
-        $City_union_bran =  DB::table('union_branch as ub')->where('ub.city_id','=',$id)->count();
+        // $City_membership =  DB::table('membership as m')->where('m.city_id','=',$id)->count();
+        // $City_member_gua =  DB::table('member_guardian as mg')->where('mg.city_id','=',$id)->count();
+        // $City_member_nomi =  DB::table('member_nominees as mn')->where('mn.city_id','=',$id)->count();
+        // $City_company_bran =  DB::table('company_branch as cb')->where('cb.city_id','=',$id)->count();
+        // $City_union_bran =  DB::table('union_branch as ub')->where('ub.city_id','=',$id)->count();
 
-        $defdaultLang = app()->getLocale();
-        if($City_membership > 0 || $City_member_gua > 0 || $City_member_nomi > 0 || $City_company_bran  > 0 || $City_union_bran > 0)
+        $City_count = 0;
+        $defdaultLang = '';
+        if($City_count > 0)
         {
             return redirect($defdaultLang.'/city')->with('error','You cannot delete the City');
         }

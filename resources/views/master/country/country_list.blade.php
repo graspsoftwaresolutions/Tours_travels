@@ -56,7 +56,18 @@
                                 @foreach($data['country_view'] as $country)
                                 <tr>
                                     <td>{{ $country->country_name }}</td>
-                                    <td><button class="btn btn-sm blue waves-effect waves-circle waves-light" onClick='showeditForm({{$country->id}});'><i class="mdi mdi-lead-pencil"></i></button></td>
+                                    <td>
+                                        <button class="btn btn-sm blue waves-effect waves-circle waves-light" onClick='showeditForm({{$country->id}});'><i class="mdi mdi-lead-pencil"></i></button>
+                                        &nbsp;
+
+                                        <a>
+                                            <form style='display:inline-block;' action='{{ route("master.countrydestroy",$country->id) }}' method='POST'>
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-sm red waves-effect waves-circle waves-light" onclick='return ConfirmDeletion()' ><i class="mdi mdi-delete"></i></button>
+                                            </form>
+                                        </a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>        
@@ -88,7 +99,7 @@
                             @csrf
                             <div class="modal-body">
                                <div class="col-sm-12">
-
+                                     <input class="hide" id="masterid" name="masterid" type="text">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
@@ -113,13 +124,7 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
-        <footer id="pageFooter" class="page-footer toolbar">
-            <p class="hidden-xs pull-left pl20 pr12">Follow us</p>
-            <a href="#!"><i class="icon action mdi mdi-twitter"></i></a>
-            <a href="#!"><i class="icon action mdi mdi-facebook"></i></a>
-            <a href="#!"><i class="icon action mdi mdi-linkedin"></i></a>
-            <p class="pull-right pr20">© 2016 YourApp</p>
-        </footer>
+       
     </section> <!-- /.content-wrapper -->
 @endsection
 @section('footerSection')
@@ -142,6 +147,8 @@
     })(jQuery);
     function showaddForm() {
         $("#masterModal").modal();
+        $("#masterid").val('');
+        $('#country_name').val("");
     }
     // Form Validation
     $("#countryformValidate").validate({
@@ -192,6 +199,13 @@
     $(document).on('submit','form#countryformValidate',function(){
         $("#saveMasterButton").prop('disabled',true);
     });
+    function ConfirmDeletion() {
+        if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     $("#master-menu").addClass('active');
     $("#country_sidebar_a_id").addClass('active');
 </script>

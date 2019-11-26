@@ -196,20 +196,20 @@ class AjaxController extends CommonController
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){
-				$city = DB::table('country')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status')
-                ->join('state','country.id','=','state.country_id')
-                ->join('city','city.state_id','=','state.id')
-                ->orderBy($order,$dir)
+				$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status')
+                ->leftjoin('state','state.id','=','city.state_id')
+                ->leftjoin('country','country.id','=','state.country_id')
                 ->where('city.status','=','1')
+                ->orderBy($order,$dir)
 				->get()->toArray();
             }else{
-               $city = DB::table('country')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
-                ->join('state','country.id','=','state.country_id')
-                ->join('city','city.state_id','=','state.id')
+               $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+                ->leftjoin('state','state.id','=','city.state_id')
+                ->leftjoin('country','country.id','=','state.country_id')
+                ->where('city.status','=','1')
 				->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
-                ->where('city.status','=','1')
                 ->get()->toArray();
             }
         
@@ -217,27 +217,29 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-			$city = DB::table('country')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
-					->join('state','country.id','=','state.country_id')
-					->join('city','city.state_id','=','state.id')
-					->where('city.id','LIKE',"%{$search}%")
-                    ->orWhere('country.country_name', 'LIKE',"%{$search}%")
-                    ->orWhere('state.state_name', 'LIKE',"%{$search}%")
-                    ->orWhere('city.city_name', 'LIKE',"%{$search}%")
+			$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+                    ->leftjoin('state','state.id','=','city.state_id')
+                    ->leftjoin('country','country.id','=','state.country_id')
                     ->where('city.status','=','1')
+                    ->where(function($query) use ($search){
+                        $query->orWhere('country.country_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state.state_name', 'LIKE',"%{$search}%")
+                        ->orWhere('city.city_name', 'LIKE',"%{$search}%");
+                    })
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $city = DB::table('country')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
-						->join('state','country.id','=','state.country_id')
-						->join('city','city.state_id','=','state.id')
-						->where('city.id','LIKE',"%{$search}%")
-						->orWhere('country.country_name', 'LIKE',"%{$search}%")
-						->orWhere('state.state_name', 'LIKE',"%{$search}%")
-						->orWhere('city.city_name', 'LIKE',"%{$search}%")
+            $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+						->leftjoin('state','state.id','=','city.state_id')
+                        ->leftjoin('country','country.id','=','state.country_id')
+                        ->where('city.status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('country.country_name', 'LIKE',"%{$search}%")
+                            ->orWhere('state.state_name', 'LIKE',"%{$search}%")
+                            ->orWhere('city.city_name', 'LIKE',"%{$search}%");
+                        })
                         ->offset($start)
                         ->limit($limit)
-                        ->where('city.status','=','1')
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }

@@ -47,4 +47,6 @@ Route::post('city_nameexists','AjaxController@checkCityNameExists');
 Route::get('city_detail','CommonController@cityDetail');
 Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.citydestroy');
 
+Route::get('get-state-list','CommonController@getStateList');
+
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');

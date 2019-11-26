@@ -13,8 +13,8 @@ class City extends Model
 
     public function saveCitydata($data=array())
     {
-        if (!empty($data['id'])) {
-            $savedata = City::find($data['id'])->update($data);
+        if (!empty($data['masterid'])) {
+            $savedata = City::find($data['masterid'])->update($data);
         } else {
             $savedata = City::create($data);
         }

@@ -39,6 +39,6 @@
 @section('footerSection')
 
 <script>
-	$("#dashboard_sidebar_a_id").addClass('active');
+	$("#dashboard_sidebar_li_id").addClass('active');
 </script>
 @endsection

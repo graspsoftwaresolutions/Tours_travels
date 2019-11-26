@@ -33,7 +33,20 @@
 	    color: #A94442 !important;
 	    padding: 5px 10px;
 	}
-</style>
+    .select-row{
+        margin-top: 6px;
+    }
+    body.light-skin .has-error .help-block {
+        background: none !important;
+    }
+    body.light-skin .has-error label {
+        color: #212121 !important;
+    }
+    td, th {
+        padding: 10px 8px !important;
+      
+    }
+ </style>
 @section('headSecondSection')
     @show
 

@@ -81,11 +81,16 @@
                     </li>
                 </ul>
             </li>
-
+            <li id="dashboard_sidebar_li_id" class="menubar-item">
+              <a class="menu-dropdown" href="{{ route('home') }}">
+                <i class="icon mdi mdi-speedometer"></i>
+                <span class="text">{{ __('Dashboard') }}</span>
+              </a>
+            </li>
             <li id="master-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-format-list-bulleted"></i>
-                <span class="text">Masters</span>
+                <span class="text">{{ __('Masters') }}</span>
               </a>
               <ul class="submenu lvl-1">
                 <li id="country_sidebar_li_id" class="submenu-item">

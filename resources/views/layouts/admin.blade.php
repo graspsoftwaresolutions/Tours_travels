@@ -12,7 +12,7 @@
 			<div class="menu-toggler-hide pos-left"><i class="toggler-hide-icon"></i></div>
 			@section('main-content')
 				@show
-			<!-- @include('layouts.footer') -->
+			 @include('layouts.footer')
 		</div>
 		@include('layouts.foot-script')
     </body>
