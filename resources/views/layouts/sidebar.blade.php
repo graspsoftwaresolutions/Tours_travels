@@ -103,7 +103,21 @@
                   <a id="city_sidebar_a_id" href="{{route('master.city')}}" class="submenu-target">{{ __('City Details') }}</a>
                 </li>
               </ul>
-            </li>       
+            </li>    
+            <li id="master-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-hotel"></i>
+                <span class="text">{{ __('Hotels') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="country_sidebar_li_id" class="submenu-item">
+                  <a id="country_sidebar_a_id" href="#" class="submenu-target">{{ __('All Hotels') }}</a>
+                </li>
+                <li id="state_sidebar_li_id" class="submenu-item">
+                  <a id="state_sidebar_a_id" href="{{route('hotel.new')}}" class="submenu-target">{{ __('Add New Hotel') }}</a>
+                </li>
+              </ul>
+            </li>     
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
   </nav><!-- /.main-menu -->

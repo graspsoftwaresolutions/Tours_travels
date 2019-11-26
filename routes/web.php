@@ -49,4 +49,6 @@ Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.c
 
 Route::get('get-state-list','CommonController@getStateList');
 
+Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
+
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
