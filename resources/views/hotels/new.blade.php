@@ -26,6 +26,9 @@
       color: rgba(0, 0, 0, 0.9);
       line-height: 150%;
   }
+  .dropdown-menu li {
+    padding: 0 20px !important;
+  }
 </style>
 @endsection
 
@@ -84,17 +87,20 @@
                         <div class="form-group">
                           <label for=""><strong>Select Amenities:</strong></label>
                           <div class="row">
+                              @foreach($data['features_view'] as $value)
                               <div class="col-md-2">
+
                                    <div class="form-group">     
-                                    <label class="checkbox-filled" for="terms">
-                                      <input type="checkbox" class="filled" id="terms">
+                                     <label class="checkbox-filled" for="amenities_{{ $value->id }}">
+                                      <input type="checkbox" class="filled" name="amenities[]" id="amenities_{{ $value->id }}" value="{{ $value->id }}">
                                       <i class="highlight"></i>
-                                      Free Wifi
+                                      {{ $value->amenities_name }}
                                     </label>
                                   </div>
+                                  
                                                         
                               </div>
-                           
+                               @endforeach
                           </div>
 
                         </div>
@@ -124,23 +130,25 @@
 
                       <div class="col-md-4">
                           <div class="select-row form-group">
-                              <label for="country_id" class="block">{{__('Country Name') }}*</label>                 
+                              <label for="country_id" class="block">{{__('Country Name') }}</label>                 
 
                               <!-- To validate the select add class "select-validate" -->     
                               <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                   <option value="">{{__('Select country')}}</option>
                                   @php
-                                  $data1 = CommonHelper::DefaultCountry();
+                                  $defcountry = CommonHelper::DefaultCountry();
                                   @endphp
                                   @foreach($data['country_view'] as $value)
-                                  <option value="{{$value->id}}" @if($data1==$value->id) selected @endif >
+                                  <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
                                       {{$value->country_name}}</option>
                                   @endforeach
                               </select>        
                                <div class="input-highlight"></div>                       
                           </div><!-- /.form-group -->
                       </div>
-
+                        @php
+                          $statelist = CommonHelper::getStateList($defcountry);
+                        @endphp
                       <div class="col-md-4">
                           <div class="select-row form-group">
                               <label for="state_id" class="block">{{__('State Name') }}</label>                 
@@ -149,9 +157,9 @@
                               <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                    <option value="" selected="">{{__('Select State') }}
                                    </option>
-                                 <!--  @foreach ($data['state_view'] as $state)
+                                  @foreach ($statelist as $state)
                                   <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                  @endforeach -->
+                                  @endforeach
                               </select>        
                                <div class="input-highlight"></div>                       
                           </div><!-- /.form-group -->
@@ -226,18 +234,12 @@
                             <label for="room_type" class="block">{{__('Room Type') }}</label>                 
 
                             <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                            <select id="room_type" name="room_type" class="selectpicker select-validate" multiple data-width="100%">
+                            <select id="room_type" name="room_type" class="selectpicker select-validate" data-live-search="true" multiple data-width="100%">
                                  <option value="" disabled="true">{{__('Select Room Type') }}
                                  </option>
-                                 <option value="1">{{__('Dulex') }}
-                                 </option>
-                                  <option value="2">{{__('Non Dulex') }}
-                                 </option>
-                                 <option value="3">{{__('Premium') }}
-                                 </option>
-                               <!--  @foreach ($data['state_view'] as $state)
-                                <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                @endforeach -->
+                                  @foreach ($data['types_view'] as $type)
+                                  <option value="{{ $type->id }}">{{ $type->room_type }}</option>
+                                  @endforeach
                             </select>        
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
@@ -258,7 +260,7 @@
                         </div><!-- ./col- -->
                   
                      </div><!-- /.row -->
-
+                       </br> </br> </br> </br>
 					        </div><!-- /.col- -->
 					    </fieldset>
 					 
@@ -284,24 +286,24 @@
                     </div>
                    </br>
                       
-						    	 <div class="row">
+						    	 <div class="row hide">
 
                       <div class="divider theme ml14 mr14"></div>
                       <div class="col-xs-12 col-sm-3 mt20">
                         <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-                        <div class="button-close"> <button class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                        <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                       </div>
                       <div class="col-xs-12 col-sm-3 mt20">
                         <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-                         <div class="button-close"> <button class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                       </div>
                       <div class="col-xs-12 col-sm-3 mt20">
                         <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-                         <div class="button-close"> <button class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                       </div>
                       <div class="col-xs-12 col-sm-3 mt20">
                         <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-                         <div class="button-close"> <button class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                       </div>
                   </div>
 						    </div><!-- /.col- -->
@@ -405,5 +407,46 @@
     height: 300,   //set editable area's height
     placeholder: 'Write here...'
   });
+  $(function() {
+    $('select[name=country_id]').change(function() {
+       // alert('ok');
+        var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+
+        $.get(url, function(data) {
+            $('#state_id').empty('');
+            $("#state_id").append("<option value=''>Select</option>");
+            $("#state_id").selectpicker("refresh");
+            //var select = $('form select[name=state_id]');
+
+           // select.empty();
+            //$("#state_id").append("<option value=''>Select</option>");
+            $.each(data, function(key, value) {
+                $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
+                    '</option>');
+            });
+             $("#state_id").selectpicker("refresh");
+        });
+    });
+
+    $('select[name=state_id]').change(function() {
+       // alert('ok');
+        var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
+
+        $.get(url, function(data) {
+            $('#city_id').empty('');
+            $("#city_id").append("<option value=''>Select</option>");
+            $("#city_id").selectpicker("refresh");
+            //var select = $('form select[name=state_id]');
+
+           // select.empty();
+            //$("#state_id").append("<option value=''>Select</option>");
+            $.each(data, function(key, value) {
+                $("#city_id").append('<option value=' + value.id + '>' + value.city_name +
+                    '</option>');
+            });
+             $("#city_id").selectpicker("refresh");
+        });
+    });
+});
 </script>
 @endsection

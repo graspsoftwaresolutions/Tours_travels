@@ -57,6 +57,7 @@ Route::delete('amenities_delete/{id}','MasterController@amenitiesdestroy')->name
 
 
 Route::get('get-state-list','CommonController@getStateList');
+Route::get('get-cities-list','CommonController@getCitiesList');
 
 Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
 
