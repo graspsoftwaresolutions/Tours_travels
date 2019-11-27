@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Country;
+use App\Model\State;
+use App\Model\City;
 
 class HotelController extends CommonController
 {
@@ -13,6 +16,8 @@ class HotelController extends CommonController
 
 	public function index()
     {
-        return view('hotels.new');
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        return view('hotels.new',compact('data',$data));
     }
 }

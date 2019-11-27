@@ -1,14 +1,6 @@
 @extends('layouts.admin')
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
-<style type="text/css">
-  .form-group {
-    margin-bottom: 10px !important;
-  }
-  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-    width: 250px !important;
-  }
-</style>
 @endsection
 
 @section('main-content')	
@@ -53,29 +45,91 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <p class="no-margin em"></p>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for=""><strong>Preview Images:</strong></label>
+                        <div class="">
+                          <table class="table table-striped" id="imgtable">
+
+                          </table>
+                        </div>
+                        <div class="form-group">
+                          <label class="btn btn-info" style="width:100px;cursor:pointer;">
+                            <input id="imgs" style="display:none;" type="file">
+                            <i class="fa fa-plus"></i> Add File
+                          </label>
+                          <p class="no-margin em"></p>
+                        </div>
+                      </div>
                     </div>
-                     <div class="col-md-12">
-                        <p class="no-margin em"></p>
-                    </div>
+
 
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for=""><strong>Select Amenities:</strong></label>
                           <div class="row">
-                              <div class="col-md-2">
-                                   <div class="form-group">     
-                                    <label class="checkbox-filled" for="terms">
-                                      <input type="checkbox" class="filled" id="terms">
-                                      <i class="highlight"></i>
-                                      Free Wifi
-                                    </label>
-                                  </div>
-                                                        
+                            <div class="col-md-2">
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="1">
+                                <label class="form-check-label">
+                                  Free Wifi
+                                </label>
                               </div>
-                           
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="2">
+                                <label class="form-check-label">
+                                  Free Drinks
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="3">
+                                <label class="form-check-label">
+                                  Free Meal
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="4">
+                                <label class="form-check-label">
+                                  Taxi Available
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="5">
+                                <label class="form-check-label">
+                                  Bar Available
+                                </label>
+                              </div>
+                                                        </div>
+                            <div class="col-md-2">
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="6">
+                                <label class="form-check-label">
+                                  LED
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="7">
+                                <label class="form-check-label">
+                                  Free Coffee
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="8">
+                                <label class="form-check-label">
+                                  Wheelchair
+                                </label>
+                              </div>
+                                                          <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="amenities[]" value="9">
+                                <label class="form-check-label">
+                                  Pet Room
+                                </label>
+                              </div>
+                                                        </div>
+                            <div class="col-md-12">
+                              <p class="no-margin em"></p>
+                            </div>
                           </div>
 
                         </div>
@@ -85,82 +139,25 @@
                     <div class="row">
                       <div class="col-md-4">
                           <div class="form-group">
-                              <div class="input-field label-float">
-                                <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" type="text">
-                                <label for="contact_name" class="fixed-label">{{__('Contact Name') }}</label>
-                                <div class="input-highlight"></div>
-                            </div>
+                              <label for=""><strong>Phone Number:</strong></label>
+                              <input type="text" class="form-control" name="phone" value="" placeholder="Enter Hotel Phone Number">
+                              <p class="no-margin em"></p>
                           </div>
                       </div>
 
-                       <div class="col-md-4">
+                      <div class="col-md-4">
                           <div class="form-group">
-                              <div class="input-field label-float">
-                                <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" type="text">
-                                <label for="contact_email" class="fixed-label">{{__('Contact Email') }}</label>
-                                <div class="input-highlight"></div>
-                            </div>
+                              <label for=""><strong>Email:</strong></label>
+                              <input type="text" class="form-control" name="email" value="" placeholder="Enter Hotel Email Address">
+                              <p class="no-margin em"></p>
                           </div>
                       </div>
 
                       <div class="col-md-4">
-                          <div class="select-row form-group">
-                              <label for="country_id" class="block">{{__('Country Name') }}*</label>                 
-
-                              <!-- To validate the select add class "select-validate" -->     
-                              <select id="country_id" name="country_id" class="selectpicker select-validate" required="true" data-live-search="true">
-                                  <option value="">{{__('Select country')}}</option>
-                                  @php
-                                  $data1 = CommonHelper::DefaultCountry();
-                                  @endphp
-                                  @foreach($data['country_view'] as $value)
-                                  <option value="{{$value->id}}" @if($data1==$value->id) selected @endif >
-                                      {{$value->country_name}}</option>
-                                  @endforeach
-                              </select>        
-                               <div class="input-highlight"></div>                       
-                          </div><!-- /.form-group -->
-                      </div>
-
-                      <div class="col-md-4">
-                          <div class="select-row form-group">
-                              <label for="state_id" class="block">{{__('State Name') }}</label>                 
-
-                              <!-- To validate the select add class "select-validate" -->     
-                              <select id="state_id" name="state_id" class="selectpicker select-validate" required="true" data-live-search="true">
-                                   <option value="" selected="">{{__('Select State') }}
-                                   </option>
-                                 <!--  @foreach ($data['state_view'] as $state)
-                                  <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                  @endforeach -->
-                              </select>        
-                               <div class="input-highlight"></div>                       
-                          </div><!-- /.form-group -->
-                      </div>
-
-                       <div class="col-md-4">
-                          <div class="select-row form-group">
-                              <label for="city_id" class="block">{{__('City Name') }}</label>                 
-
-                              <!-- To validate the select add class "select-validate" -->     
-                              <select id="city_id" name="city_id" class="selectpicker select-validate" required="true" data-live-search="true">
-                                   <option value="" selected="">{{__('Select City') }}
-                                   </option>
-                                 <!--  @foreach ($data['state_view'] as $state)
-                                  <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                  @endforeach -->
-                              </select>        
-                               <div class="input-highlight"></div>                       
-                          </div><!-- /.form-group -->
-                      </div>
-
-                      <div class="col-md-4">
-                         <div class="form-group">
-                              <div class="input-field label-float">
-                                <input placeholder="Address one" class="clearable" id="address_one" name="address_one" type="text">
-                                <label for="address_one" class="fixed-label">{{__('Address one') }}</label>
-                                <div class="input-highlight"></div>
-                            </div>
+                          <div class="form-group">
+                              <label for=""><strong>Address:</strong></label>
+                              <input type="text" class="form-control" name="address" value="" placeholder="Enter Hotel Location">
+                              <p class="no-margin em"></p>
                           </div>
                       </div>
                     </div>
