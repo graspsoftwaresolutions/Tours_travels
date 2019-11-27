@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
+use App\Model\Amenities;
 use DB;
 use View;
 use Mail;
@@ -82,6 +83,13 @@ class CommonController extends Controller
         $id = $request->id;
         $city = new City();
         $data = City::find($id);
+        return $data;
+    }
+
+    public function amnenitiesDetail(Request $request)
+    {
+        $id = $request->amenities_id;
+        $data = Amenities::find($id);
         return $data;
     }
 	

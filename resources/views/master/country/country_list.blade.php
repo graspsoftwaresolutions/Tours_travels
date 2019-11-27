@@ -149,6 +149,7 @@
         $("#masterModal").modal();
         $("#masterid").val('');
         $('#country_name').val("");
+        
     }
     // Form Validation
     $("#countryformValidate").validate({

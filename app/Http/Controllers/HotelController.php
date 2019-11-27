@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
+use App\Model\Amenities;
 
 class HotelController extends CommonController
 {
@@ -23,7 +24,8 @@ class HotelController extends CommonController
 
     public function newAmnities()
     {
-        return view('master.amenities.amenities');
+        $data['amenities_list'] = Amenities::where('status','=','1')->get(); 
+        return view('master.amenities.amenities',compact('data',$data));
     }
 
     public function hotelSave(Request $request){
