@@ -20,8 +20,13 @@ class HotelController extends CommonController
         $data['state_view'] = State::where('status','=','1')->get();
         return view('hotels.new',compact('data',$data));
     }
+
     public function newAmnities()
     {
         return view('master.amenities.amenities');
+    }
+
+    public function hotelSave(Request $request){
+        return $request->all();
     }
 }
