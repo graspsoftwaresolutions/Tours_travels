@@ -24,6 +24,11 @@ class HotelController extends CommonController
         return view('hotels.new',compact('data',$data));
     }
 
+    public function newAmnities()
+    {
+        return view('master.amenities.amenities');
+    }
+
     public function hotelSave(Request $request){
         return $request->all();
     }

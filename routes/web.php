@@ -47,6 +47,11 @@ Route::post('city_nameexists','AjaxController@checkCityNameExists');
 Route::get('city_detail','CommonController@cityDetail');
 Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.citydestroy');
 
+//Amenities Details 
+
+Route::get('/new_amenities', 'HotelController@newAmnities')->name('amenities.new');
+Route::post('amenities_save','MasterController@amenitiesSave')->name('master.saveamenities');
+
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
 
