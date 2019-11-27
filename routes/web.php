@@ -51,4 +51,6 @@ Route::get('get-state-list','CommonController@getStateList');
 
 Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
 
+Route::post('hotel_save','HotelController@hotelSave')->name('save.newhotel');
+
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
