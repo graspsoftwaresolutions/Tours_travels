@@ -116,6 +116,9 @@
                 <li id="state_sidebar_li_id" class="submenu-item">
                   <a id="state_sidebar_a_id" href="{{route('hotel.new')}}" class="submenu-target">{{ __('Add New Hotel') }}</a>
                 </li>
+                <li id="amenities_sidebar_li_id" class="submenu-item">
+                  <a id="amenities_sidebar_a_id" href="{{route('amenities.new')}}" class="submenu-target">{{ __('Add New Amenities') }}</a>
+                </li>
               </ul>
             </li>     
       </ul><!-- /.menubar -->

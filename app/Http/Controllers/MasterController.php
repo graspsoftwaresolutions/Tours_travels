@@ -8,6 +8,7 @@ use App\Helpers\CommonHelper;
 use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
+use App\Model\Amenities;
 use App\User;
 use DB;
 use View;
@@ -25,6 +26,7 @@ class MasterController extends CommonController {
         $this->state = new state;
         $this->City = new City;
         $this->User = new User;
+        $this->Amenities = new Amenities;
     }
 
     public function countryList() {
@@ -258,8 +260,46 @@ class MasterController extends CommonController {
             $city->where('id','=',$id)->update(['status'=>'0']);
         }
         return redirect($defdaultLang.'/city')->with('message','City Details Deleted Successfully!!');
-	}
+    }
     
-   
-    
+    public function amenitiesSave(Request $request)
+    {
+        $request->validate([
+            'amenities_name' => 'required',
+                ], [
+            'amenities_name.required' => 'please enter Amenities name',
+        ]);
+        $data = $request->all();
+        if($request->input('masterid')!=''){
+            $data_exists =  Amenities::where([
+                 ['amenities_name','=',$request->input('amenities_name')],
+                 ['id','!=',$request->input('masterid')],
+                 ['status','=','1']
+                 ])->count();
+        }else{
+            $data_exists = Amenities::where([
+                ['amenities_name','=',$request->input('amenities_name')],['status','=','1']
+                ])->count();
+        }
+        if($data_exists>0)
+        {
+            return  redirect('/new_amenities')->with('error','Amenities Already Exists'); 
+        }
+        else{
+
+            $saveAmenities = $this->Amenities->saveAmenitiesdata($data);
+
+            if ($saveAmenities == true) {
+
+                if($request->input('masterid')!='')
+                {
+                    return redirect('/new_amenities')->with('message', 'Amenities Name Updated Succesfully');
+                }
+                else
+                {
+                    return redirect('/new_amenities')->with('message', 'Amenities Name Added Succesfully');
+                } 
+            }
+        }
+    }  
 }
