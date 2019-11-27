@@ -51,6 +51,13 @@ Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.c
 
 Route::get('/new_amenities', 'HotelController@newAmnities')->name('amenities.new');
 Route::post('amenities_save','MasterController@amenitiesSave')->name('master.saveamenities');
+Route::post('amenities_nameexists','AjaxController@checkAmenities_exists');
+Route::get('amenities_detail','CommonController@amnenitiesDetail');
+Route::delete('amenities_delete/{id}','MasterController@amenitiesdestroy')->name('master.amenitiesdestroy');
+
+//Room TYpe Details
+
+Route::get('/new_roomtype', 'MasterController@newRoomType')->name('roomtype.new');
 
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');

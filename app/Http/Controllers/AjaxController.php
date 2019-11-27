@@ -8,6 +8,7 @@ use App\Helpers\CommonHelper;
 use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
+use App\Model\Amenities;
 use App\User;
 use DB;
 use View;
@@ -364,6 +365,34 @@ class AjaxController extends CommonController
          else{
              return "true";
          }
+   }
+   public function checkAmenities_exists(Request $request)
+   {
+        $amenities_name =  $request->input('amenities_name');
+        $amenities_id = $request->input('amenities_id');
+
+        if(!empty($amenities_id))
+        {
+                $amenitiesname_exists = Amenities::where([
+                ['amenities_name','=',$amenities_name],
+                ['id','!=',$amenities_id],
+                ['status','=','1']
+                ])->count();
+        }
+        else
+        {
+            $amenitiesname_exists = Amenities::where([
+                ['amenities_name','=',$amenities_name],
+                ['status','=','1'],    
+                ])->count(); 
+        } 
+        if($amenitiesname_exists > 0)
+        {
+            return "false";
+        }
+        else{
+            return "true";
+        }
    }
    
 }

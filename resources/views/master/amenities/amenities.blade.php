@@ -52,6 +52,23 @@
                                 </tr>
                             </thead>       
                             <tbody>
+                            @foreach($data['amenities_list'] as $values)
+                            <tr>
+                                <td>{{$values->amenities_name}}</td>
+                                <td>
+                                        <button class="btn btn-sm blue waves-effect waves-circle waves-light" onClick='showeditForm({{$values->id}});'><i class="mdi mdi-lead-pencil"></i></button>
+                                        &nbsp;
+
+                                        <a>
+                                            <form style='display:inline-block;' action='{{ route("master.amenitiesdestroy",$values->id) }}' method='POST'>
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-sm red waves-effect waves-circle waves-light" onclick='return ConfirmDeletion()' ><i class="mdi mdi-delete"></i></button>
+                                            </form>
+                                        </a>
+                                </td>
+                            </tr>
+                            @endforeach
                               
                             </tbody>        
                         </table>
@@ -90,12 +107,9 @@
                                                 <label for="amenities_name" class="fixed-label">{{__('Amenities Name') }}*</label>
                                                 <div class="input-highlight"></div>
                                             </div>
-                                           
                                         </div><!-- ./col- -->
  
-                                    </div><!-- /.row -->
-                                   
-                                    
+                                    </div><!-- /.row -->     
                                 </div><!-- /.row -->    
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">
@@ -106,8 +120,6 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
-       
     </section> <!-- /.content-wrapper -->
 @endsection
 @section('footerSection')
@@ -131,51 +143,45 @@
     function showaddForm() {
         $("#masterModal").modal();
         $("#masterid").val('');
-        $('#country_name').val("");
+        $('#amenities_name').val("");
+        $('#updateMasterButton').hide();
     }
     // Form Validation
     $("#amenitiesformValidate").validate({
         rules: {
             amenities_name: {
                 required: true,
-                // remote: {
-                //     url: "{{ url('/amenities_nameexists')}}",
-                //     data: {
-                //         country_id: function() {
-                //             return $("#masterid").val();
-                //         },
-                //         _token: "{{csrf_token()}}",
-                //         country_name: $(this).data('country_name')
-                //     },
-                //     type: "post",
-                // },
+                remote: {
+                    url: "{{ url('/amenities_nameexists')}}",
+                    data: {
+                        amenities_id: function() {
+                            return $("#masterid").val();
+                        },
+                        _token: "{{csrf_token()}}",
+                        amenities_name: $(this).data('amenities_name')
+                    },
+                    type: "post",
+                },
             },
         },
         //For custom messages
         messages: {
             amenities_name: {
                 required: '{{__("Please enter Amenities Name") }}',
-                // remote: '{{__("Amenities Name Already exists") }}',
+                 remote: '{{__("Amenities Name Already exists") }}',
             }
         },
     });
-    function showeditForm(countryid) {
-       // $('.edit_hide').hide();
-        //$('.add_hide').hide();
-       // $('.edit_hide_btn').show();
+    function showeditForm(amenitiesid) {
         $("#masterModal").modal();
-        //loader.showLoader();
-        var url = "{{ url('/country_detail') }}" + '?country_id=' + countryid;
+        
+        var url = "{{ url('/amenities_detail') }}" + '?amenities_id=' + amenitiesid;
         $.ajax({
             url: url,
             type: "GET",
             success: function(result) {
                 $('#masterid').val(result.id);
-                $('#masterid').attr('data-autoid', result.id);
-                $('#country_name').val(result.country_name);
-                //loader.hideLoader();
-                //$("#modal_add_edit").modal('open');
-                //$('.common-label').addClass('force-active');
+                $('#amenities_name').val(result.amenities_name);
             }
         });
     }

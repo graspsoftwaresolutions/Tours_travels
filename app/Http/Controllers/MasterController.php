@@ -301,5 +301,22 @@ class MasterController extends CommonController {
                 } 
             }
         }
+    }
+    public function amenitiesdestroy($id)
+    {
+        $Amenities = new Amenities();
+        $amenities_count=0;
+        if($amenities_count>0 )
+        {
+            return redirect('new_amenities')->with('error','You cannot delete the Amenities!');
+        }
+        else{
+            $Amenities->where('id','=',$id)->update(['status'=>'0']);
+        }  
+        return redirect('/new_amenities')->with('message','Amenities Details Deleted Successfully!!');
+    }
+    public function newRoomType()
+    {
+        return view('master.roomtype.room_type');
     }  
 }
