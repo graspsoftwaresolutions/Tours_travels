@@ -48,6 +48,7 @@ Route::get('city_detail','CommonController@cityDetail');
 Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.citydestroy');
 
 Route::get('get-state-list','CommonController@getStateList');
+Route::get('get-cities-list','CommonController@getCitiesList');
 
 Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
 
