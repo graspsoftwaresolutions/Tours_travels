@@ -54,7 +54,7 @@
             <div class="page-content">
                  @include('includes.messages')
                 <div class="paper toolbar-parent mt10">
-                   <form id="wizard1"  class="formValidate" id="hotelformValidate" method="post" action="{{ route('save.newhotel') }}" class="paper">
+                   <form id="wizard1"  class="paper formValidate" method="post" action="{{ route('save.newhotel') }}" enctype="multipart/form-data">
                       @csrf
 					    <h3>Detail</h3>
 					    <fieldset>      
@@ -275,7 +275,7 @@
                          <div class="file-field input-field">
                           <div class="btn theme">
                             <span>File</span>
-                            <input type="file" multiple>
+                            <input type="file" name="hotel_images[]" id="hotel_images" multiple>
                           </div>
                           <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Upload one or more files">
