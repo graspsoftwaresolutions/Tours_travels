@@ -314,5 +314,9 @@ class MasterController extends CommonController {
             $Amenities->where('id','=',$id)->update(['status'=>'0']);
         }  
         return redirect('/new_amenities')->with('message','Amenities Details Deleted Successfully!!');
+    }
+    public function newRoomType()
+    {
+        return view('master.roomtype.room_type');
     }  
 }
