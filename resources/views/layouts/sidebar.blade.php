@@ -110,11 +110,11 @@
                 <span class="text">{{ __('Hotels') }}</span>
               </a>
               <ul class="submenu lvl-1">
-                <li id="country_sidebar_li_id" class="submenu-item">
-                  <a id="country_sidebar_a_id" href="{{ route('master.hotel') }}" class="submenu-target">{{ __('All Hotels') }}</a>
+                <li id="hotel_sidebar_li_id" class="submenu-item">
+                  <a id="hotel_sidebar_a_id" href="{{ route('master.hotel') }}" class="submenu-target">{{ __('All Hotels') }}</a>
                 </li>
-                <li id="state_sidebar_li_id" class="submenu-item">
-                  <a id="state_sidebar_a_id" href="{{route('hotel.new')}}" class="submenu-target">{{ __('Add New Hotel') }}</a>
+                <li id="hotel_add_sidebar_li_id" class="submenu-item">
+                  <a id="hotel_add_sidebar_a_id" href="{{route('hotel.new')}}" class="submenu-target">{{ __('Add New Hotel') }}</a>
                 </li>
                 <li id="amenities_sidebar_li_id" class="submenu-item">
                   <a id="amenities_sidebar_a_id" href="{{route('amenities.new')}}" class="submenu-target">{{ __('Add New Amenities') }}</a>

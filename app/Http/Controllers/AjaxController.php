@@ -465,7 +465,7 @@ class AjaxController extends CommonController
     }
     
     $table ="hotels";
-    $data = $this->CommonAjaxReturn($state, 0, 'master.statedestroy', 1,$table,'master.edithotel'); 
+    $data = $this->CommonAjaxReturn($state, 2, '', 1,$table,'master.edithotel'); 
    
     $json_data = array(
         "draw"            => intval($request->input('draw')),  
