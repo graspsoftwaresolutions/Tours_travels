@@ -61,6 +61,10 @@ Route::post('roomtype_save','MasterController@roomTypeSave')->name('master.saver
 Route::get('/roomtype_detail', 'CommonController@roomtypeDetail');
 Route::delete('roomtype_delete/{id}','MasterController@roomtypeDestroy')->name('master.roomtypedestroy');
 
+//Hotel Rooms
+Route::get('/hotel_room', 'HotelController@newHotelRoom')->name('hotel.rooms');
+Route::get('/hotel_add_room', 'HotelController@addHotelRoom')->name('hotel.addrooms');
+
 
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');

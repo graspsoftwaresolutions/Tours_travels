@@ -193,6 +193,6 @@
         }
     }
     $("#master-menu").addClass('active');
-    $("#amenities_sidebar_a_id").addClass('active');
+    $("#roomtype_sidebar_a_id").addClass('active');
 </script>
 @endsection

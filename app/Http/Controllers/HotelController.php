@@ -110,4 +110,14 @@ class HotelController extends CommonController
         $data['hotel_images'] = DB::table('hotel_images')->where('hotel_id','=', $autoid)->pluck('image_name');
         return view('hotels.edit',compact('data',$data));
     }
+    public function newHotelRoom()
+    {
+        return view('hotels.rooms.rooms_list');
+    }
+    public function addHotelRoom()
+    {
+        $data['hotel_view'] = DB::table('hotels')->where('status','=','1')->get();
+        $data['roomtype_view'] = DB::table('room_type')->where('status','=','1')->get();
+        return view('hotels.rooms.add_room')->with('data',$data);
+    }
 }
