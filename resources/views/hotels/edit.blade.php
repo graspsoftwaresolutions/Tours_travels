@@ -13,10 +13,10 @@
      color: #A94442 !important;
   }
   .button-close{
-      z-index: 99999;
+      z-index: 999;
       position: absolute;
       top: -40px;
-      left: 89px;
+      left: 62px;
       /* opacity: 0; */
       font-size: 13px;
       min-width: 100%;
@@ -58,8 +58,9 @@
             <div class="page-content">
                  @include('includes.messages')
                 <div class="paper toolbar-parent mt10">
-                   <form id="wizard1"  class="paper formValidate" method="post" action="{{ route('save.newhotel') }}" enctype="multipart/form-data">
+                   <form id="wizard1"  class="paper formValidate" method="post" action="{{ route('save.edithotel') }}" enctype="multipart/form-data">
                       @csrf
+                      <input type="text" name="autoid" id="autoid" class="hide" value="{{ $hotel_data->id }}">
 					    <h3>Detail</h3>
 					    <fieldset>      
 					 		
@@ -289,9 +290,12 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
-                          Note:  Max size : 2MB, Max width*height = 1200*700px
+                          <code>Note:  Max file size : 2MB, Max width*height : 1200*700px</code>
+                           </br>
+                    </br>
                     </div>
                    </br>
+                    </br>
                       
 						    	 <div class="row">
 
@@ -299,10 +303,10 @@
                      
                       @foreach($data['hotel_images'] as $image)
                      
-                      <div class="col-xs-12 col-sm-2 mt20">
-                          <img class="responsive-img z-depth-1" src="{{ asset('storage/app/hotels/'.$image) }}" style="width:190px;height: 130px;" alt="">
-                          <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                          <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button>
+                      <div id="hotel_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
+                          <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
+                          <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                          <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
                       </div>
                       @endforeach
                   </div>
@@ -339,8 +343,9 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
 <script>
-	$("#dashboard_sidebar_li_id").addClass('active');
+	$("#hotel_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
  
   form.steps({
@@ -448,5 +453,25 @@
         });
     });
 });
+  function DeleteImage(imageid){
+      if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+        var url = "{{ url('/delete_hotel_image') }}" + '?image_id=' + imageid;
+          $.ajax({
+              url: url,
+              type: "GET",
+              success: function(result) {
+                  if(result.status==1){
+                    $("#hotel_image_"+imageid).remove();
+                  }else{
+                    alert('Failed to delete');
+                  }
+              }
+          });
+      }else{
+       // alert('Failed to delete');
+      }
+      
+  }
+  
 </script>
 @endsection
