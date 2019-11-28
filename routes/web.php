@@ -64,8 +64,11 @@ Route::delete('roomtype_delete/{id}','MasterController@roomtypeDestroy')->name('
 //Hotel Rooms
 Route::get('/hotel_room', 'HotelController@newHotelRoom')->name('hotel.rooms');
 Route::get('/hotel_add_room', 'HotelController@addHotelRoom')->name('hotel.addrooms');
+Route::post('hotelroom_save','HotelController@hotelroomSave')->name('save.hotelroom');
+Route::get('hotel_room_edit/{id}','HotelController@hotelroomEdit');
+Route::get('delete_hotel_room_image','HotelController@RoomimageDelete');
 
-
+Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
 
@@ -77,6 +80,7 @@ Route::get('hotels','HotelController@hotelList')->name('master.hotel');
 Route::post('ajax_hotels_list','AjaxController@ajax_hotels_list');
 Route::get('hotels-edit/{parameter}','HotelController@EditHotel')->name('master.edithotel');
 Route::get('delete_hotel_image','HotelController@imageDelete')->name('hotel.imagedelete');
+Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelroom');
 
 
 Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel');

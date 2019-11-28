@@ -42,15 +42,18 @@
          <h1>Tours and Travels</h1>
          <ul class="breadcrumbs">
             <li>Masters</li>
-            <li>{{__('Add Hotel') }}</li>
+            <li>{{__('Edit Hotel') }}</li>
          </ul>
       </div>
       <div class="page-content">
          @include('includes.messages')
          <div class="paper toolbar-parent mt10">
-            <form id="wizard1"  class="paper formValidate" method="post" action="{{ route('save.hotelroom') }}" enctype="multipart/form-data">
+            <form id="wizard1"  class="paper formValidate" method="post" action="{{ route('edit.hotelroom') }}" enctype="multipart/form-data">
+            
                @csrf
                <h3>Detail</h3>
+               @php  $row =  $data['room_list'][0]; @endphp
+               <input type="hidden" name="hotelroomid" value="{{$row->id}}">
                <fieldset>
                   <div class="col-sm-12">
                      <div class="row">
@@ -59,7 +62,7 @@
                               <select id="hotel_id" name="hotel_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                 <option>Select hotel</option>
                                     @foreach($data['hotel_view'] as $values)
-                                        <option value="{{$values->id}}">{{$values->hotel_name}}</option>
+                                        <option value="{{$values->id}}" @php if($row->hotel_id == $values->id)  echo 'selected' @endphp>{{$values->hotel_name}}</option>
                                     @endforeach
                               </select> 
                               <label for="hotel_id" class="fixed-label">{{__('Hotel Name') }}<span style="color:red">*</span></label>
@@ -71,7 +74,7 @@
                               <select id="roomtype_id" name="roomtype_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                      <option>Select Room Type</option>
                                     @foreach($data['roomtype_view'] as $values)
-                                        <option value="{{$values->id}}">{{$values->room_type}}</option>
+                                        <option value="{{$values->id}}" @php if($row->roomtype_id == $values->id)  echo 'selected' @endphp>{{$values->room_type}}</option>
                                     @endforeach
                               </select> 
                               <label for="roomtype_id" class="fixed-label">{{__('Room Type') }}<span style="color:red">*</span></label>
@@ -89,7 +92,7 @@
                         <div class="col-md-4">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                 <input placeholder="Room No" class="clearable" id="room_number" name="room_number" type="text">
+                                 <input placeholder="Room No" class="clearable" value="{{$row->room_number}}" id="room_number" name="room_number" type="text">
                                  <label for="room_number" class="fixed-label">{{__('Room No') }}<span style="color:red">*</span></label>
                                  <div class="input-highlight"></div>
                               </div>
@@ -98,7 +101,7 @@
                         <div class="col-md-4">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                 <input placeholder="No Of Beds" class="clearable" id="room_no_of_beds" name="room_no_of_beds" type="text">
+                                 <input placeholder="No Of Beds" class="clearable" value="{{$row->room_no_of_beds}}" id="room_no_of_beds" name="room_no_of_beds" type="text">
                                  <label for="room_no_of_beds" class="fixed-label">{{__('No of Beds') }}<span style="color:red">*</span></label>
                                  <div class="input-highlight"></div>
                               </div>
@@ -110,8 +113,8 @@
                                 
                                  <select id="status" name="status" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                     <option>Select Status</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="1" @php if($row->status == 1)  echo 'selected' @endphp>Active</option>
+                                    <option value="0" @php if($row->status == 0)  echo 'selected' @endphp>Inactive</option>
                                  </select> 
                                  <label for="contact_email" class="fixed-label">{{__('Status') }}<span style="color:red">*</span></label>
                                  <div class="input-highlight"></div>
@@ -123,7 +126,7 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label for=""><strong>Overview: </strong></label>
-                              <textarea name="room_description" id="overview"></textarea>
+                              <textarea name="room_description" id="overview">{{$row->room_description}}</textarea>
                               <p class="no-margin em"></p>
                            </div>
                         </div>
@@ -152,25 +155,18 @@
                         </br>
                      </div>
                      </br>
-                     <div class="row hide">
+                     <div class="row">
+
                         <div class="divider theme ml14 mr14"></div>
-                        <div class="col-xs-12 col-sm-3 mt20">
-                           <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-                           <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+
+                        @foreach($data['images'] as $image)
+                        <div id="hotel_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
+                            <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/rooms/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
+                            <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                            <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
                         </div>
-                        <div class="col-xs-12 col-sm-3 mt20">
-                           <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-                           <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                        @endforeach
                         </div>
-                        <div class="col-xs-12 col-sm-3 mt20">
-                           <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-                           <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                        </div>
-                        <div class="col-xs-12 col-sm-3 mt20">
-                           <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-                           <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                        </div>
-                     </div>
                   </div>
                  
                   <!-- /.col- -->
@@ -306,5 +302,24 @@
       height: 300,   //set editable area's height
       placeholder: 'Write here...'
     });
+    function DeleteImage(imageid){
+      if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+        var url = "{{ url('/delete_hotel_room_image') }}" + '?image_id=' + imageid;
+          $.ajax({
+              url: url,
+              type: "GET",
+              success: function(result) {
+                  if(result.status==1){
+                    $("#hotel_image_"+imageid).remove();
+                  }else{
+                    alert('Failed to delete');
+                  }
+              }
+          });
+      }else{
+       // alert('Failed to delete');
+      }
+      
+  }
 </script>
 @endsection

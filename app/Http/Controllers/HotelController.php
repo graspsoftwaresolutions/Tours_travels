@@ -7,6 +7,8 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Hotel;
+use App\Model\HotelRooms;
+use App\Model\HotelRoomsImages;
 use DB;
 use App\Model\Amenities;
 use Illuminate\Support\Facades\Crypt;
@@ -119,7 +121,12 @@ class HotelController extends CommonController
 
     public function newHotelRoom()
     {
-        return view('hotels.rooms.rooms_list');
+        $data['room_list'] = DB::table('hotel_rooms as hr')->select('hr.id as hotelroomid','h.hotel_name','rt.room_type','hr.room_number','hr.status as roomstatus')
+                            ->leftjoin('hotels as h','h.id','=','hr.hotel_id')
+                            ->leftjoin('room_type as rt','rt.id','=','hr.roomtype_id')
+                            ->get();
+        //dd($data['room_list']);
+        return view('hotels.rooms.rooms_list',compact('data',$data));
     }
     
     public function addHotelRoom()
@@ -138,6 +145,18 @@ class HotelController extends CommonController
         }
        
         DB::table('hotel_images')->where('id', '=', $imageid)->delete();
+        return ['status' => 1, 'message'=>'image deleted Successfully'];
+    }
+    public function RoomimageDelete(Request $request)
+    {
+        $imageid = $request->input('image_id');
+        $image_name = DB::table('hotel_room_images')->where('id','=', $imageid)->pluck('image_name')->first();
+        $image_url = storage_path('/app/hotels/rooms/'.$image_name);
+        if(file_exists($image_url)){
+            \File::delete($image_url);
+        }
+       
+        DB::table('hotel_room_images')->where('id', '=', $imageid)->delete();
         return ['status' => 1, 'message'=>'image deleted Successfully'];
     }
 
@@ -198,6 +217,7 @@ class HotelController extends CommonController
                 );
             }
         }
+       
 
         //$file_name = $hotel->id.strtotime('Ymd');
         // $imageName = $hotel->id.time().'.'.$request->hotel_images->getClientOriginalExtension();
@@ -208,4 +228,86 @@ class HotelController extends CommonController
 
         return redirect('/hotels')->with('message','Hotel Details Updated Successfully!!');
     }
+    public function hotelroomSave(Request $request)
+    {
+        $data = $request->all();
+        if(!empty($data))
+        {
+            $Roomsavedata = new HotelRooms();
+            $Roomsavedata['hotel_id'] = $request->hotel_id;
+            $Roomsavedata['roomtype_id'] = $request->roomtype_id;
+            $Roomsavedata['room_number'] = $request->room_number;
+            $Roomsavedata['room_no_of_beds'] = $request->room_no_of_beds;
+            $Roomsavedata['status'] = $request->status;
+            $Roomsavedata['room_description'] = $request->input('room_description');
+            $Roomsavedata->save();
+            $last_id = $Roomsavedata->id;
+
+            if($last_id)
+            {
+                if($request->hasfile('image_name'))
+                {
+                    $s1 = 0;
+                    foreach($request->file('image_name') as $file)
+                    {
+                        $name = ($s1+1).'-'.time().'.'.$file->extension();  
+                        $file->move('storage/app/hotels/rooms',$name); 
+                        $file= new HotelRoomsImages();
+                        $file->hotel_id =  $last_id;
+                        $file->image_name= $name;
+                        $file->save();
+                        $s1++;
+                    }
+                }      
+            }
+        }
+        return redirect('/hotel_room')->with('message','Room Details Added Successfully!!');
+    }
+    public function hotelroomEdit($id)
+    {
+         $id = Crypt::decrypt($id);
+         $data['hotel_view'] = DB::table('hotels')->where('status','=','1')->get();
+         $data['roomtype_view'] = DB::table('room_type')->where('status','=','1')->get();
+         $data['room_list'] = DB::table('hotel_rooms')
+         ->where('id','=',$id)
+         ->get();
+        $data['images'] = DB::table('hotel_room_images')->where('hotel_id','=',$id)->get();
+       // dd($data['images']);
+        return view('hotels.rooms.edit_room',compact('data',$data));
+    }
+    public function hotelRoomsEdit(Request $request)
+    {
+        // $request->validate([
+        //     'hotel_name' => 'required',
+        //         ], [
+        //     'hotel_name.required' => 'please enter Hotel name',
+        // ]);
+        $autoid = $request->input('hotelroomid');
+        $hotel = HotelRooms::find($autoid);
+        
+        $hotel->hotel_id = $request->input('hotel_id');
+        $hotel->roomtype_id = $request->input('roomtype_id');
+        $hotel->room_number = $request->input('room_number');
+        $hotel->room_no_of_beds = $request->input('room_no_of_beds');
+        $hotel->status = $request->input('status');
+        $hotel->room_description = $request->input('room_description');
+        $hotel->save();
+
+        if($request->hasfile('image_name'))
+                {
+                    $s1 = 0;
+                    foreach($request->file('image_name') as $file)
+                    {
+                        $name = ($s1+1).'-'.time().'.'.$file->extension();  
+                        $file->move('storage/app/hotels/rooms',$name); 
+                        $file= new HotelRoomsImages();
+                        $file->hotel_id =  $autoid;
+                        $file->image_name= $name;
+                        $file->save();
+                        $s1++;
+                    }
+                }
+                return redirect('/hotel_room')->with('message','Room Details Updated Successfully!!');
+    }
+
 }

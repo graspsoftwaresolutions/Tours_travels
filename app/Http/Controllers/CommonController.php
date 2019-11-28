@@ -47,8 +47,8 @@ class CommonController extends Controller
     }
     public function getCitiesList(Request $request){
       
-        $id = $request->State_id;
-        $res = DB::table('city')
+        $id = $request->hotel_id;
+        $res = DB::table('hotel_roomtypes')
         ->select('id','city_name')
         ->where([
             ['state_id','=',$id],
@@ -57,6 +57,18 @@ class CommonController extends Controller
        
         return response()->json($res);
     }
+    // public function getHotelRoomList(Request $request)
+    // {
+    //     $id = $request->country_id;
+    //     $res = DB::table('state')
+    //             ->select('id','state_name')
+    //             ->where([
+    //                 ['country_id','=',$id],
+    //                 ['status','=','1']
+    //             ])->get();
+        
+    //             return response()->json($res);
+    // }
 
     //Country Details 
     public function countryDetail(Request $request)
