@@ -283,8 +283,13 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
+
+                          <code>Note:  Max file size : 2MB, Max width*height : 1200*700px</code>
+                           </br>
+                    </br>
                     </div>
-                   </br>
+                    </br>
+                    </br>
                       
 						    	 <div class="row hide">
 

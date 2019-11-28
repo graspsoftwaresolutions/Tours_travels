@@ -423,13 +423,13 @@ class AjaxController extends CommonController
         {            
             if( $limit == -1){
                 
-                $state = DB::table('hotels')->select('id','hotel_name','contact_name','status')
+                $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
                 //->join('state','country.id','=','state.country_id')
                 ->orderBy($order,$dir)
                 ->where('status','=','1')
                 ->get()->toArray();
             }else{
-                $state =  DB::table('hotels')->select('id','hotel_name','contact_name','status')
+                $hotels =  DB::table('hotels')->select('id','hotel_name','contact_name','status')
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -441,28 +441,28 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $state = DB::table('country')->select('state.id','country.country_name','state.state_name','state.country_id','state.status')
-                    ->join('state','country.id','=','state.country_id')
-                    ->where('state.id','LIKE',"%{$search}%")
-                    ->orWhere('country.country_name', 'LIKE',"%{$search}%")
-                    ->orWhere('state.state_name', 'LIKE',"%{$search}%")
-                    ->where('state.status','=','1')
+            $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
+                    ->where('status','=','1')
+                    ->where(function($query) use ($search){
+                        $query->orWhere('hotel_name', 'LIKE',"%{$search}%")
+                        ->orWhere('contact_name', 'LIKE',"%{$search}%");
+                    })
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $state 	=  DB::table('country')->select('state.id','country.country_name','state.state_name','state.country_id','state.status')
-                        ->join('state','country.id','=','state.country_id')
-                        ->where('state.id','LIKE',"%{$search}%")
-                        ->orWhere('country.country_name', 'LIKE',"%{$search}%")
-                        ->orWhere('state.state_name', 'LIKE',"%{$search}%")
+            $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
+                        ->where('status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('hotel_name', 'LIKE',"%{$search}%")
+                            ->orWhere('contact_name', 'LIKE',"%{$search}%");
+                        })
                         ->offset($start)
                         ->limit($limit)
-                        ->where('state.status','=','1')
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered = State::where('id','LIKE',"%{$search}%")
-                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+        $totalFiltered = Hotel::where('id','LIKE',"%{$search}%")
+                    ->orWhere('hotel_name', 'LIKE',"%{$search}%")
                     ->where('status','=','1')
                     ->count();
         }
@@ -470,7 +470,7 @@ class AjaxController extends CommonController
         
     
         $table ="hotels";
-        $data = $this->CommonAjaxReturn($state, 2, '', 1,$table,'master.edithotel'); 
+        $data = $this->CommonAjaxReturn($hotels, 2, '', 1,$table,'master.edithotel'); 
    
     $json_data = array(
         "draw"            => intval($request->input('draw')),  

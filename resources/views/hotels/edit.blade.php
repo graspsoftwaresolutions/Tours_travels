@@ -13,7 +13,7 @@
      color: #A94442 !important;
   }
   .button-close{
-      z-index: 99999;
+      z-index: 999;
       position: absolute;
       top: -40px;
       left: 62px;
@@ -290,9 +290,12 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
-                          Note:  Max size : 2MB, Max width*height = 1200*700px
+                          <code>Note:  Max file size : 2MB, Max width*height : 1200*700px</code>
+                           </br>
+                    </br>
                     </div>
                    </br>
+                    </br>
                       
 						    	 <div class="row">
 
@@ -301,8 +304,8 @@
                       @foreach($data['hotel_images'] as $image)
                      
                       <div id="hotel_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
-                          <img class="responsive-img z-depth-1" src="{{ asset('storage/app/hotels/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
-                          <div class="button-close" onclick="return DeleteImage({{ $image->id }})"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                          <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
+                          <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                           <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
                       </div>
                       @endforeach
@@ -340,6 +343,7 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
 <script>
 	$("#hotel_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
