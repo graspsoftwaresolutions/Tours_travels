@@ -70,18 +70,23 @@ class HotelController extends CommonController
 
         $amenities = $request->input('amenities');
         
-        foreach ($amenities as $amenity) {
-            DB::table('hotel_amenities')->insert(
-                ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
-            );
+        if(isset($amenities)){
+            foreach ($amenities as $amenity) {
+                DB::table('hotel_amenities')->insert(
+                    ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
+                );
+            }
         }
+        
     //    / dd( $amenities);
 
         $room_type = $request->input('room_type');
-        foreach ($room_type as $type) {
-            DB::table('hotel_roomtypes')->insert(
-                ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
-            );
+        if(isset($room_type)){
+            foreach ($room_type as $type) {
+                DB::table('hotel_roomtypes')->insert(
+                    ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
+                );
+            }
         }
 
         //$file_name = $hotel->id.strtotime('Ymd');
@@ -164,18 +169,22 @@ class HotelController extends CommonController
 
         $amenities = $request->input('amenities');
         
-        foreach ($amenities as $amenity) {
-            DB::table('hotel_amenities')->insert(
-                ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
-            );
+        if(isset($amenities)){
+            foreach ($amenities as $amenity) {
+                DB::table('hotel_amenities')->insert(
+                    ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
+                );
+            }
         }
     //    / dd( $amenities);
 
         $room_type = $request->input('room_type');
-        foreach ($room_type as $type) {
-            DB::table('hotel_roomtypes')->insert(
-                ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
-            );
+        if(isset($room_type)){
+            foreach ($room_type as $type) {
+                DB::table('hotel_roomtypes')->insert(
+                    ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
+                );
+            }
         }
 
         //$file_name = $hotel->id.strtotime('Ymd');
