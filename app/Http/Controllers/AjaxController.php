@@ -9,6 +9,7 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Amenities;
+use App\Model\Hotel;
 use App\User;
 use DB;
 use View;
@@ -394,5 +395,86 @@ class AjaxController extends CommonController
             return "true";
         }
    }
+
+   public function ajax_hotels_list(Request $request){
+      
+    $columns = array( 
+
+        0 => 'hotel_name', 
+        1 => 'contact_name', 
+        2 => 'id',
+    );
+
+    $totalData = Hotel::where('status','=','1')
+                ->count();
+
+    $totalFiltered = $totalData; 
+
+    $limit = $request->input('length');
+    
+    $start = $request->input('start');
+    $order = $columns[$request->input('order.0.column')];
+    $dir = $request->input('order.0.dir');
+
+    if(empty($request->input('search.value')))
+    {            
+        if( $limit == -1){
+            
+            $state = DB::table('hotels')->select('id','hotel_name','contact_name','status')
+            //->join('state','country.id','=','state.country_id')
+            ->orderBy($order,$dir)
+            ->where('status','=','1')
+            ->get()->toArray();
+        }else{
+            $state =  DB::table('hotels')->select('id','hotel_name','contact_name','status')
+            ->offset($start)
+            ->limit($limit)
+            ->orderBy($order,$dir)
+            ->where('status','=','1')
+            ->get()->toArray();
+        }
+    
+    }
+    else {
+    $search = $request->input('search.value'); 
+    if( $limit == -1){
+        $state = DB::table('country')->select('state.id','country.country_name','state.state_name','state.country_id','state.status')
+                ->join('state','country.id','=','state.country_id')
+                ->where('state.id','LIKE',"%{$search}%")
+                ->orWhere('country.country_name', 'LIKE',"%{$search}%")
+                ->orWhere('state.state_name', 'LIKE',"%{$search}%")
+                ->where('state.status','=','1')
+                ->orderBy($order,$dir)
+                ->get()->toArray();
+    }else{
+        $state 	=  DB::table('country')->select('state.id','country.country_name','state.state_name','state.country_id','state.status')
+                    ->join('state','country.id','=','state.country_id')
+                    ->where('state.id','LIKE',"%{$search}%")
+                    ->orWhere('country.country_name', 'LIKE',"%{$search}%")
+                    ->orWhere('state.state_name', 'LIKE',"%{$search}%")
+                    ->offset($start)
+                    ->limit($limit)
+                    ->where('state.status','=','1')
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+    }
+    $totalFiltered = State::where('id','LIKE',"%{$search}%")
+                ->orWhere('state_name', 'LIKE',"%{$search}%")
+                ->where('status','=','1')
+                ->count();
+    }
+    
+    $table ="hotels";
+    $data = $this->CommonAjaxReturn($state, 0, 'master.statedestroy', 1,$table,'master.edithotel'); 
+   
+    $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+
+    echo json_encode($json_data); 
+}
    
 }

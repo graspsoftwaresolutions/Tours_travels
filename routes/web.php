@@ -66,4 +66,8 @@ Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
 
 Route::post('hotel_save','HotelController@hotelSave')->name('save.newhotel');
 
+Route::get('hotels','HotelController@hotelList')->name('master.hotel');
+Route::post('ajax_hotels_list','AjaxController@ajax_hotels_list');
+Route::get('hotels-edit/{parameter}','HotelController@EditHotel')->name('master.edithotel');
+
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');

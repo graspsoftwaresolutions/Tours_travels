@@ -47,9 +47,13 @@
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
                     <li>Masters</li>
-                    <li>{{__('Add Hotel') }}</li>
+                    <li>{{__('Edit Hotel') }}</li>
                 </ul>
-            </div>          
+            </div> 
+            @php
+              $hotel_data = $data['hotel_data'];
+              //dd($data['hotel_features']);
+            @endphp         
 
             <div class="page-content">
                  @include('includes.messages')
@@ -68,7 +72,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-field label-float">
-                                <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" autofocus type="text">
+                                <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" value="{{ $hotel_data->hotel_name }}" autofocus type="text">
                                 <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }}*</label>
                                 <div class="input-highlight"></div>
                             </div>
@@ -92,7 +96,7 @@
 
                                    <div class="form-group">     
                                      <label class="checkbox-filled" for="amenities_{{ $value->id }}">
-                                      <input type="checkbox" class="filled" name="amenities[]" id="amenities_{{ $value->id }}" value="{{ $value->id }}">
+                                      <input type="checkbox" class="filled" @if(in_array($value->id, $data['hotel_features'])) checked @endif name="amenities[]" id="amenities_{{ $value->id }}" value="{{ $value->id }}">
                                       <i class="highlight"></i>
                                       {{ $value->amenities_name }}
                                     </label>
@@ -111,7 +115,7 @@
                       <div class="col-md-4">
                           <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" type="text">
+                                <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" value="{{ $hotel_data->contact_name }}" type="text">
                                 <label for="contact_name" class="fixed-label">{{__('Contact Name') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
@@ -121,7 +125,7 @@
                        <div class="col-md-4">
                           <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" type="text">
+                                <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" value="{{ $hotel_data->contact_email }}" type="text">
                                 <label for="contact_email" class="fixed-label">{{__('Contact Email') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
@@ -136,7 +140,7 @@
                               <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                   <option value="">{{__('Select country')}}</option>
                                   @php
-                                  $defcountry = CommonHelper::DefaultCountry();
+                                  $defcountry = $hotel_data->country_id;
                                   @endphp
                                   @foreach($data['country_view'] as $value)
                                   <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
@@ -158,13 +162,15 @@
                                    <option value="" selected="">{{__('Select State') }}
                                    </option>
                                   @foreach ($statelist as $state)
-                                  <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                                  <option value="{{ $state->id }}" @if($hotel_data->state_id==$state->id) selected @endif>{{ $state->state_name }}</option>
                                   @endforeach
                               </select>        
                                <div class="input-highlight"></div>                       
                           </div><!-- /.form-group -->
                       </div>
-
+                         @php
+                          $citylist = CommonHelper::getCityList($hotel_data->state_id);
+                        @endphp
                        <div class="col-md-4">
                           <div class="select-row form-group">
                               <label for="city_id" class="block">{{__('City Name') }}</label>                 
@@ -173,9 +179,9 @@
                               <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                    <option value="" selected="">{{__('Select City') }}
                                    </option>
-                                 <!--  @foreach ($data['state_view'] as $state)
-                                  <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                  @endforeach -->
+                                   @foreach ($citylist as $city)
+                                  <option value="{{ $city->id }}" @if($hotel_data->city_id==$city->id) selected @endif>{{ $city->city_name }}</option>
+                                  @endforeach
                               </select>        
                                <div class="input-highlight"></div>                       
                           </div><!-- /.form-group -->
@@ -184,7 +190,7 @@
                       <div class="col-md-4">
                          <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Address one" class="clearable" id="address_one" name="address_one" type="text">
+                                <input placeholder="Address one" class="clearable" id="address_one" name="address_one" value="{{ $hotel_data->address_one }}" type="text">
                                 <label for="address_one" class="fixed-label">{{__('Address one') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
@@ -194,7 +200,7 @@
                        <div class="col-md-4">
                          <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Address two" class="clearable" id="address_two" name="address_two" type="text">
+                                <input placeholder="Address two" class="clearable" id="address_two" name="address_two" value="{{ $hotel_data->address_two }}" type="text">
                                 <label for="address_two" class="fixed-label">{{__('Address two') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
@@ -208,7 +214,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for=""><strong>Overview: </strong></label>
-                          <textarea name="overview" id="overview"></textarea>  
+                          <textarea name="overview" id="overview">{{ $hotel_data->overview }}</textarea>  
                           <p class="no-margin em"></p>
                         </div>
                       </div>
@@ -238,7 +244,7 @@
                                  <option value="" disabled="true">{{__('Select Room Type') }}
                                  </option>
                                   @foreach ($data['types_view'] as $type)
-                                  <option value="{{ $type->id }}">{{ $type->room_type }}</option>
+                                  <option value="{{ $type->id }}" @if(in_array($type->id, $data['hotel_types'])) selected @endif >{{ $type->room_type }}</option>
                                   @endforeach
                             </select>        
                              <div class="input-highlight"></div>                       
@@ -251,7 +257,7 @@
                         <div class="col-sm-6">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                <textarea id="listing_descriptions" name="listing_descriptions" class="textarea-auto-resize"></textarea>
+                                <textarea id="listing_descriptions" name="listing_descriptions" class="textarea-auto-resize">{{ $hotel_data->listing_descriptions}}</textarea>
                                 
                                 <label for="listing_descriptions" class="fixed-label">{{__('Listing Descriptions') }}</label>
                                 <div class="input-highlight"></div>
@@ -286,25 +292,15 @@
                     </div>
                    </br>
                       
-						    	 <div class="row hide">
+						    	 <div class="row">
 
                       <div class="divider theme ml14 mr14"></div>
+                      @foreach($data['hotel_images'] as $image)
                       <div class="col-xs-12 col-sm-3 mt20">
-                        <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-                        <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                          <img class="responsive-img z-depth-1" src="{{ storage_path().'/hotels/'.$image }}" alt="">
+                          <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                       </div>
-                      <div class="col-xs-12 col-sm-3 mt20">
-                        <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                      </div>
-                      <div class="col-xs-12 col-sm-3 mt20">
-                        <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                      </div>
-                      <div class="col-xs-12 col-sm-3 mt20">
-                        <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-                         <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                      </div>
+                      @endforeach
                   </div>
 						    </div><!-- /.col- -->
 					    </fieldset>

@@ -111,7 +111,7 @@
               </a>
               <ul class="submenu lvl-1">
                 <li id="country_sidebar_li_id" class="submenu-item">
-                  <a id="country_sidebar_a_id" href="#" class="submenu-target">{{ __('All Hotels') }}</a>
+                  <a id="country_sidebar_a_id" href="{{ route('master.hotel') }}" class="submenu-target">{{ __('All Hotels') }}</a>
                 </li>
                 <li id="state_sidebar_li_id" class="submenu-item">
                   <a id="state_sidebar_a_id" href="{{route('hotel.new')}}" class="submenu-target">{{ __('Add New Hotel') }}</a>

@@ -25,6 +25,7 @@ class CreateHotelsTable extends Migration
             $table->string('address_two')->nullable();
             $table->text('overview')->nullable();
             $table->text('listing_descriptions')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
