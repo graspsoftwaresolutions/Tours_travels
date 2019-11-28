@@ -42,20 +42,38 @@
 
                     </div>
                     <div class="collapsible-target">
+
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
-                                <tr>
+                            <tr>
                                     <th width="30%">{{__('Hotel') }}</th>
                                     <th width="30%">{{__('Room Type') }}</th>
                                     <th width="15%">{{__('Room No') }}</th>
+                                    
                                     <th width="15%">{{__('Status') }}</th>
 
                                     <th> {{__('Action') }}</th>
                                 </tr>
-                            </thead>
+                            </thead>       
                             <tbody>
-                                 
-                            </tbody>        
+                               @foreach($data['room_list'] as $values)
+                                    <tr>
+                                        <td>{{$values->hotel_name}}</td>
+                                        <td>{{$values->room_type}}</td>
+                                        <td>{{$values->room_number}}</td>
+                                        <td>@php if($values->roomstatus==1)
+                                                        echo "Active";
+                                                else
+                                                 echo "Inactive";
+                                              @endphp</td>
+
+                                        <td> <a   href="{{url('hotel_room_edit').'/'.Crypt::encrypt($values->hotelroomid)}}" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
+                                        &nbsp;</td>
+                                    </tr>
+                               @endforeach           
+
+                              
+                            </tbody> 
                         </table>
                     </div>
                 </div>
