@@ -289,16 +289,20 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
+                          Note:  Max size : 2MB, Max width*height = 1200*700px
                     </div>
                    </br>
                       
 						    	 <div class="row">
 
                       <div class="divider theme ml14 mr14"></div>
+                     
                       @foreach($data['hotel_images'] as $image)
-                      <div class="col-xs-12 col-sm-3 mt20">
-                          <img class="responsive-img z-depth-1" src="{{ storage_path().'/hotels/'.$image }}" alt="">
+                     
+                      <div class="col-xs-12 col-sm-2 mt20">
+                          <img class="responsive-img z-depth-1" src="{{ asset('storage/app/hotels/'.$image) }}" style="width:190px;height: 130px;" alt="">
                           <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                          <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button>
                       </div>
                       @endforeach
                   </div>
