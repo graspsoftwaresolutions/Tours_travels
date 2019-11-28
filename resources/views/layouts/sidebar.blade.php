@@ -119,8 +119,11 @@
                 <li id="amenities_sidebar_li_id" class="submenu-item">
                   <a id="amenities_sidebar_a_id" href="{{route('amenities.new')}}" class="submenu-target">{{ __('Add New Amenities') }}</a>
                 </li>
-                <li id="amenities_sidebar_li_id" class="submenu-item">
-                  <a id="amenities_sidebar_a_id" href="{{route('roomtype.new')}}" class="submenu-target">{{ __('Add Room Type') }}</a>
+                <li id="roomtype_sidebar_li_id" class="submenu-item">
+                  <a id="roomtype_sidebar_a_id" href="{{route('roomtype.new')}}" class="submenu-target">{{ __('Add Room Type') }}</a>
+                </li>
+                <li id="hotelrooms_sidebar_li_id" class="submenu-item">
+                  <a id="hotelrooms_sidebar_a_id" href="{{route('hotel.rooms')}}" class="submenu-target">{{ __('Add Hotel Rooms') }}</a>
                 </li>
               </ul>
             </li>     

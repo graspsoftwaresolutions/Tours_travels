@@ -117,6 +117,18 @@ class HotelController extends CommonController
         return view('hotels.edit',compact('data',$data));
     }
 
+    public function newHotelRoom()
+    {
+        return view('hotels.rooms.rooms_list');
+    }
+    
+    public function addHotelRoom()
+    {
+        $data['hotel_view'] = DB::table('hotels')->where('status','=','1')->get();
+        $data['roomtype_view'] = DB::table('room_type')->where('status','=','1')->get();
+        return view('hotels.rooms.add_room')->with('data',$data);
+    }
+
     public function imageDelete(Request $request){
         $imageid = $request->input('image_id');
         $image_name = DB::table('hotel_images')->where('id','=', $imageid)->pluck('image_name')->first();
