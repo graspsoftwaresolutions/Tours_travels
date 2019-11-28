@@ -9,6 +9,7 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Amenities;
+use App\Model\RoomType;
 use DB;
 use View;
 use Mail;
@@ -86,10 +87,18 @@ class CommonController extends Controller
         return $data;
     }
 
+    //Amenities Details
     public function amnenitiesDetail(Request $request)
     {
         $id = $request->amenities_id;
         $data = Amenities::find($id);
+        return $data;
+    }
+
+    public function roomtypeDetail(Request $request)
+    {
+        $id = $request->roomtype_id;
+        $data = RoomType::find($id);
         return $data;
     }
 	

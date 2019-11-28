@@ -48,7 +48,6 @@ Route::get('city_detail','CommonController@cityDetail');
 Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.citydestroy');
 
 //Amenities Details 
-
 Route::get('/new_amenities', 'HotelController@newAmnities')->name('amenities.new');
 Route::post('amenities_save','MasterController@amenitiesSave')->name('master.saveamenities');
 Route::post('amenities_nameexists','AjaxController@checkAmenities_exists');
@@ -56,8 +55,12 @@ Route::get('amenities_detail','CommonController@amnenitiesDetail');
 Route::delete('amenities_delete/{id}','MasterController@amenitiesdestroy')->name('master.amenitiesdestroy');
 
 //Room TYpe Details
-
 Route::get('/new_roomtype', 'MasterController@newRoomType')->name('roomtype.new');
+Route::post('/room_type_nameexists', 'AjaxController@roomtypeNameexists');
+Route::post('roomtype_save','MasterController@roomTypeSave')->name('master.saveroomtype');
+Route::get('/roomtype_detail', 'CommonController@roomtypeDetail');
+Route::delete('roomtype_delete/{id}','MasterController@roomtypeDestroy')->name('master.roomtypedestroy');
+
 
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');

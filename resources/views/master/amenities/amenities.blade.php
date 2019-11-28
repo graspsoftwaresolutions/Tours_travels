@@ -185,7 +185,7 @@
             }
         });
     }
-    $(document).on('submit','form#countryformValidate',function(){
+    $(document).on('submit','form#amenitiesformValidate',function(){
         $("#saveMasterButton").prop('disabled',true);
     });
     function ConfirmDeletion() {

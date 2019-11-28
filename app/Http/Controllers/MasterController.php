@@ -9,6 +9,8 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Amenities;
+
+use App\Model\RoomType;
 use App\User;
 use DB;
 use View;
@@ -27,6 +29,7 @@ class MasterController extends CommonController {
         $this->City = new City;
         $this->User = new User;
         $this->Amenities = new Amenities;
+        $this->RoomType = new RoomType;
     }
 
     public function countryList() {
@@ -317,6 +320,60 @@ class MasterController extends CommonController {
     }
     public function newRoomType()
     {
-        return view('master.roomtype.room_type');
-    }  
+        $data['room_type'] = RoomType::where('status','=','1')->get();
+        return view('master.roomtype.room_type',compact('data',$data));
+    }
+    public function roomTypeSave(Request $request)
+    {
+        $request->validate([
+            'room_type' => 'required',
+                ], [
+            'room_type.required' => 'please enter Room Type name',
+        ]);
+        $data = $request->all();
+        if($request->input('masterid')!=''){
+            $data_exists =  RoomType::where([
+                 ['room_type','=',$request->input('room_type')],
+                 ['id','!=',$request->input('masterid')],
+                 ['status','=','1']
+                 ])->count();
+        }else{
+            $data_exists = RoomType::where([
+                ['room_type','=',$request->input('room_type')],['status','=','1']
+                ])->count();
+        }
+        if($data_exists>0)
+        {
+            return  redirect('/new_roomtype')->with('error','Room Type Already Exists'); 
+        }
+        else{
+
+            $saveRoomType = $this->RoomType->saveRoomTypesdata($data);
+
+            if ($saveRoomType == true) {
+
+                if($request->input('masterid')!='')
+                {
+                    return redirect('/new_roomtype')->with('message', 'RoomType Name Updated Succesfully');
+                }
+                else
+                {
+                    return redirect('/new_roomtype')->with('message', 'saveRoomType Name Added Succesfully');
+                } 
+            }
+        }
+    }
+    public function roomtypeDestroy($id)
+    {
+       
+        $roomtype_count=0;
+        if($roomtype_count>0 )
+        {
+            return redirect('new_roomtype')->with('error','You cannot delete the Room Type!');
+        }
+        else{
+            $this->RoomType->where('id','=',$id)->update(['status'=>'0']);
+        }
+        return redirect('/new_roomtype')->with('message','Room Type Details Deleted Successfully!!');
+    }
 }
