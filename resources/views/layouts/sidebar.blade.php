@@ -71,6 +71,10 @@
                     <li>
                         <a href="#:;">Profile</a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('changepassword') }}">{{__('Change Password') }}</a>
+                    </li>
                     
                     <li class="divider"></li>
                     <li>
@@ -126,7 +130,21 @@
                   <a id="hotelrooms_sidebar_a_id" href="{{route('hotel.rooms')}}" class="submenu-target">{{ __('Add Hotel Rooms') }}</a>
                 </li>
               </ul>
-            </li>     
+            </li>   
+            <li id="master-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-satellite-variant"></i>
+                <span class="text">{{ __('Activities') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="activity_sidebar_li_id" class="submenu-item">
+                  <a id="activity_sidebar_a_id" href="{{ route('master.activity') }}" class="submenu-target">{{ __('All Activities') }}</a>
+                </li>
+                <li id="activity_add_sidebar_li_id" class="submenu-item">
+                  <a id="activity_add_sidebar_a_id" href="{{route('activity.new')}}" class="submenu-target">{{ __('Add Activity') }}</a>
+                </li>
+              </ul>
+            </li>    
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
   </nav><!-- /.main-menu -->

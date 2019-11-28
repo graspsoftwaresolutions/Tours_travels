@@ -81,4 +81,11 @@ Route::get('delete_hotel_image','HotelController@imageDelete')->name('hotel.imag
 
 Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel');
 
+Route::get('/changePassword','HomeController@showChangePasswordForm')->name('changepassword');
+Route::post('/changePassword','HomeController@ChangePassword')->name('changePassword');
+
+Route::get('activity','ActivityController@activityList')->name('master.activity');
+Route::get('/new_activity', 'ActivityController@index')->name('activity.new');
+Route::post('ajax_activities_list','AjaxController@ajax_activities_list');
+
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
