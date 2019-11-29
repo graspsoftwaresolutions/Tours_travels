@@ -230,6 +230,20 @@ class HotelController extends CommonController
     }
     public function hotelroomSave(Request $request)
     {
+        $request->validate([
+            'hotel_id' => 'required',
+            'roomtype_id' => 'required',
+            'room_number' => 'required',
+            'room_no_of_beds' => 'required',
+            'status' => 'required',
+            'room_description' => 'required',
+                ], [
+            'hotel_id.required' => 'please select Hotel name',
+            'roomtype_id.required' => 'please select Room Type name',
+            'room_number.required' => 'please Enter room number',
+            'room_no_of_beds.required' => 'please Enter no of beds',
+            'status.required' => 'please select Status name',
+        ]);
         $data = $request->all();
         if(!empty($data))
         {
@@ -277,11 +291,20 @@ class HotelController extends CommonController
     }
     public function hotelRoomsEdit(Request $request)
     {
-        // $request->validate([
-        //     'hotel_name' => 'required',
-        //         ], [
-        //     'hotel_name.required' => 'please enter Hotel name',
-        // ]);
+        $request->validate([
+            'hotel_id' => 'required',
+            'roomtype_id' => 'required',
+            'room_number' => 'required',
+            'room_no_of_beds' => 'required',
+            'status' => 'required',
+            'room_description' => 'required',
+                ], [
+            'hotel_id.required' => 'please select Hotel name',
+            'roomtype_id.required' => 'please select Room Type name',
+            'room_number.required' => 'please Enter room number',
+            'room_no_of_beds.required' => 'please Enter no of beds',
+            'status.required' => 'please select Status name',
+        ]);
         $autoid = $request->input('hotelroomid');
         $hotel = HotelRooms::find($autoid);
         
