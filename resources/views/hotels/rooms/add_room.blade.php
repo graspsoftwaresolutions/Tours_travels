@@ -213,10 +213,54 @@
         bodyTag: "fieldset",
         onStepChanging: function (event, currentIndex, newIndex)
         {
+            $('.custom-error').remove();
             // Allways allow previous action even if the current form is not valid!
             if (currentIndex > newIndex)
             {
                 return true;
+            }
+            if (newIndex === 1 )
+            {
+               var formsubmit =true; 
+               if($("#hotel_id").val()==''){
+                  $('.hotel_id-error').remove();
+                  $( '<div id="hotel_id-error" class="error hotel_id-error custom-error" >Please choose hotel.</div>' ).insertAfter( '#hotel_id' );
+                  formsubmit =false; 
+               }
+              if($("#roomtype_id").val()==''){
+                  $('.roomtype_id-error').remove();
+                  $( '<div id="roomtype_id-error" class="error roomtype_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#roomtype_id' );
+                  formsubmit =false; 
+               }
+               if($("#status").val()==''){
+                  $('.status-error').remove();
+                  $( '<div id="status-error" class="error status-error custom-error">Please choose status.</div>' ).insertAfter( '#status' );
+                  formsubmit =false; 
+               }
+                if($("#room_number").val()==''){
+                  $('.room_number-error').remove();
+                  $( '<div id="room_number-error" class="error room_number-error custom-error">Please fill room number.</div>' ).insertAfter( '#room_number' );
+                  formsubmit =false; 
+               }
+                if($("#room_no_of_beds").val()==''){
+                  $('.room_no_of_beds-error').remove();
+                  $( '<div id="room_no_of_beds-error" class="error room_no_of_beds-error custom-error">Please fill no of beds.</div>' ).insertAfter( '#room_no_of_beds' );
+                  formsubmit =false; 
+               }
+               return formsubmit;
+              // if($("#hotel_id").val()=='' || $("#roomtype_id").val()=='' || $("#status").val()==''){
+              //   console.log(this);
+              //   var placement = $(this).data('error');
+              //   if (placement) {
+              //     //$(placement).append('<div id="hotel_name-error" class="error">Please fill name.</div>')
+              //   } else {
+              //     $('.hotel_name-error').remove();
+              //     $( '<div id="hotel_name-error" class="error hotel_name-error">Please fill name.</div>' ).insertAfter( '#hotel_id' );
+              //     //$(this).insertAfter('<div id="hotel_name-error" class="error">Please fill name.</div>');
+              //   }
+              //   //$('#wizard1').trigger('submit');
+              //   //return false;
+              // }
             }
             
             // // Forbid next action on "Warning" step if the user is to young

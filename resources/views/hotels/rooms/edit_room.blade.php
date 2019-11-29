@@ -59,11 +59,11 @@
                      <div class="row">
                         <div class="col-md-6">
                            <div class="input-field label-float">
-                              <select id="hotel_id" name="hotel_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                <option>Select hotel</option>
-                                    @foreach($data['hotel_view'] as $values)
-                                        <option value="{{$values->id}}" @php if($row->hotel_id == $values->id)  echo 'selected' @endphp>{{$values->hotel_name}}</option>
-                                    @endforeach
+                              <select id="hotel_id" name="hotel_id" required="true" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                 <option value="">Select hotel</option>
+                                  @foreach($data['hotel_view'] as $values)
+                                      <option value="{{$values->id}}" @php if($row->hotel_id == $values->id)  echo 'selected' @endphp>{{$values->hotel_name}}</option>
+                                  @endforeach
                               </select> 
                               <label for="hotel_id" class="fixed-label">{{__('Hotel Name') }}<span style="color:red">*</span></label>
                               <div class="input-highlight"></div>
@@ -71,8 +71,8 @@
                         </div>
                         <div class="col-md-6"> 
                            <div class="input-field label-float">
-                              <select id="roomtype_id" name="roomtype_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                     <option>Select Room Type</option>
+                              <select id="roomtype_id" name="roomtype_id" required="true" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                     <option value="" selected>Select Room Type</option>
                                     @foreach($data['roomtype_view'] as $values)
                                         <option value="{{$values->id}}" @php if($row->roomtype_id == $values->id)  echo 'selected' @endphp>{{$values->room_type}}</option>
                                     @endforeach
@@ -111,8 +111,8 @@
                            <div class="form-group">
                               <div class="input-field label-float">
                                 
-                                 <select id="status" name="status" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                    <option>Select Status</option>
+                                 <select id="status" name="status" required="true" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                    <option value="" selected>Select Status</option>
                                     <option value="1" @php if($row->status == 1)  echo 'selected' @endphp>Active</option>
                                     <option value="0" @php if($row->status == 0)  echo 'selected' @endphp>Inactive</option>
                                  </select> 
@@ -209,17 +209,55 @@
         bodyTag: "fieldset",
         onStepChanging: function (event, currentIndex, newIndex)
         {
+           $('.custom-error').remove();
             // Allways allow previous action even if the current form is not valid!
             if (currentIndex > newIndex)
             {
                 return true;
             }
-            // // Forbid next action on "Warning" step if the user is to young
-            // if (newIndex === 3 && Number($("#age-2").val()) < 18)
-            // {
-            //     return true;
-            // }
-            // Needed in some cases if the user went back (clean up)
+            if (newIndex === 1 )
+            {
+               var formsubmit =true; 
+               if($("#hotel_id").val()==''){
+                  $('.hotel_id-error').remove();
+                  $( '<div id="hotel_id-error" class="error hotel_id-error custom-error" >Please choose hotel.</div>' ).insertAfter( '#hotel_id' );
+                  formsubmit =false; 
+               }
+              if($("#roomtype_id").val()==''){
+                  $('.roomtype_id-error').remove();
+                  $( '<div id="roomtype_id-error" class="error roomtype_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#roomtype_id' );
+                  formsubmit =false; 
+               }
+               if($("#status").val()==''){
+                  $('.status-error').remove();
+                  $( '<div id="status-error" class="error status-error custom-error">Please choose status.</div>' ).insertAfter( '#status' );
+                  formsubmit =false; 
+               }
+                if($("#room_number").val()==''){
+                  $('.room_number-error').remove();
+                  $( '<div id="room_number-error" class="error room_number-error custom-error">Please fill room number.</div>' ).insertAfter( '#room_number' );
+                  formsubmit =false; 
+               }
+                if($("#room_no_of_beds").val()==''){
+                  $('.room_no_of_beds-error').remove();
+                  $( '<div id="room_no_of_beds-error" class="error room_no_of_beds-error custom-error">Please fill no of beds.</div>' ).insertAfter( '#room_no_of_beds' );
+                  formsubmit =false; 
+               }
+               return formsubmit;
+              // if($("#hotel_id").val()=='' || $("#roomtype_id").val()=='' || $("#status").val()==''){
+              //   console.log(this);
+              //   var placement = $(this).data('error');
+              //   if (placement) {
+              //     //$(placement).append('<div id="hotel_name-error" class="error">Please fill name.</div>')
+              //   } else {
+              //     $('.hotel_name-error').remove();
+              //     $( '<div id="hotel_name-error" class="error hotel_name-error">Please fill name.</div>' ).insertAfter( '#hotel_id' );
+              //     //$(this).insertAfter('<div id="hotel_name-error" class="error">Please fill name.</div>');
+              //   }
+              //   //$('#wizard1').trigger('submit');
+              //   //return false;
+              // }
+            }
             if (currentIndex < newIndex)
             {
                 // To remove error styles
