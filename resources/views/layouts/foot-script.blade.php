@@ -8,7 +8,7 @@
 @section('footerSecondSection')
 @show
 <script type="text/javascript">
-	$(".alert").fadeTo(3000, 1000).slideUp(1000, function () {
-	    $(".alert").slideUp(1000);
+	$(".alert").fadeTo(4000, 1000).slideUp(2500, function () {
+	    $(".alert").slideUp(2500);
 	});
 </script>

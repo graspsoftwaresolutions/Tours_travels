@@ -290,7 +290,7 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
-                          <code>Note:  Max file size : 2MB, Max width*height : 1200*700px</code>
+                          <code>Note:  Max file size : 2MB, Max width*height : 1200*700px, File Type : .png, .jpg and .jpeg</code>
                            </br>
                     </br>
                     </div>

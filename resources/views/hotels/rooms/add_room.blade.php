@@ -172,7 +172,7 @@
                         </div>
                      </div>
                   </div>
-                 
+                  <code>Note:  Max file size : 2MB, Max width*height : 1200*700px, File Type : .png, .jpg and .jpeg</code>
                   <!-- /.col- -->
                </fieldset>
                <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
@@ -307,9 +307,6 @@
               "status" : {
                required: true,
               },
-              "image_name" : {
-                  required: true,
-              },
         },
         messages: {
               'hotel_id': {
@@ -328,9 +325,6 @@
               },
               "status" : {
                required: 'Please Select the status.',
-              },
-              "image_name" : {
-                  required: "please select Images",
               },
           },
           errorElement: 'div',

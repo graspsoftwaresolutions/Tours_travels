@@ -12,6 +12,8 @@ use App\Model\HotelRoomsImages;
 use DB;
 use App\Model\Amenities;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 
 class HotelController extends CommonController
 {
@@ -185,6 +187,7 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
+            
             $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
@@ -236,7 +239,6 @@ class HotelController extends CommonController
             'room_number' => 'required',
             'room_no_of_beds' => 'required',
             'status' => 'required',
-            'room_description' => 'required',
                 ], [
             'hotel_id.required' => 'please select Hotel name',
             'roomtype_id.required' => 'please select Room Type name',
@@ -253,7 +255,6 @@ class HotelController extends CommonController
             $Roomsavedata['room_number'] = $request->room_number;
             $Roomsavedata['room_no_of_beds'] = $request->room_no_of_beds;
             $Roomsavedata['status'] = $request->status;
-            $Roomsavedata['room_description'] = $request->input('room_description');
             $Roomsavedata->save();
             $last_id = $Roomsavedata->id;
 
@@ -261,6 +262,20 @@ class HotelController extends CommonController
             {
                 if($request->hasfile('image_name'))
                 {
+                    // $rules = array(
+                    //     'image_name' => 'required|mimes:jpeg,png,jpg',
+                    // );
+                   // $validator = Validator::make($request->all(), $rules);
+                    //return Redirect::back()->withInput($request->all())->withErrors($validator);
+                    // if($validator->fails())
+                    // {
+                    //     return back()->withErrors($validator);
+                    // }
+                    // request()->validate([
+
+                    //     'image_name' => 'mimes:jpeg,png,jpg|max:2048|dimensions:max_width=1200,max_height=700',
+            
+                    // ]);
                     $s1 = 0;
                     foreach($request->file('image_name') as $file)
                     {
@@ -297,7 +312,6 @@ class HotelController extends CommonController
             'room_number' => 'required',
             'room_no_of_beds' => 'required',
             'status' => 'required',
-            'room_description' => 'required',
                 ], [
             'hotel_id.required' => 'please select Hotel name',
             'roomtype_id.required' => 'please select Room Type name',
@@ -313,7 +327,6 @@ class HotelController extends CommonController
         $hotel->room_number = $request->input('room_number');
         $hotel->room_no_of_beds = $request->input('room_no_of_beds');
         $hotel->status = $request->input('status');
-        $hotel->room_description = $request->input('room_description');
         $hotel->save();
 
         if($request->hasfile('image_name'))
