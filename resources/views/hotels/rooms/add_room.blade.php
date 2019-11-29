@@ -56,8 +56,8 @@
                      <div class="row">
                         <div class="col-md-6">
                            <div class="input-field label-float">
-                              <select id="hotel_id" name="hotel_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                <option>Select hotel</option>
+                              <select id="hotel_id" name="hotel_id" required="true" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                <option value="" selected>Select hotel</option>
                                     @foreach($data['hotel_view'] as $values)
                                         <option value="{{$values->id}}">{{$values->hotel_name}}</option>
                                     @endforeach
@@ -68,8 +68,8 @@
                         </div>
                         <div class="col-md-6"> 
                            <div class="input-field label-float">
-                              <select id="roomtype_id" name="roomtype_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                     <option>Select Room Type</option>
+                              <select id="roomtype_id" name="roomtype_id" class="selectpicker select-validate" required="true" data-live-search="true" data-width="100%">
+                                     <option value="" selected>Select Room Type</option>
                                     @foreach($data['roomtype_view'] as $values)
                                         <option value="{{$values->id}}">{{$values->room_type}}</option>
                                     @endforeach
@@ -108,8 +108,8 @@
                            <div class="form-group">
                               <div class="input-field label-float">
                                 
-                                 <select id="status" name="status" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                    <option>Select Status</option>
+                                 <select id="status" name="status" class="selectpicker select-validate" required="true" data-live-search="true" data-width="100%">
+                                    <option value="" selected>Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                  </select> 
@@ -218,6 +218,7 @@
             {
                 return true;
             }
+            
             // // Forbid next action on "Warning" step if the user is to young
             // if (newIndex === 3 && Number($("#age-2").val()) < 18)
             // {
