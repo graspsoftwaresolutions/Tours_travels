@@ -61,7 +61,7 @@
 					 		
 					 		<div class="col-sm-12">
 					 			<h4 class="text-headline">Listing Information</h4>
-					 			<p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
+					 			<!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
 
 						        
                     

@@ -2,6 +2,7 @@
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
   .form-group {
     margin-bottom: 10px !important;
@@ -60,16 +61,16 @@
 					    <fieldset>      
 					 		
 					 		<div class="col-sm-12">
-					 			<h4 class="text-headline">Listing Information</h4>
-					 			<p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
+					 			<h4 class="text-headline">Activtity Information</h4>
+					 			<!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
 
-						        
+                 
                     
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-field label-float">
-                                <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" autofocus type="text">
-                                <label for="hotel_name" class="fixed-label">{{__('Title') }}*</label>
+                                <input placeholder="Title Name" class="clearable" id="title_name" name="title_name" autofocus type="text">
+                                <label for="title_name" class="fixed-label">{{__('Title') }}*</label>
                                 <div class="input-highlight"></div>
                             </div>
                         </div>
@@ -86,8 +87,8 @@
                       <div class="col-md-4">
                           <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" type="text">
-                                <label for="contact_name" class="fixed-label">{{__('Duration') }}</label>
+                                <input placeholder="Duartion hours" class="clearable" id="duartion_hours" name="duartion_hours" type="text">
+                                <label for="" class="fixed-label">{{__('Duration (Hours)') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>
@@ -96,8 +97,8 @@
                        <div class="col-md-4">
                           <div class="form-group">
                               <div class="input-field label-float">
-                                <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" type="text">
-                                <label for="contact_email" class="fixed-label">{{__('Amount') }}</label>
+                                <input placeholder="Amount" class="clearable" id="amount" name="amount" type="text">
+                                <label for="amount" class="fixed-label">{{__('Amount') }}</label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>
@@ -175,19 +176,46 @@
                             </div>
                           </div>
                       </div>
-
+                      <div class="col-md-4">
+                         <div class="form-group">
+                              <div class="input-field label-float">
+                                <input placeholder="Address two" class="clearable" id="zip_code" name="zip_code" type="text">
+                                <label for="zip_code" class="fixed-label">{{__('Zip Code') }}</label>
+                                <div class="input-highlight"></div>
+                            </div>
+                          </div>
+                      </div>
+                       <!-- <div class="col-md-4">
+                         <div class="form-group">
+                              <div class="input-field label-float">
+                                <input placeholder="Address two" class="clearable" id="latitude" name="latitude" type="text">
+                                <label for="latitude" class="fixed-label">{{__('Latitude') }}</label>
+                                <div class="input-highlight"></div>
+                            </div>
+                          </div>
+                      </div>
+                          
+                       <div class="col-md-4">
+                         <div class="form-group">
+                              <div class="input-field label-float">
+                                <input placeholder="longitude" class="clearable" id="longitude" name="longitude" type="text">
+                                <label for="longitude" class="fixed-label">{{__('Longitude') }}</label>
+                                <div class="input-highlight"></div>
+                            </div>
+                          </div>
+                      </div> -->
                     </div>
 
 
                     <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label for=""><strong>Overview: </strong></label>
-                          <textarea name="overview" id="overview"></textarea>  
-                          <p class="no-margin em"></p>
+                        <div class="col-md-12">
+                           <div class="form-group">
+                              <label for="short_description" class="fixed-label">{{__('Short Description') }}</label>
+                              <textarea class="textarea-auto-resize" placeholder="Enter Short Description" name="short_description" id="short_description"></textarea>
+                              <p class="no-margin em"></p>
+                           </div>
                         </div>
-                      </div>
-                    </div>
+                     </div>
 
 
                    
@@ -196,45 +224,95 @@
 
 					    </fieldset>
 					 
-					    <h3>Room Type</h3>
+					    <h3>Additional Info</h3>
 					    <fieldset>
 
 					    	<div class="col-sm-12">
-						        <h4 class="text-headline">Hotel Room Details</h4>
-						        <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
-						 
-						        <div class="row">
-    									<div class="col-sm-6">
-    									  <div class="select-row form-group">
-                            <label for="room_type" class="block">{{__('Room Type') }}</label>                 
+						        <h4 class="text-headline">Activity Additional Details</h4>
+						       
+                   
+                   
+                     <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for=""><strong>Overview: </strong></label>
+                          <textarea name="overview" id="overview"></textarea>  
+                          <p class="no-margin em"></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for=""><strong>Additional Info: </strong></label>
+                          <textarea name="additional_info" id="additional_info"></textarea>  
+                          <p class="no-margin em"></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for=""><strong>Inclusions:  </strong></label>
+                       <span> <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a> </span>
+                          <!-- <p class="no-margin em"></p> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">	
+                      <div class="col-sm-2"></div>
 
-                            <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                            <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" multiple data-width="100%">
-                                 <option value="" disabled="true">{{__('Select Room Type') }}
-                                 </option>
-                                  
-                            </select>        
-                             <div class="input-highlight"></div>                       
-                        </div><!-- /.form-group -->
-    									</div><!-- ./col- -->
-									
-							       </div><!-- /.row -->
-
-                      <div class="row">
-                        <div class="col-sm-6">
-                           <div class="form-group">
-                              <div class="input-field label-float">
-                                <textarea id="listing_descriptions" name="listing_descriptions" class="textarea-auto-resize"></textarea>
+                      <div class="col-sm-8 mt10">
+                        <div class="paper">
+                          <table class="table-centered table-hover paper update-table">
+                            <thead>
+                              <tr>
+                                <th>Inclusion Name</th>	
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody id="exampleTable">
+                              <tr class="">
+                                  <td>A1410-45698</td>
+                                  <td><a href="#"  class="btn btn-sm red waves-effect waves-circle waves-light" title="delete"><i class="mdi mdi-delete"  ></i></a></td>
+                                </tr>
                                 
-                                <label for="listing_descriptions" class="fixed-label">{{__('Listing Descriptions') }}</label>
-                                <div class="input-highlight"></div>
-                            </div>
-                          </div>
-                        </div><!-- ./col- -->
-                  
-                     </div><!-- /.row -->
-                       </br> </br> </br> </br>
-					        </div><!-- /.col- -->
+                            </tbody>
+                          </table>
+                        </div>		
+                      </div><!-- /.col- -->
+				          </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for=""><strong>Exclusions: </strong></label>
+                          <span>  <a href="#" data-toggle="modal" title="Add" data-target="#ExclusionModal"> <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a> </span>
+                          <!-- <p class="no-margin em"></p> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">	
+                      <div class="col-sm-2"></div>
+
+                      <div class="col-sm-8 mt10">
+                        <div class="paper">
+                          <table class="table-centered table-hover paper update-table">
+                            <thead>
+                              <tr>
+                                <th>Exclusion Name</th>	
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody id="exampleTable">
+                              <tr class="">
+                                  <td>A1410-45698</td>
+                                  <td><a href="#"  class="btn btn-sm red waves-effect waves-circle waves-light" title="delete"><i class="mdi mdi-delete"  ></i></a></td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>		
+                      </div><!-- /.col- -->
+				          </div>
 					    </fieldset>
 					 
 					    <h3>Photo Gallery</h3>
@@ -286,17 +364,76 @@
                   </div>
 						    </div><!-- /.col- -->
 					    </fieldset>
-					 
-					   <!--  <h3>Finish</h3>
-					    <fieldset>
-					    	<div class="col-sm-8 col-sm-offset-1">
-						        <div class="text-headline">Terms and Conditions</div>
-						 		
-						 		<div class="form-group mt40">
-					 					<input id="acceptTerms1" name="acceptTerms1" type="checkbox"> <label for="acceptTerms1" class="text-subhead sub-text">I agree with the Terms and Conditions.</label>      	
-								</div>
-							</div>
-					    </fieldset> -->
+
+              <!-- Inclusion Modal Starts -->
+              <div id="masterModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header theme">
+                            <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title">Inclusion Details</h1>
+                        </div><!-- /.modal-header -->
+                        <form class="formValidate" id="amenitiesformValidate" method="post" action="{{ route('master.saveamenities') }}">
+                            @csrf
+                            <div class="modal-body">
+                               <div class="col-sm-12">
+                                     <input class="hide" id="masterid" name="masterid" type="text">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-field label-float">
+                                                <input placeholder="Inclusion Name" class="clearable" id="inclusion_name" name="inclusion_name" autofocus type="text">
+                                                <label for="inclusion_name" class="fixed-label">{{__('Inclusion Name') }}*</label>
+                                                <div class="input-highlight"></div>
+                                            </div>
+                                        </div><!-- ./col- -->
+ 
+                                    </div><!-- /.row -->     
+                                </div><!-- /.row -->    
+                            </div><!-- /.modal-body -->
+                            <div class="modal-footer">
+                                <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                            </div><!-- /.modal-footer -->
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+              <!-- Inclusion Modal End -->
+
+              <!-- Exclusion Modal Starts -->
+              <div id="ExclusionModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header theme">
+                            <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title">Exclusion Details</h1>
+                        </div><!-- /.modal-header -->
+                        <form class="formValidate" id="amenitiesformValidate" method="post" action="{{ route('master.saveamenities') }}">
+                            @csrf
+                            <div class="modal-body">
+                               <div class="col-sm-12">
+                                     <input class="hide" id="masterid" name="masterid" type="text">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-field label-float">
+                                                <input placeholder="Exclusion Name" class="clearable" id="exclusion_name" name="exclusion_name" autofocus type="text">
+                                                <label for="exclusion_name" class="fixed-label">{{__('Exclusion Name') }}*</label>
+                                                <div class="input-highlight"></div>
+                                            </div>
+                                        </div><!-- ./col- -->
+ 
+                                    </div><!-- /.row -->     
+                                </div><!-- /.row -->    
+                            </div><!-- /.modal-body -->
+                            <div class="modal-footer">
+                                <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                            </div><!-- /.modal-footer -->
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+              <!-- Exclusion Modal End -->
 					</form>
                 </div>
 
@@ -382,7 +519,11 @@
 	//     bodyTag: "fieldset"
 	// });
   $('#overview').summernote({
-    height: 300,   //set editable area's height
+    height: 200,   //set editable area's height
+    placeholder: 'Write here...'
+  });
+  $('#additional_info').summernote({
+    height: 200,   //set editable area's height
     placeholder: 'Write here...'
   });
   $(function() {
