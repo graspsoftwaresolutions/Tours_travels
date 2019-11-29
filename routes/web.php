@@ -68,6 +68,8 @@ Route::post('hotelroom_save','HotelController@hotelroomSave')->name('save.hotelr
 Route::get('hotel_room_edit/{id}','HotelController@hotelroomEdit');
 Route::get('delete_hotel_room_image','HotelController@RoomimageDelete');
 
+
+
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
@@ -88,8 +90,9 @@ Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel'
 Route::get('/changePassword','HomeController@showChangePasswordForm')->name('changepassword');
 Route::post('/changePassword','HomeController@ChangePassword')->name('changePassword');
 
+//Actvity 
 Route::get('activity','ActivityController@activityList')->name('master.activity');
 Route::get('/new_activity', 'ActivityController@index')->name('activity.new');
 Route::post('ajax_activities_list','AjaxController@ajax_activities_list');
-
+Route::post('activity_save','ActivityController@activitySave')->name('activity.save');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
