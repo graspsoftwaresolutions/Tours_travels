@@ -47,9 +47,11 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="40%">{{__('Activity Title')}}</th>
-                                    <th width="40%">{{__('Spend time')}} </th>
+                                    <th width="20%">{{__('Activity Title')}}</th>
+                                    <th width="20%">{{__('Spend time')}} </th>
                                     <th width="20%">{{__('Amount')}} </th>
+                                    <th width="20%">{{__('City')}} </th>
+                                    <th width="20%">{{__('Zipcode')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
@@ -117,6 +119,12 @@
             },
             {
                 "data": "amount"
+            },
+            {
+                "data": "city_name"
+            },
+            {
+                "data": "zip_code"
             },
             {
                 "data": "options"

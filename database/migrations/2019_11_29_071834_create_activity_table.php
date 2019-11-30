@@ -13,7 +13,7 @@ class CreateActivityTable extends Migration
      */
     public function up()
     {
-        Schema::create('Activities', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title_name')->nullable();
             $table->string('duartion_hours')->nullable();

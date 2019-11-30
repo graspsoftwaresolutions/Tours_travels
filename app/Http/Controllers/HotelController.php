@@ -61,15 +61,18 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
+            $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
-                $imageName = $hotel->id.'_'.date('Ymdhis').'.'.$extension;
+                $imageName = $hotel->id.'_'.date('Ymdhis').$slno.'.'.$extension;
                 $file->storeAs('hotels' , $imageName  ,'local');
 
                 DB::table('hotel_images')->insert(
                     ['hotel_id' => $hotel->id, 'image_name' => $imageName]
                 );
+                $slno++;
             }
+           
         }
 
         $amenities = $request->input('amenities');

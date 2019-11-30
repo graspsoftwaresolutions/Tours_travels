@@ -13,7 +13,7 @@
    color: #A94442 !important;
    }
    .button-close{
-   z-index: 99999;
+      z-index: 999;
    position: absolute;
    top: -40px;
    left: 89px;
@@ -144,7 +144,7 @@
                         <div class="file-field input-field">
                            <div class="btn theme">
                               <span>File</span>
-                              <input type="file" name="image_name[]" id="image_name" multiple>
+                              <input type="file" name="image_name[]" id="image_name" accept="image/*" multiple>
                            </div>
                            <div class="file-path-wrapper">
                               <input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -199,6 +199,7 @@
 @section('footerSection')
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');

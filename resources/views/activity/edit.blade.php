@@ -5,31 +5,31 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
    .form-group {
-   margin-bottom: 10px !important;
-   }
-   /* .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-   width: 250px !important;
-   }*/
-   .error{
-   color: #A94442 !important;
-   }
-   .button-close{
-   z-index: 99999;
-   position: absolute;
-   top: -40px;
-   left: 89px;
-   /* opacity: 0; */
-   font-size: 13px;
-   min-width: 100%;
-   max-width: 100%;
-   padding: 2em 1em;
-   text-align: center;
-   color: rgba(0, 0, 0, 0.9);
-   line-height: 150%;
-   }
-   .dropdown-menu li {
-   padding: 0 20px !important;
-   }
+    margin-bottom: 10px !important;
+  }
+ /* .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 250px !important;
+  }*/
+  .error{
+     color: #A94442 !important;
+  }
+  .button-close{
+      z-index: 999;
+      position: absolute;
+      top: -40px;
+      left: 62px;
+      /* opacity: 0; */
+      font-size: 13px;
+      min-width: 100%;
+      max-width: 100%;
+      padding: 2em 1em;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.9);
+      line-height: 150%;
+  }
+  .dropdown-menu li {
+    padding: 0 20px !important;
+  }
 </style>
 @endsection
 @section('main-content')	
@@ -260,12 +260,14 @@
                                         $someArray = json_decode($inclusion, true);
                                     }
                                     @endphp
+                                    @if(!empty($someArray))
                                     @foreach($someArray as $values)
                                  <tr class=""> 
                                  <td id="inclu_name">{{$values ? $values : ''}} <input type="hidden" name="inclusion_name[]" value="{{$values}}"></td>
                                  <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
                                   </tr> 
                                   @endforeach
+                                  @endif
                               </tbody>
                            </table>
                         </div>
@@ -299,12 +301,14 @@
                                         $someArray = json_decode($exclusion, true);
                                     }
                                     @endphp
+                                    @if(!empty($someArray))
                                     @foreach($someArray as $values)
                                     <tr class=""> 
                                     <td id="exclu_name">{{$values  ? $values : ''}} <input type="hidden" name="exclusion_name[]" value="{{$values}}"> </td>
                                     <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr> 
                                   @endforeach
+                                  @endif
                               </tbody>
                            </table>
                         </div>
@@ -322,7 +326,7 @@
             <div class="file-field input-field">
             <div class="btn theme">
             <span>File</span>
-            <input type="file" name="image_name[]" id="image_name" multiple>
+            <input type="file" name="image_name[]" id="image_name" multiple accept="image/*">
             </div>
             <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -336,17 +340,17 @@
             </div>
             </br>
             </br>
-            <div class="row">
+                    <div class="row">
 
                         <div class="divider theme ml14 mr14"></div>
 
-                        @foreach($data['images'] as $image)
-                        <div id="activity_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
-                            <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/rooms/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
-                            <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-                            <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
-                        </div>
-                        @endforeach
+                            @foreach($data['images'] as $image)
+                            <div id="activity_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
+                                <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/rooms/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
+                                <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
+                                <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
+                            </div>
+                            @endforeach
                         </div>
                   </div>
             <!-- <div class="row hide">
@@ -448,6 +452,7 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();

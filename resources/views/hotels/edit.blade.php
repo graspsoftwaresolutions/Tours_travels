@@ -282,7 +282,7 @@
                          <div class="file-field input-field">
                           <div class="btn theme">
                             <span>File</span>
-                            <input type="file" name="hotel_images[]" id="hotel_images" multiple>
+                            <input type="file" name="hotel_images[]" id="hotel_images" multiple accept="image/*">
                           </div>
                           <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -299,8 +299,7 @@
                       
 						    	 <div class="row">
 
-                      <div class="divider theme ml14 mr14"></div>
-                     
+                      <div class="divider theme ml14 mr14"></div> 
                       @foreach($data['hotel_images'] as $image)
                      
                       <div id="hotel_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">

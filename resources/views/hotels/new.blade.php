@@ -275,7 +275,7 @@
                          <div class="file-field input-field">
                           <div class="btn theme">
                             <span>File</span>
-                            <input type="file" name="hotel_images[]" id="hotel_images" multiple>
+                            <input type="file" name="hotel_images[]" id="hotel_images" accept="image/*" multiple>
                           </div>
                           <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Upload one or more files">

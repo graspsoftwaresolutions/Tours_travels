@@ -34,14 +34,12 @@ class ActivityController extends Controller
         $request->validate([
             'title_name' => 'required',
             'duartion_hours' => 'required',
-            'inclusion_name' => 'required',
-            'exclusion_name' => 'required',
+           
             
                 ], [
             'title_name.required' => 'please enter title name',
             'duartion_hours.required' => 'please select Room Type name',
-            'inclusion_name.required' => 'please enter inclusion name',
-            'exclusion_name.required' => 'please enter exclusion name',
+           
         ]);
         $data = $request->all();
         if(!empty($data))
@@ -125,14 +123,12 @@ class ActivityController extends Controller
         $request->validate([
             'title_name' => 'required',
             'duartion_hours' => 'required',
-            'inclusion_name' => 'required',
-            'exclusion_name' => 'required',
+            
             
                 ], [
             'title_name.required' => 'please enter title name',
             'duartion_hours.required' => 'please select Room Type name',
-            'inclusion_name.required' => 'please enter inclusion name',
-            'exclusion_name.required' => 'please enter exclusion name',
+            
         ]);
         $autoid = $request->input('autoid');
         $Activitysavedata = Activity::find($autoid);
