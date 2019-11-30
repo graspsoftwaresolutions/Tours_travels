@@ -47,8 +47,8 @@ class CommonController extends Controller
     }
     public function getCitiesList(Request $request){
       
-        $id = $request->hotel_id;
-        $res = DB::table('hotel_roomtypes')
+        $id = $request->State_id;
+        $res = DB::table('city')
         ->select('id','city_name')
         ->where([
             ['state_id','=',$id],

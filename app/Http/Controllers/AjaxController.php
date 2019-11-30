@@ -11,6 +11,8 @@ use App\Model\City;
 use App\Model\Amenities;
 use App\Model\RoomType;
 use App\Model\Hotel;
+use App\Model\ActivityImages;
+use App\Model\Activity;
 use App\User;
 use DB;
 use View;
@@ -504,6 +506,90 @@ class AjaxController extends CommonController
         {
             return "true";
         }
+    }
+    public function ajax_activities_list(Request $request)
+    {
+        $columns = array( 
+
+            0 => 'title_name', 
+            1 => 'duartion_hours', 
+            2 => 'amount',
+            3 => 'id'
+        );
+
+        $totalData = Activity::where('status','=','1')
+                    ->count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){
+                
+                $Activity = DB::table('activities')->select('id','title_name','duartion_hours','amount','status')
+                //->join('state','country.id','=','state.country_id')
+                ->orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }else{
+                $Activity =  DB::table('activities')->select('id','title_name','duartion_hours','amount','status')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }
+        
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+            $Activity = DB::table('activities')->select('id','title_name','duartion_hours','amount','status')
+                    ->where('status','=','1')
+                    ->where(function($query) use ($search){
+                        $query->orWhere('title_name', 'LIKE',"%{$search}%")
+                        ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                        ->orWhere('amount', 'LIKE',"%{$search}%");
+                    })
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+            $Activity = DB::table('activities')->select('id','title_name','duartion_hours','amount','status')
+                        ->where('status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('title_name', 'LIKE',"%{$search}%")
+                            ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                            ->orWhere('amount', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered = HoteActivityl::where('id','LIKE',"%{$search}%")
+                    ->orWhere('title_name', 'LIKE',"%{$search}%")
+                    ->where('status','=','1')
+                    ->count();
+        }
+        
+        
+    
+        $table ="activities";
+       $data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+   
+    $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+        echo json_encode($json_data); 
     }
    
 }

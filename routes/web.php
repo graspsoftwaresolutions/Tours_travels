@@ -93,6 +93,11 @@ Route::post('/changePassword','HomeController@ChangePassword')->name('changePass
 //Actvity 
 Route::get('activity','ActivityController@activityList')->name('master.activity');
 Route::get('/new_activity', 'ActivityController@index')->name('activity.new');
-Route::post('ajax_activities_list','AjaxController@ajax_activities_list');
+Route::post('ajax_activity_list','AjaxController@ajax_activities_list');
 Route::post('activity_save','ActivityController@activitySave')->name('activity.save');
+;
+Route::post('activity_edit','ActivityController@activityEdit')->name('activity.edit');
+Route::get('activity-edit/{parameter}','ActivityController@EditActivity')->name('activity.editactivity');
+
+Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
