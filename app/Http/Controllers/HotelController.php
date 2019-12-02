@@ -159,8 +159,7 @@ class HotelController extends CommonController
         $image_url = storage_path('/app/hotels/rooms/'.$image_name);
         if(file_exists($image_url)){
             \File::delete($image_url);
-        }
-       
+        } 
         DB::table('hotel_room_images')->where('id', '=', $imageid)->delete();
         return ['status' => 1, 'message'=>'image deleted Successfully'];
     }
@@ -279,16 +278,17 @@ class HotelController extends CommonController
                     //     'image_name' => 'mimes:jpeg,png,jpg|max:2048|dimensions:max_width=1200,max_height=700',
             
                     // ]);
-                    $s1 = 0;
-                    foreach($request->file('image_name') as $file)
-                    {
-                        $name = ($s1+1).'-'.time().'.'.$file->extension();  
-                        $file->move('storage/app/hotels/rooms',$name); 
-                        $file= new HotelRoomsImages();
-                        $file->hotel_id =  $last_id;
-                        $file->image_name= $name;
-                        $file->save();
-                        $s1++;
+
+                    $slno = 1;
+                    foreach ($request->file('image_name') as $file) {
+                        $extension = $file->getClientOriginalExtension();
+                        $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
+                        $file->storeAs('hotels' , $imageName  ,'local');
+        
+                        DB::table('hotel_room_images')->insert(
+                            ['hotel_id' => $last_id, 'image_name' => $imageName]
+                        );
+                        $slno++;
                     }
                 }      
             }
@@ -335,15 +335,16 @@ class HotelController extends CommonController
         if($request->hasfile('image_name'))
                 {
                     $s1 = 0;
-                    foreach($request->file('image_name') as $file)
-                    {
-                        $name = ($s1+1).'-'.time().'.'.$file->extension();  
-                        $file->move('storage/app/hotels/rooms',$name); 
-                        $file= new HotelRoomsImages();
-                        $file->hotel_id =  $autoid;
-                        $file->image_name= $name;
-                        $file->save();
-                        $s1++;
+                    $slno = 1;
+                    foreach ($request->file('image_name') as $file) {
+                        $extension = $file->getClientOriginalExtension();
+                        $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
+                        $file->storeAs('hotels' , $imageName  ,'local');
+        
+                        DB::table('hotel_room_images')->insert(
+                            ['hotel_id' => $last_id, 'image_name' => $imageName]
+                        );
+                        $slno++;
                     }
                 }
                 return redirect('/hotel_room')->with('message','Room Details Updated Successfully!!');

@@ -78,16 +78,16 @@ class ActivityController extends Controller
             {
                 if($request->hasfile('image_name'))
                 { 
-                    $s1 = 0;
-                    foreach($request->file('image_name') as $file)
-                    {
-                        $name = ($s1+1).'-'.time().'.'.$file->extension();  
-                        $file->move('storage/app/hotels/rooms',$name); 
-                        $file= new ActivityImages();
-                        $file->activity_id =  $last_id;
-                        $file->image_name= $name;
-                        $file->save();
-                        $s1++;
+                    $slno = 1;
+                    foreach ($request->file('image_name') as $file) {
+                        $extension = $file->getClientOriginalExtension();
+                        $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
+                        $file->storeAs('hotels' , $imageName  ,'local');
+        
+                        DB::table('activity_images')->insert(
+                            ['activity_id' => $last_id, 'image_name' => $imageName]
+                        );
+                        $slno++;
                     }
                 }     
             }
@@ -164,16 +164,27 @@ class ActivityController extends Controller
        // $files = $request->file('image_name');
         if($request->hasfile('image_name'))
         {
-            $s1 = 0;
-            foreach($request->file('image_name') as $file)
-            {
-                $name = ($s1+1).'-'.time().'.'.$file->extension();  
-                $file->move('storage/app/hotels/rooms',$name); 
-                $file= new ActivityImages();
-                $file->activity_id =  $autoid;
-                $file->image_name= $name;
-                $file->save();
-                $s1++;
+            // $s1 = 0;
+            // foreach($request->file('image_name') as $file)
+            // {
+            //     $name = ($s1+1).'-'.time().'.'.$file->extension();  
+            //     $file->move('storage/app/hotels/rooms',$name); 
+            //     $file= new ActivityImages();
+            //     $file->activity_id =  $autoid;
+            //     $file->image_name= $name;
+            //     $file->save();
+            //     $s1++;
+            // }
+                $slno = 1;
+                foreach ($request->file('image_name') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
+                $file->storeAs('hotels' , $imageName  ,'local');
+
+                DB::table('activity_images')->insert(
+                    ['activity_id' => $last_id, 'image_name' => $imageName]
+                );
+                $slno++;
             }
         }
 

@@ -161,7 +161,7 @@
 
                         @foreach($data['images'] as $image)
                         <div id="hotel_image_{{ $image->id }}" class="col-xs-12 col-sm-2 mt20">
-                            <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/rooms/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
+                            <img class="responsive-img z-depth-1" data-action="zoom" src="{{ asset('storage/app/hotels/'.$image->image_name) }}" style="width:190px;height: 130px;" alt="">
                             <div class="button-close"> <button type="button" onclick="return DeleteImage({{ $image->id }})" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
                             <!--button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button-->
                         </div>
