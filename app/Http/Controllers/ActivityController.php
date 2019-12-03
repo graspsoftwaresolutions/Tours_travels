@@ -35,20 +35,22 @@ class ActivityController extends BaseController
     {
         $request->validate([
             'title_name' => 'required',
-            'duartion_hours' => 'required',
+            
            
             
                 ], [
             'title_name.required' => 'please enter title name',
-            'duartion_hours.required' => 'please select Room Type name',
+            
            
         ]);
         $data = $request->all();
+        $hours = $request->hours * 60 ;
+        $minutes = $request->minutes;
         if(!empty($data))
         {
             $Activitysavedata = new Activity();
             $Activitysavedata['title_name'] = $request->title_name;
-            $Activitysavedata['duartion_hours'] = $request->duartion_hours;
+            $Activitysavedata['duartion_hours'] = $hours + $minutes ;
             $Activitysavedata['amount'] = $request->amount;
             $Activitysavedata['country_id'] = $request->country_id;
             $Activitysavedata['state_id'] = $request->state_id;
@@ -124,19 +126,21 @@ class ActivityController extends BaseController
 
         $request->validate([
             'title_name' => 'required',
-            'duartion_hours' => 'required',
             
             
                 ], [
             'title_name.required' => 'please enter title name',
-            'duartion_hours.required' => 'please select Room Type name',
+            
             
         ]);
         $autoid = $request->input('autoid');
         $Activitysavedata = Activity::find($autoid);
 
+        $hours = $request->hours * 60 ;
+        $minutes = $request->minutes;
+
         $Activitysavedata['title_name'] = $request->title_name;
-        $Activitysavedata['duartion_hours'] = $request->duartion_hours;
+        $Activitysavedata['duartion_hours'] = $hours+$minutes;
         $Activitysavedata['amount'] = $request->amount;
         $Activitysavedata['country_id'] = $request->country_id;
         $Activitysavedata['state_id'] = $request->state_id;
