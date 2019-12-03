@@ -47,20 +47,20 @@
 				<h1>Enquiry Information</h1>
 				<ul class="breadcrumbs">
 					<li>Enquiry</li>
-					<li>Add Enquiry</li>
+					<li>Edit Enquiry</li>
 				</ul>
 			</div>			
-
+                @php $row = $data['enq_view'][0]; @endphp
 			<div class="page-content clearfix">
 				<!-- <div class="col-sm-10 col-sm-offset-1"> -->
             @include('includes.messages')
 					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
-						<h1 class="text-display-1">Enquiry Information</h1>
-                  <input type="hidden" name="enquiry_id">
+						<h1 class="text-display-1">Edit Enquiry Information</h1>
+                  <input type="hidden" name="enquiry_id" value="{{$row->id}}">
 						   <div class="row">
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">
-                        <input placeholder="Name" class="clearable" id="name" name="name" autofocus type="text">
+                        <input placeholder="Name" value="{{$row->name}}" class="clearable" id="name" name="name" autofocus type="text">
                            <label for="name" class="fixed-label">{{__('name') }}*</label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->
@@ -68,7 +68,7 @@
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
-                              <input placeholder="Email" class="clearable" id="email" name="email" type="email">
+                              <input placeholder="Email" value="{{$row->email}}" class="clearable" id="email" name="email" type="email">
                               <label for="" class="fixed-label">{{__('Email') }}</label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
@@ -85,7 +85,7 @@
                               $defcountry = CommonHelper::DefaultCountry();
                               @endphp
                               @foreach($data['country_view'] as $value)
-                              <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
+                              <option value="{{$value->id}}" @php if($row->country_id == $value->id) echo 'selected' @endphp>
                               {{$value->country_name}}</option>
                               @endforeach
                            </select>
@@ -103,13 +103,16 @@
                               <option value="" selected="">{{__('Select State') }}
                               </option>
                               @foreach ($statelist as $state)
-                              <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                              <option value="{{ $state->id }}" @php if($row->state_id == $state->id) echo 'selected' @endphp>{{ $state->state_name }}</option>
                               @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
 							</div><!-- ./col- -->	
 					    </div><!-- /.row -->
+                        @php
+                          $citylist = CommonHelper::getCityList($row->state_id);
+                        @endphp
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="select-row form-group">
@@ -118,9 +121,9 @@
                            <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
                               </option>
-                              <!--  @foreach ($data['state_view'] as $state)
-                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                 @endforeach -->
+                              @foreach ($citylist as $city)
+                                  <option value="{{ $city->id }}" @if($row->city_id==$city->id) selected @endif>{{ $city->city_name }}</option>
+                                  @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
@@ -128,7 +131,7 @@
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
-                              <input placeholder="Address" class="clearable" id="address" name="address" type="text">
+                              <input placeholder="Address" class="clearable" value="{{$row->address}}" id="address" name="address" type="text">
                               <label for="address" class="fixed-label">{{__('Address') }}</label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
@@ -141,8 +144,8 @@
                            <label for="type" class="fixed-label">{{__('Type') }}</label>
                            <select id="type" name="type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select Type') }}</option>
-                              <option value="general">General</option>
-                              <option value="package">Package</option>
+                              <option value="general" @if($row->type=='general') selected @endif>General</option>
+                              <option value="package" @if($row->type=='package') selected @endif>Package</option>
                            </select>
                               
                               <div class="input-highlight"></div>
@@ -153,7 +156,7 @@
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
-                        <input placeholder="phone" class="clearable" id="phone" name="phone" type="text">
+                        <input placeholder="phone" class="clearable" value="{{$row->phone}}" id="phone" name="phone" type="text">
                               <label for="phone" class="fixed-label">{{__('Phone') }}</label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
@@ -163,13 +166,13 @@
 							<div class="col-sm-6">
                      <div class="form-group">
                            <label for="message" class="fixed-label">{{__('Message') }}</label>
-                           <textarea class="textarea-auto-resize" placeholder="Enter Message" name="message" id="message"></textarea>
+                           <textarea class="textarea-auto-resize"  placeholder="Enter Message" name="message" id="message">{{$row->message}}</textarea>
                            <p class="no-margin em"></p>
                         </div>
                      </div><!-- ./col- -->	
 					    </div><!-- /.row -->
 						<div class="form-group clearfix">
-							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Update</button>
 						</div><!-- /.form-group -->
                  
 					</form>
@@ -256,9 +259,8 @@ $(document).ready(function(){
 					data: $('form').serialize(),
 					success: function(response){
 						if(response)
-						{ 
-                        //alert("Enquiry Details Saved succesfully");
-								window.location.href = "{{route('enquiry.new')}}";
+						{
+							window.location.href = "{{route('enquiry.new')}}";
 						}
 					}
 			});

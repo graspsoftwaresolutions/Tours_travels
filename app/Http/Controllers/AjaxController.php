@@ -674,7 +674,7 @@ class AjaxController extends CommonController
                         ->count();
         }
         $table ="enquiry";
-       $data = $this->CommonAjaxReturn($Enquiry, 2, '', 1,$table,'activity.editactivity'); 
+       $data = $this->CommonAjaxReturn($Enquiry, 2, '', 1,$table,'enquiry.edit'); 
    
     $json_data = array(
         "draw"            => intval($request->input('draw')),  
