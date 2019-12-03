@@ -144,6 +144,20 @@
                   <a id="activity_add_sidebar_a_id" href="{{route('activity.new')}}" class="submenu-target">{{ __('Add Activity') }}</a>
                 </li>
               </ul>
+            </li>  
+            <li id="packages-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-package"></i>
+                <span class="text">{{ __('Packages') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="packages_sidebar_li_id" class="submenu-item">
+                  <a id="packages_sidebar_a_id" href="{{ route('master.activity') }}" class="submenu-target">{{ __('All Packages') }}</a>
+                </li>
+                <li id="package_add_sidebar_li_id" class="submenu-item">
+                  <a id="package_add_sidebar_a_id" href="{{route('activity.new')}}" class="submenu-target">{{ __('Add Package') }}</a>
+                </li>
+              </ul>
             </li>    
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
