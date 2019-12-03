@@ -110,3 +110,5 @@ Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save
 
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
+
+Route::get('/new_package', 'PackageController@index')->name('package.new');
