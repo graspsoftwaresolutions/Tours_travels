@@ -95,9 +95,18 @@ Route::get('activity','ActivityController@activityList')->name('master.activity'
 Route::get('/new_activity', 'ActivityController@index')->name('activity.new');
 Route::post('ajax_activity_list','AjaxController@ajax_activities_list');
 Route::post('activity_save','ActivityController@activitySave')->name('activity.save');
-;
 Route::post('activity_edit','ActivityController@activityEdit')->name('activity.edit');
 Route::get('activity-edit/{parameter}','ActivityController@EditActivity')->name('activity.editactivity');
+
+//Enquiry
+
+Route::get('enquiry','ActivityController@enquiryList')->name('enquiry.new');
+Route::post('ajax_enquiry_list','AjaxController@ajax_enquiry_list');
+Route::get('new_enquiry','ActivityController@enquiryNew')->name('enquiry.add');
+
+Route::get('edit_enquiry/{parameter}','ActivityController@enquiryEdit')->name('enquiry.edit');
+
+Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save');
 
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');

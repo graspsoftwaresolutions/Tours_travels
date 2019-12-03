@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\API\BaseController as BaseController;
 
 use Illuminate\Http\Request;
 use App\Model\Country;
@@ -8,10 +9,12 @@ use App\Model\State;
 use App\Model\City;
 use App\Model\ActivityImages;
 use App\Model\Activity;
+use App\Model\Enquiry;
 use DB;
+use Session;
 use Illuminate\Support\Facades\Crypt;
 
-class ActivityController extends Controller
+class ActivityController extends BaseController
 {
 	public function __construct()
 	{
@@ -24,7 +27,6 @@ class ActivityController extends Controller
         $data['state_view'] = State::where('status','=','1')->get();
         return view('activity.new',compact('data',$data));
     }
-
     public function activityList(){
         $data = [];
         return view('activity.list')->with('data',$data);
@@ -189,5 +191,44 @@ class ActivityController extends Controller
         }
 
         return redirect('/activity')->with('message','Activity Details Updated Successfully!!');
+    }
+    public function enquiryList()
+    {
+        $data['enq_view'] = Enquiry::where('status','=','1')->get();
+        return view('enquiry.list',compact('data',$data));
+    }
+    public function enquiryNew()
+    {
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        return view('enquiry.new')->with('data',$data);
+    }
+    public function enquirySave(Request $request)
+    {
+        $data = $request->all();
+        $data['id'] = $request->enquiry_id;
+        
+        if(!empty($data['id']))
+        {
+            $SaveEnquiry = Enquiry::find($data['id'])->update($data);
+            $enquiryid = $data['id'];
+            $data =  Enquiry::find($data['id']);
+            Session::flash('message', 'Enquiry Detail Updated Succesfully');
+            return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
+        }
+        else{
+            $SaveEnquiry = Enquiry::create($data);
+            $enquiryid = $SaveEnquiry->id;
+            Session::flash('message', 'Enquiry Details Added Succesfully');
+            return $this->sendResponse($SaveEnquiry->toArray(), $enquiryid, 'Enquiry Details Saved Succesfully');
+        }
+    }
+    public function enquiryEdit($id)
+    {
+        $id = crypt::decrypt($id);
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        $data['enq_view'] = Enquiry::where('id','=',$id)->get();
+        return view('enquiry.edit')->with('data',$data);
     }
 }
