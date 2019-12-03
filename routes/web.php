@@ -99,14 +99,15 @@ Route::post('activity_edit','ActivityController@activityEdit')->name('activity.e
 Route::get('activity-edit/{parameter}','ActivityController@EditActivity')->name('activity.editactivity');
 
 //Enquiry
-
 Route::get('enquiry','ActivityController@enquiryList')->name('enquiry.new');
 Route::post('ajax_enquiry_list','AjaxController@ajax_enquiry_list');
 Route::get('new_enquiry','ActivityController@enquiryNew')->name('enquiry.add');
-
 Route::get('edit_enquiry/{parameter}','ActivityController@enquiryEdit')->name('enquiry.edit');
-
 Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save');
 
+//Tax
+
+Route::get('tax','HomeController@taxSettings')->name('tax.new');
+Route::post('tax_save','HomeController@taxSave')->name('tax_save');
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');

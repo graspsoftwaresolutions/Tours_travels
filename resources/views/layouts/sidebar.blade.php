@@ -174,6 +174,18 @@
                 </li>
               </ul>
             </li> 
+            <li id="settings-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-satellite-variant"></i>
+                <span class="text">{{ __('Settings') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="tax_sidebar_li_id" class="submenu-item">
+                  <a id="tax_sidebar_a_id" href="{{route('tax.new')}}" class="submenu-target">{{ __('Tax') }}</a>
+                </li>
+               
+              </ul>
+            </li>
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
   </nav><!-- /.main-menu -->
