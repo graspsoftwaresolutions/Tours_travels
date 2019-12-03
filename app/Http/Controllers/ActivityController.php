@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\API\BaseController as BaseController;
 
 use Illuminate\Http\Request;
 use App\Model\Country;
@@ -8,10 +9,11 @@ use App\Model\State;
 use App\Model\City;
 use App\Model\ActivityImages;
 use App\Model\Activity;
+use App\Model\Enquiry;
 use DB;
 use Illuminate\Support\Facades\Crypt;
 
-class ActivityController extends Controller
+class ActivityController extends BaseController
 {
 	public function __construct()
 	{
@@ -24,7 +26,6 @@ class ActivityController extends Controller
         $data['state_view'] = State::where('status','=','1')->get();
         return view('activity.new',compact('data',$data));
     }
-
     public function activityList(){
         $data = [];
         return view('activity.list')->with('data',$data);
@@ -189,5 +190,20 @@ class ActivityController extends Controller
         }
 
         return redirect('/activity')->with('message','Activity Details Updated Successfully!!');
+    }
+    public function enquiryList()
+    {
+        $data['enq_view'] = Enquiry::where('status','=','1')->get();
+        return view('enquiry.list',compact('data',$data));
+    }
+    public function enquiryNew()
+    {
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        return view('.enquiry.new')->with('data',$data);
+    }
+    public function enquirySave(Request $request)
+    {
+       return $data = $request->all();
     }
 }

@@ -13,6 +13,7 @@ use App\Model\RoomType;
 use App\Model\Hotel;
 use App\Model\ActivityImages;
 use App\Model\Activity;
+use App\Model\Enquiry;
 use App\User;
 use DB;
 use View;
@@ -604,5 +605,84 @@ class AjaxController extends CommonController
         );
         echo json_encode($json_data); 
     }
+    public function ajax_enquiry_list(Request $request)
+    {
+        $columns = array( 
+
+            0 => 'name', 
+            1 => 'phone', 
+            2 => 'type',
+            3 => 'email',
+            4 => 'id'
+        );
+
+        $totalData = Enquiry::count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){ 
+                $Enquiry = Enquiry::orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }else{
+                $Enquiry =  Enquiry::offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }
+            //$Activity->dump();
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+            $Enquiry = Enquiry::where('status','=','1')
+                         ->where(function($query) use ($search){
+                        $query->orWhere('name', 'LIKE',"%{$search}%")
+                        ->orWhere('email', 'LIKE',"%{$search}%")
+                        ->orWhere('phone', 'LIKE',"%{$search}%")
+                        ->orWhere('type', 'LIKE',"%{$search}%");
+                    })
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+            $Enquiry = Enquiry::where('status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('name', 'LIKE',"%{$search}%")
+                            ->orWhere('email', 'LIKE',"%{$search}%")
+                            ->orWhere('phone', 'LIKE',"%{$search}%")
+                            ->orWhere('type', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered = Enquiry::where('id','LIKE',"%{$search}%")
+                        ->orWhere('name', 'LIKE',"%{$search}%")
+                        ->orWhere('email', 'LIKE',"%{$search}%")
+                        ->orWhere('phone', 'LIKE',"%{$search}%")
+                        ->orWhere('type', 'LIKE',"%{$search}%")
+                        ->count();
+        }
+        $table ="enquiry";
+       $data = $this->CommonAjaxReturn($Enquiry, 2, '', 1,$table,'activity.editactivity'); 
+   
+    $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+        echo json_encode($json_data); 
+    }   
    
 }

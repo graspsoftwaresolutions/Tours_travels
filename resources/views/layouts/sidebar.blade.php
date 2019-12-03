@@ -143,8 +143,23 @@
                 <li id="activity_add_sidebar_li_id" class="submenu-item">
                   <a id="activity_add_sidebar_a_id" href="{{route('activity.new')}}" class="submenu-target">{{ __('Add Activity') }}</a>
                 </li>
+                
               </ul>
             </li>    
+            <li id="master-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-satellite-variant"></i>
+                <span class="text">{{ __('Enquiries') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="enquiries_sidebar_li_id" class="submenu-item">
+                  <a id="enquiries_sidebar_a_id" href="{{route('enquiry.new')}}" class="submenu-target">{{ __('All Enquiries') }}</a>
+                </li>
+                <li id="enquiries_add_sidebar_li_id" class="submenu-item">
+                  <a id="enquiries_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Enquiry') }}</a>
+                </li>
+              </ul>
+            </li> 
       </ul><!-- /.menubar -->
     </div><!-- /.scrollbar -->  
   </nav><!-- /.main-menu -->
