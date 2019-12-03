@@ -592,18 +592,75 @@ class AjaxController extends CommonController
                     ->count();
         }
         
-        
-    
         $table ="activities";
-       $data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
-   
-    $json_data = array(
-        "draw"            => intval($request->input('draw')),  
-        "recordsTotal"    => intval($totalData),  
-        "recordsFiltered" => intval($totalFiltered), 
-        "data"            => $data   
-        );
-        echo json_encode($json_data); 
+       //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+    //   dd($Activity);
+       $data = array();
+       if(!empty($Activity))
+       {
+           foreach ($Activity as $Activity)
+           {
+               $activitiescount =  DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
+               ->leftjoin('city as cit','cit.id','=','act.city_id')
+                           ->count();
+               
+               if($activitiescount>=1){
+                  
+                   $nestedData['id'] = $Activity->id;
+                   $nestedData['title_name'] = $Activity->title_name;
+                   $hours = floor($Activity->duartion_hours / 60) ;
+                   $minutes = floor($Activity->duartion_hours % 60) ;
+
+                  if($hours == 0 )
+                  {
+                      $hours = '';
+                  }
+                  elseif($hours == 1){
+                      $hours = $hours.' '.'hour';
+                  }
+                  else{
+                      $hours = $hours.' '.'hours';
+                  }
+
+                    if($minutes == 0)
+                    {
+                        $minutes = '';
+                    }
+                    elseif($minutes == 1){
+                        $minutes = $minutes.' '.'minute';
+                    }
+                    else{
+                        $minutes = $minutes.' '.'minutes';
+                    }
+
+                    $hours_and_minutes = $hours.' '.$minutes;
+                   $nestedData['duartion_hours'] = $hours_and_minutes;
+                   $nestedData['amount'] = $Activity->amount;  
+                   $nestedData['city_name'] = $Activity->city_name;
+                   $nestedData['zip_code'] = $Activity->zip_code;
+                   $enc_id = Crypt::encrypt($Activity->id);
+                   $edit = route('activity.editactivity',$enc_id);
+                   
+                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>";
+                   $nestedData['options'] = $actions;
+                 
+                   $data[] = $nestedData;
+               }else{
+                   $totalFiltered--;
+                   $totalData--;
+               }
+               
+           }
+       }
+   //dd($totalFiltered);
+      
+       $json_data = array(
+           "draw"            => intval($request->input('draw')),  
+           "recordsTotal"    => intval($totalData),  
+           "recordsFiltered" => intval($totalFiltered), 
+           "data"            => $data   
+           );
+       echo json_encode($json_data); 
     }
     public function ajax_enquiry_list(Request $request)
     {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 use Auth;
 use Hash;
-
-
+use App\Model\Tax;
+use Session;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -62,5 +62,27 @@ class HomeController extends Controller
         $user->save();
         return redirect()->back()->with("success","Password changed successfully !");
     }
-    
+    public function taxSettings()
+    {
+        $data = Tax::where('status','=','1')->first();
+        
+        return view('settings.tax')->with('data',$data);
+    }
+    public function taxSave(Request $request)
+    {
+         $data = $request->all();
+
+         if(!empty($request->tax_id))
+         {
+            
+            $SaveTax = Tax::find($request->tax_id)->update($data); 
+            Session::flash('message', 'Tax Details updated Succesfully');
+         }
+         else{
+            $SaveTax = Tax::create($data);
+            Session::flash('message', 'Tax Details added Succesfully');
+         }
+        
+         return json_encode($SaveTax);
+    }
 }
