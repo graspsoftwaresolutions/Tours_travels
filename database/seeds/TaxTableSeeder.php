@@ -11,7 +11,7 @@ class TaxTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tax')->insert([
+        DB::table('settings_tax')->insert([
             'tax_name' => 'GST',
             'tax_value' => '5000',
         ]);

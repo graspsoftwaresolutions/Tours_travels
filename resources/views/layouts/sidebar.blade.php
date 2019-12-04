@@ -131,7 +131,7 @@
                 </li>
               </ul>
             </li>   
-            <li id="master-menu" class="menubar-item">
+            <li id="activity-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-satellite-variant"></i>
                 <span class="text">{{ __('Activities') }}</span>
@@ -160,7 +160,7 @@
                 </li>
               </ul>
             </li>    
-            <li id="master-menu" class="menubar-item">
+            <li id="enquiry-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-satellite-variant"></i>
                 <span class="text">{{ __('Enquiries') }}</span>
@@ -171,6 +171,20 @@
                 </li>
                 <li id="enquiries_add_sidebar_li_id" class="submenu-item">
                   <a id="enquiries_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Enquiry') }}</a>
+                </li>
+              </ul>
+            </li> 
+            <li id="customer-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-account-settings"></i>
+                <span class="text">{{ __('Customer Management') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="customer_sidebar_li_id" class="submenu-item">
+                  <a id="customer_sidebar_a_id" href="{{route('customer.new')}}" class="submenu-target">{{ __('All Customers') }}</a>
+                </li>
+                <li id="customer_add_sidebar_li_id" class="submenu-item">
+                  <a id="customer_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Customer') }}</a>
                 </li>
               </ul>
             </li> 

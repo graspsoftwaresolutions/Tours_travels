@@ -106,9 +106,13 @@ Route::get('edit_enquiry/{parameter}','ActivityController@enquiryEdit')->name('e
 Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save');
 
 //Tax
-
 Route::get('tax','HomeController@taxSettings')->name('tax.new');
 Route::post('tax_save','HomeController@taxSave')->name('tax_save');
+
+//Customer
+Route::get('customer','CustomerController@customerList')->name('customer.new');
+
+
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 

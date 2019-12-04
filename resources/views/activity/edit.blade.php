@@ -63,7 +63,7 @@
                      <div class="col-md-12">
                         <div class="input-field label-float">
                            <input placeholder="Title Name" class="clearable" id="title_name" value="{{$row->title_name ?  $row->title_name : ''}}" name="title_name" autofocus type="text">
-                           <label for="title_name" class="fixed-label">{{__('Title') }}*</label>
+                           <label for="title_name" class="fixed-label">{{__('Title') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
@@ -77,104 +77,57 @@
                   </div>
                   <div class="row">
                      <div class="col-md-4">
+                     <div class="row">
                         <div class="form-group">
                         @php  
                         $hours = floor($row->duartion_hours / 60) ;
                         $minutes = floor($row->duartion_hours % 60) ; @endphp
                            <div class="input-field label-float">
-                           <select name="hours" id="hours">
-                              <option value="0"  @php if($hours == '0') echo 'selected' @endphp>00</option>
-                              <option value="1"  @php if($hours == '1') echo 'selected' @endphp>01</option>
-                              <option value="2"  @php if($hours == '2') echo 'selected' @endphp>02</option>
-                              <option value="3"  @php if($hours == '3') echo 'selected' @endphp>03</option>
-                              <option value="4"  @php if($hours == '4') echo 'selected' @endphp>04</option>
-                              <option value="5"  @php if($hours == '5') echo 'selected' @endphp>05</option>
-                              <option value="6"  @php if($hours == '6') echo 'selected' @endphp>06</option>
-                              <option value="7"  @php if($hours == '7') echo 'selected' @endphp>07</option>
-                              <option value="8"  @php if($hours == '8') echo 'selected' @endphp>08</option>
-                              <option value="9"   @php if($hours == '9') echo 'selected' @endphp>09</option>
-                              <option value="10"  @php if($hours == '10') echo 'selected' @endphp>10</option>
-                              <option value="11"  @php if($hours == '11') echo 'selected' @endphp>11</option>
-                              <option value="12"  @php if($hours == '12') echo 'selected' @endphp>12</option>
-                              <option value="13"  @php if($hours == '13') echo 'selected' @endphp>13</option>
-                              <option value="14"  @php if($hours == '14') echo 'selected' @endphp>14</option>
-                              <option value="15"  @php if($hours == '15') echo 'selected' @endphp>15</option>
-                              <option value="16"  @php if($hours == '16') echo 'selected' @endphp>16</option>
-                              <option value="17"  @php if($hours == '17') echo 'selected' @endphp>17</option>
-                              <option value="18"  @php if($hours == '18') echo 'selected' @endphp>18</option>
-                              <option value="19"  @php if($hours == '19') echo 'selected' @endphp>19</option>
-                              <option value="20"  @php if($hours == '20') echo 'selected' @endphp>20</option>
-                              <option value="21"  @php if($hours == '21') echo 'selected' @endphp>21</option>
-                              <option value="22"  @php if($hours == '22') echo 'selected' @endphp>22</option>
-                              <option value="23"  @php if($hours == '23') echo 'selected' @endphp>23</option>
-                              <option value="24"  @php if($hours == '24') echo 'selected' @endphp>24</option>
-                              </select> hours
-                              <select name="minutes" id="minutes">
-                              <option value="0"  @php if($minutes == '0') echo 'selected' @endphp>00</option>
-                              <option value="1"  @php if($minutes == '1') echo 'selected' @endphp>01</option>
-                              <option value="2"  @php if($minutes == '2') echo 'selected' @endphp>02</option>
-                              <option value="3"  @php if($minutes == '3') echo 'selected' @endphp>03</option>
-                              <option value="4"  @php if($minutes == '4') echo 'selected' @endphp>04</option>
-                              <option value="5"  @php if($minutes == '5') echo 'selected' @endphp>05</option>
-                              <option value="6"  @php if($minutes == '6') echo 'selected' @endphp>06</option>
-                              <option value="7"  @php if($minutes == '7') echo 'selected' @endphp>07</option>
-                              <option value="8"  @php if($minutes == '8') echo 'selected' @endphp>08</option>
-                              <option value="9"   @php if($minutes == '9') echo 'selected' @endphp>09</option>
-                              <option value="10"  @php if($minutes == '10') echo 'selected' @endphp>10</option>
-                              <option value="11"  @php if($minutes == '11') echo 'selected' @endphp>11</option>
-                              <option value="12"  @php if($minutes == '12') echo 'selected' @endphp>12</option>
-                              <option value="13"  @php if($minutes == '13') echo 'selected' @endphp>13</option>
-                              <option value="14"  @php if($minutes == '14') echo 'selected' @endphp>14</option>
-                              <option value="15"  @php if($minutes == '15') echo 'selected' @endphp>15</option>
-                              <option value="16"  @php if($minutes == '16') echo 'selected' @endphp>16</option>
-                              <option value="17"  @php if($minutes == '17') echo 'selected' @endphp>17</option>
-                              <option value="18"  @php if($minutes == '18') echo 'selected' @endphp>18</option>
-                              <option value="19"  @php if($minutes == '19') echo 'selected' @endphp>19</option>
-                              <option value="20"  @php if($minutes == '20') echo 'selected' @endphp>20</option>
-                              <option value="21"  @php if($minutes == '21') echo 'selected' @endphp>21</option>
-                              <option value="22"  @php if($minutes == '22') echo 'selected' @endphp>22</option>
-                              <option value="23"  @php if($minutes == '23') echo 'selected' @endphp>23</option>
-                              <option value="24"  @php if($minutes == '24') echo 'selected' @endphp>24</option>
-                              <option value="25" @php if($minutes == '25') echo 'selected' @endphp>25</option>
-                              <option value="26" @php if($minutes == '26') echo 'selected' @endphp>26</option>
-                              <option value="27" @php if($minutes == '27') echo 'selected' @endphp>27</option>
-                              <option value="28" @php if($minutes == '28') echo 'selected' @endphp>28</option>
-                              <option value="29" @php if($minutes == '29') echo 'selected' @endphp>29</option>
-                              <option value="30" @php if($minutes == '30') echo 'selected' @endphp>30</option>
-                              <option value="31" @php if($minutes == '31') echo 'selected' @endphp>31</option>
-                              <option value="32" @php if($minutes == '32') echo 'selected' @endphp>32</option>
-                              <option value="33" @php if($minutes == '33') echo 'selected' @endphp>33</option>
-                              <option value="34" @php if($minutes == '34') echo 'selected' @endphp>34</option>
-                              <option value="35" @php if($minutes == '35') echo 'selected' @endphp>35</option>
-                              <option value="36" @php if($minutes == '36') echo 'selected' @endphp>36</option>
-                              <option value="37" @php if($minutes == '37') echo 'selected' @endphp>37</option>
-                              <option value="38" @php if($minutes == '38') echo 'selected' @endphp>38</option>
-                              <option value="39" @php if($minutes == '39') echo 'selected' @endphp>39</option>
-                              <option value="40" @php if($minutes == '40') echo 'selected' @endphp>40</option>
-                              <option value="41" @php if($minutes == '41') echo 'selected' @endphp>41</option>
-                              <option value="42" @php if($minutes == '42') echo 'selected' @endphp>42</option>
-                              <option value="43" @php if($minutes == '43') echo 'selected' @endphp>43</option>
-                              <option value="44" @php if($minutes == '44') echo 'selected' @endphp>44</option>
-                              <option value="45" @php if($minutes == '45') echo 'selected' @endphp>45</option>
-                              <option value="46" @php if($minutes == '46') echo 'selected' @endphp>46</option>
-                              <option value="47" @php if($minutes == '47') echo 'selected' @endphp>47</option>
-                              <option value="48" @php if($minutes == '48') echo 'selected' @endphp>48</option>
-                              <option value="49" @php if($minutes == '49') echo 'selected' @endphp>49</option>
-                              <option value="50" @php if($minutes == '50') echo 'selected' @endphp>50</option>
-                              <option value="51" @php if($minutes == '51') echo 'selected' @endphp>51</option>
-                              <option value="52" @php if($minutes == '52') echo 'selected' @endphp>52</option>
-                              <option value="53" @php if($minutes == '53') echo 'selected' @endphp>53</option>
-                              <option value="54" @php if($minutes == '54') echo 'selected' @endphp>54</option>
-                              <option value="55" @php if($minutes == '55') echo 'selected' @endphp>55</option>
-                              <option value="56" @php if($minutes == '56') echo 'selected' @endphp>56</option>
-                              <option value="57" @php if($minutes == '57') echo 'selected' @endphp>57</option>
-                              <option value="58" @php if($minutes == '58') echo 'selected' @endphp>58</option>
-                              <option value="59" @php if($minutes == '59') echo 'selected' @endphp>59</option>
-                              <option value="60" @php if($minutes == '60') echo 'selected' @endphp>60</option>
-                              </select> Minutes
+                           <div class="col-md-4 col-sm-6">
+                              <select name="hours" id="hours" class="form-control">
+                               @php 
+                                 for($i=0;$i<=9;$i++)
+                                 {
+                                    @endphp
+                                    <option value='0{{$i}}' @php if($hours == $i) echo 'selected' @endphp>0{{$i}}</option>
+                                    @php
+                                 }
+                                 for($i=10;$i<=24;$i++)
+                                 {
+                                    @endphp
+                                    <option value='{{$i}}' @php if($hours == $i) echo 'selected' @endphp>{{$i}}</option>
+                                    @php
+                                 }
+                                 @endphp
+                              </select>
+                              
+                           </div>
+                           <div class="col-md-2 col-sm-6"><label for="" class="control-label">{{__('Hours') }}</label>
+                              </div>
+                           <div class="col-md-4 col-sm-6">
+                              <select name="minutes" id="minutes" class="form-control">
+                                       @php 
+                                       for($i=0;$i<=9;$i++)
+                                       {
+                                          @endphp
+                                          <option value='0{{$i}}'  @php if($minutes == $i) echo 'selected' @endphp >0{{$i}}</option>
+                                          @php
+                                       }
+                                       for($i=10;$i<=60;$i++)
+                                       {
+                                          @endphp
+                                          <option value='{{$i}}' @php if($minutes == $i) echo 'selected' @endphp >{{$i}}</option>
+                                          @php
+                                       }
+                                       @endphp
+                              </select> 
+                              </div>
+                                     <div class="col-md-2 col-sm-6"> <label for="" class="control-label">{{__('Minutes') }}</label>
+                                     </div>
                               <label for="" class="fixed-label">{{__('Duration (Hours)') }}</label>
                               <div class="input-highlight"></div>
                            </div>
+                        </div>
                         </div>
                      </div>
                      <div class="col-md-4">
@@ -528,7 +481,9 @@
             </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <!-- Exclusion Modal End -->
-         </form>
+         </form> <br></br>
+         <p><span style="color:red; margin-left:17px"> Mandatory (*)</span></p>
+         <br></br>
          </div>
       </div>
       <!-- /.page-content -->
@@ -546,7 +501,8 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
 <script>
-   $("#dashboard_sidebar_li_id").addClass('active');
+    $("#avtivity-menu").addClass('active');
+   $("#activity_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
    $(document).ready(function() {
     var slno=0;
