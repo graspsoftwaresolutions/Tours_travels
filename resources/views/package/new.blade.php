@@ -14,10 +14,10 @@
    color: #A94442 !important;
    }
    .button-close{
-   z-index: 99999;
+   z-index: 99;
    position: absolute;
-   top: -40px;
-   left: 89px;
+   top: -34px;
+   left: 58px;
    /* opacity: 0; */
    font-size: 13px;
    min-width: 100%;
@@ -36,6 +36,41 @@
    }
    .state-cities button{
       border-radius: 30px;
+      margin: 5px;
+   }
+   .state-cities i.left {
+       margin-right: 6px;
+   }
+   .list-group-item {
+       padding: 10px 20px !important;
+   }
+
+   .form-control {
+       display: block;
+       width: 100%;
+       height: 34px;
+       padding: 6px 12px;
+       font-size: 14px;
+       line-height: 1.42857143;
+       color: #555;
+       background-color: #fff;
+       background-image: none;
+       border: 1px solid #dedea8;
+       border-radius: 4px;
+       -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+       box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+       -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+       -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+       transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+       transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+       transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+   }
+   .sortable li:hover{
+      background: #f2f2f2;
+   }
+   .night-place-name{
+      color: #4f516d;
    }
 </style>
 @endsection
@@ -234,7 +269,7 @@
                               $defcountry = CommonHelper::DefaultCountry();
                               @endphp
                               @foreach($data['country_view'] as $value)
-                              <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
+                              <option value="{{$value->id}}" >
                               {{$value->country_name}}</option>
                               @endforeach
                            </select>
@@ -250,9 +285,9 @@
                            <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
                               </option>
-                              @foreach ($statelist as $state)
+                             <!--  @foreach ($statelist as $state)
                               <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                              @endforeach
+                              @endforeach -->
                            </select>
                            <div class="input-highlight"></div>
                         </div>
@@ -271,62 +306,53 @@
                      </div>
                      <div class="clearfix"></div>
                       <br>
-                      <div class="col-md-12">
-                         <h4 class="text-headline">Add more destinations</h4>
-                         <small>Choose more destinations from below</small>
-                          <br>
-                           <br>
-                      </div>
-                        <div id="destination-division" class="destinations-division">
-                           <div class="col-md-12 state-cities">
-                               <h5 class="text-headline text-bold">Tamil Nadu</h5>
-                               
+                         <div class="col-md-12">
+                            <h4 class="text-headline">Add more destinations</h4>
+                            <small>Choose more destinations from below</small>
+                             <br>
+                              <br>
+                         </div>
+                        <div class="col-md-8">
+                           <div id="destination-division" class="destinations-division">
+                             
                            </div>
                         </div>
-                       
-                      
-                   
-                     <div class="col-md-4">
-                        <div class="form-group">
-                           <div class="input-field label-float">
-                              <input placeholder="Address one" class="clearable" id="address_one" name="address_one" type="text">
-                              <label for="address_one" class="fixed-label">{{__('Address one') }}</label>
-                              <div class="input-highlight"></div>
+                        <div class="col-md-4">
+                           <div id="destination-chart" class="destinations-division">
+                              <div class="sortable">
+                                 <div class="card">
+                                    <div class="p14 pl20 blue-grey">
+                                       <div class="card-title">Places (State-City)</div>
+                                    </div>
+                                    <div class="card-block">
+                                       <div class="scroller ">
+                                          <ul id="place-sortList" class="list-group item-border">
+                                             
+                                          </ul>
+                                       </div>
+                                    </div><!-- /.card-block -->
+                                 </div><!-- /.card -->
+                              </div>
+                             
+                           </div>
+                           <div id="destination-nights" class="destinations-nights">
+                              <div class="row">
+
+                                  <div class="divider theme ml14 mr14"></div> 
+                                 
+                                 <div id="destination-night-area" class="destination-night-area">
+                                     
+                                 </div>
+                                
+                                  
+                              </div>
                            </div>
                         </div>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="col-md-4">
-                        <div class="form-group">
-                           <div class="input-field label-float">
-                              <input placeholder="Address two" class="clearable" id="address_two" name="address_two" type="text">
-                              <label for="address_two" class="fixed-label">{{__('Address two') }}</label>
-                              <div class="input-highlight"></div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4">
-                        <div class="form-group">
-                           <div class="input-field label-float">
-                              <input placeholder="Address two" class="clearable" id="zip_code" name="zip_code" type="text">
-                              <label for="zip_code" class="fixed-label">{{__('Zip Code') }}</label>
-                              <div class="input-highlight"></div>
-                           </div>
-                        </div>
-                     </div>
-                     
+                        <div class="clearfix"/>
+
                   </div>
                   <div class="clearfix"></div>
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="form-group">
-                           <label for="short_description" class="fixed-label">{{__('Short Description') }}</label>
-                           <textarea class="textarea-auto-resize" placeholder="Enter Short Description" name="short_description" id="short_description"></textarea>
-                           <p class="no-margin em"></p>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="clearfix"></div>
+                
                </div>
                <!-- /.col- -->
             </fieldset>
@@ -417,6 +443,9 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/sortable/sortable.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/smoothscroll/smooth-scroll.js') }}"></script>
+
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
@@ -557,25 +586,33 @@
                $("#destination-division").empty();
            }
            
-
+          
           // select.empty();
            //$("#state_id").append("<option value=''>Select</option>");
            $.each(data, function(key, value) {
                $('#'+stateid).append('<option value=' + value.id + '>' + value.state_name +
                    '</option>');
                  if(ref==1){
-                     var dest_data = '<div class="col-md-12 state-cities"><h5 class="text-headline text-bold">'+value.state_name+'</h5><div id="destination-city-'+value.id+'">';
+                     var dest_data = '<div id="state-cities-'+value.id+'" class="col-md-12 state-cities"><h5 class="text-headline text-bold">'+value.state_name+'</h5><div class="destination-city" id="destination-city-'+value.id+'"></div></div>';
                      var city_url = "{{ url('get-cities-list') }}" + '?State_id=' + value.id;
+                    $("#destination-division").append(dest_data);
+                    var cities_sec='';
                      $.get(city_url, function(citydata) {
                         $.each(citydata, function(citykey, cityvalue) {
-
-                           dest_data += '<button class="btn theme-accent waves-effect waves-light "><i class="mdi mdi-plus left"></i>'+cityvalue.city_name+'</button>';
+                           var paramscity = "{  cityid: "+cityvalue.id+",  stateid: "+value.id+", cityname: '"+cityvalue.city_name+"', statename: '"+value.state_name+"' }";
+                           cities_sec += '<button id="place_button_'+cityvalue.id+'" type="button" onClick="PickPlace('+paramscity+')" class="btn theme-accent waves-effect waves-light "><i class="mdi mdi-plus left"></i>'+cityvalue.city_name+'</button>';
 
                         });
+                        if(cities_sec!=""){
+                           $("#destination-city-"+value.id).append(cities_sec);
+                        }else{
+                           $("#state-cities-"+value.id).addClass('hide');
+                        }
+                        
                      });
-                     dest_data += '</div></div>';
-                      alert(dest_data);
-                     $("#destination-division").append(dest_data);
+                   
+                     
+                     
                  }
            });
             $('#'+stateid).selectpicker("refresh");
@@ -606,5 +643,41 @@
 
        
    }
+</script>
+@endsection
+@section('footerSecondSection')
+<script type="text/javascript">
+   (function($){
+
+      // Options on smoothscroll plugin
+      smoothScroll.init({
+            speed: 800,
+            easing: 'easeInOutCubic',
+            offset: 0,
+            updateURL: false
+      });
+
+   // Sortable 
+
+      // list
+      $("#place-sortList").sortable();
+   })(jQuery);
+   function PickPlace(paramscity){
+      $("#place_button_"+paramscity.cityid).attr("disabled", true);
+      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked-state" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked-city" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
+
+      var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
+
+      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="http://localhost/Tours_travels/storage/app/hotels/10_20191128070404.jpg" style="width:190px;height: 130px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select" class="form-control place-night-select">'+night_options+'</select></div></div>');
+      
+   }
+   function DeleteNight(cityid){
+      if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+           $("#place_night_"+cityid).remove();
+      }else{
+       // alert('Failed to delete');
+      }
+      
+  }
 </script>
 @endsection
