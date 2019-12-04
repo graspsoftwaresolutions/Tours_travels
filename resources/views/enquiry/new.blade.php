@@ -61,7 +61,7 @@
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">
                         <input placeholder="Name" class="clearable" id="name" name="name" autofocus type="text">
-                           <label for="name" class="fixed-label">{{__('name') }}*</label>
+                           <label for="name" class="fixed-label">{{__('Name') }}<span style="color:red">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->
 							</div><!-- ./col- -->
@@ -69,7 +69,7 @@
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
                               <input placeholder="Email" class="clearable" id="email" name="email" type="email">
-                              <label for="" class="fixed-label">{{__('Email') }}</label>
+                              <label for="" class="fixed-label">{{__('Email') }}<span style="color:red">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
 							</div><!-- ./col- -->	
@@ -77,7 +77,7 @@
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="country_id" class="block">{{__('Country Name') }}</label>                 
+                           <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
@@ -97,7 +97,7 @@
                      @endphp
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="state_id" class="block">{{__('State Name') }}</label>                 
+                           <label for="state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
@@ -113,7 +113,7 @@
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="city_id" class="block">{{__('City Name') }}</label>                 
+                           <label for="city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -138,7 +138,7 @@
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">
                         <div class="input-field label-float">
-                           <label for="type" class="fixed-label">{{__('Type') }}</label>
+                           <label for="type" class="fixed-label">{{__('Type') }}<span style="color:red">*</span></label>
                            <select id="type" name="type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select Type') }}</option>
                               <option value="general">General</option>
@@ -154,7 +154,7 @@
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
                         <input placeholder="phone" class="clearable" id="phone" name="phone" type="text">
-                              <label for="phone" class="fixed-label">{{__('Phone') }}</label>
+                              <label for="phone" class="fixed-label">{{__('Phone') }}<span style="color:red">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
 							</div><!-- ./col- -->	
@@ -167,11 +167,13 @@
                            <p class="no-margin em"></p>
                         </div>
                      </div><!-- ./col- -->	
+                    
 					    </div><!-- /.row -->
+                   <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
 						<div class="form-group clearfix">
 							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
 						</div><!-- /.form-group -->
-                 
+                  
 					</form>
 					
 				<!--</div> --><!-- /.row -->

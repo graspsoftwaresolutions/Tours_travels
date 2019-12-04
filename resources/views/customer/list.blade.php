@@ -20,8 +20,8 @@
             <div class="page-header">
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
-                    <li>Enquiry</li>
-                    <li>{{__('Enquiry List')}}</li>
+                    <li>Customers</li>
+                    <li>{{__('Customers List')}}</li>
                 </ul>
             </div>          
 
@@ -37,7 +37,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Enquiry List')}}</h3>
+                            <h3 class="title medium">{{__('Customers List')}}</h3>
                         </div>
 
                     </div>
@@ -49,8 +49,8 @@
                                 <tr>
                                     <th width="20%">{{__('Name')}}</th>
                                     <th width="20%">{{__('Phone')}} </th>
-                                    <th width="20%">{{__('Type')}} </th>
                                     <th width="20%">{{__('Email')}} </th>
+                                    <th width="20%">{{__('Zipcode')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
@@ -62,7 +62,6 @@
                 <i class="mdi mdi-chevron-up medium"></i>
             </a>                
         </div><!-- /.container-fluid -->
-
     <!-- =========================================================== -->
     <!-- End page content  -->
     <!-- =========================================================== -->
@@ -83,7 +82,8 @@
 @endsection
 @section('footerSecondSection')
 <script>
- $("#enquiries_sidebar_li_id").addClass('active');
+$("#customer-menu").addClass('active');
+ $("#customer_sidebar_li_id").addClass('active');
 (function($){
     $('#datatable-master').DataTable({
     
@@ -97,7 +97,7 @@
     "processing": true,
         "serverSide": true,
         "ajax": {
-            "url": "{{ url('/ajax_enquiry_list') }}",
+            "url": "{{ url('/ajax_customer_list') }}",
             "dataType": "json",
             "type": "POST",
             "data": {
@@ -118,10 +118,10 @@
                 "data": "phone"
             },
             {
-                "data": "type"
+                "data": "email"
             },
             {
-                "data": "email"
+                "data": "zipcode"
             },
             {
                 "data": "options"
@@ -231,14 +231,5 @@ function ConfirmDeletion() {
         return false;
     }
 }
-
-
-
-//Model
-$(document).ready(function() {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-   // $('.modal').modal();
-});
-$("#enquiry-menu").addClass('active');
 </script>
 @endsection

@@ -44,7 +44,6 @@
 		<div class="container-fluid">			
 
 			<div class="page-header">
-				<h1>Tax Information</h1>
 				<ul class="breadcrumbs">
 					<li>Tax</li>
 					<li>Add Tax</li>
@@ -113,6 +112,10 @@ $(document).ready(function(){
     
     $("#settings-menu").addClass('active');
     $("tax_sidebar_li_a_d").addClass('active');
+	$("#tax_value").keyup(function() {
+		var $this = $(this);
+		$this.val($this.val().replace(/[^\d.]/g, ''));        
+	});
    $("#formValidate").validate({
 			rules: {
 				"tax_name": {
@@ -120,9 +123,7 @@ $(document).ready(function(){
 				},
                 "tax_value": {
 					required: true,
-                    
 				},
-            
 			},
 			messages: {
 				"tax_name": {
@@ -131,7 +132,6 @@ $(document).ready(function(){
 				},
             "tax_value": {
 					required: "Please, enter Tax Value",
-                   
 				},
 			},
 			submitHandler: function (form) {

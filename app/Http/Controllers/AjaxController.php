@@ -14,6 +14,7 @@ use App\Model\Hotel;
 use App\Model\ActivityImages;
 use App\Model\Activity;
 use App\Model\Enquiry;
+use App\Model\CustomerDetails;
 use App\User;
 use DB;
 use View;
@@ -740,6 +741,85 @@ class AjaxController extends CommonController
         "data"            => $data   
         );
         echo json_encode($json_data); 
-    }   
+    }
+    public function ajax_customer_list(Request $request)
+    {
+        $columns = array( 
+
+            0 => 'name', 
+            1 => 'phone', 
+            2 => 'email',
+            3 => 'zipcode',
+            4 => 'id'
+        );
+
+        $totalData = CustomerDetails::count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){ 
+                $CustomerDetails = CustomerDetails::orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }else{
+                $CustomerDetails =  CustomerDetails::offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('status','=','1')
+                ->get()->toArray();
+            }
+            //$Activity->dump();
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+            $CustomerDetails = CustomerDetails::where('status','=','1')
+                         ->where(function($query) use ($search){
+                        $query->orWhere('name', 'LIKE',"%{$search}%")
+                        ->orWhere('email', 'LIKE',"%{$search}%")
+                        ->orWhere('phone', 'LIKE',"%{$search}%")
+                        ->orWhere('zipcode', 'LIKE',"%{$search}%");
+                    })
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+            $CustomerDetails = CustomerDetails::where('status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('name', 'LIKE',"%{$search}%")
+                            ->orWhere('email', 'LIKE',"%{$search}%")
+                            ->orWhere('phone', 'LIKE',"%{$search}%")
+                            ->orWhere('zipcode', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered = CustomerDetails::where('id','LIKE',"%{$search}%")
+                        ->orWhere('name', 'LIKE',"%{$search}%")
+                        ->orWhere('email', 'LIKE',"%{$search}%")
+                        ->orWhere('phone', 'LIKE',"%{$search}%")
+                        ->orWhere('zipcode', 'LIKE',"%{$search}%")
+                        ->count();
+        }
+        $table ="customer_details";
+       $data = $this->CommonAjaxReturn($CustomerDetails, 2, '', 1,$table,'customer.edit'); 
+   
+    $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+        echo json_encode($json_data);
+    }  
    
 }
