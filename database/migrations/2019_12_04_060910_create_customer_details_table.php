@@ -29,7 +29,6 @@ class CreateCustomerDetailsTable extends Migration
             $table->biginteger('status')->default('1');
         });
     }
-
     /**
      * Reverse the migrations.
      *

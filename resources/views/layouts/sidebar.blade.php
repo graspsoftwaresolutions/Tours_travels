@@ -184,7 +184,7 @@
                   <a id="customer_sidebar_a_id" href="{{route('customer.new')}}" class="submenu-target">{{ __('All Customers') }}</a>
                 </li>
                 <li id="customer_add_sidebar_li_id" class="submenu-item">
-                  <a id="customer_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Customer') }}</a>
+                  <a id="customer_add_sidebar_a_id" href="{{route('customer.add')}}" class="submenu-target">{{ __('Add Customer') }}</a>
                 </li>
               </ul>
             </li> 
