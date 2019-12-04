@@ -268,7 +268,6 @@ $(document).ready(function(){
 			});
          }
 		});
-
 });
     $('#overview').summernote({
       height: 200,   //set editable area's height

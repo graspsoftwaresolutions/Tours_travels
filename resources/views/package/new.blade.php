@@ -102,18 +102,18 @@
                      <div class="col-md-6">
                         <div class="input-field label-float">
                            <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" autofocus type="text">
-                           <label for="package_name" class="fixed-label">{{__('Package Name') }}*</label>
+                           <label for="package_name" class="fixed-label">{{__('Package Name') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                       <div class="col-md-6">
                         <div class="input-field label-float">
-                           <label for="package_name" class="fixed-label">{{__('Persons') }}*</label>
+                           <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
                            <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span id="adult-count">2</span> Adults & <span id="child-count">0</span> Children & <span id="infant-count">0</span> Infants</a></p>
-                           <input type="text" name="adult-count-val" id="adult-count-val" class="hide" value="2">
-                           <input type="text" name="child-count-val" id="child-count-val" class="hide" value="0">
-                           <input type="text" name="infant-count-val" id="infant-count-val" class="hide" value="0">
+                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
+                           <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
+                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
                            <div class="input-highlight"></div>
                         </div>
                         <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
@@ -130,7 +130,6 @@
                                           <br>
                                           <small>Age 13 and above</small>
                                        </div>
-
                                        <div class="col-md-9">
                                           <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
                                           <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
@@ -215,7 +214,7 @@
                      <div class="col-md-6" style="background-color: #f2f2f2;">
                         <h4 class="text-headline text-center">Traveling From</h4>
                         <div class="select-row form-group">
-                           <label for="from_country_id" class="block">{{__('Country Name') }}</label>                 
+                           <label for="from_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_country_id" name="from_country_id" onchange="ChangeStates(this.value,0)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
@@ -234,7 +233,7 @@
                         $statelist = CommonHelper::getStateList($defcountry);
                         @endphp
                         <div class="select-row form-group">
-                           <label for="from_state_id" class="block">{{__('State Name') }}</label>                 
+                           <label for="from_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_state_id" name="from_state_id"  onchange="ChangeCities(this.value,0)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
@@ -246,7 +245,7 @@
                            <div class="input-highlight"></div>
                         </div>
                         <div class="select-row form-group">
-                           <label for="from_city_id" class="block">{{__('City Name') }}</label>                 
+                           <label for="from_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_city_id" name="from_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -261,7 +260,7 @@
                       <div class="col-md-6" style="background-color: #a6777726;">
                         <h4 class="text-headline text-center">Traveling To</h4>
                         <div class="select-row form-group">
-                           <label for="to_country_id" class="block">{{__('Country Name') }}</label>                 
+                           <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
@@ -280,7 +279,7 @@
                         $statelist = CommonHelper::getStateList($defcountry);
                         @endphp
                         <div class="select-row form-group">
-                           <label for="to_state_id" class="block">{{__('State Name') }}</label>                 
+                           <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
@@ -292,7 +291,7 @@
                            <div class="input-highlight"></div>
                         </div>
                         <div class="select-row form-group">
-                           <label for="to_city_id" class="block">{{__('City Name') }}</label>                 
+                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -360,73 +359,18 @@
             <fieldset>
                <div class="col-sm-12">
                   <h4 class="text-headline">Activity Additional Details</h4>
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="form-group">
-                           <label for=""><strong>Overview: </strong></label>
-                           <textarea name="overview" id="overview"></textarea>
-                           <p class="no-margin em"></p>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="form-group">
-                           <label for=""><strong>Additional Info: </strong></label>
-                           <textarea name="additional_info" id="additional_info"></textarea>
-                           <p class="no-margin em"></p>
-                        </div>
-                     </div>
+                  
+                  
                   </div>
                   
                   
             </fieldset>
             <h3>Activities</h3>
             <fieldset>
-            <div class="col-sm-12">
-            <h4 class="text-headline">Photo Gallery</h4>
-            <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
-            </br>
-            <div class="col-md-12">
-            <div class="file-field input-field">
-            <div class="btn theme">
-            <span>File</span>
-            <input type="file" name="image_name[]" id="image_name"  accept="image/*" multiple>
-            </div>
-            <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Upload one or more files">
-            <div class="input-highlight"></div>
-            </div>
-            </div><!-- /.input-field -->
-            </br>
-            <code>Note:  Max file size : 2MB, Max width*height : 1200*700px</code>
-            </br>
-            </br>
-            </div>
-            </br>
-            </br>
-            <div class="row hide">
-            <div class="divider theme ml14 mr14"></div>
-            <div class="col-xs-12 col-sm-3 mt20">
-            <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-            <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-            </div>
-            <div class="col-xs-12 col-sm-3 mt20">
-            <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-            <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-            </div>
-            <div class="col-xs-12 col-sm-3 mt20">
-            <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-            <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-            </div>
-            <div class="col-xs-12 col-sm-3 mt20">
-            <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-            <div class="button-close"> <button type="button" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div>
-            </div>
-            </div>
-            </div><!-- /.col- -->
-            </fieldset>
             
+            
+            </fieldset>
+            <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
          </div>
       </div>
@@ -461,6 +405,47 @@
             {
                 return true;
             }
+            if (newIndex === 1 )
+            {
+               var formsubmit =true; 
+               if($("#from_country_id").val()==''){
+                  $('.from_country_id-error').remove();
+                  $( '<div id="from_country_id-error" class="error from_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#from_country_id' );
+                  formsubmit =false; 
+               }
+               if($("#to_country_id").val()==''){
+                  $('.to_country_id-error').remove();
+                  $( '<div id="to_country_id-error" class="error to_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#to_country_id' );
+                  formsubmit =false; 
+               }
+              if($("#from_state_id").val()==''){
+                  $('.from_state_id-error').remove();
+                  $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#from_state_id' );
+                  formsubmit =false; 
+               }
+               if($("#to_state_id").val()==''){
+                  $('.to_state_id-error').remove();
+                  $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#to_state_id' );
+                  formsubmit =false; 
+               }
+               if($("#from_city_id").val()==''){
+                  $('.from_city_id-error').remove();
+                  $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose from_city_id.</div>' ).insertAfter( '#from_city_id' );
+                  formsubmit =false; 
+               }
+               if($("#to_city_id").val()==''){
+                  $('.to_city_id-error').remove();
+                  $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose to_city_id.</div>' ).insertAfter( '#to_city_id' );
+                  formsubmit =false; 
+               }
+                if($("#package_name").val()==''){
+                  $('.package_name-error').remove();
+                  $( '<div id="package_name-error" class="error package_name-error custom-error">Please ebter package name.</div>' ).insertAfter( '#package_name' );
+                  formsubmit =false; 
+               }
+                
+              // return formsubmit;
+            }
             // // Forbid next action on "Warning" step if the user is to young
             // if (newIndex === 3 && Number($("#age-2").val()) < 18)
             // {
@@ -483,24 +468,38 @@
         },
         onFinished: function (event, currentIndex)
         {
-           $('#wizard1').trigger('submit');
+          
+           $.ajax({
+              type: 'POST',
+              url: "{{ route('package_save') }}",
+              data: new FormData(this),
+              dataType: 'json',
+              contentType: false,
+              cache: false,
+              processData:false,
+            //   beforeSend: function(){
+            //       $('.submitBtn').attr("disabled","disabled");
+            //       $('#wizard1').css("opacity",".5");
+            //   },
+              success: function(response){
+
+               alert('package added succesfully');
+               window.location.reload();
+                
+              }
+          });
            return true;
         }
+      //  $('#wizard1').trigger('submit');
     }).validate({
         rules: {
-          'title_name': {
+          'package_name': {
                   required: true,
-              },
-              'duartion_hours' : {
-                required: true,
               },
         },
         messages: {
-              'title_name': {
-                  required: 'Please fill title.',
-              },
-              'duartion_hours' : {
-                required: 'Please fill duration.',
+              'package_name': {
+                  required: 'Please enter package name.',
               },
           },
           errorElement: 'div',
@@ -664,11 +663,11 @@
    })(jQuery);
    function PickPlace(paramscity){
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
-      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked-state" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked-city" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
+      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
-      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="http://localhost/Tours_travels/storage/app/hotels/10_20191128070404.jpg" style="width:190px;height: 130px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select" class="form-control place-night-select">'+night_options+'</select></div></div>');
+      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="http://localhost/Tours_travels/storage/app/hotels/10_20191128070404.jpg" style="width:190px;height: 130px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');
       
    }
    function DeleteNight(cityid){
