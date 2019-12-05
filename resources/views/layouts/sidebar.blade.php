@@ -177,7 +177,7 @@
             <li id="customer-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-account-settings"></i>
-                <span class="text">{{ __('Customer Management') }}</span>
+                <span class="text">{{ __('Customers') }}</span>
               </a>
               <ul class="submenu lvl-1">
                 <li id="customer_sidebar_li_id" class="submenu-item">
@@ -197,7 +197,9 @@
                 <li id="tax_sidebar_li_id" class="submenu-item">
                   <a id="tax_sidebar_a_id" href="{{route('tax.new')}}" class="submenu-target">{{ __('Tax') }}</a>
                 </li>
-               
+                <li id="website_sidebar_li_id" class="submenu-item">
+                  <a id="website_sidebar_a_id" href="{{route('website.new')}}" class="submenu-target">{{ __('Website') }}</a>
+                </li>        
               </ul>
             </li>
       </ul><!-- /.menubar -->

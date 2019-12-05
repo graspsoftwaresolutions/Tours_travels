@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 use Auth;
 use Hash;
 use App\Model\Tax;
+use App\Model\Country;
+use App\Model\State;
+use App\Model\City;
+
+use App\Model\Website;
 use Session;
 use Illuminate\Http\Request;
 
@@ -84,5 +89,40 @@ class HomeController extends Controller
          }
         
          return json_encode($SaveTax);
+    }
+    public function websiteSettings()
+    {
+        $data = website::where('status','=','1')->first();
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        return view('settings.website')->with('data',$data);
+    }
+    public function websiteSave(Request $request)
+    {
+         $data = $request->all(); 
+         
+         if(!empty($request->website_id))
+         {
+            if($data['company_logo']) {
+                $file = $data['company_logo'];
+                $name = time().'.'.$file->getClientOriginalExtension();
+                $file->move('public/assets/images/website_logo',$name);
+                $data['company_logo'] = $name;
+            }
+            $SaveWebsite= website::find($request->website_id)->update($data);
+            return redirect('/website')->with('message','Website Details Updated Successfully!!');
+         }
+         else{
+
+            if($data['company_logo']) {
+                $file = $data['company_logo'];
+                $name = time().'.'.$file->getClientOriginalExtension();
+                $file->move('public/assets/images/website_logo',$name);
+                $data['company_logo'] = $name;
+            }
+            $SaveWebsite = website::create($data);
+            return redirect('/website')->with('message','Website Details Saved Successfully!!');
+         }
+         
     }
 }

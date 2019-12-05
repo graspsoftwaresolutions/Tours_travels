@@ -338,7 +338,6 @@ function ConfirmDeletion() {
         return false;
     }
 }
-
 // Form Validation
 $("#cityformValidate").validate({
     rules: {
