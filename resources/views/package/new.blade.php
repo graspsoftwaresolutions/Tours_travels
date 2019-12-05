@@ -16,8 +16,8 @@
    .button-close{
    z-index: 99;
    position: absolute;
-   top: -34px;
-   left: 58px;
+   top: -37px;
+    left: 45px;
    /* opacity: 0; */
    font-size: 13px;
    min-width: 100%;
@@ -378,9 +378,92 @@
             <fieldset>
                <div class="col-sm-12">
                   <h4 class="text-headline">Activity Additional Details</h4>
-                  
-                  
+                  <div class="row">
+                    <ul class="timeline bg-color-switch mt40 timeline-single">
+                      <li class="tl-item">
+                          <div class="timeline-icon ti-text">1. State - City</div>
+                          <div class="card media-card-sm">
+                            <div class="media">
+                              <div class="media-left media-img">
+                                <a href="#">
+                                  <img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="...">
+                                </a>
+                              </div>
+                              <div class="media-body p10">
+                                <h4 class="media-heading">Hotel Name</h4>
+                                <p class="sub-text mt10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat!</p>
+                              </div>
+                           </div>
+                          </div>        
+                        </li>                   
+                        <li class="tl-item">
+                          <div class="timeline-icon ti-text">2. State - City</div>
+                          <div class="card p20">
+                            <div class="media mb10">
+                                <div class="media-left">
+                                  <img src="{{ asset('public/assets/demo/images/faces/face-1.jpg') }}" alt="" class="avatar circle"> 
+                                </div>
+                            <div class="media-body">
+                              <h4 class="media-heading">Andrew Johnson</h4>
+                              <a href="#:;" class="media-subhead">@andrew_johnson
+                              </a>
+                            </div>
+                          </div><!-- /.media -->
+                          <h4 class="mt14 mb8">Repellendus Ipsa</h4>
+                          <p class="sub-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
+                        </div>
+                        </li>
+                        <li class="tl-item">                
+                          <div class="timeline-icon ti-circle"><img class="img-responsive img-circle" src="{{ asset('public/assets/demo/images/faces/face-23.jpg') }}" alt="..."></div>
+                          <h4>Photo's added by Melissa <i class="pull-right sub-text text-small">6 hrs ago</i></h4>
+                          <div class="row">
+                            <div class="divider theme ml14 mr14"></div>
+                            <div class="col-xs-12 col-sm-3 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
+                            </div>
+                          </div>  
+                        </li>             
+                        <li class="tl-item">
+                          <div class="timeline-icon info ti-circle"><i class="mdi mdi-calendar-check"></i></div>
+                          <div class="card">
+                            <div class="media">
+                            <div class="media-left media-img text-center pink accent-2">
+                              <div class="text-display-3 line-height-1 pt20">26</div>
+                              <h3 class="line-height-1">aug</h3>
+                            </div>
+                            <div class="media-body p10">
+                              <h4 class="media-heading mb10">New Event:</h4>
+                              <p class="sub-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
+                            </div>
+                          </div>
+                          </div>        
+                        </li>
+                        <li class="tl-item">
+                          <div class="timeline-icon ti-text">Yesterday</div>
+                          <div class="card media-card-sm">
+                          <div class="media-left media-img">
+                            <a href="#">
+                              <img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-2.jpg') }}" alt="...">
+                            </a>
+                          </div>
+                          <div class="media-body p10">
+                            <h4 class="media-heading">Media heading</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
+                          </div>
+                        </div>
+                        </li> 
+                    </ul>
                   </div>
+                </div>
                   
                   
             </fieldset>
