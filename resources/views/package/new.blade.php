@@ -72,6 +72,24 @@
    .night-place-name{
       color: #4f516d;
    }
+   .fixed{
+     top:50px;
+   }
+
+  .xfixed {
+    position: fixed;
+    top:50px;
+    left: 1020px;
+    width: 260px;
+    height: auto;
+  }
+  .placecitylist {
+    counter-reset: my-badass-counter;
+  }
+  .placecitylist li:before {
+    content: counter(my-badass-counter);
+    counter-increment: my-badass-counter;
+  }
 </style>
 @endsection
 @section('main-content')	
@@ -91,7 +109,8 @@
    <div class="page-content">
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
-         <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('activity.save')}}">
+          <div class="col-md-9">
+          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('activity.save')}}">
             @csrf
             <h3>Travel Data</h3>
             <fieldset>
@@ -311,13 +330,13 @@
                              <br>
                               <br>
                          </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                            <div id="destination-division" class="destinations-division">
                              
                            </div>
                         </div>
                         <div class="col-md-4">
-                           <div id="destination-chart" class="destinations-division">
+                          <!--  <div id="destination-chart" class="destinations-division">
                               <div class="sortable">
                                  <div class="card">
                                     <div class="p14 pl20 blue-grey">
@@ -329,8 +348,8 @@
                                              
                                           </ul>
                                        </div>
-                                    </div><!-- /.card-block -->
-                                 </div><!-- /.card -->
+                                    </div>
+                                 </div>
                               </div>
                              
                            </div>
@@ -345,7 +364,7 @@
                                 
                                   
                               </div>
-                           </div>
+                           </div> -->
                         </div>
                         <div class="clearfix"/>
 
@@ -372,6 +391,38 @@
             </fieldset>
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
+          </div>
+          <div class="col-md-3 card p8 sticky fixed" >
+            <div id="destination-chart" class="destinations-division">
+                  <div class="sortable">
+                     <div class="card">
+                        <div class="p8 blue-grey">
+                           <div class="card-title">Places (State-City)</div>
+                        </div>
+                        <div class="card-block">
+                           <div class="scroller ">
+                              <ul id="place-sortList" class="list-group placecitylist item-border">
+                                 
+                              </ul>
+                           </div>
+                        </div><!-- /.card-block -->
+                     </div><!-- /.card -->
+                  </div>
+                 
+               </div>
+               <div id="destination-nights" class="destinations-nights">
+                  <div class="row">
+
+                      <div class="divider theme ml14 mr14"></div> 
+                     
+                     <div id="destination-night-area" class="destination-night-area">
+                         
+                     </div>
+                    
+                      
+                  </div>
+               </div>
+           </div>
          </div>
       </div>
       <!-- /.page-content -->
@@ -598,6 +649,7 @@
                     var cities_sec='';
                      $.get(city_url, function(citydata) {
                         $.each(citydata, function(citykey, cityvalue) {
+                          //console.log(cityvalue.city_image);
                            var paramscity = "{  cityid: "+cityvalue.id+",  stateid: "+value.id+", cityname: '"+cityvalue.city_name+"', statename: '"+value.state_name+"' , cityimage: '"+cityvalue.city_image+"' }";
                            cities_sec += '<button id="place_button_'+cityvalue.id+'" type="button" onClick="PickPlace('+paramscity+')" class="btn theme-accent waves-effect waves-light "><i class="mdi mdi-plus left"></i>'+cityvalue.city_name+'</button>';
                         });
@@ -661,12 +713,15 @@
       $("#place-sortList").sortable();
    })(jQuery);
    function PickPlace(paramscity){
+    //console.log(paramscity);
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
-      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
+      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
-      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="http://localhost/Tours_travels/storage/app/city/'+paramscity.city_image+'" style="width:190px;height: 130px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
+      var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+
+      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
    }
    function DeleteNight(cityid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
@@ -676,5 +731,12 @@
       }
       
   }
+  $(window).scroll(function(){
+    var sticky = $('.sticky'),
+        scroll = $(window).scrollTop();
+
+    if (scroll >= 100) sticky.addClass('fixed');
+    else sticky.removeClass('fixed');
+  });
 </script>
 @endsection
