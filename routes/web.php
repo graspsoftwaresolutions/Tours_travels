@@ -109,6 +109,11 @@ Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save
 Route::get('tax','HomeController@taxSettings')->name('tax.new');
 Route::post('tax_save','HomeController@taxSave')->name('tax_save');
 
+//Websie
+
+Route::get('website','HomeController@websiteSettings')->name('website.new');
+Route::post('website_save','HomeController@websiteSave')->name('website_save');
+
 //Customer
 Route::get('customer','CustomerController@customerList')->name('customer.new');
 Route::post('ajax_customer_list','AjaxController@ajax_customer_list');
