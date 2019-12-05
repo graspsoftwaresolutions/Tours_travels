@@ -17,7 +17,7 @@
                     <div class="input-field label-float @error('email') is-invalid @enderror">
                         <i class="mdi mdi-account prefix"></i>
                         <input id="email" name="email" type="text" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        <label for="email">{{ __('E-Mail Address') }}</label>
+                        <label for="email" class="fixed-label">{{ __('E-Mail Address') }}</label>
                         <div class="input-highlight"></div>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
                     <div class="input-field label-float @error('password') is-invalid @enderror">
                         <i class="mdi mdi-key prefix"></i>
                         <input id="password" name="password" type="password">
-                        <label for="password">{{ __('Password') }}</label>
+                        <label for="password" class="fixed-label">{{ __('Password') }}</label>
                         <div class="input-highlight"></div>
                         @error('password')
                             <span class="invalid-feedback" role="alert">

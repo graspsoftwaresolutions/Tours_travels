@@ -46,8 +46,9 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="40%">{{__('State Name') }}</th>
-                                    <th width="40%">{{__('City Name') }} </th>
+                                    <th width="30%">{{__('State Name') }}</th>
+                                    <th width="30%">{{__('City Name') }} </th>
+                                    <th width="20%">{{__('City Image') }} </th>
 
                                     <th> {{__('Action') }}</th>
                                 </tr>
@@ -77,7 +78,7 @@
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
                             <h1 class="modal-title">{{__('City Details')}}</h1>
                         </div><!-- /.modal-header -->
-                        <form class="formValidate" id="cityformValidate" method="post" action="{{ route('master.savecity') }}">
+                        <form class="formValidate" id="cityformValidate" enctype="multipart/form-data" method="post" action="{{ route('master.savecity') }}">
                             @csrf
                             <div class="modal-body">
                                <div class="col-sm-12">
@@ -124,16 +125,46 @@
 
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
-                                                <input placeholder="{{__('City Name') }}" class="clearable" id="city_name" name="city_name" autofocus type="text">
+                                                <input placeholder="{{__('City Name') }}"  class="clearable" id="city_name" name="city_name" autofocus type="text">
                                                 <label for="city_name" class="fixed-label">{{__('City Name') }}*</label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <!-- <div class="input-field label-float"> -->
+                                            <div class="file-field input-field label-float">
+                                                <div class="btn theme">
+                                                <span>File</span>
+                                                <input type="file" name="city_image" accept="image/*">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text" placeholder="Upload one  file">
+                                                <div class="input-highlight"></div>
+                                                </div>
+                                                </div>
+                                            <!-- </div> -->
+                                           <br><br>
                                         </div><!-- ./col- -->
- 
-                                    </div>
-                                   
-                                    
+                                        <div class="row show image">
+                                        <!-- <div class="col-sm-6"> </div> -->
+                                        <!-- <div class="col-sm-6"> -->
+                                                <div class="divider theme ml14 mr14"></div>
+                                                <div class="col-xs-12 col-sm-3 mt20">
+                                                    
+                                                </div>
+                                                <div class="col-xs-12 col-sm-3 mt20">
+                                                   
+                                                </div>
+                                                <div class="col-xs-12 col-sm-3 mt20">
+                                                    
+                                                </div>
+                                                <div class="col-xs-12 col-sm-3 mt20" id="cit_image">
+                                                
+                                                </div>
+                                            <!-- </div> -->
+                                            </div>
+                                    </div>                                
                                 </div><!-- /.row -->    
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">
@@ -276,6 +307,21 @@ $(function() {
                 "data": "city_name"
             },
             {
+                "data": "city_image",
+                "render": function (data) {
+
+                    if(data == null || data == 'undefined' || data == '')
+                    {
+                        return '<a  target="_blank" href="storage/app/city/no_image.jpg"><img src="storage/app/city/no_image.jpg" class="avatar" width="50" height="50"/></a>';
+                    }
+                    else{
+
+                        return '<a  target="_blank" href="storage/app/city/' + data + '"><img src="storage/app/city/' + data + '" class="avatar" width="50" height="50"/></a>';
+                    }
+                    }
+            },
+            
+            {
                 "data": "options"
             }
         ]
@@ -322,6 +368,9 @@ $("#cityformValidate").validate({
                 type: "post",
             },
         },
+        // city_image: {
+        //     required: true,
+        // },
     },
     //For custom messages
     messages: {
@@ -334,7 +383,10 @@ $("#cityformValidate").validate({
         city_name: {
             required: '{{__("Please enter City Name") }}',
             remote: '{{__("City Name Already exists") }}',
-        }
+        },
+        // city_image: {
+        //     required: '{{__("Please select image") }}',
+        // },
     },
    
 });
@@ -344,6 +396,9 @@ $("#cityformValidate").validate({
 function showaddForm() {
     $("#masterModal").modal();
     $('#city_name').val("");
+    // $('#cit_image').attr('src', '');
+    $("#cit_image").hide();
+    //document.getElementById('cit_image').src = "#";
     $('#state_id').selectpicker('val', '');
     $('#masterid').val("");
 }
@@ -356,13 +411,20 @@ function showeditForm(cityid) {
         url: url,
         type: "GET",
         success: function(result) {
+            console.log(result);
             $('#masterid').val(result.id);
             $('#masterid').attr('data-autoid', result.id);
             $('#country_id').selectpicker('val', result.country_id);
             $('#state_id').selectpicker('val', result.state_id);
-            
             $('#city_name').val(result.city_name);
-            
+            $("#cit_image").show();
+            if(result.city_image == '' || result.city_image == 'undefined' ||  result.city_image == null )
+            {
+                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="storage/app/city/no_image.jpg">');
+            }
+            else{
+                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="storage/app/city/'+result.city_image+'">');
+            }
         }
     });
 }

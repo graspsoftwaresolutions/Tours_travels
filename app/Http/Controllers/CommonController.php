@@ -96,6 +96,7 @@ class CommonController extends Controller
         $id = $request->id;
         $city = new City();
         $data = City::find($id);
+        //dd($data);
         return $data;
     }
 

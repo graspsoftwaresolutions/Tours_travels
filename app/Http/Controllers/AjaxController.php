@@ -187,6 +187,7 @@ class AjaxController extends CommonController
             0 => 'id', 
             1 => 'city_name', 
             2 => 'state_name',
+            2 => 'city_image',
         );
 
         $totalData = City::where('status','=','1')
@@ -203,14 +204,14 @@ class AjaxController extends CommonController
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){
-				$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status')
+				$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_image')
                 ->leftjoin('state','state.id','=','city.state_id')
                 ->leftjoin('country','country.id','=','state.country_id')
                 ->where('city.status','=','1')
                 ->orderBy($order,$dir)
 				->get()->toArray();
             }else{
-               $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+               $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name','city.city_image')
                 ->leftjoin('state','state.id','=','city.state_id')
                 ->leftjoin('country','country.id','=','state.country_id')
                 ->where('city.status','=','1')
@@ -224,7 +225,7 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-			$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+			$city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name','city.city_image')
                     ->leftjoin('state','state.id','=','city.state_id')
                     ->leftjoin('country','country.id','=','state.country_id')
                     ->where('city.status','=','1')
@@ -236,7 +237,7 @@ class AjaxController extends CommonController
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name')
+            $city = DB::table('city')->select('city.id','city.city_name',DB::raw('CONCAT(state.state_name, " - ",country.country_name) as state_name'),'state.country_id','city.status','city.city_name','city.city_image')
 						->leftjoin('state','state.id','=','city.state_id')
                         ->leftjoin('country','country.id','=','state.country_id')
                         ->where('city.status','=','1')

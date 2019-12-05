@@ -199,11 +199,13 @@ class MasterController extends CommonController {
         $request->validate([
             'country_id' => 'required',
 			'state_id' => 'required',
-			'city_name' => 'required',
+            'city_name' => 'required',
+            'city_image' => 'required',
                 ], [
             'country_id.required' => 'please enter Country name',
 			'state_id.required' => 'please enter State name',
-			'city_name.required' => 'please enter City name',
+            'city_name.required' => 'please enter City name',
+            'city_image.required' => 'please select City image',
         ]);
         $data = $request->all();   
         $defdaultLang = '';
