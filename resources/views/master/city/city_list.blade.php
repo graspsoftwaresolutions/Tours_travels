@@ -312,15 +312,16 @@ $(function() {
 
                     if(data == null || data == 'undefined' || data == '')
                     {
-                        return '<a  target="_blank" href="storage/app/city/no_image.jpg"><img src="storage/app/city/no_image.jpg" class="avatar" width="50" height="50"/></a>';
+                        var location = image_url+'/city/no_image.jpg';
+                        return '<a  target="_blank" href="'+location+'"><img src="'+location+'" class="avatar" width="50" height="50"/></a>';
                     }
                     else{
-
-                        return '<a  target="_blank" href="storage/app/city/' + data + '"><img src="storage/app/city/' + data + '" class="avatar" width="50" height="50"/></a>';
+                        
+                        var location = image_url+'/city/'+data;
+                        return '<a  target="_blank" href="'+location+'"><img src="'+location+'" class="avatar" width="50" height="50"/></a>';
                     }
                     }
             },
-            
             {
                 "data": "options"
             }
@@ -419,10 +420,12 @@ function showeditForm(cityid) {
             $("#cit_image").show();
             if(result.city_image == '' || result.city_image == undefined ||  result.city_image == null )
             {
-                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="storage/app/city/no_image.jpg">');
+                var location = image_url+'/city/no_image.jpg';
+                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="'+location+'">');
             }
             else{
-                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="storage/app/city/'+result.city_image+'">');
+                var location = image_url+'/city/'+result.city_image;
+                $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="'+location+'">');
             }
         }
     });
