@@ -49,7 +49,7 @@ class CommonController extends Controller
       
         $id = $request->State_id;
         $res = DB::table('city')
-        ->select('id','city_name')
+        ->select('id','city_name','city_image')
         ->where([
             ['state_id','=',$id],
             ['status','=','1']

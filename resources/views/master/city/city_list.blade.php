@@ -418,7 +418,7 @@ function showeditForm(cityid) {
             $('#state_id').selectpicker('val', result.state_id);
             $('#city_name').val(result.city_name);
             $("#cit_image").show();
-            if(result.city_image == '' || result.city_image == 'undefined' ||  result.city_image == null )
+            if(result.city_image == '' || result.city_image == undefined ||  result.city_image == null )
             {
                 $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="storage/app/city/no_image.jpg">');
             }

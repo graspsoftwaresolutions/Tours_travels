@@ -25,6 +25,7 @@ class PackageController extends Controller
     {
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
+        $data['city_view'] = State::where('status','=','1')->get();
         return view('package.new',compact('data',$data));
     }
     public function packageSave(Request $request)
