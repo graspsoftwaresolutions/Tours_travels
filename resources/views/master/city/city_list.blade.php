@@ -411,7 +411,7 @@ function showeditForm(cityid) {
         url: url,
         type: "GET",
         success: function(result) {
-            console.log(result);
+            
             $('#masterid').val(result.id);
             $('#masterid').attr('data-autoid', result.id);
             $('#country_id').selectpicker('val', result.country_id);
