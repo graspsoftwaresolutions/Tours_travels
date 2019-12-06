@@ -73,7 +73,7 @@
       color: #4f516d;
    }
    .fixed{
-     top:50px;
+     //top:50px;
    }
 
   .xfixed {
@@ -89,6 +89,49 @@
   .placecitylist li:before {
     content: counter(my-badass-counter);
     counter-increment: my-badass-counter;
+  }
+  .timeline>li:after, .timeline>li:before {
+      content: " ";
+      display: initial !important;
+  }
+  .card.media-card-sm {
+      margin: 10px;
+  }
+  .timeline-icon.ti-text {
+    width: 110px;
+    right: -36px;
+    left: auto;
+    font-size: 10px;
+    line-height: 2.3;
+    text-transform: uppercase;
+}
+.modal-header {
+        border-bottom: 0;
+        padding: 2px !important;
+    }
+    #listhotelsarea .card.media-card-sm {
+         margin: 0px !important; 
+    }
+    #listhotelsarea .media-img {
+      width: 15%;
+      height: inherit;
+  }
+  button .form-control {
+    padding: 3px 6px !important;
+  }
+
+    .modal-lg {
+        width: 1100px;
+    }
+    .ameneties-list-container a {
+      display: block;
+      float: left;
+      margin: 0 10px 10px 0;
+      border: 1px solid #ffbce4;
+      color: #ec008c;
+      padding: 9px 17px;
+      border-radius: 30px;
+      background-color: #fbf6f9;
   }
 </style>
 @endsection
@@ -379,88 +422,8 @@
                <div class="col-sm-12">
                   <h4 class="text-headline">Activity Additional Details</h4>
                   <div class="row">
-                    <ul class="timeline bg-color-switch mt40 timeline-single">
-                      <li class="tl-item">
-                          <div class="timeline-icon ti-text">1. State - City</div>
-                          <div class="card media-card-sm">
-                            <div class="media">
-                              <div class="media-left media-img">
-                                <a href="#">
-                                  <img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="...">
-                                </a>
-                              </div>
-                              <div class="media-body p10">
-                                <h4 class="media-heading">Hotel Name</h4>
-                                <p class="sub-text mt10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat!</p>
-                              </div>
-                           </div>
-                          </div>        
-                        </li>                   
-                        <li class="tl-item">
-                          <div class="timeline-icon ti-text">2. State - City</div>
-                          <div class="card p20">
-                            <div class="media mb10">
-                                <div class="media-left">
-                                  <img src="{{ asset('public/assets/demo/images/faces/face-1.jpg') }}" alt="" class="avatar circle"> 
-                                </div>
-                            <div class="media-body">
-                              <h4 class="media-heading">Andrew Johnson</h4>
-                              <a href="#:;" class="media-subhead">@andrew_johnson
-                              </a>
-                            </div>
-                          </div><!-- /.media -->
-                          <h4 class="mt14 mb8">Repellendus Ipsa</h4>
-                          <p class="sub-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
-                        </div>
-                        </li>
-                        <li class="tl-item">                
-                          <div class="timeline-icon ti-circle"><img class="img-responsive img-circle" src="{{ asset('public/assets/demo/images/faces/face-23.jpg') }}" alt="..."></div>
-                          <h4>Photo's added by Melissa <i class="pull-right sub-text text-small">6 hrs ago</i></h4>
-                          <div class="row">
-                            <div class="divider theme ml14 mr14"></div>
-                            <div class="col-xs-12 col-sm-3 mt20">
-                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-3 mt20">
-                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-3 mt20">
-                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-                            </div>
-                            <div class="col-xs-12 col-sm-3 mt20">
-                              <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-                            </div>
-                          </div>  
-                        </li>             
-                        <li class="tl-item">
-                          <div class="timeline-icon info ti-circle"><i class="mdi mdi-calendar-check"></i></div>
-                          <div class="card">
-                            <div class="media">
-                            <div class="media-left media-img text-center pink accent-2">
-                              <div class="text-display-3 line-height-1 pt20">26</div>
-                              <h3 class="line-height-1">aug</h3>
-                            </div>
-                            <div class="media-body p10">
-                              <h4 class="media-heading mb10">New Event:</h4>
-                              <p class="sub-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
-                            </div>
-                          </div>
-                          </div>        
-                        </li>
-                        <li class="tl-item">
-                          <div class="timeline-icon ti-text">Yesterday</div>
-                          <div class="card media-card-sm">
-                          <div class="media-left media-img">
-                            <a href="#">
-                              <img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-2.jpg') }}" alt="...">
-                            </a>
-                          </div>
-                          <div class="media-body p10">
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, ullam ea repellendus ipsa velit suscipit cupiditate alias cumque dolores quas iure quaerat rerum id earum minima consequatur doloribus itaque maxime!</p>
-                          </div>
-                        </div>
-                        </li> 
+                    <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
+                        
                     </ul>
                   </div>
                 </div>
@@ -475,7 +438,7 @@
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
           </div>
-          <div class="col-md-3 card p8 sticky fixed" >
+          <div class="col-md-3  p8 sticky fixed" >
             <div id="destination-chart" class="destinations-division">
                   <div class="sortable">
                      <div class="card">
@@ -501,11 +464,13 @@
                      <div id="destination-night-area" class="destination-night-area">
                          
                      </div>
-                    
+                      
                       
                   </div>
                </div>
+
            </div>
+           <div class="clearfix"/>
          </div>
       </div>
       <!-- /.page-content -->
@@ -514,6 +479,204 @@
       </a>                
    </div>
    <!-- /.container-fluid -->
+   <div id="CityHotelModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header theme">
+                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title" style="padding-left: 10px;">Choose your hotel</h1>
+                </div><!-- /.modal-header -->
+                
+                    <div class="modal-body">
+                       <div id="dayHotelScroll" class="col-sm-12">
+                          <div id="dayHotelList" class="row ">
+                              <div class="col-md-12">          
+                                <div class="theme z-depth-2 ">
+                                  <div class="toolbar">
+                                    <button class="btn-flat sort" data-sort="name">sort on hotel name</button>
+
+                                    <select id="filterTeams" class="selectpicker hide" data-width="auto">
+                                      <option value="">All Teams</option>
+                                      <option value="Team A">Team A</option>
+                                      <option value="Team B">Team B</option>
+                                      <option value="Team C">Team C</option>
+                                    </select>
+
+                                    <div class="pull-right mr12">
+                                      <div class="float-left input-field theme hidden-xs">
+                                        <i class="mdi mdi-magnify prefix"></i>
+                                <!-- IMPORTANT the input needs class="search" for list.js functions -->
+                                        <input class="search" type="text" placeholder="Search...">
+                                        <div class="input-highlight"></div>
+                                      </div>              
+
+                                      <div class="search-wrapper pull-right">     
+                                        <i class="icon action mdi toolbar-search visible-xs-inline-block"></i>
+
+                                        <form class="search-form visible-xs-inline-block">
+                                          <div class="input-group">
+                                            <span class="input-group-btn no-border">
+                                              <i class="icon action mdi toolbar-back "></i>
+                                            </span>
+                                            <div class="input-field">
+                                              <input type="search" class="search input no-border" placeholder="Search...">
+                                            </div><!-- /.inpt-field -->
+                                            <span class="input-group-addon no-border">
+                                              <i class="icon mdi mdi-magnify"></i>
+                                            </span>
+                                          </div>
+                                        </form>
+                                      </div><!-- /.search-wrapper -->               
+                                    </div>
+                                  </div><!-- /.toolbar -->
+                                </div>
+                                
+                            <!-- The class "list" on the UL element is needed for the list.js functions -->
+                                <ul id="listhotelsarea" class="list list-group list-group-animation item-border paper">
+                                    <li class="list-group-item">
+                                      <div class="card ">
+                                         <div class="media">
+                                          <div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div>
+                                          <div class="media-body p8">
+                                            <div class="row">
+                                              <div class="col-md-10">
+                                                <h4 class="media-heading name">Test</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p>
+                                              </div>
+                                              <div class="col-md-2">
+                                                <p style="margin-bottom: 10px;">at 2,226 more</p>
+                                                
+                                                <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(1)" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button>
+                                                
+                                                <button type="button" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button>
+                                              </div>
+                                            </div>
+                                            
+                                            
+                                          </div>
+                                          </div> 
+                                         
+                                       </div> 
+                                    </li>
+                                  
+                                    <li class="list-group-item">
+                                      <div class="card media-card-sm">
+                                         <div class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading name">Sample</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p></div></div> 
+                                       </div> 
+                                    </li>
+                                 
+                                    <li class="list-group-item">
+                                      <div class="card media-card-sm">
+                                         <div class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Airy Eco Mumbul Giri Puspa C14 Bali</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p></div></div> 
+                                       </div> 
+                                    </li>
+                                  
+                                   
+                                </ul>
+                              </div><!-- /.col -->
+                              <div class="clearfix">  </div>
+                            </div><!-- /.row -->        
+                            <!-- <input class="hide" id="hotelid" name="hotelid" type="text">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="input-field label-float">
+                                        <input placeholder="Country Name" class="clearable" id="country_name" name="country_name" autofocus type="text">
+                                        <label for="country_name" class="fixed-label">{{__('Country Name') }}*</label>
+                                        <div class="input-highlight"></div>
+                                    </div>
+                                   
+                                </div>
+
+                            </div>-->
+                           
+                            
+                        </div><!-- /.row -->    
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                    </div><!-- /.modal-footer -->
+              
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+     <!-- /.container-fluid -->
+   <div id="CityHotelDetailsModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header theme-accent">
+                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title">Hotel details</h1>
+                </div><!-- /.modal-header -->
+                
+                    <div class="modal-body">
+                       <div id="dayHotelScroll" class="col-sm-12">
+                          <div class="row">
+                            <div id="hotel-leftpanel" class="col-md-6">
+                              <h2>La Digue Island Lodge</h2>
+                              <p class="address">Anse Reunion, La Digue</p>
+
+                              <div class="hotel-rating-details">
+                                 <img src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive">
+                                  <!--<div class="right-part">80 Good <a class="sur-ipink">(156 reviews)</a></div>-->
+                                  <div style="clear:both"></div>
+                              </div> 
+                              <div class="row ">
+
+                                  <div class="divider theme ml14 mr14"></div>
+                                  <div class="col-xs-12 col-sm-3 mt20">
+                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
+                                    
+                                  </div>
+                                  <div class="col-xs-12 col-sm-3 mt20">
+                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
+                                    
+                                  </div>
+                                  <div class="col-xs-12 col-sm-3 mt20">
+                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
+                                    
+                                  </div>
+                                  <div class="col-xs-12 col-sm-3 mt20">
+                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
+                                     
+                                  </div>
+                              </div>   
+                              <br>
+                              <div class="hotel-description">
+                                  <p><b>Property Location</b> <br>With a stay at La Digue Island Lodge in La Digue, you'll be on the beach, within a 5-minute drive of Source D'Argent Beach and Anse Severe Beach.  This beach hotel is 7.8 mi (12.6 km) from Vallee de Mai Nature Reserve and 9.4 mi (15.1 km) from Grand Anse Beach.</p>
+                                  <p><b>Rooms</b> <br>Make yourself at home in one of the 89 air-conditioned rooms featuring refrigerators. Cable television is provided for your entertainment. Private bathrooms with bathtubs or showers feature complimentary toiletries and bathrobes. Conveniences include safes and desks, and housekeeping is provided daily.</p>
+                              </div>
+                              <h2>Ameneties</h2>
+                              <div class="ameneties-list-container">
+                                <a>Babysitting or childcare (surcharge)</a> 
+                                <a>Bar/lounge</a> 
+                                <a>Barbecue grill(s)</a> 
+                                <a>Beach towels</a> 
+                                <a>Beach umbrellas</a> 
+                                <a>Breakfast available (surcharge)</a> 
+                                <a>Free WiFi</a> 
+                                <a>Free area shuttle</a> 
+                                <a>Front desk (limited hours)</a> 
+                                <a>Garden</a> 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                              </div>
+                            </div>
+                            <div id="hotel-rightpanel" class="col-md-6">
+                              
+                            </div>
+                          </div>
+                           
+                              
+                            
+                        </div><!-- /.row -->    
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                    </div><!-- /.modal-footer -->
+              
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </section>
 <!-- /.content-wrapper -->
 @endsection
@@ -523,7 +686,9 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/sortable/sortable.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/smoothscroll/smooth-scroll.js') }}"></script>
-
+<script src="{{ asset('public/assets/dist/js/plugins/list/list.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/list/list.pagination.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/code-prettify/prettify.js') }}"></script>
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
@@ -797,29 +962,92 @@
    })(jQuery);
    function PickPlace(paramscity){
     //console.log(paramscity);
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.statename+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityname+"' }";
+      //var passparamscity = '"'+paramscity+'"';
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
       $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
       var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+      var imagedummy =  image_url+'/city/no-image.png';
 
       $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
+
+      $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div class="media"><div class="media-left media-img"><a href="#"><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4><button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light "><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
    }
    function DeleteNight(cityid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
            $("#place_night_"+cityid).remove();
+           $("#picked-hotelli-"+cityid).remove();
       }else{
        // alert('Failed to delete');
       }
       
   }
-  $(window).scroll(function(){
-    var sticky = $('.sticky'),
-        scroll = $(window).scrollTop();
+  function PickHotel(paramscity){
+     $("#CityHotelModal").modal();
+  }
+  $(document).ready(function() {
 
-    if (scroll >= 100) sticky.addClass('fixed');
-    else sticky.removeClass('fixed');
-  });
+      var options = {
+        // the classnames where we can filter on
+          valueNames: [ 'name', 'team' ] 
+      };
+
+      // teamList is the ID on the list wrapper in the html markup.
+      var demoList = new List('dayHotelList', options);
+
+      // Filter function on the select
+      // $('#filterTeams').on('change', function() {
+      //   var filterItem = $(this).val();
+
+      //   //check if the selected option has a value.
+      //   if (filterItem.length) {
+      //     alert('hi');
+      //     demoList.filter(function(item) {
+      //           return (item.values().team === filterItem);
+      //       });
+      //     $("#listhotelsarea").mCustomScrollbar({
+      //         theme:"dark",
+      //         autoHideScrollbar: true,
+      //         setHeight: 250,
+      //     });
+      //     // If value is empty reset filters.
+      //   } else {
+      //     demoList.filter();
+      //     $("#listhotelsarea").mCustomScrollbar({
+      //         theme:"dark",
+      //         autoHideScrollbar: true,
+      //         setHeight: 250,
+      //     });
+      //   }
+      // });
+
+      prettyPrint();
+
+      $("#dayHotelScroll,#hotel-leftpanel,#hotel-rightpanel").mCustomScrollbar({
+          theme:"dark",
+          autoHideScrollbar: true,
+          setHeight: 480,
+      });
+      // $("#listhotelsarea").mCustomScrollbar({
+      //         theme:"dark",
+      //         autoHideScrollbar: true,
+      //         setHeight: 250,
+      //     });
+
+
+    });
+  function ViewHotelDetails(autoid){
+    $("#CityHotelDetailsModal").modal();
+  }
+  // $(window).scroll(function(){
+  //   var sticky = $('.sticky'),
+  //       scroll = $(window).scrollTop();
+
+  //   if (scroll >= 100) sticky.addClass('fixed');
+  //   else sticky.removeClass('fixed');
+  // });
 </script>
 @endsection
