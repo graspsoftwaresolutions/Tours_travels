@@ -2,6 +2,8 @@
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
   .form-group {
     margin-bottom: 10px !important;
@@ -29,6 +31,9 @@
   .dropdown-menu li {
     padding: 0 20px !important;
   }
+  .myselect {
+  visibility: hidden;
+}
 </style>
 @endsection
 
@@ -229,24 +234,59 @@
 						        <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
 						 
 						        <div class="row">
-    									<div class="col-sm-6">
+    									<div class="col-sm-4">
     									  <div class="select-row form-group">
                             <label for="room_type" class="block">{{__('Room Type') }}</label>                 
-
-                            <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                            <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" multiple data-width="100%">
+                            <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                  <option value="" disabled="true">{{__('Select Room Type') }}
                                  </option>
                                   @foreach ($data['types_view'] as $type)
                                   <option value="{{ $type->id }}">{{ $type->room_type }}</option>
                                   @endforeach
-                            </select>        
+                            </select>     
+                             <div class="input-highlight"></div>                       
+                        </div><!-- /.form-group -->
+    									</div><!-- ./col- -->
+                      <div class="col-sm-4">
+    									  <div class="select-row form-group">
+                        <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
+                              <input placeholder="Price" class="clearable" id="price" name="price" type="text">
+                                          
+
+                            <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
+                                  
+                             <div class="input-highlight"></div>                       
+                        </div><!-- /.form-group -->
+    									</div><!-- ./col- -->
+                      <div class="col-sm-2">
+    									  <div class="select-row form-group">
+                            <a class="btn" id="price_add" title="Add"><i style="font-size: 22px; color: #ec415f;" class="fa fa-plus-circle"></i></a>
+                        <!-- <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a>  -->
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
     									</div><!-- ./col- -->
 									
 							       </div><!-- /.row -->
-
+                     <br></br> 
+                      <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-11 mt11">
+                            <div class="paper">
+                              <table id="ExclusionTable" class="table-centered table-hover paper update-table">
+                                  <thead>
+                                    <tr>
+                                        <th>Room Type</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="exampleTable">
+                                  </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        </div><!-- ./col- -->
+                          <br></br>
                       <div class="row">
                         <div class="col-sm-6">
                            <div class="form-group">
@@ -347,6 +387,33 @@
 <script>
 	$("#dashboard_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
+  $(document).ready(function() {
+      $('#price_add').click(function(){
+
+        var room_type_id  =  $("#room_type").val(); 
+        var room_name =$('#room_type option:selected').html();
+        var price = $('#price').val();
+        var room_type = $('#room_type').val();
+        var slno=0;
+        var price = $('#price').val();
+        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+        slno++;
+        $('#price').val('');
+        $('#room_type').prop('selectedIndex',0);
+      });
+  $(document).on('click', 'button.removebutton', function () {
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
+              $(this).closest('tr').remove();
+              return true;
+          } else {
+              return false;
+          }
+   });
+
+//   $('#room_type').on('change', function (e) {
+//     alert('hii');
+// });
+});
  
   form.steps({
       headerTag: "h3",

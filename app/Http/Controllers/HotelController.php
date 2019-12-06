@@ -84,18 +84,21 @@ class HotelController extends CommonController
                 );
             }
         }
-        
     //    / dd( $amenities);
 
-        $room_type = $request->input('room_type');
-        if(isset($room_type)){
-            foreach ($room_type as $type) {
-                DB::table('hotel_roomtypes')->insert(
-                    ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
-                );
-            }
-        }
-
+          $check_room_type = $request->input('room_typ');
+          if(isset($check_room_type))
+          {
+             $room_count = count($request->input('room_typ'));
+              for($i=0;$i<$room_count;$i++)
+              {
+                    $price = $request->input('price')[$i];
+                    $room_type = $request->input('room_typ')[$i];
+                    DB::table('hotel_roomtypes')->insert(
+                                    ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price]
+                                );
+              }
+          }
         //$file_name = $hotel->id.strtotime('Ymd');
         // $imageName = $hotel->id.time().'.'.$request->hotel_images->getClientOriginalExtension();
 
@@ -120,6 +123,10 @@ class HotelController extends CommonController
         $data['hotel_data'] = Hotel::where('id','=',$autoid)->first();
         $data['hotel_features'] = DB::table('hotel_amenities')->where('hotel_id','=', $autoid)->pluck('amenity_id')->toArray();
         $data['hotel_types'] = DB::table('hotel_roomtypes')->where('hotel_id','=', $autoid)->pluck('roomtype_id')->toArray();
+        $data['hote_roomtype_data'] =  DB::table('hotel_roomtypes as room')->select('hot.id as hotelid','hot.hotel_name','room.hotel_id','room.roomtype_id','room.price','room.id as roomtypeid','roomtype.room_type','roomtype.id as roomtypeid') 
+                                        ->leftjoin('hotels as hot','room.hotel_id','=','hot.id')
+                                        ->leftjoin('room_type as roomtype','room.roomtype_id','=','roomtype.id')
+                                        ->where('hotel_id','=', $autoid)->get();
         $data['hotel_images'] = DB::table('hotel_images')->where('hotel_id','=', $autoid)->get();
         return view('hotels.edit',compact('data',$data));
     }

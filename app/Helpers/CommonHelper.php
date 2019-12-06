@@ -121,6 +121,10 @@ class CommonHelper
 	public static function getCityList($stateid){
         return DB::table('city')->select('id','city_name')->where('status','=','1')->where('state_id','=',$stateid)->get();
     }
+    public static function getroomtypename($values)
+    {
+        
+    }
 	
 	
 }

@@ -16,11 +16,8 @@
 // });
 
 Auth::routes();
-
 Route::get('/', 'Auth\LoginController@custom_login');
-
 Route::get('/home', 'HomeController@index')->name('home');
-
 //Country Master Details 
 Route::post('ajax_countries_list','AjaxController@ajax_countries_list')->name('master.ajaxcountrieslist');
 Route::get('country','MasterController@countryList')->name('master.country');
