@@ -107,7 +107,6 @@ Route::get('tax','HomeController@taxSettings')->name('tax.new');
 Route::post('tax_save','HomeController@taxSave')->name('tax_save');
 
 //Websie
-
 Route::get('website','HomeController@websiteSettings')->name('website.new');
 Route::post('website_save','HomeController@websiteSave')->name('website_save');
 
@@ -128,3 +127,4 @@ Route::post('/package_new', 'PackageController@packageSave')->name('package_save
 
 Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
 Route::get('city_hotels_details','PackageController@HotelDetails')->name('hotel.details');
+Route::get('/hotel_detail', 'CommonController@hotelDetail')->name('hotel_detail');
