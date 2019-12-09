@@ -162,6 +162,49 @@
       vertical-align: middle;
       border-radius: 5px;
   }
+  #listactivitiesarea .card.media-card-sm {
+         margin: 0px !important; 
+    }
+    #listactivitiesarea .media-img {
+      width: 12%;
+      height: inherit;
+  }
+
+  #listactivitiesarea .form-control {
+      display: block;
+      width: 100%;
+      height: 27px;
+      padding: 3px 8px;
+  }
+
+  #listactivitiesarea .media{
+     height: 110px;
+  }
+  .list-group-item.item-avatar .overall-place-activitylist {
+    padding-left: 120px !important;
+    position: relative;
+    min-height: 59px;
+}
+ .overall-place-activitylist img {
+      position: absolute;
+      display: inline-block;
+      left: 16px;
+      width: 100px !important;
+      height: 100px !important;
+      font-size: 22px;
+      line-height: 42px;
+      font-style: normal;
+      text-align: center;
+      overflow: hidden;
+      vertical-align: middle;
+      border-radius: 5px;
+  }
+
+  .activities-summary{
+    padding-top: 30px;
+  }
+ 
+
 </style>
 @endsection
 @section('main-content')	
@@ -497,6 +540,59 @@
                 </div>
             
             </fieldset>
+            <h3>Summary</h3>
+            <fieldset>
+                <div class="col-sm-12">
+                  <h4 class="text-headline">Summary</h4>
+                  <div class="row sortable">
+                    <div class="card">
+                      <div class="card-image">
+                          <img src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
+                          <div class="card-title">Bridges<br><span class="text-small">San Fransisco Bridge</span></div>
+                      </div>
+                       <ul id="overall-summary" class="timeline bg-color-switch mt40 timeline-single">
+                          <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
+                            <div class="timeline-icon ti-text">Sarawak - Bintulu</div>
+                            <div id="place-activitylist-3" class="overall-place-activitylist">
+                              <div id="summary_activity_id_1" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">tes</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 30</a><p><a onclick="return RemoveActivity(1,3)" style="color: red;cursor:pointer;" class="">Remove</a></p></div>
+                               <div style="clear:both"></div>
+                              
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="activities-summary">
+                                   <div class="activites-details" >
+                                <span class="activity-1575936000">
+                                    <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div>
+                                </span>
+                            </div>
+                            <div style="clear:both"></div>
+                            
+                        </div>
+                          </li>
+                           <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
+                            <div class="timeline-icon ti-text">Sarawak - Miri</div>
+                            <div id="place-activitylist-3" class="overall-place-activitylist">
+                              <div id="summary_activity_id_1" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">tes</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 30</a><p><a onclick="return RemoveActivity(1,3)" style="color: red;cursor:pointer;" class="">Remove</a></p></div>
+                               <div style="clear:both"></div>
+                              
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="activities-summary">
+                                   <div class="activites-details" >
+                                <span class="activity-1575936000">
+                                    <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div>
+                                </span>
+                            </div>
+                            <div style="clear:both"></div>
+                            
+                        </div>
+                          </li>
+                       </ul>
+                    </div>
+                  </div>
+                </div>
+            
+            </fieldset>
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
           </div>
@@ -743,10 +839,10 @@
                 </div><!-- /.modal-header -->
                 
                     <div class="modal-body">
-                        <h4 id="hotelcityname" class="">Sarawak - Bintulu</h4>   
-                        <div id="dayHotelScroll" class="col-sm-12">
+                        <h4 id="activitycityname" class="">Sarawak - Bintulu</h4>   
+                        <div id="dayactivityScroll" class="col-sm-12">
 
-                          <div id="dayHotelList" class="row ">
+                          <div id="dayActivityList" class="row ">
                               <div class="col-md-12">  
 
                                 <div class="theme z-depth-2 hide">
@@ -840,6 +936,96 @@
                     <div class="modal-footer">
                         <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
                         
+                    </div><!-- /.modal-footer -->
+              
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="CityActivityDetailsModal" class="modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header theme-accent">
+                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title">Activity details</h1>
+                </div><!-- /.modal-header -->
+                
+                    <div class="modal-body">
+                       <div id="dayHotelScroll" class="col-sm-12">
+                          <div class="row">
+                            <div id="hotel-leftpanel" class="col-md-6">
+                              <h2 id="view-activity-name" class="">La Digue Island Lodge</h2>
+                              <p id="activity-state-city-name" class="address">Anse Reunion, La Digue</p>
+
+                              <div class="hotel-rating-details">
+                                 <img id="view-activity-full-image" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive">
+                                  <!--<div class="right-part">80 Good <a class="sur-ipink">(156 reviews)</a></div>-->
+                                  <div style="clear:both"></div>
+                              </div> 
+                              <div class="row ">
+
+                                  <div class="divider theme ml14 mr14"></div>
+                                  <div id="view-activity-imagearea">
+                                  </div>
+                                  
+                              </div>   
+                              <br>
+                             
+                            <!--   <div class="hotel-description">
+                                  <p><b>Property Location</b> <br>With a stay at La Digue Island Lodge in La Digue, you'll be on the beach, within a 5-minute drive of Source D'Argent Beach and Anse Severe Beach.  This beach hotel is 7.8 mi (12.6 km) from Vallee de Mai Nature Reserve and 9.4 mi (15.1 km) from Grand Anse Beach.</p>
+                                  <p><b>Rooms</b> <br>Make yourself at home in one of the 89 air-conditioned rooms featuring refrigerators. Cable television is provided for your entertainment. Private bathrooms with bathtubs or showers feature complimentary toiletries and bathrobes. Conveniences include safes and desks, and housekeeping is provided daily.</p>
+                              </div> -->
+                              
+                               <h2>Overview </h2>
+                               
+                              <div id="view-activity-overview" class="hotel-description">
+                                 
+                              </div>
+                            </div>
+                            <div id="hotel-rightpanel" class="col-md-6">
+                              <h2 id="activity_duration"> <span id="view_activity_duration"> Room Types </span>  <a id="activity_price" class="pull-right">1500</a></h2>
+                              <div id="view-hotel-roomtypes" class="room-type-header">
+
+                              </div>
+                               <h2>Inclusions </h2>
+                                <div id="view-activity-inclusion" class="hotel-description">
+                                  <ul id="view-activity-inclusion-list">
+                                    
+                                  </ul>
+                                </div>
+                              <br>
+                               <h2>Exclusions </h2>
+                                <div id="view-activity-exclusion" class="hotel-description">
+                                  <ul id="view-activity-exclussion-list">
+                                   
+                                  </ul>
+                                </div>
+                              <br>
+                               <h2>Additional info </h2>
+                                <div id="view-activity-additional-info" class="hotel-description">
+                                 
+                               </div>
+                               <!-- <div class="room-type-header">
+                                  <h3>
+                                      Yellow House - Adults Only 1 double bed &nbsp;(Non refundable) </h3>
+                                  <div>at <i class="fa fa-inr"></i> 14,460 more</div>
+                                  <a class="popover-anchor" data-toggle="popover" data-trigger="hover" data-placement="left" data-container="body" data-title="Cancellation Policy" data-content="This rate is non-refundable. If you choose to change or cancel this booking you will not be refunded any of the payment." data-original-title="" title="">Cancellation Policy</a>
+                                  
+
+                              </div>
+                               <div class="hotel-description">
+                                  Extra-person charges may apply and vary depending on property policy. <br>Government-issued photo identification and a credit card, debit card, or cash deposit are required at check-in for incidental charges. <br>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.  <ul><li>No onsite parking is available. </li>Please note that cultural norms and guest policies may differ by country and by property. The policies listed are provided by the property. </ul> Outside food and beverages are not permitted on the premises. For more details, please contact the property using the information on the reservation confirmation received after booking.
+                              </div> -->
+                              <button id="viewactivityconfirm" type="button" onclick="" class="btn btn-sm green waves-effect waves-theme">Confirm</button>
+                            </div>
+                          </div>
+                           
+                              
+                            
+                        </div><!-- /.row -->    
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->
@@ -1145,7 +1331,7 @@
 
       $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
-      $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+      $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
       
    }
@@ -1194,7 +1380,7 @@
                   }); 
                   var hotelimages = value.hotelimages;
                   var imagelocation = image_url+'/city/no-image.png';
-
+viewactivityconfirm
                   if(hotelimages.length>0){
                      var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
                   }
@@ -1212,6 +1398,7 @@
      
 
       $("#hotelcityname").html(place_area);
+      $("#activitycityname").html(place_area);
       $("#CityHotelModal").modal();
   }
   $(document).ready(function() {
@@ -1252,7 +1439,7 @@
 
       prettyPrint();
 
-      $("#dayHotelScroll,#hotel-leftpanel,#hotel-rightpanel").mCustomScrollbar({
+      $("#dayHotelScroll,#hotel-leftpanel,#hotel-rightpanel,#dayactivityScroll").mCustomScrollbar({
           theme:"dark",
           autoHideScrollbar: true,
           setHeight: 480,
@@ -1383,7 +1570,7 @@
 
       $("#listactivitiesarea").empty();
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ url('/city_hotels') }}" + '?city_id=' + paramscity.cityid;
+      var url = "{{ url('/city_activities') }}" + '?city_id=' + paramscity.cityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -1392,36 +1579,19 @@
                //console.log(resultdata);
 
                $.each(resultdata, function(key, value) {
-                  var amenitieslist = value.amenities;
-                  var amenitiesString = '';
-                  var amenities_len = amenitieslist.length;
-                  $.each(amenitieslist, function(keya, valuea) {
-                    //console.log(keya);
-                    amenitiesString += valuea.amenities_name;
-                    if(amenities_len-1!=keya){
-                        amenitiesString += ', ';
-                    }
-                  }); 
-                  var roomtypeslist = value.roomtypes;
-                  var roomtypesString = '';
-                  var roomtypes_len = roomtypeslist.length;
-                  $.each(roomtypeslist, function(keya, valuea) {
-                    //console.log(keya);
-                    roomtypesString += valuea.room_type;
-                    if(roomtypes_len-1!=keya){
-                        roomtypesString += ', ';
-                    }
-                  }); 
-                  var hotelimages = value.hotelimages;
+                
+                  var activityimages = value.activity_images;
                   var imagelocation = image_url+'/city/no-image.png';
 
-                  if(hotelimages.length>0){
-                     var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+                  if(activityimages.length>0){
+                     var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
                   }
+
+                  var activityduration = (value.duartion_hours/60).toFixed(0)+' hour '+(value.duartion_hours%60)+' minutes';
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 });
               // $('#masterid').val(result.id);
               // $('#masterid').attr('data-autoid', result.id);
@@ -1434,6 +1604,126 @@
       $("#hotelcityname").html(place_area);
       $("#CityActivityModal").modal();
   }
+
+  function ViewActivityDetails(activityid,paramscity){
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+      //console.log(paramscity);
+      var place_area = paramscity.statename+' - '+paramscity.cityname;
+      var url = "{{ url('/city_activity_details') }}" + '?activity_id=' + activityid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+            $("#view-activity-name").html(resultdata.title_name);
+            $("#activity-state-city-name").html(place_area);
+             var activityimages = resultdata.activity_images;
+              var imagelocation = image_url+'/city/no-image.png';
+
+              if(activityimages.length>0){
+                 var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
+              }
+            $("#view-activity-full-image").attr("src", imagelocation);
+            $("#view-activity-imagearea").empty();
+            $.each(activityimages, function(key, value) {
+              var imagefolder = image_url+'/hotels/';
+              if(key<=4){
+                var imagefullname = imagefolder+value.image_name;
+                var passimagename = "{  imagename: '"+imagefullname+"' }";
+                $("#view-activity-imagearea").append('<div class="col-xs-12 col-sm-3 mt20"><img onclick="return setActivityFullImage('+passimagename+')" style="width:100px;height:65px;cursor:pointer;" class="responsive-img z-depth-1" src="'+imagefullname+'" alt=""></div>');
+              }
+            });
+
+            // var amenitieslist = resultdata.amenities;
+            // $("#ameneties-list-container").empty();
+            // $.each(amenitieslist, function(keya, valuea) {
+            //   $("#ameneties-list-container").append('<a>'+valuea.amenities_name+'</a>');
+            // }); 
+
+            // $("#ameneties-list-container").append('<div style="clear:both"></div>');
+
+              var activityduration = (resultdata.duartion_hours/60).toFixed(0)+' hour '+(resultdata.duartion_hours%60)+' minutes';
+            $("#view-activity-overview").html(resultdata.overview);
+            $("#view-activity-additional-info").html(resultdata.additional_info);
+            $("#view_activity_duration").html(activityduration);
+            $("#activity_price").html( 'at '+resultdata.amount);
+
+            $("#view-activity-inclusion-list").empty();
+            //  var roomtypeslist = resultdata.roomtypes;
+            //  $("#view-hotel-roomtypes").empty();
+            $.each(JSON.parse(resultdata.inclusion_name), function(keya, valuea) {
+           
+              $("#view-activity-inclusion-list").append('<li>'+valuea+'</li>');
+             
+            }); 
+
+            $("#view-activity-exclussion-list").empty();
+            //  var roomtypeslist = resultdata.roomtypes;
+            //  $("#view-hotel-roomtypes").empty();
+            $.each(JSON.parse(resultdata.exclusion_name), function(keya, valuea) {
+           
+              $("#view-activity-exclussion-list").append('<li>'+valuea+'</li>');
+             
+            }); 
+            //  $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');
+
+            //$("#view-hotel-listdescription").html(resultdata.listing_descriptions);
+            $('#viewactivityconfirm').attr('onclick', 'return ConfirmActivity('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
+          }
+      });
+
+    $("#CityActivityDetailsModal").modal();
+  }
+
+  function setActivityFullImage(imageobj){
+    var imagename = imageobj.imagename;
+    $("#view-activity-full-image").attr("src", imagename);
+    
+  }
+  function ConfirmActivity(activityid,cityid,paramscity){
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+    //$("#picked-hotelmedia-"+cityid).empty();
+    //var imagename ='';
+    var place_area = paramscity.statename+' - '+paramscity.cityname;
+
+    var url = "{{ url('/city_activity_details') }}" + '?activity_id=' + activityid;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function(resultdata) {
+           var hotelimages = resultdata.activity_images;
+            var imagelocation = image_url+'/city/no-image.png';
+
+            if(hotelimages.length>0){
+               var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+            }
+
+            var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_activity_city_id[]" id="second_activity_city_id" value="'+cityid+'"/>';
+
+            $("#place-activitylist-"+cityid).append('<div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a href="#:;" class="msg-sub">'+resultdata.title_name+'</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div>');
+            $("#pick-actitity-link-"+cityid).css('top','-20px');
+        }
+    });
+
+    
+    //alert(hotelid);
+    $("#CityActivityDetailsModal").modal('hide');
+    $("#CityActivityModal").modal('hide')
+  }
+  function RemoveActivity(activityid,cityid){
+    $("#city_activity_id_"+activityid).remove();
+  }
+  $('#overall-summary').sortable({
+    axis: 'y',
+    update: function (event, ui) {
+       alert('fdg');
+    }
+});
+  // $("#overall-summary").sortable(
+  //   update: function (event, ui) {
+  //     alert('hi');
+  //   });
   // $(window).scroll(function(){
   //   var sticky = $('.sticky'),
   //       scroll = $(window).scrollTop();

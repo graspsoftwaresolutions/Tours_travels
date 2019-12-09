@@ -120,4 +120,44 @@ class PackageController extends Controller
        // $data['hotel_features'] = $hotels;
         return json_encode($hotels);
     }
+
+    public function ActivitiesList(Request $request){
+        $city_id = $request->input('city_id');
+        //dd(Hotel::find(15)->hotelimages()->get());
+        $activities = Activity::with(
+            array(
+                // 'amenities'=>function($query){
+                //     $query->select('amenities_name');
+                // },
+                // 'roomtypes'=>function($query){
+                //     $query->select('room_type');
+                // },
+                'activity_images'
+            ))->where('city_id','=',$city_id)->get();
+        //$hotels = Hotel::where('city_id','=',$city_id)->get();
+       // $products = $hotels->amenities;
+        //dd($products);
+        $data['activity_data'] = $activities;
+       // $data['hotel_features'] = $hotels;
+        return json_encode($activities);
+    }
+
+    public function ActivityDetails(Request $request){
+        $activity_id = $request->input('activity_id');
+        //dd(Hotel::find(15)->hotelimages()->get());
+        $activities = Activity::with(
+            array(
+                // 'amenities'=>function($query){
+                //     $query->select('amenities_name');
+                // },
+                // 'roomtypes',
+                'activity_images'
+            ))->where('id','=',$activity_id)->first();
+        //$hotels = Hotel::where('city_id','=',$city_id)->get();
+       // $products = $hotels->amenities;
+        //dd($products);
+        $data['activity_data'] = $activities;
+       // $data['hotel_features'] = $hotels;
+        return json_encode($activities);
+    }
 }

@@ -166,6 +166,7 @@ class ActivityController extends BaseController
         }
         $Activitysavedata->status = 1;
         $Activitysavedata->save();
+        $last_id = $Activitysavedata->id;
 
        // $files = $request->file('image_name');
         if($request->hasfile('image_name'))

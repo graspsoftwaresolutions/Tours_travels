@@ -126,5 +126,7 @@ Route::post('/package_new', 'PackageController@packageSave')->name('package_save
 
 
 Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
+Route::get('city_activities','PackageController@ActivitiesList')->name('city.activities');
 Route::get('city_hotels_details','PackageController@HotelDetails')->name('hotel.details');
+Route::get('city_activity_details','PackageController@ActivityDetails')->name('activity.details');
 Route::get('/hotel_detail', 'CommonController@hotelDetail')->name('hotel_detail');
