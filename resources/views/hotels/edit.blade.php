@@ -266,7 +266,8 @@
     									</div><!-- ./col- -->
                       <div class="col-sm-2">
     									  <div class="select-row form-group">
-                            <a class="btn" id="price_add" title="Add"><i style="font-size: 22px; color: #ec415f;" class="fa fa-plus-circle"></i></a>
+                        <label for="address_one" class="fixed-label"></label> 
+                            <a class="btn" id="price_add" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD</a>
                         <!-- <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a>  -->
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
@@ -289,11 +290,11 @@
                                   <tbody id="exampleTable">
                                     @foreach($data['hote_roomtype_data'] as $val)
                                     <tr>
-                                    
+                                    <input type="hidden" id="currentRow"/>
                                         <td>{{$val->room_type}}</td>
                                         <td>{{$val->price}}</td>
                                         <td>
-                                        <a href="" data-toggle="modal" data-target="#myModal" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
+                                        <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button>
                                         <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr>
                                     @endforeach
@@ -387,8 +388,7 @@
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
                             <h1 class="modal-title">Edit Hotel Room Details</h1>
                         </div><!-- /.modal-header -->
-                        <form class="formValidate" id="countryformValidate" method="post" action="{{ route('master.savecountry') }}">
-                            @csrf
+
                             <div class="modal-body">
                                <div class="col-sm-12">
                                      <input class="hide" id="masterid" name="masterid" type="text">
@@ -397,10 +397,10 @@
                                             <div class="input-field label-float">
                                             <label for="room_type" class="block fixed-label">{{__('Room Type') }}</label>                 
                                                 <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                                                <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                                <select id="room_type_modal" name="room_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                                     <option value="" disabled="true">{{__('Select Room Type') }}
                                                     </option>
-                                                      @foreach ($data['types_view'] as $type)
+                                                      @foreach($data['types_view'] as $type)
                                                       <option value="{{ $type->id }}">{{ $type->room_type }}</option>
                                                       @endforeach
                                                 </select>  
@@ -411,7 +411,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                   <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
-                                                  <input placeholder="Price" class="clearable" id="price" name="price" type="text">
+                                                  <input placeholder="Price" class="clearable" id="modal_price" name="price" type="text">
                                                 <div class="input-highlight"></div>
                                             </div>
                                            
@@ -426,7 +426,7 @@
                                 <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
                                 <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
                             </div><!-- /.modal-footer -->
-                        </form>
+                        
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
@@ -452,22 +452,46 @@
 <script>
 	$("#hotel_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
-  
-
+  function showeditForm(hotelroomtypeid,hotelid) {
+        $("#myModal").modal();
+         var  url = "{{ url('/hotel_detail') }}?roomtypeid="+hotelroomtypeid+'&hotelid=' + hotelid ;
+       $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function(result) {
+           console.log(result.room_type);
+            $('#modal_price').val(result.price);
+            $('#room_type_modal').selectpicker('val', result.roomtype_id);
+        }
+    });
+    }
   $(document).ready(function() {
-      $('#price_add').click(function(){
+    $('#saveMasterButton').click(function(){
+        var modal_roomid = $("#room_type_modal").val();
+        alert(modal_roomid);
+        var modal_roomname =$('#room_type_modal option:selected').html();
+        var modal_price = $('#modal_price').val();
+        
+      });
 
+        $('#price_add').click(function(){
         var room_type_id  =  $("#room_type").val(); 
         var room_name =$('#room_type option:selected').html();
         var price = $('#price').val();
         var room_type = $('#room_type').val();
         var slno=0;
         var price = $('#price').val();
-        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td>    <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
         slno++;
         $('#price').val('');
         $('#room_type').prop('selectedIndex',0);
       });
+
+});
+  $(document).on('click', 'span.editrow', function () {
+  $(".roomtypeidvalue").val($(this).closest("tr").attr("id"));
+});
   $(document).on('click', 'button.removebutton', function () {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
               $(this).closest('tr').remove();
@@ -476,7 +500,6 @@
               return false;
           }
    });
-  });
   form.steps({
       headerTag: "h3",
       bodyTag: "fieldset",
