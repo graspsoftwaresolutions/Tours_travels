@@ -3,6 +3,7 @@
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/pages/inbox.css') }}" rel="stylesheet" type="text/css"> 
 <style type="text/css">
    .form-group {
    margin-bottom: 10px !important;
@@ -113,7 +114,7 @@
          margin: 0px !important; 
     }
     #listhotelsarea .media-img {
-      width: 15%;
+      width: 12%;
       height: inherit;
   }
   button .form-control {
@@ -132,6 +133,34 @@
       padding: 9px 17px;
       border-radius: 30px;
       background-color: #fbf6f9;
+  }
+  .timeline.timeline-single {
+      max-width: 800px;
+      overflow-x: hidden;
+      padding-left: 40px;
+      padding-right: 10px;
+  }
+  #place-activities .list-group-item.item-avatar {
+      padding-left: 72px !important;
+      position: relative;
+      min-height: 59px;
+  }
+  .msg-row .msg-wrapper {
+      padding: 15px 15px;
+  }
+  #place-activities .list-group-item.item-avatar .avatar {
+      position: absolute;
+      display: inline-block;
+      left: 16px;
+      width: 64px;
+      height: 64px;
+      font-size: 22px;
+      line-height: 42px;
+      font-style: normal;
+      text-align: center;
+      overflow: hidden;
+      vertical-align: middle;
+      border-radius: 5px;
   }
 </style>
 @endsection
@@ -420,7 +449,7 @@
             <h3>Hotels</h3>
             <fieldset>
                <div class="col-sm-12">
-                  <h4 class="text-headline">Activity Additional Details</h4>
+                  <h4 class="text-headline">Accommodation</h4>
                   <div class="row">
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
                         
@@ -432,7 +461,40 @@
             </fieldset>
             <h3>Activities</h3>
             <fieldset>
-            
+                <div class="col-sm-12">
+                  <h4 class="text-headline">Activities</h4>
+                  <div class="row">
+                    <ul id="place-activities" class="timeline bg-color-switch mt40 timeline-single">
+                        <!-- <li id="picked-activityli-28" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">Sarawak - Miri</div>
+                          <div class="msg-wrapper">
+                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
+                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
+                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
+                              <p><a href="#" style="color: red;" class="">Remove</a></p>
+                              
+                          </div>
+                          <div class="msg-wrapper">
+                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
+                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
+                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
+                              <p><a href="#" style="color: red;" class="">Remove</a></p>
+                              
+                          </div>
+                          <div class="msg-wrapper">
+                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
+                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
+                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
+                              <p><a href="#" style="color: red;" class="">Remove</a></p>
+                              
+                          </div>
+                          <a href="#" style="top: -20px;" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
+
+                        </li> -->
+                        
+
+                    </ul>
+                  </div>
+                </div>
             
             </fieldset>
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
@@ -488,19 +550,22 @@
                 </div><!-- /.modal-header -->
                 
                     <div class="modal-body">
-                       <div id="dayHotelScroll" class="col-sm-12">
+                        <h4 id="hotelcityname" class="">Sarawak - Bintulu</h4>   
+                        <div id="dayHotelScroll" class="col-sm-12">
+
                           <div id="dayHotelList" class="row ">
-                              <div class="col-md-12">          
-                                <div class="theme z-depth-2 ">
+                              <div class="col-md-12">  
+
+                                <div class="theme z-depth-2 hide">
                                   <div class="toolbar">
                                     <button class="btn-flat sort" data-sort="name">sort on hotel name</button>
 
-                                    <select id="filterTeams" class="selectpicker hide" data-width="auto">
+                                    <!-- <select id="filterTeams" class="selectpicker hide" data-width="auto">
                                       <option value="">All Teams</option>
                                       <option value="Team A">Team A</option>
                                       <option value="Team B">Team B</option>
                                       <option value="Team C">Team C</option>
-                                    </select>
+                                    </select> -->
 
                                     <div class="pull-right mr12">
                                       <div class="float-left input-field theme hidden-xs">
@@ -533,10 +598,10 @@
                                 
                             <!-- The class "list" on the UL element is needed for the list.js functions -->
                                 <ul id="listhotelsarea" class="list list-group list-group-animation item-border paper">
-                                    <li class="list-group-item">
+                                    <!-- <li class="list-group-item">
                                       <div class="card ">
                                          <div class="media">
-                                          <div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div>
+                                          <div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" style="height: 130px;" alt="..."></a></div>
                                           <div class="media-body p8">
                                             <div class="row">
                                               <div class="col-md-10">
@@ -556,19 +621,7 @@
                                           </div> 
                                          
                                        </div> 
-                                    </li>
-                                  
-                                    <li class="list-group-item">
-                                      <div class="card media-card-sm">
-                                         <div class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading name">Sample</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p></div></div> 
-                                       </div> 
-                                    </li>
-                                 
-                                    <li class="list-group-item">
-                                      <div class="card media-card-sm">
-                                         <div class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Airy Eco Mumbul Giri Puspa C14 Bali</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p></div></div> 
-                                       </div> 
-                                    </li>
+                                    </li> -->
                                   
                                    
                                 </ul>
@@ -593,14 +646,14 @@
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
                         <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                        <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                        
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-     <!-- /.container-fluid -->
-   <div id="CityHotelDetailsModal" class="modal" tabindex="-1" role="dialog">
+     <!-- /.container-fluid style="top: -44px;" -->
+   <div id="CityHotelDetailsModal" class="modal" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header theme-accent">
@@ -612,56 +665,60 @@
                        <div id="dayHotelScroll" class="col-sm-12">
                           <div class="row">
                             <div id="hotel-leftpanel" class="col-md-6">
-                              <h2>La Digue Island Lodge</h2>
-                              <p class="address">Anse Reunion, La Digue</p>
+                              <h2 id="view-hotel-name" class="">La Digue Island Lodge</h2>
+                              <p id="view-state-city-name" class="address">Anse Reunion, La Digue</p>
 
                               <div class="hotel-rating-details">
-                                 <img src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive">
+                                 <img id="view-city-full-image" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive">
                                   <!--<div class="right-part">80 Good <a class="sur-ipink">(156 reviews)</a></div>-->
                                   <div style="clear:both"></div>
                               </div> 
                               <div class="row ">
 
                                   <div class="divider theme ml14 mr14"></div>
-                                  <div class="col-xs-12 col-sm-3 mt20">
-                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-14.jpg') }}" alt="">
-                                    
+                                  <div id="view-hotel-imagearea">
                                   </div>
-                                  <div class="col-xs-12 col-sm-3 mt20">
-                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="">
-                                    
-                                  </div>
-                                  <div class="col-xs-12 col-sm-3 mt20">
-                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-17.jpg') }}" alt="">
-                                    
-                                  </div>
-                                  <div class="col-xs-12 col-sm-3 mt20">
-                                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/demo/images/demo-5.jpg') }}" alt="">
-                                     
-                                  </div>
+                                  
                               </div>   
                               <br>
-                              <div class="hotel-description">
+                              <h2>Ameneties</h2>
+                              <div id="ameneties-list-container" class="ameneties-list-container">
+                                
+                                 <div style="clear:both"></div>                                                                                         
+                              </div>
+                            <!--   <div class="hotel-description">
                                   <p><b>Property Location</b> <br>With a stay at La Digue Island Lodge in La Digue, you'll be on the beach, within a 5-minute drive of Source D'Argent Beach and Anse Severe Beach.  This beach hotel is 7.8 mi (12.6 km) from Vallee de Mai Nature Reserve and 9.4 mi (15.1 km) from Grand Anse Beach.</p>
                                   <p><b>Rooms</b> <br>Make yourself at home in one of the 89 air-conditioned rooms featuring refrigerators. Cable television is provided for your entertainment. Private bathrooms with bathtubs or showers feature complimentary toiletries and bathrobes. Conveniences include safes and desks, and housekeeping is provided daily.</p>
-                              </div>
-                              <h2>Ameneties</h2>
-                              <div class="ameneties-list-container">
-                                <a>Babysitting or childcare (surcharge)</a> 
-                                <a>Bar/lounge</a> 
-                                <a>Barbecue grill(s)</a> 
-                                <a>Beach towels</a> 
-                                <a>Beach umbrellas</a> 
-                                <a>Breakfast available (surcharge)</a> 
-                                <a>Free WiFi</a> 
-                                <a>Free area shuttle</a> 
-                                <a>Front desk (limited hours)</a> 
-                                <a>Garden</a> 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                              </div> -->
+                              
+                               <h2>Overview </h2>
+                               
+                              <div id="view-hotel-overview" class="hotel-description">
+                                 
                               </div>
                             </div>
                             <div id="hotel-rightpanel" class="col-md-6">
-                              
+                              <h2>Room Types</h2>
+                              <div id="view-hotel-roomtypes" class="room-type-header">
+
+                              </div>
+                               <h2>Listing Descriptions </h2>
+                              <div id="view-hotel-listdescription" class="hotel-description">
+
+                              </div>
+                              <br><br>
+                               <!-- <div class="room-type-header">
+                                  <h3>
+                                      Yellow House - Adults Only 1 double bed &nbsp;(Non refundable) </h3>
+                                  <div>at <i class="fa fa-inr"></i> 14,460 more</div>
+                                  <a class="popover-anchor" data-toggle="popover" data-trigger="hover" data-placement="left" data-container="body" data-title="Cancellation Policy" data-content="This rate is non-refundable. If you choose to change or cancel this booking you will not be refunded any of the payment." data-original-title="" title="">Cancellation Policy</a>
+                                  
+
+                              </div>
+                               <div class="hotel-description">
+                                  Extra-person charges may apply and vary depending on property policy. <br>Government-issued photo identification and a credit card, debit card, or cash deposit are required at check-in for incidental charges. <br>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.  <ul><li>No onsite parking is available. </li>Please note that cultural norms and guest policies may differ by country and by property. The policies listed are provided by the property. </ul> Outside food and beverages are not permitted on the premises. For more details, please contact the property using the information on the reservation confirmation received after booking.
+                              </div> -->
+                              <button id="viewhotelconfirm" type="button" onclick="" class="btn btn-sm green waves-effect waves-theme">Confirm</button>
                             </div>
                           </div>
                            
@@ -671,7 +728,118 @@
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
                         <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                        <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                    </div><!-- /.modal-footer -->
+              
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- /.container-fluid -->
+   <div id="CityActivityModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header theme">
+                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title" style="padding-left: 10px;">Choose your activity</h1>
+                </div><!-- /.modal-header -->
+                
+                    <div class="modal-body">
+                        <h4 id="hotelcityname" class="">Sarawak - Bintulu</h4>   
+                        <div id="dayHotelScroll" class="col-sm-12">
+
+                          <div id="dayHotelList" class="row ">
+                              <div class="col-md-12">  
+
+                                <div class="theme z-depth-2 hide">
+                                  <div class="toolbar">
+                                    <button class="btn-flat sort" data-sort="name">sort on hotel name</button>
+
+                                    <!-- <select id="filterTeams" class="selectpicker hide" data-width="auto">
+                                      <option value="">All Teams</option>
+                                      <option value="Team A">Team A</option>
+                                      <option value="Team B">Team B</option>
+                                      <option value="Team C">Team C</option>
+                                    </select> -->
+
+                                    <div class="pull-right mr12">
+                                      <div class="float-left input-field theme hidden-xs">
+                                        <i class="mdi mdi-magnify prefix"></i>
+                                <!-- IMPORTANT the input needs class="search" for list.js functions -->
+                                        <input class="search" type="text" placeholder="Search...">
+                                        <div class="input-highlight"></div>
+                                      </div>              
+
+                                      <div class="search-wrapper pull-right">     
+                                        <i class="icon action mdi toolbar-search visible-xs-inline-block"></i>
+
+                                        <form class="search-form visible-xs-inline-block">
+                                          <div class="input-group">
+                                            <span class="input-group-btn no-border">
+                                              <i class="icon action mdi toolbar-back "></i>
+                                            </span>
+                                            <div class="input-field">
+                                              <input type="search" class="search input no-border" placeholder="Search...">
+                                            </div><!-- /.inpt-field -->
+                                            <span class="input-group-addon no-border">
+                                              <i class="icon mdi mdi-magnify"></i>
+                                            </span>
+                                          </div>
+                                        </form>
+                                      </div><!-- /.search-wrapper -->               
+                                    </div>
+                                  </div><!-- /.toolbar -->
+                                </div>
+                                
+                            <!-- The class "list" on the UL element is needed for the list.js functions -->
+                                <ul id="listactivitiesarea" class="list list-group list-group-animation item-border paper">
+                                    <!-- <li class="list-group-item">
+                                      <div class="card ">
+                                         <div class="media">
+                                          <div class="media-left media-img"> <a href="#"><img class="responsive-img" src="{{ asset('public/assets/demo/images/demo-23.jpg') }}" style="height: 130px;" alt="..."></a></div>
+                                          <div class="media-body p8">
+                                            <div class="row">
+                                              <div class="col-md-10">
+                                                <h4 class="media-heading name">Test</h4><p>Sarawak - Bintulu</p><p class="sub-text mt10">Free Wifi, Free Drinks, Free Meal</p><p class="sub-text mt10">Deluxe, Premium</p>
+                                              </div>
+                                              <div class="col-md-2">
+                                                <p style="margin-bottom: 10px;">at 2,226 more</p>
+                                                
+                                                <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(1)" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button>
+                                                
+                                                <button type="button" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button>
+                                              </div>
+                                            </div>
+                                            
+                                            
+                                          </div>
+                                          </div> 
+                                         
+                                       </div> 
+                                    </li> -->
+                                  
+                                   
+                                </ul>
+                              </div><!-- /.col -->
+                              <div class="clearfix">  </div>
+                            </div><!-- /.row -->        
+                            <!-- <input class="hide" id="hotelid" name="hotelid" type="text">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="input-field label-float">
+                                        <input placeholder="Country Name" class="clearable" id="country_name" name="country_name" autofocus type="text">
+                                        <label for="country_name" class="fixed-label">{{__('Country Name') }}*</label>
+                                        <div class="input-highlight"></div>
+                                    </div>
+                                   
+                                </div>
+
+                            </div>-->
+                           
+                            
+                        </div><!-- /.row -->    
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->
@@ -961,20 +1129,25 @@
       $("#place-sortList").sortable();
    })(jQuery);
    function PickPlace(paramscity){
+      var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+      var imagedummy =  image_url+'/city/no-image.png';
+
     //console.log(paramscity);
-    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.statename+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityname+"' }";
+      var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //var passparamscity = '"'+paramscity+'"';
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
       $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
-      var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
-      var imagedummy =  image_url+'/city/no-image.png';
-
+    
       $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
 
-      $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div class="media"><div class="media-left media-img"><a href="#"><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4><button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light "><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+      $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+
+      $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+
+      
    }
    function DeleteNight(cityid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
@@ -986,17 +1159,70 @@
       
   }
   function PickHotel(paramscity){
-     $("#CityHotelModal").modal();
+     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+
+      $("#listhotelsarea").empty();
+      var place_area = paramscity.statename+' - '+paramscity.cityname;
+      var url = "{{ url('/city_hotels') }}" + '?city_id=' + paramscity.cityid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+               //console.log(resultdata);
+
+               $.each(resultdata, function(key, value) {
+                  var amenitieslist = value.amenities;
+                  var amenitiesString = '';
+                  var amenities_len = amenitieslist.length;
+                  $.each(amenitieslist, function(keya, valuea) {
+                    //console.log(keya);
+                    amenitiesString += valuea.amenities_name;
+                    if(amenities_len-1!=keya){
+                        amenitiesString += ', ';
+                    }
+                  }); 
+                  var roomtypeslist = value.roomtypes;
+                  var roomtypesString = '';
+                  var roomtypes_len = roomtypeslist.length;
+                  $.each(roomtypeslist, function(keya, valuea) {
+                    //console.log(keya);
+                    roomtypesString += valuea.room_type;
+                    if(roomtypes_len-1!=keya){
+                        roomtypesString += ', ';
+                    }
+                  }); 
+                  var hotelimages = value.hotelimages;
+                  var imagelocation = image_url+'/city/no-image.png';
+
+                  if(hotelimages.length>0){
+                     var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+                  }
+                  //console.log(hotelimages[0].image_name);
+                   //var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+
+                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                });
+              // $('#masterid').val(result.id);
+              // $('#masterid').attr('data-autoid', result.id);
+              // $('#country_name').val(result.country_name);
+              
+          }
+      });
+     
+
+      $("#hotelcityname").html(place_area);
+      $("#CityHotelModal").modal();
   }
   $(document).ready(function() {
 
       var options = {
         // the classnames where we can filter on
-          valueNames: [ 'name', 'team' ] 
+          valueNames: [ 'name', 'area' ] 
       };
 
       // teamList is the ID on the list wrapper in the html markup.
-      var demoList = new List('dayHotelList', options);
+     // var dayHotelList = new List('dayHotelList', options);
 
       // Filter function on the select
       // $('#filterTeams').on('change', function() {
@@ -1039,8 +1265,174 @@
 
 
     });
-  function ViewHotelDetails(autoid){
+  function ViewHotelDetails(hotelid,paramscity){
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+      //console.log(paramscity);
+      var place_area = paramscity.statename+' - '+paramscity.cityname;
+      var url = "{{ url('/city_hotels_details') }}" + '?hotel_id=' + hotelid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+            $("#view-hotel-name").html(resultdata.hotel_name);
+            $("#view-state-city-name").html(place_area);
+             var hotelimages = resultdata.hotelimages;
+              var imagelocation = image_url+'/city/no-image.png';
+
+              if(hotelimages.length>0){
+                 var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+              }
+            $("#view-city-full-image").attr("src", imagelocation);
+            $("#view-hotel-imagearea").empty();
+            $.each(hotelimages, function(key, value) {
+              var imagefolder = image_url+'/hotels/';
+              if(key<=4){
+                var imagefullname = imagefolder+value.image_name;
+                var passimagename = "{  imagename: '"+imagefullname+"' }";
+                $("#view-hotel-imagearea").append('<div class="col-xs-12 col-sm-3 mt20"><img onclick="return setFullImage('+passimagename+')" style="width:100px;height:65px;cursor:pointer;" class="responsive-img z-depth-1" src="'+imagefullname+'" alt=""></div>');
+              }
+            });
+
+            var amenitieslist = resultdata.amenities;
+            $("#ameneties-list-container").empty();
+            $.each(amenitieslist, function(keya, valuea) {
+              $("#ameneties-list-container").append('<a>'+valuea.amenities_name+'</a>');
+            }); 
+
+            $("#ameneties-list-container").append('<div style="clear:both"></div>');
+
+            $("#view-hotel-overview").html(resultdata.overview);
+
+             var roomtypeslist = resultdata.roomtypes;
+             $("#view-hotel-roomtypes").empty();
+            $.each(roomtypeslist, function(keya, valuea) {
+              //console.log(keya);
+              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+'</h3><div>at <i class="fa fa-inr"></i> 14,460 more</div><br><br>');
+             
+            }); 
+             $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');
+
+            $("#view-hotel-listdescription").html(resultdata.listing_descriptions);
+            $('#viewhotelconfirm').attr('onclick', 'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
+          }
+      });
+
     $("#CityHotelDetailsModal").modal();
+  }
+
+  function setFullImage(imageobj){
+    var imagename = imageobj.imagename;
+    $("#view-city-full-image").attr("src", imagename);
+    
+  }
+  function ConfirmHotel(hotelid,cityid,paramscity){
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+    $("#picked-hotelmedia-"+cityid).empty();
+    //var imagename ='';
+    var place_area = paramscity.statename+' - '+paramscity.cityname;
+
+    var url = "{{ url('/city_hotels_details') }}" + '?hotel_id=' + hotelid;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function(resultdata) {
+           var hotelimages = resultdata.hotelimages;
+            var imagelocation = image_url+'/city/no-image.png';
+
+            if(hotelimages.length>0){
+               var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+            }
+
+            var amenitieslist = resultdata.amenities;
+            var amenitiesString = '';
+            var amenities_len = amenitieslist.length;
+            $.each(amenitieslist, function(keya, valuea) {
+              //console.log(keya);
+              amenitiesString += valuea.amenities_name;
+              if(amenities_len-1!=keya){
+                  amenitiesString += ', ';
+              }
+            }); 
+
+            var roomtypeslist = resultdata.roomtypes;
+            var roomtypesString = '';
+            var roomtypes_len = roomtypeslist.length;
+            $.each(roomtypeslist, function(keya, valuea) {
+              //console.log(keya);
+              roomtypesString += valuea.room_type;
+              if(roomtypes_len-1!=keya){
+                  roomtypesString += ', ';
+              }
+            }); 
+
+            var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/>';
+
+            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
+        }
+    });
+
+    
+    //alert(hotelid);
+    $("#CityHotelDetailsModal").modal('hide');
+    $("#CityHotelModal").modal('hide')
+  }
+  function PickActity(paramscity){
+      var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+
+      $("#listactivitiesarea").empty();
+      var place_area = paramscity.statename+' - '+paramscity.cityname;
+      var url = "{{ url('/city_hotels') }}" + '?city_id=' + paramscity.cityid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+               //console.log(resultdata);
+
+               $.each(resultdata, function(key, value) {
+                  var amenitieslist = value.amenities;
+                  var amenitiesString = '';
+                  var amenities_len = amenitieslist.length;
+                  $.each(amenitieslist, function(keya, valuea) {
+                    //console.log(keya);
+                    amenitiesString += valuea.amenities_name;
+                    if(amenities_len-1!=keya){
+                        amenitiesString += ', ';
+                    }
+                  }); 
+                  var roomtypeslist = value.roomtypes;
+                  var roomtypesString = '';
+                  var roomtypes_len = roomtypeslist.length;
+                  $.each(roomtypeslist, function(keya, valuea) {
+                    //console.log(keya);
+                    roomtypesString += valuea.room_type;
+                    if(roomtypes_len-1!=keya){
+                        roomtypesString += ', ';
+                    }
+                  }); 
+                  var hotelimages = value.hotelimages;
+                  var imagelocation = image_url+'/city/no-image.png';
+
+                  if(hotelimages.length>0){
+                     var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+                  }
+                  //console.log(hotelimages[0].image_name);
+                   //var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+
+                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                });
+              // $('#masterid').val(result.id);
+              // $('#masterid').attr('data-autoid', result.id);
+              // $('#country_name').val(result.country_name);
+              
+          }
+      });
+     
+
+      $("#hotelcityname").html(place_area);
+      $("#CityActivityModal").modal();
   }
   // $(window).scroll(function(){
   //   var sticky = $('.sticky'),

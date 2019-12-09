@@ -10,6 +10,7 @@ use App\Model\ActivityImages;
 use App\Model\Activity;
 use App\Model\Package;
 use App\Model\PackagePlace;
+use App\Model\Hotel;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
@@ -78,5 +79,45 @@ class PackageController extends Controller
 				}
 			}
         return json_encode($package);
+    }
+
+    public function HotelsList(Request $request){
+        $city_id = $request->input('city_id');
+        //dd(Hotel::find(15)->hotelimages()->get());
+        $hotels = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                'roomtypes'=>function($query){
+                    $query->select('room_type');
+                },
+                'hotelimages'
+            ))->where('city_id','=',$city_id)->get();
+        //$hotels = Hotel::where('city_id','=',$city_id)->get();
+       // $products = $hotels->amenities;
+        //dd($products);
+        $data['hotel_data'] = $hotels;
+       // $data['hotel_features'] = $hotels;
+        return json_encode($hotels);
+    }
+
+    public function HotelDetails(Request $request){
+        $hotel_id = $request->input('hotel_id');
+        //dd(Hotel::find(15)->hotelimages()->get());
+        $hotels = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                'roomtypes',
+                'hotelimages'
+            ))->where('id','=',$hotel_id)->first();
+        //$hotels = Hotel::where('city_id','=',$city_id)->get();
+       // $products = $hotels->amenities;
+        //dd($products);
+        $data['hotel_data'] = $hotels;
+       // $data['hotel_features'] = $hotels;
+        return json_encode($hotels);
     }
 }

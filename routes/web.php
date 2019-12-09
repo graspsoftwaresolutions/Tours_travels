@@ -124,3 +124,7 @@ Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 //Package
 Route::get('/new_package', 'PackageController@index')->name('package.new');
 Route::post('/package_new', 'PackageController@packageSave')->name('package_save');
+
+
+Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
+Route::get('city_hotels_details','PackageController@HotelDetails')->name('hotel.details');

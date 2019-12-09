@@ -172,6 +172,7 @@ class HotelController extends CommonController
     }
 
     public function hotelUpdate(Request $request){
+        //return $request->all();
         $request->validate([
             'hotel_name' => 'required',
                 ], [
@@ -211,24 +212,27 @@ class HotelController extends CommonController
         }
 
         $amenities = $request->input('amenities');
+
+        $hotel->amenities()->sync($amenities);
         
-        if(isset($amenities)){
-            foreach ($amenities as $amenity) {
-                DB::table('hotel_amenities')->insert(
-                    ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
-                );
-            }
-        }
+        // if(isset($amenities)){
+        //     foreach ($amenities as $amenity) {
+        //         DB::table('hotel_amenities')->insertOrIgnore(
+        //             ['hotel_id' => $hotel->id, 'amenity_id' => $amenity]
+        //         );
+        //     }
+        // }
     //    / dd( $amenities);
 
-        $room_type = $request->input('room_type');
-        if(isset($room_type)){
-            foreach ($room_type as $type) {
-                DB::table('hotel_roomtypes')->insert(
-                    ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
-                );
-            }
-        }
+        $room_type = $request->input('room_typ');
+        $hotel->roomtypes()->sync($room_type);
+        // if(isset($room_type)){
+        //     foreach ($room_type as $type) {
+        //         DB::table('hotel_roomtypes')->insertOrIgnore(
+        //             ['hotel_id' => $hotel->id, 'roomtype_id' => $type]
+        //         );
+        //     }
+        // }
        
 
         //$file_name = $hotel->id.strtotime('Ymd');
