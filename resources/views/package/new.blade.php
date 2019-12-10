@@ -244,7 +244,7 @@
                         <div class="input-field label-float">
                            <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
-                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span id="adult-count">2</span> Adults & <span id="child-count">0</span> Children & <span id="infant-count">0</span> Infants</a></p>
+                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
                            <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
                            <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
                            <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
@@ -548,10 +548,23 @@
                     <div class="card">
                       <div class="card-image">
                           <img id="summary-banner" src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
-                          <div class="card-title"> <span id="summay-state">Bridges</span><br><span id="summay-cities" class="text-small"></span></div>
+                          <div class="row">
+                            <div class="card-title">
+                                <div class="col-md-4"> 
+                                  <span id="summary-state">Bridges</span><br><span id="summary-cities" class="text-small"></span>
+                                </div>
+                                <div class="col-md-4"> 
+                                  <p id="summary-nights"><span class="night-count">3</span> nights</p><span id="summary-days" class="text-small"><span class="days-count">4</span> days</span>
+                                </div>
+                                 <div class="col-md-4"> 
+                                  <p id="summary-family"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span>
+                                </div>
+                            </div>
+                          </div>
+                          
                       </div>
                        <ul id="overall-summary" class="timeline bg-color-switch mt40 timeline-single">
-                          <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
+                          <!-- <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
                             <div class="timeline-icon ti-text">Sarawak - Bintulu</div>
                             <div id="place-activitylist-3" class="overall-place-activitylist">
                               <div id="summary_activity_id_1" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">tes</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 30</a><p><a onclick="return RemoveActivity(1,3)" style="color: red;cursor:pointer;" class="">Remove</a></p></div>
@@ -586,7 +599,7 @@
                             <div style="clear:both"></div>
                             
                         </div>
-                          </li>
+                          </li> -->
                        </ul>
                     </div>
                   </div>
@@ -1182,23 +1195,23 @@
       placeholder: 'Write here...'
     });
     $(function() {
-      $('select[name=country_id]').change(function() {
-         // alert('ok');
+      // $('select[name=country_id]').change(function() {
+      //    // alert('ok');
           
-      });
+      // });
    
-      $('select[name=state_id]').change(function() {
-         // alert('ok');
-          var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
+      // $('select[name=state_id]').change(function() {
+      //    // alert('ok');
+      //     var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
    
           
-      });
+      // });
       $(".adult-travellers").click(function(){
          var person_no = $(this).text();
          $('.adult-travellers').removeClass('blue-dark');
          $(this).addClass('blue-dark');
          $("#adult-count-val").val(parseInt(person_no));
-         $("#adult-count").text(parseInt(person_no));
+         $(".adult-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
       $(".child-travellers").click(function(){
@@ -1206,7 +1219,7 @@
          $('.child-travellers').removeClass('blue-dark');
          $(this).addClass('blue-dark');
          $("#child-count-val").val(parseInt(person_no));
-         $("#child-count").text(parseInt(person_no));
+         $(".child-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
        $(".infant-travellers").click(function(){
@@ -1214,7 +1227,7 @@
          $('.infant-travellers').removeClass('blue-dark');
          $(this).addClass('blue-dark');
          $("#infant-count-val").val(parseInt(person_no));
-         $("#infant-count").text(parseInt(person_no));
+         $(".infant-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
    });
@@ -1246,7 +1259,7 @@
           // select.empty();
            //$("#state_id").append("<option value=''>Select</option>");
            $.each(data, function(key, value) {
-               $('#'+stateid).append('<option value=' + value.id + '>' + value.state_name +
+               $('#'+stateid).append('<option data-statename="'+value.state_name+'" value=' + value.id + '>' + value.state_name +
                    '</option>');
                  if(ref==1){
                      var dest_data = '<div id="state-cities-'+value.id+'" class="col-md-12 state-cities"><h5 class="text-headline text-bold">'+value.state_name+'</h5><div class="destination-city" id="destination-city-'+value.id+'"></div></div>';
@@ -1297,6 +1310,11 @@
             $('#'+cityid).selectpicker("refresh");
        });
 
+       if(ref==1){
+          var selected = $("#to_state_id").find('option:selected');
+          var statename = selected.data('statename'); 
+          $("#summary-state").html(statename);
+       }
        
    }
 </script>
@@ -1339,8 +1357,10 @@
 
       $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-      $("#summay-state").html(paramscity.statename);
-      $("#summay-cities").append(paramscity.cityname+', ');
+      $("#overall-summary").append('<li id="summary-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_activity_id_'+paramscity.cityid+'" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">JR Guest Home</a><a href="#:;" class="msg-from">Standard Room</a><p>Adults: 2</p></div><div style="clear:both"></div></div><div style="clear:both"></div><div class="activities-summary"> <div class="activites-details" > <span class="activity-1575936000"> <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div></span> </div><div style="clear:both"></div></div></li>');
+
+      
+      $("#summary-cities").append(paramscity.cityname+', ');
 
       
    }

@@ -160,20 +160,7 @@
                 </li>
               </ul>
             </li>    
-            <li id="enquiry-menu" class="menubar-item">
-              <a class="menu-dropdown" href="#">
-                <i class="icon mdi mdi-satellite-variant"></i>
-                <span class="text">{{ __('Enquiries') }}</span>
-              </a>
-              <ul class="submenu lvl-1">
-                <li id="enquiries_sidebar_li_id" class="submenu-item">
-                  <a id="enquiries_sidebar_a_id" href="{{route('enquiry.new')}}" class="submenu-target">{{ __('All Enquiries') }}</a>
-                </li>
-                <li id="enquiries_add_sidebar_li_id" class="submenu-item">
-                  <a id="enquiries_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Enquiry') }}</a>
-                </li>
-              </ul>
-            </li> 
+           
             <li id="customer-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-account-settings"></i>
@@ -188,9 +175,23 @@
                 </li>
               </ul>
             </li> 
+            <li id="enquiry-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-phone"></i>
+                <span class="text">{{ __('Enquiries') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="enquiries_sidebar_li_id" class="submenu-item">
+                  <a id="enquiries_sidebar_a_id" href="{{route('enquiry.new')}}" class="submenu-target">{{ __('All Enquiries') }}</a>
+                </li>
+                <li id="enquiries_add_sidebar_li_id" class="submenu-item">
+                  <a id="enquiries_add_sidebar_a_id" href="{{route('enquiry.add')}}" class="submenu-target">{{ __('Add Enquiry') }}</a>
+                </li>
+              </ul>
+            </li> 
             <li id="settings-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
-                <i class="icon mdi mdi-satellite-variant"></i>
+                <i class="icon mdi mdi-settings"></i>
                 <span class="text">{{ __('Settings') }}</span>
               </a>
               <ul class="submenu lvl-1">
