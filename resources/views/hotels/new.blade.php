@@ -75,6 +75,7 @@
                             <div class="input-field label-float">
                                 <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" autofocus type="text">
                                 <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }} <span style="color:red">*</span></label>
+                                <div id="hotel_name-error" class="error hotel_name-error custom-error"></div>
                                 <div class="input-highlight"></div>
                             </div>
                         </div>
@@ -457,7 +458,7 @@
             {
                var formsubmit =true; 
                if($("#hotel_name").val()==''){
-                  $('.hotel_id-error').remove();
+                  $('.hotel_name-error').remove();
                   $( '<div id="hotel_name-error" class="error hotel_name-error custom-error" >Please Enter Hotel Name.</div>' ).insertAfter( '#hotel_name' );
                   formsubmit =false; 
                }
