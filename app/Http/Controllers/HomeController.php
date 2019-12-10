@@ -103,7 +103,7 @@ class HomeController extends Controller
          
          if(!empty($request->website_id))
          {
-            if($data['company_logo']) {
+            if($request->company_logo) {
                 $file = $data['company_logo'];
                 $name = time().'.'.$file->getClientOriginalExtension();
                 $file->move('public/assets/images/website_logo',$name);
@@ -113,8 +113,7 @@ class HomeController extends Controller
             return redirect('/website')->with('message','Website Details Updated Successfully!!');
          }
          else{
-
-            if($data['company_logo']) {
+            if($request->company_logo) {
                 $file = $data['company_logo'];
                 $name = time().'.'.$file->getClientOriginalExtension();
                 $file->move('public/assets/images/website_logo',$name);

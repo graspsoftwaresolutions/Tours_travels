@@ -123,9 +123,24 @@
                      <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                         <option value="" selected="">{{__('Select State') }}
                         </option>
-                        @foreach ($statelist as $state)
-                        <option value="{{ $state->id }}"  @if($row->state_id==$state->id) selected @endif>{{ $state->state_name }}</option>
-                        @endforeach
+                        @php 
+                           if(isset($row->id))
+                           {
+                              @endphp
+                              @foreach ($statelist as $state)
+                              <option value="{{ $state->id }}"  @if($row->state_id==$state->id) selected @endif>{{ $state->state_name }}</option>
+                              @endforeach
+                              @php
+                           }
+                           else{
+                              @endphp
+                                    @foreach ($statelist as $state)
+                                    <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                                    @endforeach
+                              @php
+                           }
+                        @endphp
+                        
                      </select>
                      <div class="input-highlight"></div>
                   </div>
@@ -134,7 +149,10 @@
             </div>
             <!-- /.row -->
             @php
+               if(isset($row->id))
+               {
                 $citylist = CommonHelper::getCityList($row->state_id);
+               }
             @endphp
             <div class="row">
                <div class="col-sm-6">
@@ -144,9 +162,19 @@
                      <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                         <option value="" selected="">{{__('Select City') }}
                         </option>
-                        @foreach ($citylist as $city)
+                        @php 
+                           if(isset($row->id))
+                           {
+                              @endphp
+                              @foreach ($citylist as $city)
                                   <option value="{{ $city->id }}" @if($row->city_id==$city->id) selected @endif>{{ $city->city_name }}</option>
                                   @endforeach
+                              @php
+                           }
+                           else{
+                             
+                           }
+                        @endphp
                      </select>
                      <div class="input-highlight"></div>
                   </div>
@@ -206,7 +234,19 @@
                <div class="row ">
                 <div class="divider theme ml14 mr14"></div>
                     <div class="col-xs-12 col-sm-3 mt20">
-                    <img class="responsive-img z-depth-1" src="{{ asset('public/assets/images/website_logo/'.$row->company_logo) }}" alt="">
+                    @php 
+                     if(isset($row->id))
+                     {
+                        @endphp
+                        <img class="responsive-img z-depth-1" src="{{ asset('public/assets/images/website_logo/'.$row->company_logo) }}" alt="">
+                        @php
+                     }
+                     else{
+                        @endphp
+                        <img class="responsive-img z-depth-1" width="100px" height="100px" src="{{ asset('public/assets/images/no_logo.png') }}" alt="">
+                        @php
+                     }
+                     @endphp
                     </div>                                               
                 </div>
             </div>  
@@ -260,7 +300,7 @@
                        email : true,
    				},
                    "company_phone": {
-   					required: true,
+   					   required: true,
                        digits : true,
    				},
                    "country_id": {
@@ -287,7 +327,7 @@
    				},
                    "company_phone": {
    					required: "Please, enter phone number",
-                       digits : "Numbers only"
+                       digits : "Numbers only",
    				},
                    "country_id": {
    					required: "Please, choose country",
@@ -340,6 +380,7 @@
                   $("#state_id").selectpicker("refresh");
              });
          });
+         $('#state_id').trigger("change");
       
          $('select[name=state_id]').change(function() {
             // alert('ok');
