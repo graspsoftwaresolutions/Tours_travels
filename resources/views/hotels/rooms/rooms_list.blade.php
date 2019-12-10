@@ -47,8 +47,10 @@
                             <thead>
                             <tr>
                                     <th width="30%">{{__('Hotel') }}</th>
-                                    <th width="30%">{{__('Room Type') }}</th>
+                                    <!-- <th width="30%">{{__('Room Type') }}</th> -->
                                     <th width="15%">{{__('Room No') }}</th>
+                                    <th width="15%">{{__('State') }}</th>
+                                    <th width="15%">{{__('City') }}</th>
                                     
                                     <th width="15%">{{__('Status') }}</th>
 
@@ -56,17 +58,19 @@
                                 </tr>
                             </thead>       
                             <tbody>
+                            
                                @foreach($data['room_list'] as $values)
+                               @php //$hotel_name = CommonHelper::getHotelnames($values->hotel_id); dd($hotel_name); @endphp
                                     <tr>
-                                        <td>{{$values->hotel_name}}</td>
-                                        <td>{{$values->room_type}}</td>
-                                        <td>{{$values->room_number}}</td>
+                                        <td>{{ $values->hotel_name}}</td>
+                                        <td>{{$values->room_number}}</td> 
+                                        <td>{{$values->state_name}}</td> 
+                                        <td>{{$values->city_name}}</td> 
                                         <td>@php if($values->roomstatus==1)
                                                         echo "Active";
                                                 else
                                                  echo "Inactive";
                                               @endphp</td>
-
                                         <td> <a   href="{{url('hotel_room_edit').'/'.Crypt::encrypt($values->hotelroomid)}}" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
                                         &nbsp;</td>
                                     </tr>

@@ -238,7 +238,7 @@
                      <div class="col-md-12">
                         <div class="form-group">
                            <label for="short_description" class="fixed-label">{{__('Short Description') }}</label>
-                           <textarea class="textarea-auto-resize" placeholder="Enter Short Description" name="short_description" id="short_description"></textarea>
+                           <textarea class="textarea-auto-resize" style="border: 1px solid #9e9e9e;padding: 10px;" placeholder="Enter Short Description" name="short_description" id="short_description"></textarea>
                            <p class="no-margin em"></p>
                         </div>
                      </div>

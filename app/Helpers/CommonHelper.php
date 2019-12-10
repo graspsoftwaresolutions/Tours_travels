@@ -125,6 +125,13 @@ class CommonHelper
     {
         
     }
+    public static function getHotelnames($hotelid)
+    {
+        return $hotelid;
+        $data = DB::table('hotels')->select('id','hotel_name')->where('status','=','1')->where('id','=',$hotelid)->get();
+            dd($data);
+   
+    }
 	
 	
 }

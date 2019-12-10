@@ -225,7 +225,7 @@
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
           <div class="col-md-9">
-          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('activity.save')}}">
+          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('package_save')}}">
             @csrf
             <h3>Travel Data</h3>
             <fieldset>
@@ -1319,9 +1319,10 @@
       $("#place-sortList").sortable();
    })(jQuery);
    function PickPlace(paramscity){
-      var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
-      var imagedummy =  image_url+'/city/no-image.png';
+      
       var place_area = paramscity.statename+' - '+paramscity.cityname;
+      var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
+      var imagedummy =  no_image_url;
 
     //console.log(paramscity);
       var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
@@ -1387,13 +1388,13 @@
                     }
                   }); 
                   var hotelimages = value.hotelimages;
-                  var imagelocation = image_url+'/city/no-image.png';
+                  var imagelocation = no_image_url;
 viewactivityconfirm
                   if(hotelimages.length>0){
                      var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
                   }
                   //console.log(hotelimages[0].image_name);
-                   //var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+                   //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
                   $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 });
@@ -1473,7 +1474,7 @@ viewactivityconfirm
             $("#view-hotel-name").html(resultdata.hotel_name);
             $("#view-state-city-name").html(place_area);
              var hotelimages = resultdata.hotelimages;
-              var imagelocation = image_url+'/city/no-image.png';
+              var imagelocation = no_image_url;
 
               if(hotelimages.length>0){
                  var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
@@ -1534,7 +1535,7 @@ viewactivityconfirm
         dataType: "json",
         success: function(resultdata) {
            var hotelimages = resultdata.hotelimages;
-            var imagelocation = image_url+'/city/no-image.png';
+            var imagelocation = no_image_url;
 
             if(hotelimages.length>0){
                var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
@@ -1589,7 +1590,7 @@ viewactivityconfirm
                $.each(resultdata, function(key, value) {
                 
                   var activityimages = value.activity_images;
-                  var imagelocation = image_url+'/city/no-image.png';
+                  var imagelocation = no_image_url;
 
                   if(activityimages.length>0){
                      var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
@@ -1597,7 +1598,7 @@ viewactivityconfirm
 
                   var activityduration = (value.duartion_hours/60).toFixed(0)+' hour '+(value.duartion_hours%60)+' minutes';
                   //console.log(hotelimages[0].image_name);
-                   //var imagelocation = paramscity.cityimage=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+paramscity.cityimage;
+                   //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
                   $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 });
@@ -1626,7 +1627,7 @@ viewactivityconfirm
             $("#view-activity-name").html(resultdata.title_name);
             $("#activity-state-city-name").html(place_area);
              var activityimages = resultdata.activity_images;
-              var imagelocation = image_url+'/city/no-image.png';
+              var imagelocation = no_image_url;
 
               if(activityimages.length>0){
                  var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
@@ -1701,7 +1702,7 @@ viewactivityconfirm
         dataType: "json",
         success: function(resultdata) {
            var hotelimages = resultdata.activity_images;
-            var imagelocation = image_url+'/city/no-image.png';
+            var imagelocation = no_image_url;
 
             if(hotelimages.length>0){
                var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
@@ -1741,7 +1742,7 @@ viewactivityconfirm
    function ChangeCityvalues(refid){
       var selected = $("#"+refid).find('option:selected');
       var imagename = selected.data('image'); 
-      var imagelocation = imagename=='null' ? image_url+'/city/no-image.png' : image_url+'/city/'+imagename;
+      var imagelocation = imagename=='null' ? no_image_url : image_url+'/city/'+imagename;
       $("#summary-banner").attr("src", imagelocation);
    }
 
