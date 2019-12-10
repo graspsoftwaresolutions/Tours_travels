@@ -74,7 +74,7 @@
                         <div class="col-md-12">
                             <div class="input-field label-float">
                                 <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" autofocus type="text">
-                                <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }}*</label>
+                                <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }} <span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                         </div>
@@ -138,8 +138,8 @@
                               <label for="country_id" class="block">{{__('Country Name') }}</label>                 
 
                               <!-- To validate the select add class "select-validate" -->     
-                              <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                  <option value="">{{__('Select country')}}</option>
+                              <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%" required="true">
+                                  <option value="">{{__('Select country')}} <span style="color:red">*</span></option>
                                   @php
                                   $defcountry = CommonHelper::DefaultCountry();
                                   @endphp
@@ -156,10 +156,10 @@
                         @endphp
                       <div class="col-md-4">
                           <div class="select-row form-group">
-                              <label for="state_id" class="block">{{__('State Name') }}</label>                 
+                              <label for="state_id" class="block">{{__('State Name') }} <span style="color:red">*</span></label>                 
 
                               <!-- To validate the select add class "select-validate" -->     
-                              <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <select id="state_id" required="true" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                    <option value="" selected="">{{__('Select State') }}
                                    </option>
                                   @foreach ($statelist as $state)
@@ -172,10 +172,10 @@
 
                        <div class="col-md-4">
                           <div class="select-row form-group">
-                              <label for="city_id" class="block">{{__('City Name') }}</label>                 
+                              <label for="city_id" class="block">{{__('City Name') }} <span style="color:red">*</span></label>                 
 
                               <!-- To validate the select add class "select-validate" -->     
-                              <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <select id="city_id" required="true" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                    <option value="" selected="">{{__('Select City') }}
                                    </option>
                                  <!--  @foreach ($data['state_view'] as $state)
@@ -250,9 +250,7 @@
                       <div class="col-sm-4">
     									  <div class="select-row form-group">
                         <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
-                              <input placeholder="Price" class="clearable" id="price" name="price" type="text">
-                                          
-
+                              <input placeholder="Price" class="clearable" id="price" name="price" type="text">             
                             <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
                                   
                              <div class="input-highlight"></div>                       
@@ -288,10 +286,10 @@
                         </div><!-- ./col- -->
                           <br></br>
                       <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                <textarea id="listing_descriptions" name="listing_descriptions" class="textarea-auto-resize"></textarea>
+                                <textarea id="listing_descriptions" name="listing_descriptions" style="border: 1px solid #9e9e9e;padding: 10px;" class="textarea-auto-resize"></textarea>
                                 
                                 <label for="listing_descriptions" class="fixed-label">{{__('Listing Descriptions') }}</label>
                                 <div class="input-highlight"></div>
@@ -425,6 +423,31 @@
           {
               return true;
           }
+          if (newIndex === 1 )
+            {
+               var formsubmit =true; 
+               if($("#hotel_name").val()==''){
+                  $('.hotel_id-error').remove();
+                  $( '<div id="hotel_name-error" class="error hotel_name-error custom-error" >Please Enter Hotel Name.</div>' ).insertAfter( '#hotel_name' );
+                  formsubmit =false; 
+               }
+              if($("#country_id").val()==''){
+                  $('.country_id-error').remove();
+                  $( '<div id="country_id-error" class="error country_id-error custom-error">Please choose Counrty.</div>' ).insertAfter( '#country_id' );
+                  formsubmit =false; 
+               }
+               if($("#state_id").val()==''){
+                  $('.state_id-error').remove();
+                  $( '<div id="state_id-error" class="error state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#state_id' );
+                  formsubmit =false; 
+               }
+                if($("#city_id").val()==''){
+                  $('.city_id-error').remove();
+                  $( '<div id="city_id-error" class="error city_id-error custom-error">Please Choose City.</div>' ).insertAfter( '#city_id' );
+                  formsubmit =false; 
+               }
+               return formsubmit;
+            }
           // // Forbid next action on "Warning" step if the user is to young
           // if (newIndex === 3 && Number($("#age-2").val()) < 18)
           // {
@@ -437,6 +460,8 @@
               form.find(".body:eq(" + newIndex + ") label.error").remove();
               form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
           }
+          
+
           form.validate().settings.ignore = ":disabled,:hidden";
           return form.valid();
       },
@@ -455,14 +480,32 @@
         'hotel_name': {
                 required: true
             },
+            'country_id'  : {
+              required: true
+            },
+            'state_id' : {
+              required: true
+            },
+            'city_id' : {
+              required: true
+            },
       },
       messages: {
             'hotel_name': {
                 required: 'Please fill name.'
-            }
+            },
+            'country_id'  : {
+              required: 'Please select country.'
+            },
+            'state_id' : {
+              required:  'Please select State..'
+            },
+            'city_id' : {
+              required:  'Please select City.'
+            },
         },
         errorElement: 'div',
-    errorPlacement: function (error, element) {
+       errorPlacement: function (error, element) {
       var placement = $(element).data('error');
       if (placement) {
         $(placement).append(error)

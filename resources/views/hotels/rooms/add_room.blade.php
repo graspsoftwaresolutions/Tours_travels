@@ -29,6 +29,10 @@
    .dropdown-menu li {
    padding: 0 20px !important;
    }
+   #errmsg
+   {
+   color: red;
+   }
 </style>
 @endsection
 @section('main-content')	
@@ -207,7 +211,7 @@
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
-   
+
     form.steps({
         headerTag: "h3",
         bodyTag: "fieldset",
@@ -241,6 +245,7 @@
                   $('.room_number-error').remove();
                   $( '<div id="room_number-error" class="error room_number-error custom-error">Please fill room number.</div>' ).insertAfter( '#room_number' );
                   formsubmit =false; 
+                  
                }
                 if($("#room_no_of_beds").val()==''){
                   $('.room_no_of_beds-error').remove();
@@ -290,42 +295,20 @@
         }
     }).validate({
         rules: {
-          'hotel_id': {
-                  required: true,
-              },
-              'roomtype_id' : {
-                  required: true,
-              },
-              'room_number' : {
-                  required: true,
-                  digits : true,
-              },
-              "room_no_of_beds" : {
-                   required: true,
-                  digits : true,
-              },
-              "status" : {
-               required: true,
-              },
+            //   'room_number' : {
+            //       digits : true,
+            //   },
+            //   "room_no_of_beds" : {
+            //       digits : true,
+            //   },
         },
         messages: {
-              'hotel_id': {
-                  required: 'Please Select the hotel.',
-              },
-              'roomtype_id' : {
-                  required: 'Please Select the room Type.',
-              },
-              'room_number' : {
-                  required: 'Please enter room number.',
-                  digits : 'Numbers only.',
-              },
-              "room_no_of_beds" : {
-               required: 'Please enter no of beds.',
-                  digits : 'Numbers only.',
-              },
-              "status" : {
-               required: 'Please Select the status.',
-              },
+            //   'room_number' : {
+            //       digits : 'Numbers only.',
+            //   },
+            //   "room_no_of_beds" : {
+            //       digits : 'Numbers only.',
+            //   },
           },
           errorElement: 'div',
       errorPlacement: function (error, element) {
@@ -337,6 +320,12 @@
         }
       },
     });
+    $("#room_number").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsg").html("Digits Only").css("background-color", "yellow").show().fadeOut("slow");
+        return false;
+    }
+   });
    // $("#wizard1").steps({
    //     headerTag: "h3",
    //     bodyTag: "fieldset"

@@ -86,7 +86,7 @@ class ActivityController extends BaseController
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
                         $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
-                        $file->storeAs('hotels' , $imageName  ,'local');
+                        $file->storeAs('activity' , $imageName  ,'local');
         
                         DB::table('activity_images')->insert(
                             ['activity_id' => $last_id, 'image_name' => $imageName]
@@ -186,7 +186,7 @@ class ActivityController extends BaseController
                 foreach ($request->file('image_name') as $file) {
                 $extension = $file->getClientOriginalExtension();
                 $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
-                $file->storeAs('hotels' , $imageName  ,'local');
+                $file->storeAs('activity' , $imageName  ,'local');
 
                 DB::table('activity_images')->insert(
                     ['activity_id' => $last_id, 'image_name' => $imageName]

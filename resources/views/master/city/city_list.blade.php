@@ -312,7 +312,7 @@ $(function() {
 
                     if(data == null || data == 'undefined' || data == '')
                     {
-                        var location = image_url+'/city/no_image.jpg';
+                        var location = no_image_url;
                         return '<a  target="_blank" href="'+location+'"><img src="'+location+'" class="avatar" width="50" height="50"/></a>';
                     }
                     else{
@@ -420,7 +420,7 @@ function showeditForm(cityid) {
             $("#cit_image").show();
             if(result.city_image == '' || result.city_image == undefined ||  result.city_image == null )
             {
-                var location = image_url+'/city/no_image.jpg';
+                var location = no_image_url;
                 $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="'+location+'">');
             }
             else{

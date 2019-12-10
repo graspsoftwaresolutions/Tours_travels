@@ -48,7 +48,9 @@
                             <thead>
                                 <tr>
                                     <th width="40%">{{__('Hotel Name')}}</th>
-                                    <th width="40%">{{__('Contact Name')}} </th>
+                                    <th width="20%">{{__('State')}}</th>
+                                    <th width="20%">{{__('City')}} </th>
+                                    <th width="20%">{{__('Contact Name')}} </th>
 
                                     <th> {{__('Action') }}</th>
                                 </tr>
@@ -209,6 +211,12 @@
         },
         "columns": [{
                 "data": "hotel_name"
+            },
+            {
+                "data": "state_name"
+            },
+            {
+                "data": "city_name"
             },
             {
                 "data": "contact_name"

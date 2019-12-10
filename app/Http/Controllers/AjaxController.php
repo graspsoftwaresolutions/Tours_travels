@@ -410,70 +410,81 @@ class AjaxController extends CommonController
 
             0 => 'hotel_name', 
             1 => 'contact_name', 
-            2 => 'id',
+            2 => 'state_name',
+            3 => 'city_name',
+            4 => 'contact_name',
         );
-
-        $totalData = Hotel::where('status','=','1')
+        $totalData = DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                    ->join('state as s','s.id','=','hot.state_id')
+                    ->join('city as c','c.id','=','hot.city_id')
+                    ->where('hot.status','=','1')
                     ->count();
-
         $totalFiltered = $totalData; 
-
-        $limit = $request->input('length');
-        
+        $limit = $request->input('length');    
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){
                 
-                $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
-                //->join('state','country.id','=','state.country_id')
+                $hotels = DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                ->join('state as s','s.id','=','hot.state_id')
+                ->join('city as c','c.id','=','hot.city_id')
                 ->orderBy($order,$dir)
-                ->where('status','=','1')
+                ->where('hot.status','=','1')
                 ->get()->toArray();
             }else{
-                $hotels =  DB::table('hotels')->select('id','hotel_name','contact_name','status')
+                $hotels =  DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                ->join('state as s','s.id','=','hot.state_id')
+                ->join('city as c','c.id','=','hot.city_id')
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
-                ->where('status','=','1')
+                ->where('hot.status','=','1')
                 ->get()->toArray();
             }
-        
         }
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
-                    ->where('status','=','1')
+            $hotels =DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+            ->join('state as s','s.id','=','hot.state_id')
+            ->join('city as c','c.id','=','hot.city_id')
+                    ->where('hot.status','=','1')
                     ->where(function($query) use ($search){
                         $query->orWhere('hotel_name', 'LIKE',"%{$search}%")
-                        ->orWhere('contact_name', 'LIKE',"%{$search}%");
+                        ->orWhere('contact_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%")
+                        ->orWhere('city_name', 'LIKE',"%{$search}%");
                     })
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $hotels = DB::table('hotels')->select('id','hotel_name','contact_name','status')
-                        ->where('status','=','1')
+            $hotels = DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                    ->join('state as s','s.id','=','hot.state_id')
+                    ->join('city as c','c.id','=','hot.city_id')
+                        ->where('hot.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('hotel_name', 'LIKE',"%{$search}%")
-                            ->orWhere('contact_name', 'LIKE',"%{$search}%");
+                            ->orWhere('contact_name', 'LIKE',"%{$search}%")
+                            ->orWhere('state_name', 'LIKE',"%{$search}%")
+                            ->orWhere('city_name', 'LIKE',"%{$search}%");
                         })
                         ->offset($start)
                         ->limit($limit)
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered = Hotel::where('id','LIKE',"%{$search}%")
+        $totalFiltered = DB::table('hotels as hot')->select('hot.id','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                    ->join('state as s','s.id','=','hot.state_id')
+                    ->join('city as c','c.id','=','hot.city_id')
                     ->orWhere('hotel_name', 'LIKE',"%{$search}%")
-                    ->where('status','=','1')
+                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->where('hot.status','=','1')
                     ->count();
         }
-        
-        
-    
         $table ="hotels";
         $data = $this->CommonAjaxReturn($hotels, 2, '', 1,$table,'master.edithotel'); 
    

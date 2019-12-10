@@ -30,6 +30,10 @@
   .dropdown-menu li {
     padding: 0 20px !important;
   }
+  .textsize{
+    border: 1px solid #9e9e9e;
+    padding: 10px;
+  }
 </style>
 @endsection
 
@@ -290,12 +294,12 @@
                                   <tbody id="exampleTable">
                                     @foreach($data['hote_roomtype_data'] as $val)
                                     <tr>
-                                    <input type="hidden" id="currentRow"/>
-                                        <td>{{$val->room_type}}</td>
+                                         <input type="hidden" id="currentRow"/>
+                                        <td><input type="hidden" name="roomid" value="{{$val->roomtype_id}}">{{$val->room_type}}</td>
                                         <td>{{$val->price}}</td>
                                         <td>
-                                        <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button>
-                                        <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
+                                        <!-- <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button> -->
+                                        <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light delete_roomtype_db" data-id="{{$val->roomtypeid}}" onclick="if (confirm('Are you sure you want to delete?')) return true; else return false;" title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr>
                                     @endforeach
                                   </tbody>
@@ -307,10 +311,10 @@
 
 
                       <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                <textarea id="listing_descriptions" name="listing_descriptions" class="textarea-auto-resize">{{ $hotel_data->listing_descriptions}}</textarea>
+                                <textarea id="listing_descriptions" name="listing_descriptions" style="border: 1px solid #9e9e9e; padding: 10px;" class="textarea-auto-resize">{{ $hotel_data->listing_descriptions}}</textarea>
                                 
                                 <label for="listing_descriptions" class="fixed-label">{{__('Listing Descriptions') }}</label>
                                 <div class="input-highlight"></div>
@@ -349,10 +353,8 @@
                     </br>
                     </div>
                    </br>
-                    </br>
-                      
+                    </br>                     
 						    	 <div class="row">
-
                       <div class="divider theme ml14 mr14"></div> 
                       @foreach($data['hotel_images'] as $image)
                      
@@ -380,7 +382,7 @@
                 </div>
 
                 
-                                                    <!-- Default Modal -->
+       <!-- Default Modal -->
             <div id="myModal" class="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -469,12 +471,9 @@
   $(document).ready(function() {
     $('#saveMasterButton').click(function(){
         var modal_roomid = $("#room_type_modal").val();
-        alert(modal_roomid);
         var modal_roomname =$('#room_type_modal option:selected').html();
         var modal_price = $('#modal_price').val();
-        
       });
-
         $('#price_add').click(function(){
         var room_type_id  =  $("#room_type").val(); 
         var room_name =$('#room_type option:selected').html();
@@ -482,24 +481,33 @@
         var room_type = $('#room_type').val();
         var slno=0;
         var price = $('#price').val();
-        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td>    <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
         slno++;
         $('#price').val('');
         $('#room_type').prop('selectedIndex',0);
-      });
-
+      });   
 });
-  $(document).on('click', 'span.editrow', function () {
-  $(".roomtypeidvalue").val($(this).closest("tr").attr("id"));
-});
-  $(document).on('click', 'button.removebutton', function () {
-    if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
-              $(this).closest('tr').remove();
-              return true;
-          } else {
-              return false;
-          }
-   });
+        $(document.body).on('click', '.delete_roomtype_db', function() {
+        var roomtype_id = $(this).data('id'); 
+        var parrent = $(this).parents("tr");
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "{{ URL::to('/delete-roomtype-data') }}?roomtype_id=" + roomtype_id,
+            success: function(res) {
+                if (res) {
+                    parrent.remove();
+                    M.toast({
+                        html: res.message
+                    });
+                } else {
+                    M.toast({
+                        html: res.message
+                    });
+                }
+            }
+        });
+    });
   form.steps({
       headerTag: "h3",
       bodyTag: "fieldset",

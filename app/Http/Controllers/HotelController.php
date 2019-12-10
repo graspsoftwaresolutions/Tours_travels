@@ -72,9 +72,7 @@ class HotelController extends CommonController
                 );
                 $slno++;
             }
-           
         }
-
         $amenities = $request->input('amenities');
         
         if(isset($amenities)){
@@ -113,7 +111,6 @@ class HotelController extends CommonController
         $data = [];
         return view('hotels.list')->with('data',$data);
     }
-
     public function EditHotel($encid){
         $autoid = Crypt::decrypt($encid);
         $data['country_view'] = Country::where('status','=','1')->get();
@@ -133,11 +130,12 @@ class HotelController extends CommonController
 
     public function newHotelRoom()
     {
-        $data['room_list'] = DB::table('hotel_rooms as hr')->select('hr.id as hotelroomid','h.hotel_name','rt.room_type','hr.room_number','hr.status as roomstatus')
+        $data['room_list'] = DB::table('hotel_rooms as hr')->select('hr.id as hotelroomid','h.hotel_name','rt.room_type','hr.room_number','hr.status as roomstatus','s.state_name','c.city_name')
                             ->leftjoin('hotels as h','h.id','=','hr.hotel_id')
-                            ->leftjoin('room_type as rt','rt.id','=','hr.roomtype_id')
+                            ->leftjoin('room_type as rt','rt.id','=','hr.roomtype_id') 
+                            ->leftjoin('state as s','h.state_id','=','s.id')
+                            ->leftjoin('city as c','h.city_id','=','c.id')
                             ->get();
-        //dd($data['room_list']);
         return view('hotels.rooms.rooms_list',compact('data',$data));
     }
     
@@ -224,8 +222,8 @@ class HotelController extends CommonController
         // }
     //    / dd( $amenities);
 
-        $room_type = $request->input('room_typ');
-        $hotel->roomtypes()->sync($room_type);
+        // $room_type = $request->input('room_typ');
+        // $hotel->roomtypes()->sync($room_type);
         // if(isset($room_type)){
         //     foreach ($room_type as $type) {
         //         DB::table('hotel_roomtypes')->insertOrIgnore(
@@ -233,8 +231,19 @@ class HotelController extends CommonController
         //         );
         //     }
         // }
-       
-
+        $check_room_type = $request->input('room_typ');
+        if(isset($check_room_type))
+        {
+           $room_count = count($request->input('room_typ'));
+            for($i=0;$i<$room_count;$i++)
+            {  
+                  $price = $request->input('price')[$i];
+                  $room_type = $request->input('room_typ')[$i];
+                  DB::table('hotel_roomtypes')->insert(
+                                  ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price]
+                              );
+            }
+        }
         //$file_name = $hotel->id.strtotime('Ymd');
         // $imageName = $hotel->id.time().'.'.$request->hotel_images->getClientOriginalExtension();
 
@@ -360,5 +369,15 @@ class HotelController extends CommonController
                 }
                 return redirect('/hotel_room')->with('message','Room Details Updated Successfully!!');
     }
-
+    public function deleteRoomtype(Request $request){
+        $delete = DB::table('hotel_roomtypes')->where('id','=',$request->roomtype_id)->delete();
+        $returndata = array('message' => '', 'data' => ''); 
+        if($delete){
+            $returndata = array('message' => 'Room Type data deleted successfully', 'data' => '');
+        }else{
+            $returndata = array('message' => 'Failed to delete', 'data' => '');
+            
+        }
+        echo json_encode($returndata);
+    }
 }

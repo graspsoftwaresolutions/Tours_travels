@@ -81,6 +81,8 @@ Route::get('hotels-edit/{parameter}','HotelController@EditHotel')->name('master.
 Route::get('delete_hotel_image','HotelController@imageDelete')->name('hotel.imagedelete');
 Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelroom');
 
+Route::get('delete-roomtype-data','HotelController@deleteRoomtype');
+
 
 Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel');
 
