@@ -427,7 +427,7 @@
                         <div class="select-row form-group">
                            <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
                               </option>
                               <!--  @foreach ($data['state_view'] as $state)
@@ -547,8 +547,8 @@
                   <div class="row sortable">
                     <div class="card">
                       <div class="card-image">
-                          <img src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
-                          <div class="card-title">Bridges<br><span class="text-small">San Fransisco Bridge</span></div>
+                          <img id="summary-banner" src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
+                          <div class="card-title"> <span id="summay-state">Bridges</span><br><span id="summay-cities" class="text-small"></span></div>
                       </div>
                        <ul id="overall-summary" class="timeline bg-color-switch mt40 timeline-single">
                           <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
@@ -1043,6 +1043,10 @@
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.pagination.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/code-prettify/prettify.js') }}"></script>
+  <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
+  <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+ <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="{{ asset('public/assets/dist/js/sortable-ui.js') }}"></script-->
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
@@ -1091,11 +1095,11 @@
                   $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose to_city_id.</div>' ).insertAfter( '#to_city_id' );
                   formsubmit =false; 
                }
-                if($("#package_name").val()==''){
-                  $('.package_name-error').remove();
-                  $( '<div id="package_name-error" class="error package_name-error custom-error">Please ebter package name.</div>' ).insertAfter( '#package_name' );
-                  formsubmit =false; 
-               }
+               //  if($("#package_name").val()==''){
+               //    $('.package_name-error').remove();
+               //    $( '<div id="package_name-error" class="error package_name-error custom-error">Please ebter package name.</div>' ).insertAfter( '#package_name' );
+               //    formsubmit =false; 
+               // }
                 
               // return formsubmit;
             }
@@ -1287,7 +1291,7 @@
           // select.empty();
            //$("#state_id").append("<option value=''>Select</option>");
            $.each(data, function(key, value) {
-               $('#'+cityid).append('<option value=' + value.id + '>' + value.city_name +
+               $('#'+cityid).append('<option data-image="'+value.city_image+'" value=' + value.id + '>' + value.city_name +
                    '</option>');
            });
             $('#'+cityid).selectpicker("refresh");
@@ -1315,6 +1319,8 @@
       $("#place-sortList").sortable();
    })(jQuery);
    function PickPlace(paramscity){
+      
+      var place_area = paramscity.statename+' - '+paramscity.cityname;
       var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
       var imagedummy =  no_image_url;
 
@@ -1332,6 +1338,9 @@
       $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
       $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+
+      $("#summay-state").html(paramscity.statename);
+      $("#summay-cities").append(paramscity.cityname+', ');
 
       
    }
@@ -1701,8 +1710,14 @@ viewactivityconfirm
 
             var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_activity_city_id[]" id="second_activity_city_id" value="'+cityid+'"/>';
 
-            $("#place-activitylist-"+cityid).append('<div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a href="#:;" class="msg-sub">'+resultdata.title_name+'</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div>');
-            $("#pick-actitity-link-"+cityid).css('top','-20px');
+            if(!$('#city_activity_id_'+resultdata.id).length){
+              $("#place-activitylist-"+cityid).append('<div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a href="#:;" class="msg-sub">'+resultdata.title_name+'</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div>');
+             $("#pick-actitity-link-"+cityid).css('top','-20px');
+            }else{
+              alert("Activity already choosed");
+            }
+
+            
         }
     });
 
@@ -1714,12 +1729,32 @@ viewactivityconfirm
   function RemoveActivity(activityid,cityid){
     $("#city_activity_id_"+activityid).remove();
   }
-  $('#overall-summary').sortable({
-    axis: 'y',
-    update: function (event, ui) {
-       alert('fdg');
-    }
-});
+  $( "#overall-summary" ).sortable({
+      sort: function( event, ui ) {
+        alert('test');
+      }
+    });
+  //$( "#overall-summary" ).
+  $(document).on('blur', '#overall-summary', function() {
+   alert('hi');
+  });
+   $('#place-sortList').on('contentChanged',function(){alert('UL content changed!!!');});
+   function ChangeCityvalues(refid){
+      var selected = $("#"+refid).find('option:selected');
+      var imagename = selected.data('image'); 
+      var imagelocation = imagename=='null' ? no_image_url : image_url+'/city/'+imagename;
+      $("#summary-banner").attr("src", imagelocation);
+   }
+
+  // var mySortableList = $('#overall-summary').sortable({
+  //   handle: '.handle',
+  // });
+  // console.log(mySortableList);
+  // $('#overall-summary').sortable({
+  //   sort: function (event, ui) {
+  //      alert('fdg');
+  //   }
+  // });
   // $("#overall-summary").sortable(
   //   update: function (event, ui) {
   //     alert('hi');
