@@ -208,6 +208,7 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
+
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();

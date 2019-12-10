@@ -116,9 +116,9 @@
                                     </select>  
                                    
                                      </div>
-                                     <div class="col-md-2 col-sm-6"> <label for="" class="control-label">{{__('Minutes') }}</label>
+                                     <div class="col-md-2 col-sm-6"> <label for="" class="control-label">{{__('Min') }}</label>
                                      </div>
-                              <label for="" class="fixed-label">{{__('Duration (Hours)') }}</label>
+                              <label for="" style="margin-left: 20px;" class="fixed-label">{{__('Duration (Hours)') }}</label>
                               <div class="input-highlight"></div>
                            </div>
                         </div>
@@ -207,7 +207,7 @@
                      <div class="col-md-4">
                         <div class="form-group">
                            <div class="input-field label-float">
-                              <input placeholder="Address two" class="clearable" id="zip_code" name="zip_code" type="text">
+                              <input placeholder="Zip Code" class="clearable" id="zip_code" name="zip_code" type="text">
                               <label for="zip_code" class="fixed-label">{{__('Zip Code') }}</label>
                               <div class="input-highlight"></div>
                            </div>
@@ -274,7 +274,7 @@
                      <div class="col-md-12">
                         <div class="form-group">
                            <label for=""><strong>Inclusions:  </strong></label>
-                           <span> <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a> </span>
+                           <span> <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;vertical-align: sub"></i> </a> </span>
                            <!-- <p class="no-margin em"></p> -->
                         </div>
                      </div>
@@ -305,7 +305,7 @@
                      <div class="col-md-12">
                         <div class="form-group">
                            <label for=""><strong>Exclusions: </strong></label>
-                           <span>  <a href="#" data-toggle="modal" title="Add" data-target="#ExclusionModal"> <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a> </span>
+                           <span>  <a href="#" data-toggle="modal" title="Add" data-target="#ExclusionModal"> <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;vertical-align: sub"></i> </a> </span>
                            <!-- <p class="no-margin em"></p> -->
                         </div>
                      </div>
@@ -525,17 +525,17 @@
           'title_name': {
                   required: true,
               },
-            //   'duartion_hours' : {
-            //     required: true,
-            //   },
+              'amount' : {
+                digits: true,
+              },
         },
         messages: {
               'title_name': {
                   required: 'Please fill title.',
               },
-            //   'duartion_hours' : {
-            //     required: 'Please fill duration.',
-            //   },
+              'amount' : {
+                digits: 'Numbers only',
+              },
           },
           errorElement: 'div',
       errorPlacement: function (error, element) {
