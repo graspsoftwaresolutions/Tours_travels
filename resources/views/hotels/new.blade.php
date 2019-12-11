@@ -257,9 +257,11 @@
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
     									</div><!-- ./col- -->
+                    
                       <div class="col-sm-2">
-    									  <div class="select-row form-group" style="padding-top: 26px;">
-                            <a class="btn" id="price_add" title="Add"><i style="font-size: 22px; color: #ec415f;vertical-align:sub;" class="fa fa-plus-circle"></i></a>
+    									  <div class="select-row form-group">
+                        <label for="address_one" class="fixed-label"></label> 
+                            <a class="btn" id="price_add" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD</a>
                         <!-- <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a>  -->
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
@@ -410,25 +412,18 @@
               }
             });
             if (flag == 1) {
-              window.swal({   
-                  title: "Room Type is Already Exists!",     
-                  timer: 4000,   
-                  showConfirmButton: false 
-                });
+              swal("Error!", "Room Type is Already Exists!", "error");
             } else {
-              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"></td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
               slno++;
+             // swal("Success!", "Room Type is Added!", "success");
             }
         }
         else{
-          window.swal({   
-              title: "Please select Room Type and enter price!",     
-              timer: 4000,   
-              showConfirmButton: false 
-            });
+          swal("Error!", "Please select room type and Enter price!", "error");
         }
         $('#price').val('');
-       // $('#room_type').prop('selectedIndex',0);
+        // $('#room_type').prop('selectedIndex',0);
       });
   $(document).on('click', 'button.removebutton', function () {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
@@ -437,6 +432,26 @@
           } else {
               return false;
           }
+    // swal({   
+		// 	title: "Are you sure?",   
+		// 	text: "You will not be able to recover this imaginary file!",   
+		// 	type: "warning",   
+		// 	showCancelButton: true,  
+		// 	confirmButtonText: "Yes, delete it!",   
+		// 	cancelButtonText: "No, cancel plx!",   
+		// 	closeOnConfirm: false,   
+		// 	closeOnCancel: false 
+		// }, 
+		// function(isConfirm){   
+		// 	if (isConfirm) {   
+    //     $(this).closest('tr').remove();  
+    //     swal("Deleted!", "Your imaginary file has been deleted.", "success");  
+    //     return true; 
+		// 	} else {     
+    //     swal("Cancelled", "Your imaginary file is safe :)", "error");  
+    //     return false; 
+		// 	} 
+		// });
    });
 
 //   $('#room_type').on('change', function (e) {

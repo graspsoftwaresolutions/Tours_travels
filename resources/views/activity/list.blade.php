@@ -50,6 +50,7 @@
                                     <th width="20%">{{__('Activity Title')}}</th>
                                     <th width="20%">{{__('Spend time')}} </th>
                                     <th width="20%">{{__('Amount')}} </th>
+                                    <th width="20%">{{__('State')}} </th>
                                     <th width="20%">{{__('City')}} </th>
                                     <th width="20%">{{__('Zipcode')}} </th>
                                     <th> {{__('Action') }}</th>
@@ -119,6 +120,9 @@
             },
             {
                 "data": "amount"
+            },
+            {
+                "data": "state_name"
             },
             {
                 "data": "city_name"

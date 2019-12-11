@@ -161,7 +161,7 @@ class HotelController extends CommonController
     {
         $imageid = $request->input('image_id');
         $image_name = DB::table('hotel_room_images')->where('id','=', $imageid)->pluck('image_name')->first();
-        $image_url = storage_path('/app/hotels/rooms/'.$image_name);
+        $image_url = storage_path('/app/hotels/room/'.$image_name);
         if(file_exists($image_url)){
             \File::delete($image_url);
         } 
@@ -303,14 +303,14 @@ class HotelController extends CommonController
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
                         $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
-                        $file->storeAs('hotels' , $imageName  ,'local');
+                        $file->storeAs('hotels/room' , $imageName  ,'local');
         
                         DB::table('hotel_room_images')->insert(
                             ['hotel_id' => $last_id, 'image_name' => $imageName]
                         );
                         $slno++;
                     }
-                }      
+                }
             }
         }
         return redirect('/hotel_room')->with('message','Room Details Added Successfully!!');
@@ -358,11 +358,11 @@ class HotelController extends CommonController
                     $slno = 1;
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
-                        $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
-                        $file->storeAs('hotels' , $imageName  ,'local');
+                        $imageName = $autoid.'_'.date('Ymdhis').$slno.'.'.$extension;
+                        $file->storeAs('hotels\room' , $imageName  ,'local');
         
                         DB::table('hotel_room_images')->insert(
-                            ['hotel_id' => $last_id, 'image_name' => $imageName]
+                            ['hotel_id' => $autoid, 'image_name' => $imageName]
                         );
                         $slno++;
                     }

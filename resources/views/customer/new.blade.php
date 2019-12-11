@@ -150,7 +150,7 @@
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">
-                                    <input placeholder="phone" class="clearable" id="zipcode" name="zipcode" type="text">
+                                    <input placeholder="Zipcode" class="clearable" id="zipcode" name="zipcode" type="text">
                                     <label for="phone" class="fixed-label">{{__('Zipcode') }}<span style="color:red">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
@@ -242,7 +242,7 @@ $(document).ready(function(){
                required: "Please, choose city",
             },
             "zipcode" : {
-               required: "Please, choose type",
+               required: "Please, Enter Zipcode",
                digits : "Numbers only",
             },
             "phone" : {

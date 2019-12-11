@@ -2,6 +2,7 @@
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
+<link rel="stylesheet" href="{{ asset('public/assets/dist/css/sweet_alert.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
   .form-group {
@@ -296,10 +297,10 @@
                                     <tr>
                                          <input type="hidden" id="currentRow"/>
                                         <td><input type="hidden" name="roomid" value="{{$val->roomtype_id}}">{{$val->room_type}}</td>
-                                        <td>{{$val->price}}</td>
+                                        <td><input type="hidden" name="price" value="{{$val->price}}">{{$val->price}}</td>
                                         <td>
                                         <!-- <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button> -->
-                                        <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light delete_roomtype_db" data-id="{{$val->roomtypeid}}" onclick="if (confirm('Are you sure you want to delete?')) return true; else return false;" title="delete"><i class="mdi mdi-delete"></i></td>
+                                        <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light delete_roomtype_db" data-id="{{$val->roomtypeid}}" onclick='return ConfirmDeletion()' title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr>
                                     @endforeach
                                   </tbody>
@@ -445,12 +446,12 @@
        
     </section> <!-- /.content-wrapper -->
 @endsection
-		
 @section('footerSection')
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
 <script>
 	$("#hotel_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
@@ -481,11 +482,39 @@
         var room_type = $('#room_type').val();
         var slno=0;
         var price = $('#price').val();
-        $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
-        slno++;
+
+        if((room_type_id != '') &&  (price != '') )
+        {
+            var flag = 0;
+            $("#ExclusionTable").find("tr").each(function () { //iterate through rows
+              var td1 = $(this).find("td:eq(0)").text(); //get value of first td in row
+              var td2 = $(this).find("td:eq(1)").text(); //get value of second td in row
+              if ((room_name == td1 &&  price != '')) { //compare if test = td1 AND sample = td2
+                  flag = 1; //raise flag if yes
+              }
+            });
+            if (flag == 1) {
+              swal("Error!", "Room Type is Already Exists!", "error");
+            } else {
+              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"></td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"></td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+             slno++;
+             // swal("Success!", "Room Type is Added!", "success");
+            }
+        }
+        else{
+          swal("Error!", "Please select room type and Enter price!", "error");
+        }
         $('#price').val('');
-        $('#room_type').prop('selectedIndex',0);
-      });   
+       // $('#room_type').prop('selectedIndex',0);
+      }); 
+      $(document).on('click', 'button.removebutton', function () {
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
+              $(this).closest('tr').remove();
+              return true;
+          } else {
+              return false;
+          }  
+});
 });
         $(document.body).on('click', '.delete_roomtype_db', function() {
         var roomtype_id = $(this).data('id'); 
@@ -501,9 +530,7 @@
                         html: res.message
                     });
                 } else {
-                    M.toast({
-                        html: res.message
-                    });
+                   return false;
                 }
             }
         });
@@ -628,10 +655,17 @@
               }
           });
       }else{
-       // alert('Failed to delete');
+        return false;
       }
       
   }
+  function ConfirmDeletion() {
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+        return true;
+    } else {
+        return false;
+    }
+}
   
 </script>
 @endsection
