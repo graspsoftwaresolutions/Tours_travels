@@ -297,7 +297,7 @@
                                     <tr>
                                          <input type="hidden" id="currentRow"/>
                                         <td><input type="hidden" name="roomid" value="{{$val->roomtype_id}}">{{$val->room_type}}</td>
-                                        <td>{{$val->price}}</td>
+                                        <td><input type="hidden" name="price" value="{{$val->price}}">{{$val->price}}</td>
                                         <td>
                                         <!-- <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button> -->
                                         <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light delete_roomtype_db" data-id="{{$val->roomtypeid}}" onclick='return ConfirmDeletion()' title="delete"><i class="mdi mdi-delete"></i></td>
@@ -446,7 +446,6 @@
        
     </section> <!-- /.content-wrapper -->
 @endsection
-		
 @section('footerSection')
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
@@ -497,7 +496,7 @@
             if (flag == 1) {
               swal("Error!", "Room Type is Already Exists!", "error");
             } else {
-              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"</td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"</td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"></td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"></td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
              slno++;
              // swal("Success!", "Room Type is Added!", "success");
             }

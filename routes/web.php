@@ -65,8 +65,6 @@ Route::post('hotelroom_save','HotelController@hotelroomSave')->name('save.hotelr
 Route::get('hotel_room_edit/{id}','HotelController@hotelroomEdit');
 Route::get('delete_hotel_room_image','HotelController@RoomimageDelete');
 
-
-
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');

@@ -482,7 +482,7 @@
       }
       else
       {
-         $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+         $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
          slno++;
       }
     }
@@ -506,8 +506,7 @@
     var exclusion_name =  $('#exclusion_name').val();
     var sno=0;
     if(exclusion_name != '')
-    {
-      
+    {    
       var flag=0;
       $('#ExclusionTable').find('tr').each(function(){
          var extd1 = $(this).find("td:eq(0)").text();
@@ -523,7 +522,7 @@
       }
       else
       {
-         $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+         $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
          sno++;
       }
     }

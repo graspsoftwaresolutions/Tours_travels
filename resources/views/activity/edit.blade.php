@@ -310,7 +310,7 @@
                                     @if(!empty($someArray))
                                     @foreach($someArray as $values)
                                  <tr id="row{{$values}}">
-                                 <td id="inclu_name">{{$values ? $values : ''}} <input type="hidden" id="inclu_name_{{$s1+1}}" name="inclusion_name[]" value="{{$values}}" class="inclusiontext"></td>
+                                 <td id="inclu_name">{{$values ? $values : ''}}<input type="hidden" id="inclu_name_{{$s1+1}}" name="inclusion_name[]" value="{{$values}}" class="inclusiontext"></td>
                                  <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light deleteoptn" id="{{$values}}|{{$row->id}}" title="delete">
                                     
                                  <i class="mdi mdi-delete"></i></td>
@@ -354,7 +354,7 @@
                                     @if(!empty($someArray))
                                     @foreach($someArray as $values)
                                     <tr id="exclusionrow{{$values}}"> 
-                                    <td id="exclu_name">{{$values  ? $values : ''}} <input type="hidden" name="exclusion_name[]" value="{{$values}}"> </td>
+                                    <td id="exclu_name">{{$values  ? $values : ''}}<input type="hidden" name="exclusion_name[]" value="{{$values}}"> </td>
                                     <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light delete_exclusion" id="{{$values}}|{{$row->id}}" title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr> 
                                   @endforeach
@@ -560,13 +560,12 @@ $('.deleteoptn').click(function()
     if(inclusionname != '')
     {
       var flag=0;
-      $('#exampleTable').find('tr').each(function(){
-            var td1 = $(this).find("td:eq(0)").text();  
-         //alert(td1);
-         
-         var uppercasetd1 = td1.toUpperCase();
-         var uppercaseinclusion = inclusionname.toUpperCase();
-         if(uppercasetd1 == uppercaseinclusion){
+      $('#InclusionTable tbody').find('tr').each(function(){
+         var td1 = $(this).find("td:eq(0)").text();
+         var uptd1 = td1.toUpperCase();
+         var upinclusion = inclusionname.toUpperCase();
+         if(uptd1 == upinclusion){
+           
             flag = 1;
          }
       });
@@ -576,7 +575,7 @@ $('.deleteoptn').click(function()
       }
       else
       {
-         $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" class="inclusiontext" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+         $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" class="inclusiontext" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
          slno++;
       }
     }
@@ -607,7 +606,7 @@ $('.deleteoptn').click(function()
             }
             else
             {
-               $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+               $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
                sno++;
             }
          }
