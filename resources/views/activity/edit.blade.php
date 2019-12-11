@@ -2,6 +2,7 @@
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
+<link rel="stylesheet" href="{{ asset('public/assets/dist/css/sweet_alert.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
    .form-group {
@@ -122,9 +123,9 @@
                                        @endphp
                               </select> 
                               </div>
-                                     <div class="col-md-2 col-sm-6"> <label for="" class="control-label">{{__('Minutes') }}</label>
+                                     <div class="col-md-2 col-sm-6"> <label for="" class="control-label">{{__('Min') }}</label>
                                      </div>
-                              <label for="" class="fixed-label">{{__('Duration (Hours)') }}</label>
+                              <label for="" style="margin-left: 18px;" class="fixed-label">{{__('Duration (Hours)') }}</label>
                               <div class="input-highlight"></div>
                            </div>
                         </div>
@@ -299,7 +300,8 @@
                                  </tr>
                               </thead>
                               <tbody id="exampleTable" border=1>
-                                    @php $inclusion = $row->inclusion_name;  
+                                    @php $inclusion = $row->inclusion_name; 
+                                    $s1 = 0; 
                                     if(!empty($inclusion))
                                     {
                                         $someArray = json_decode($inclusion, true);
@@ -307,10 +309,13 @@
                                     @endphp
                                     @if(!empty($someArray))
                                     @foreach($someArray as $values)
-                                 <tr class=""> 
-                                 <td id="inclu_name">{{$values ? $values : ''}} <input type="hidden" name="inclusion_name[]" value="{{$values}}"></td>
-                                 <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
+                                 <tr id="row{{$values}}">
+                                 <td id="inclu_name">{{$values ? $values : ''}} <input type="hidden" id="inclu_name_{{$s1+1}}" name="inclusion_name[]" value="{{$values}}" class="inclusiontext"></td>
+                                 <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light deleteoptn" id="{{$values}}|{{$row->id}}" title="delete">
+                                    
+                                 <i class="mdi mdi-delete"></i></td>
                                   </tr> 
+                                  @php $s1++; @endphp
                                   @endforeach
                                   @endif
                               </tbody>
@@ -348,9 +353,9 @@
                                     @endphp
                                     @if(!empty($someArray))
                                     @foreach($someArray as $values)
-                                    <tr class=""> 
+                                    <tr id="exclusionrow{{$values}}"> 
                                     <td id="exclu_name">{{$values  ? $values : ''}} <input type="hidden" name="exclusion_name[]" value="{{$values}}"> </td>
-                                    <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td>
+                                    <td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light delete_exclusion" id="{{$values}}|{{$row->id}}" title="delete"><i class="mdi mdi-delete"></i></td>
                                     </tr> 
                                   @endforeach
                                   @endif
@@ -500,19 +505,129 @@
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/zoom/zoom.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
 <script>
     $("#avtivity-menu").addClass('active');
    $("#activity_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
    $(document).ready(function() {
-    var slno=0;
-    $('#saveInclusionButton').click(function(){
+
+$('.deleteoptn').click(function()
+{
+  var id = $(this).attr('id');
+  var strsp = id.split("|");
+  var actid = strsp[1]; //17
+  var acttxt = strsp[0]; //hello,world
+  if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+        var url = "{{ url('/delete_inclusion') }}" + '?id=' + actid + '&inclusionname=' + acttxt ;
+          $.ajax({
+              url: url,
+              type: "GET",
+              dataType: "json",
+              success: function(result) {
+                if(result == 1)
+                {
+                     $("#row" + acttxt).remove();
+                } 
+              }
+            });
+           }
+   });
+   $('.delete_exclusion').click(function()
+   {
+   var id = $(this).attr('id');
+   var strsp = id.split("|");
+   var actid = strsp[1]; //17
+   var acttxt = strsp[0]; //hello,world
+   if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+         var url = "{{ url('/delete_exclusion') }}" + '?id=' + actid + '&exclusion_name=' + acttxt ;
+            $.ajax({
+               url: url,
+               type: "GET",
+               dataType: "json",
+               success: function(result) {
+                  if(result == 1)
+                  {
+                        $("#exclusionrow" + acttxt).remove();
+                  } 
+               }
+               });
+            }
+      });
+   $('#saveInclusionButton').click(function(){
     var inclusionname =  $('#inclusion_name').val();
-    $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
-    slno++;
+    var slno=0;
+    if(inclusionname != '')
+    {
+      var flag=0;
+      $('#exampleTable').find('tr').each(function(){
+            var td1 = $(this).find("td:eq(0)").text();  
+         //alert(td1);
+         
+         var uppercasetd1 = td1.toUpperCase();
+         var uppercaseinclusion = inclusionname.toUpperCase();
+         if(uppercasetd1 == uppercaseinclusion){
+            flag = 1;
+         }
+      });
+      if(flag==1)
+      {
+         swal("Error!", "Inclusion is Already Exists!", "error");
+      }
+      else
+      {
+         $('#InclusionTable tbody').append('<tr class="child" ><td>'+inclusionname+'<input type="hidden" class="inclusiontext" id="inclu_name_'+slno+'" name="inclusion_name[]" value="'+inclusionname+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+         slno++;
+      }
+    }
+    else{
+      swal("Error!", "Please enter Inclusion Name!", "error");
+    }
     $('#masterModal').modal('toggle');
     $('#inclusion_name').val('');
    });
+    $('#saveExclusionButton').click(function(){
+      var exclusion_name =  $('#exclusion_name').val();
+         var sno=0;
+         if(exclusion_name != '')
+         {
+            
+            var flag=0;
+            $('#ExclusionTable').find('tr').each(function(){
+               var extd1 = $(this).find("td:eq(0)").text();
+               var uppercasetd1 = extd1.toUpperCase();
+               var uppercaseexclusion = exclusion_name.toUpperCase();
+               if(uppercasetd1 == uppercaseexclusion){
+                  flag = 1;
+               }
+            });
+            if(flag==1)
+            {
+               swal("Error!", "Exclusion is Already Exists!", "error");
+            }
+            else
+            {
+               $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+               sno++;
+            }
+         }
+         else{
+            swal("Error!", "Please enter Inclusion Name!", "error");
+         }
+    
+    $('#ExclusionModal').modal('toggle');
+    $('#exclusion_name').val('');
+   });
+
+
+   });
+   function myFunction() {
+      if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
+              return true;
+          } else {
+              return false;
+          }
+}
    $(document).on('click', 'button.removebutton', function () {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
               $(this).closest('tr').remove();
@@ -522,15 +637,7 @@
           }
    });
    
-   var sno=0;
-    $('#saveExclusionButton').click(function(){
-    var exclusion_name =  $('#exclusion_name').val();
-    $('#ExclusionTable tbody').append('<tr class="child" ><td>'+exclusion_name+'<input type="hidden" id="exclusion_name_'+sno+'" name="exclusion_name[]" value="'+exclusion_name+'"</td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
-    sno++;
-    $('#ExclusionModal').modal('toggle');
-    $('#exclusion_name').val('');
-   });
-   });
+ 
 
     form.steps({
         headerTag: "h3",
@@ -572,16 +679,16 @@
           'title_name': {
                   required: true,
               },
-              'duartion_hours' : {
-                required: true,
+              'amount' : {
+                digits: true,
               },
         },
         messages: {
               'title_name': {
                   required: 'Please fill title.',
               },
-              'duartion_hours' : {
-                required: 'Please fill duration.',
+              'amount' : {
+                digits: 'Numbers only',
               },
           },
           errorElement: 'div',
@@ -665,6 +772,24 @@
        // alert('Failed to delete');
       }
       
+  }
+ 
+  function DeleteInclusion(inclusionid)
+  {
+   if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+      var value = $(this).attr('id');
+      console.log(value);
+      alert(value);
+      //   var url = "{{ url('/delete_inclusion') }}" + '?id=' + inclusionid + '&inclusionname=' + value ;
+      // //  url:"getdata.php?timestamp="+timestamp+"&uid="+id+"&uname="+name,
+      //     $.ajax({
+      //         url: url,
+      //         type: "GET",
+      //         success: function(result) {
+                  
+      //         }
+      //       });
+           }
   }
 </script>
 @endsection

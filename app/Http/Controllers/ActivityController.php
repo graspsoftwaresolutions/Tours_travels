@@ -236,4 +236,34 @@ class ActivityController extends BaseController
         $data['enq_view'] = Enquiry::where('id','=',$id)->get();
         return view('enquiry.edit')->with('data',$data);
     }
+    public function deleteInclusion(Request $request)
+    {
+        $data = $request->all();
+        $data['inclusion_data'] = Activity::where('id','=',$request->id)->get();
+
+        $json_inclusion = $data['inclusion_data'][0]->inclusion_name ;
+        $decode_array = json_decode($json_inclusion);
+        $array_inclu= array_diff($decode_array,[$request->inclusionname]); 
+        $array = array_values($array_inclu);
+        $update_json_inclusion = json_encode($array);
+        
+        $update = Activity::where('id','=',$request->id)->update(['inclusion_name' => $array]);
+       
+        return json_encode($update);
+    }
+    public function deleteExclusion(Request $request)
+    {
+        $data = $request->all();
+        $data['exclusion_data'] = Activity::where('id','=',$request->id)->get();
+
+        $json_inclusion = $data['exclusion_data'][0]->exclusion_name ;
+        $decode_array = json_decode($json_inclusion);
+        $array_exclu= array_diff($decode_array,[$request->exclusion_name]); 
+        $array = array_values($array_exclu);
+        //$update_json_exclusion = json_encode($array);
+        
+        $update = Activity::where('id','=',$request->id)->update(['exclusion_name' => $array]);
+       
+        return json_encode($update);
+    }
 }

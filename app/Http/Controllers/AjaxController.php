@@ -528,13 +528,14 @@ class AjaxController extends CommonController
             0 => 'title_name', 
             1 => 'duartion_hours', 
             2 => 'amount',
-            3 => 'city_id',
-            4 => 'zip_code',
-            5 => 'id'
+            3 => 'state_id',
+            4 => 'city_id',
+            5 => 'zip_code',
+            6 => 'id'
         );
-
-        $totalData = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
-        ->leftjoin('city as cit','cit.id','=','act.city_id')
+        $totalData = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
+                    ->leftjoin('city as cit','cit.id','=','act.city_id')
+                    ->leftjoin('state as st','st.id','=','act.state_id')
                     ->count();
 
         $totalFiltered = $totalData; 
@@ -548,14 +549,16 @@ class AjaxController extends CommonController
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){ 
-                $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
+                $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
                 ->leftjoin('city as cit','cit.id','=','act.city_id')
+                ->leftjoin('state as st','st.id','=','act.state_id')
                 ->orderBy($order,$dir)
                 ->where('act.status','=','1')
                 ->get()->toArray();
             }else{
-                $Activity =  DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
+                $Activity =  DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
                 ->leftjoin('city as cit','cit.id','=','act.city_id')
+                ->leftjoin('state as st','st.id','=','act.state_id')
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -567,27 +570,31 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
-                         ->leftjoin('city as cit','cit.id','=','act.city_id')
+            $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
+                        ->leftjoin('city as cit','cit.id','=','act.city_id')
+                        ->leftjoin('state as st','st.id','=','act.state_id')
                         ->where('act.status','=','1')
                          ->where(function($query) use ($search){
                         $query->orWhere('title_name', 'LIKE',"%{$search}%")
                         ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
                         ->orWhere('amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%")
                         ->orWhere('zip_code', 'LIKE',"%{$search}%");
                     })
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
-            ->leftjoin('city as cit','cit.id','=','act.city_id')
+            $Activity = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
+                        ->leftjoin('city as cit','cit.id','=','act.city_id')
+                        ->leftjoin('state as st','st.id','=','act.state_id')
                         ->where('act.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('title_name', 'LIKE',"%{$search}%")
                             ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
                             ->orWhere('amount', 'LIKE',"%{$search}%")
                             ->orWhere('city_name', 'LIKE',"%{$search}%")
+                            ->orWhere('state_name', 'LIKE',"%{$search}%")
                              ->orWhere('zip_code', 'LIKE',"%{$search}%");
                         })
                         ->offset($start)
@@ -595,13 +602,15 @@ class AjaxController extends CommonController
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
-                        ->leftjoin('city as cit','cit.id','=','act.city_id')
+        $totalFiltered = DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
+                            ->leftjoin('city as cit','cit.id','=','act.city_id')
+                            ->leftjoin('state as st','st.id','=','act.state_id')
                         ->where('act.id','LIKE',"%{$search}%")
                     ->orWhere('title_name', 'LIKE',"%{$search}%")
                     ->where('act.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
-                        ->orWhere('zip_code', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('zip_code', 'LIKE',"%{$search}%")
                     ->count();
         }
         
@@ -613,8 +622,9 @@ class AjaxController extends CommonController
        {
            foreach ($Activity as $Activity)
            {
-               $activitiescount =  DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name')
-               ->leftjoin('city as cit','cit.id','=','act.city_id')
+               $activitiescount =  DB::table('activities as act')->select('act.id','act.title_name','act.duartion_hours','act.amount','act.status','act.zip_code','cit.city_name','st.state_name')
+                            ->leftjoin('city as cit','cit.id','=','act.city_id')
+                            ->leftjoin('state as st','st.id','=','act.state_id')
                            ->count();
                
                if($activitiescount>=1){
@@ -650,6 +660,7 @@ class AjaxController extends CommonController
                    $nestedData['duartion_hours'] = $hours_and_minutes;
                    $nestedData['amount'] = $Activity->amount;  
                    $nestedData['city_name'] = $Activity->city_name;
+                   $nestedData['state_name'] = $Activity->state_name;
                    $nestedData['zip_code'] = $Activity->zip_code;
                    $enc_id = Crypt::encrypt($Activity->id);
                    $edit = route('activity.editactivity',$enc_id);

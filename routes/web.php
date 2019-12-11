@@ -97,6 +97,9 @@ Route::post('activity_save','ActivityController@activitySave')->name('activity.s
 Route::post('activity_edit','ActivityController@activityEdit')->name('activity.edit');
 Route::get('activity-edit/{parameter}','ActivityController@EditActivity')->name('activity.editactivity');
 
+Route::get('delete_inclusion','ActivityController@deleteInclusion');
+Route::get('delete_exclusion','ActivityController@deleteExclusion');
+
 //Enquiry
 Route::get('enquiry','ActivityController@enquiryList')->name('enquiry.new');
 Route::post('ajax_enquiry_list','AjaxController@ajax_enquiry_list');

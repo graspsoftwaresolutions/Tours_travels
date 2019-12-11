@@ -358,11 +358,11 @@ class HotelController extends CommonController
                     $slno = 1;
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
-                        $imageName = $last_id.'_'.date('Ymdhis').$slno.'.'.$extension;
+                        $imageName = $autoid.'_'.date('Ymdhis').$slno.'.'.$extension;
                         $file->storeAs('hotels' , $imageName  ,'local');
         
                         DB::table('hotel_room_images')->insert(
-                            ['hotel_id' => $last_id, 'image_name' => $imageName]
+                            ['hotel_id' => $autoid, 'image_name' => $imageName]
                         );
                         $slno++;
                     }
