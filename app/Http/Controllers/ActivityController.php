@@ -110,13 +110,12 @@ class ActivityController extends BaseController
     public function ActivityimageDelete(Request $request)
     {
         $imageid = $request->input('image_id');
-        $image_name = ActivityImages::where('id','=', $imageid)->pluck('image_name')->first();
-        $image_url = storage_path('/app/hotels/'.$image_name);
+        $image_name = DB::table('activity_images')->where('id','=', $imageid)->pluck('image_name')->first();
+        $image_url = storage_path('/app/activity/'.$image_name);
         if(file_exists($image_url)){
             \File::delete($image_url);
         }
-       
-        ActivityImages::where('id', '=', $imageid)->delete();
+        DB::table('activity_images')->where('id', '=', $imageid)->delete();
         return ['status' => 1, 'message'=>'image deleted Successfully'];
     }
     public function activityEdit(Request $request)
