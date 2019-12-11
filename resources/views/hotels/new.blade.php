@@ -405,13 +405,13 @@
             $("#ExclusionTable").find("tr").each(function () { //iterate through rows
               var td1 = $(this).find("td:eq(0)").text(); //get value of first td in row
               var td2 = $(this).find("td:eq(1)").text(); //get value of second td in row
-              if ((room_name == td1)) { //compare if test = td1 AND sample = td2
+              if ((room_name == td1 &&  price != '')) { //compare if test = td1 AND sample = td2
                   flag = 1; //raise flag if yes
               }
             });
             if (flag == 1) {
               window.swal({   
-                  title: "Already Exists!",     
+                  title: "Room Type is Already Exists!",     
                   timer: 4000,   
                   showConfirmButton: false 
                 });
@@ -428,7 +428,7 @@
             });
         }
         $('#price').val('');
-        $('#room_type').prop('selectedIndex',0);
+       // $('#room_type').prop('selectedIndex',0);
       });
   $(document).on('click', 'button.removebutton', function () {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {     
