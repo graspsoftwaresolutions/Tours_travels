@@ -86,7 +86,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="select-row form-group">
-                                                <label for="country_id" class="block">{{__('Country Name') }}*</label>                 
+                                                <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red;">*</span></label>                 
 
                                                 <!-- To validate the select add class "select-validate" -->     
                                                 <select id="country_id" name="country_id" class="selectpicker select-validate" required="true" data-live-search="true">
@@ -107,7 +107,7 @@
 
                                          <div class="col-sm-6">
                                              <div class="select-row form-group">
-                                                <label for="state_id" class="block">{{__('State Name') }}*</label>                 
+                                                <label for="state_id" class="block">{{__('State Name') }}<span style="color:red;">*</span></label>                 
 
                                                 <!-- To validate the select add class "select-validate" -->     
                                                 <select id="state_id" name="state_id" class="selectpicker select-validate" required="true" data-live-search="true">
@@ -126,7 +126,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                 <input placeholder="{{__('City Name') }}"  class="clearable" id="city_name" name="city_name" autofocus type="text">
-                                                <label for="city_name" class="fixed-label">{{__('City Name') }}*</label>
+                                                <label for="city_name" class="fixed-label">{{__('City Name') }}<span style="color:red;">*</span></label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                            

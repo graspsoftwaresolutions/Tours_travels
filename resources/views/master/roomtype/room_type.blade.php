@@ -102,7 +102,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                 <input placeholder="Room Type Name" class="clearable" id="room_type" name="room_type" autofocus type="text">
-                                                <label for="room_type" class="fixed-label">{{__('Room Type Name') }}*</label>
+                                                <label for="room_type" class="fixed-label">{{__('Room Type Name') }}<span style="color:red;">*</span></label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                         </div><!-- ./col- -->
