@@ -136,7 +136,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="country_id" class="block">{{__('Country Name') }}</label>                 
+                           <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red;">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
@@ -158,7 +158,7 @@
                      @endphp
                      <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="state_id" class="block">{{__('State Name') }}</label>                 
+                           <label for="state_id" class="block">{{__('State Name') }}<span style="color:red;">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
@@ -173,7 +173,7 @@
                      </div>
                      <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="city_id" class="block">{{__('City Name') }}</label>                 
+                           <label for="city_id" class="block">{{__('City Name') }}<span style="color:red;">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -544,6 +544,32 @@
             {
                 return true;
             }
+            if (newIndex === 1 )
+            {
+               var formsubmit =true; 
+               if($("#title_name").val()==''){
+                  $('.title_name-error').remove();
+                  $( '<div id="title_name-error" class="error title_name-error custom-error">Please Enter Title.</div>' ).insertAfter( '#title_name' );
+                  formsubmit =false; 
+               }
+              if($("#country_id").val()==''){
+                  $('.country_id-error').remove();
+                  $( '<div id="country_id-error" class="error country_id-error custom-error">Please choose Counrty.</div>' ).insertAfter( '#country_id' );
+                  formsubmit =false; 
+               }
+               if($("#state_id").val()==''){
+                  $('.state_id-error').remove();
+                  $( '<div id="state_id-error" class="error state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#state_id' );
+                  formsubmit =false; 
+               }
+                if($("#city_id").val()==''){
+                  $('.city_id-error').remove();
+                  $( '<div id="city_id-error" class="error city_id-error custom-error">Please Choose City.</div>' ).insertAfter( '#city_id' );
+                  formsubmit =false; 
+               }
+               
+               return formsubmit;
+            }
             // // Forbid next action on "Warning" step if the user is to young
             // if (newIndex === 3 && Number($("#age-2").val()) < 18)
             // {
@@ -571,17 +597,11 @@
         }
     }).validate({
         rules: {
-          'title_name': {
-                  required: true,
-              },
               'amount' : {
                 digits: true,
               },
         },
         messages: {
-              'title_name': {
-                  required: 'Please fill title.',
-              },
               'amount' : {
                 digits: 'Numbers only',
               },

@@ -104,7 +104,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                 <input placeholder="Country Name" class="clearable" id="country_name" name="country_name" autofocus type="text">
-                                                <label for="country_name" class="fixed-label">{{__('Country Name') }}*</label>
+                                                <label for="country_name" class="fixed-label">{{__('Country Name') }}<span style="color:red;">*</span></label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                            

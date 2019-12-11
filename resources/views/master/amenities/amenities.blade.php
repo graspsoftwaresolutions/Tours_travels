@@ -104,7 +104,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                 <input placeholder="Amenities Name" class="clearable" id="amenities_name" name="amenities_name" autofocus type="text">
-                                                <label for="amenities_name" class="fixed-label">{{__('Amenities Name') }}*</label>
+                                                <label for="amenities_name" class="fixed-label">{{__('Amenities Name') }}<span style="color:red;">*</span></label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                         </div><!-- ./col- -->
@@ -115,8 +115,9 @@
                             <div class="modal-footer">
                                 <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
                                 <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
-                            </div><!-- /.modal-footer -->
+                            </div><!-- /.modal-footer --> 
                         </form>
+                        
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->

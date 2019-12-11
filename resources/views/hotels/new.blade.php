@@ -118,7 +118,7 @@
                           <div class="form-group">
                               <div class="input-field label-float">
                                 <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" type="text">
-                                <label for="contact_name" class="fixed-label">{{__('Contact Name') }}</label>
+                                <label for="contact_name" class="fixed-label">{{__('Contact Name') }} <span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>
@@ -136,7 +136,7 @@
 
                       <div class="col-md-4">
                           <div class="select-row form-group">
-                              <label for="country_id" class="block">{{__('Country Name') }}</label>                 
+                              <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
 
                               <!-- To validate the select add class "select-validate" -->     
                               <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%" required="true">
@@ -152,6 +152,7 @@
                                <div class="input-highlight"></div>                       
                           </div><!-- /.form-group -->
                       </div>
+                      <div class="clearfix"></div>
                         @php
                           $statelist = CommonHelper::getStateList($defcountry);
                         @endphp
@@ -208,8 +209,7 @@
                       </div>
 
                     </div>
-
-
+                    <div class="clearfix"></div>
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
@@ -218,11 +218,7 @@
                           <p class="no-margin em"></p>
                         </div>
                       </div>
-                    </div>
-
-
-                   
-                 
+                    </div>   
 					    	</div><!-- /.col- -->
 
 					    </fieldset>
@@ -354,7 +350,7 @@
                   </div>
 						    </div><!-- /.col- -->
 					    </fieldset>
-					 
+              <p style="color:red;margin-left:39px;">Mandatory(*)</p>
 					   <!--  <h3>Finish</h3>
 					    <fieldset>
 					    	<div class="col-sm-8 col-sm-offset-1">
@@ -492,6 +488,12 @@
                   $( '<div id="city_id-error" class="error city_id-error custom-error">Please Choose City.</div>' ).insertAfter( '#city_id' );
                   formsubmit =false; 
                }
+               if($("#contact_name").val()==''){
+                  $('.contact_name-error').remove();
+                  $( '<div id="contact_name-error" class="error contact_name-error custom-error">Please Enter Contact Name.</div>' ).insertAfter( '#contact_name' );
+                  formsubmit =false; 
+               }
+               
                return formsubmit;
             }
           // // Forbid next action on "Warning" step if the user is to young

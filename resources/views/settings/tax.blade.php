@@ -62,7 +62,7 @@
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float"> 
                         <input placeholder="Name" class="clearable"  value="{{ isset($row->tax_name) ? $row->tax_name : ''}}" id="tax_name" name="tax_name" autofocus type="text">
-                           <label for="tax_name" class="fixed-label">{{__('Tax Name') }}*</label>
+                           <label for="tax_name" class="fixed-label">{{__('Tax Name') }}<span style="color:red;">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->
 							</div><!-- ./col- -->
