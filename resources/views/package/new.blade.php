@@ -85,11 +85,18 @@
     height: auto;
   }
   .placecitylist {
-    counter-reset: my-badass-counter;
+    counter-reset: my-place-counter;
   }
   .placecitylist li:before {
-    content: counter(my-badass-counter);
-    counter-increment: my-badass-counter;
+    content: counter(my-place-counter);
+    counter-increment: my-place-counter;
+  }
+  .overallplacecitylist {
+    counter-reset: overall-place-counter;
+  }
+  .overallplacecitylist span.summaryno::before {
+    content: counter(overall-place-counter);
+    counter-increment: overall-place-counter;
   }
   .timeline>li:after, .timeline>li:before {
       content: " ";
@@ -203,7 +210,17 @@
   .activities-summary{
     padding-top: 30px;
   }
- 
+
+  .timeline-icon.ti-text {
+      width: auto !important;
+  }
+  #place-activities,#overall-summary, .place-activitylist {
+    list-style: none !important;
+  }
+  .summary-day-title{
+    font-weight: bold;
+    font-size: 1.5em;
+  }
 
 </style>
 @endsection
@@ -497,6 +514,9 @@
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
                         
                     </ul>
+                    <div id="dummy-hotels">
+                      
+                    </div>
                   </div>
                 </div>
                   
@@ -508,34 +528,11 @@
                   <h4 class="text-headline">Activities</h4>
                   <div class="row">
                     <ul id="place-activities" class="timeline bg-color-switch mt40 timeline-single">
-                        <!-- <li id="picked-activityli-28" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">Sarawak - Miri</div>
-                          <div class="msg-wrapper">
-                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
-                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
-                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
-                              <p><a href="#" style="color: red;" class="">Remove</a></p>
-                              
-                          </div>
-                          <div class="msg-wrapper">
-                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
-                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
-                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
-                              <p><a href="#" style="color: red;" class="">Remove</a></p>
-                              
-                          </div>
-                          <div class="msg-wrapper">
-                            <img src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" alt="" class="avatar ">
-                              <a href="#:;" class="msg-sub">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</a>
-                              <a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 17121</a>
-                              <p><a href="#" style="color: red;" class="">Remove</a></p>
-                              
-                          </div>
-                          <a href="#" style="top: -20px;" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
-
-                        </li> -->
-                        
 
                     </ul>
+                    <div id="dummy-activities">
+                      
+                    </div>
                   </div>
                 </div>
             
@@ -563,7 +560,7 @@
                           </div>
                           
                       </div>
-                       <ul id="overall-summary" class="timeline bg-color-switch mt40 timeline-single">
+                       <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
                           <!-- <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
                             <div class="timeline-icon ti-text">Sarawak - Bintulu</div>
                             <div id="place-activitylist-3" class="overall-place-activitylist">
@@ -621,6 +618,9 @@
                               <ul id="place-sortList" class="list-group placecitylist item-border">
                                  
                               </ul>
+                              <div id="dummyList">
+
+                              </div>
                            </div>
                         </div><!-- /.card-block -->
                      </div><!-- /.card -->
@@ -630,11 +630,14 @@
                <div id="destination-nights" class="destinations-nights">
                   <div class="row">
 
-                      <div class="divider theme ml14 mr14"></div> 
+                    <div class="divider theme ml14 mr14"></div> 
                      
-                     <div id="destination-night-area" class="destination-night-area">
+                    <div id="destination-night-area" class="destination-night-area">
                          
-                     </div>
+                    </div>
+                    <div id="dummyListNights">
+
+                    </div>
                       
                       
                   </div>
@@ -1051,11 +1054,12 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
-<script src="{{ asset('public/assets/dist/js/plugins/sortable/sortable.min.js') }}"></script>
+<!--script src="{{ asset('public/assets/dist/js/plugins/sortable/sortable.min.js') }}"></script-->
 <script src="{{ asset('public/assets/dist/js/plugins/smoothscroll/smooth-scroll.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.pagination.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/code-prettify/prettify.js') }}"></script>
+<script src="https://www.jqueryscript.net/demo/Create-Draggable-Sortable-Lists-In-jQuery-Dragsort/dist/js/jquery.dragsort.js"></script>
   <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
   <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
  <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -1334,7 +1338,7 @@
    // Sortable 
 
       // list
-      $("#place-sortList").sortable();
+      //$("#place-sortList").sortable();
    })(jQuery);
    function PickPlace(paramscity){
       
@@ -1346,18 +1350,20 @@
       var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //var passparamscity = '"'+paramscity+'"';
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
-      $("#place-sortList").append('<li id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
+      $("#place-sortList").append('<li data-cityid="'+paramscity.cityid+'" id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
     
-      $("#destination-night-area").append('<div id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
+      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
 
-      $("#place-hotels").append('<li id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+      $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
-      $("#place-activities").append('<li id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'"></div><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+      $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-      $("#overall-summary").append('<li id="summary-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="place-activitylist-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_activity_id_'+paramscity.cityid+'" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">JR Guest Home</a><a href="#:;" class="msg-from">Standard Room</a><p>Adults: 2</p></div><div style="clear:both"></div></div><div style="clear:both"></div><div class="activities-summary"> <div class="activites-details" > <span class="activity-1575936000"> <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div></span> </div><div style="clear:both"></div></div></li>');
+      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> '+paramscity.statename+' - '+paramscity.cityname+'<input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="place-activitylists-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_activity_id_'+paramscity.cityid+'" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">JR Guest Home</a><a href="#:;" class="msg-from">Standard Room</a><p>Adults: 2</p></div><div style="clear:both"></div></div><div style="clear:both"></div><div class="activities-summary"> <div class="activites-details" > <span class="activity-1575936000"> <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div></span> </div><div style="clear:both"></div></div></li>');
+
+       $("#place-activitylist-"+paramscity.cityid).dragsort();
 
       
       $("#summary-cities").append(paramscity.cityname+', ');
@@ -1731,7 +1737,7 @@ viewactivityconfirm
             var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_activity_city_id[]" id="second_activity_city_id" value="'+cityid+'"/>';
 
             if(!$('#city_activity_id_'+resultdata.id).length){
-              $("#place-activitylist-"+cityid).append('<div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a href="#:;" class="msg-sub">'+resultdata.title_name+'</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div>');
+              $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
              $("#pick-actitity-link-"+cityid).css('top','-20px');
             }else{
               alert("Activity already choosed");
@@ -1749,22 +1755,99 @@ viewactivityconfirm
   function RemoveActivity(activityid,cityid){
     $("#city_activity_id_"+activityid).remove();
   }
-  $( "#overall-summary" ).sortable({
-      sort: function( event, ui ) {
-        alert('test');
-      }
-    });
+  // $( "#overall-summary" ).sortable({
+  //     sort: function( event, ui ) {
+  //       alert('test');
+  //     }
+  //   });
   //$( "#overall-summary" ).
-  $(document).on('blur', '#overall-summary', function() {
-   alert('hi');
-  });
-   $('#place-sortList').on('contentChanged',function(){alert('UL content changed!!!');});
+  // $(document).on('blur', '#overall-summary', function() {
+  //  alert('hi');
+  // });
+   // $('#place-sortList').on('contentChanged',function(){alert('UL content changed!!!');});
    function ChangeCityvalues(refid){
       var selected = $("#"+refid).find('option:selected');
       var imagename = selected.data('image'); 
       var imagelocation = imagename=='null' ? no_image_url : image_url+'/city/'+imagename;
       $("#summary-banner").attr("src", imagelocation);
    }
+    function saveOrder() {
+      $("#dummyList").empty();
+      $("#dummyList").append($("#place-sortList").clone());
+      $('#dummyList #place-sortList').prop('id', 'dummy-place-sortList');
+
+      $("#dummy-hotels,#dummy-activities,#dummyListNights").empty();
+      $("#dummy-hotels").append($("#place-hotels").clone());
+      $('#dummy-hotels #place-hotels').prop('id', 'dummy-place-hotels');
+
+      $("#dummy-activities").append($("#place-activities").clone());
+      $('#dummy-activities #place-activities').prop('id', 'dummy-place-activities');
+
+      $("#dummyListNights").append($("#destination-night-area").clone());
+      $('#dummyListNights #destination-night-area').prop('id', 'dummy-destination-night-area');
+        //alert('ok');
+        // var placelistarray = [];
+        // var data = $("#place-sortList li").map(function (index) {
+        //   var lidata = $(this)[0];
+        //   var listid = $(this).attr('data-cityid');
+        //   placelistarray[listid] = lidata;
+         
+        // }).get();
+        //  console.log(placelistarray);
+
+        var summarycount = $('#overall-summary li.summary-activity').length;
+        $("#place-sortList,#place-hotels,#place-activities,#destination-night-area").empty();
+        //$("").empty();
+        var data = $("#overall-summary li").map(function (index) {
+
+        // console.log(placelistarray);
+        var cityval = $(this).children().find(".summary-city").val();
+        $('#place-sortList').append($('#dummyList #dummy-place-sortList #picked-li-'+cityval));
+        $('#place-hotels').append($('#dummy-hotels #dummy-place-hotels #picked-hotelli-'+cityval));
+        $('#place-activities').append($('#dummy-activities #dummy-place-activities #picked-activityli-'+cityval));
+        $('#destination-night-area').append($('#dummyListNights #dummy-destination-night-area #place_night_'+cityval));
+
+         // var listid = $(this).attr('data-cityid');
+        //   // var listinfo = "'";
+        //   // listinfo += placelistarray[cityval];
+        //   // listinfo += "'";
+        //   $('#place-sortList li:eq('+index+')').html(placelistarray[cityval].innerHTML);
+        //   console.log(index);
+        //   console.log(placelistarray[cityval].innerHTML);
+          //console.log(placelistarray);
+          // if(index==0){
+          //   $('#place-sortList #picked-li-'+cityval).before($('#place-sortList li:eq(1)'));
+          //  // $('#place-sortList li:eq(1)').before($("#place-sortList #picked-li-"+cityval));
+          //   console.log($('#place-sortList li:eq(1)'));
+          //   console.log(cityval+' before index'+1);
+          // }else if(index==summarycount-1){
+          //   //var lastminus = index-1;
+          //   //$('#place-sortList li:eq('+lastminus+')').before($("#place-sortList #picked-li-"+cityval));
+          //    //console.log(lastminus+' before '+cityval);
+          // }else{
+          //   //var lastminus = index-1;
+          //   //$('#place-sortList li:eq('+lastminus+')').after($("#place-sortList #picked-li-"+cityval));
+          //   //console.log(lastminus+' after '+cityval);
+          // }
+          
+          
+          return $(this).children().find(".summary-city").val();
+        }).get();
+          $("#dummyList,#dummy-hotels,#dummy-activities,#dummyListNights").empty();
+       // console.log(summarycount);
+        // $("input[name=list1SortOrder]").val(data.join("|"));
+    }
+
+    $(function () {
+        $("#overall-summary").dragsort({
+            dragSelector: "div",
+            dragBetween: true,
+            dragEnd: saveOrder,
+            //placeHolderTemplate: "<li class='placeHolder'><div></div></li>",
+            cursor: "move"
+        });
+       
+    });
 
   // var mySortableList = $('#overall-summary').sortable({
   //   handle: '.handle',
