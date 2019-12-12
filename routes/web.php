@@ -120,6 +120,8 @@ Route::get('customer_new','CustomerController@customerNew')->name('customer.add'
 Route::post('customer_save','CustomerController@customerSave')->name('customer_save');
 Route::get('edit_customer/{parameter}','CustomerController@customerEdit')->name('customer.edit');
 
+Route::post('customer_autocomplete','CommonController@customerAutocomplete')->name('customer_autocomplete');
+
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
@@ -127,9 +129,18 @@ Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 Route::get('/new_package', 'PackageController@index')->name('package.new');
 Route::post('/package_new', 'PackageController@packageSave')->name('package_save');
 
+Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
 
 Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
 Route::get('city_activities','PackageController@ActivitiesList')->name('city.activities');
 Route::get('city_hotels_details','PackageController@HotelDetails')->name('hotel.details');
 Route::get('city_activity_details','PackageController@ActivityDetails')->name('activity.details');
 Route::get('/hotel_detail', 'CommonController@hotelDetail')->name('hotel_detail');
+
+Route::get('package_place_details','PackageController@packagePlaceDetails')->name('package_place_details');
+
+//Booking
+Route::get('/new_booking', 'BookingController@index')->name('booking.new');
+Route::get('/new_autocomplete', 'BookingController@auto');
+
+

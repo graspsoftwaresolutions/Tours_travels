@@ -9,6 +9,7 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Amenities;
+use App\Model\Package;
 use App\Model\RoomType;
 use DB;
 use View;
@@ -290,6 +291,45 @@ class CommonController extends Controller
             }
         }
         return $data;
+    }
+    public function customerAutocomplete(Request $request)
+    {
+         $data = $request->all();
+        $keyword = $request->get('name');
+        $type = $request->type;
+        $search_param = "{$keyword}%";
+        if($keyword!='')
+        {
+            $result = DB::table('customer_details as c')->select(DB::raw("CONCAT(c.name,'-',c.zipcode,'-',c.id) AS value"),'c.name','c.email','c.phone','c.address_one','c.address_two','c.zipcode','cit.city_name','s.state_name')
+                    ->join('city as cit','cit.id','=','c.city_id')
+                    ->join('state as s','s.id','=','c.state_id')
+                     ->orwhere("c.name","LIKE","%{$keyword}%")
+                     ->orwhere("c.phone","LIKE","%{$keyword}%")
+                    // ->orwhere('c.zipcode','like', '%'.$keyword.'%')
+                    // ->orwhere('cit.city_name','like', '%'.$keyword.'%')
+                ->get();
+        }
+        
+        echo json_encode($result);
+    }
+
+    public function packageAutocomplete(Request $request)
+    {
+        $keyword = $request->get('name');
+        $type = $request->type;
+        $search_param = "{$keyword}%";
+        if($keyword!='')
+        {
+            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name','c.id as cityid','s.state_name','s.id as stateid')
+                    ->leftjoin('city as c','c.id','=','p.to_city_id')
+                    ->leftjoin('state as s','s.id','=','p.to_state_id')
+                     ->orwhere("p.package_name","LIKE","%{$keyword}%")
+                     ->orwhere("s.state_name","LIKE","%{$keyword}%")
+                     ->orwhere("c.city_name","LIKE","%{$keyword}%")
+                    ->get();
+                  //  dd($result);
+        }
+        echo json_encode($result);
     }
    
 

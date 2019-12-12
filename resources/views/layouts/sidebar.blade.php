@@ -159,6 +159,20 @@
                   <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Package') }}</a>
                 </li>
               </ul>
+            </li> 
+            <li id="booking-menu" class="menubar-item">
+              <a class="menu-dropdown" href="#">
+                <i class="icon mdi mdi-package"></i>
+                <span class="text">{{ __('Booking') }}</span>
+              </a>
+              <ul class="submenu lvl-1">
+                <li id="booking_sidebar_li_id" class="submenu-item">
+                  <a id="booking_sidebar_a_id" href="{{ route('master.activity') }}" class="submenu-target">{{ __('All Bookings') }}</a>
+                </li>
+                <li id="booking_add_sidebar_li_id" class="submenu-item">
+                  <a id="booking_add_sidebar_a_id" href="{{route('booking.new')}}" class="submenu-target">{{ __('Add Booking') }}</a>
+                </li>
+              </ul>
             </li>    
            
             <li id="customer-menu" class="menubar-item">

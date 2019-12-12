@@ -160,4 +160,14 @@ class PackageController extends Controller
        // $data['hotel_features'] = $hotels;
         return json_encode($activities);
     }
+    public function packagePlaceDetails(Request $request)
+    {
+        $package_id = $request->package_id;
+        $result = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id')
+                ->leftjoin('state as s','s.id','=','pp.state_id')
+                ->leftjoin('city as c','c.id','=','pp.city_id')
+                ->where('pp.package_id','=',$package_id)->where('pp.status','=','1')->get();
+        //dd($result);
+        return json_encode($result);
+    }
 }
