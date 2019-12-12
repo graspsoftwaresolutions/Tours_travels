@@ -1,13 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    body {
+        background-image: url({{ asset('public/assets/images/login.png') }});
+        //xbackground-size: 100% 100% !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .paper{
+        background: #121c2da8;
+        outline: beige;
+        box-shadow: 2px 2px 10px 10px #949191 inset;
+        border: 2px solid #5d9fb3e8;
+    }
+    .form-box .body {
+        min-height: 130px;
+        padding: 0px 20px;
+    }
+</style>
  <div class="page-background lr-page">
       <div class="page-background lr-page">
 
         <!-- Place your logo here. -->
         <img src="#" alt="" class="login-logo">
 
-        <div class="form-box" id="login-box">
+        <div class="form-box paper" id="login-box">
             <div class="header text-theme"><span>{{ __('Login') }}</span></div>
             <form id="signInForm" action="{{ route('login') }}" method="post">
                  @csrf
@@ -36,7 +55,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="form-group mt40">
+                    <div class="form-group mt40 hide">
                         <label for="rememberMe" class="checkbox-filled ml30">
                             <input id="rememberMe" class="filled theme" type="checkbox">
                             <i class="highlight"></i>
@@ -86,7 +105,7 @@
                 </div>
             </form>
         </div><!-- /.form-box -->
-        <div class="text-center text-blue-grey text-lighten-2">
+        <div class="text-center text-blue-grey text-lighten-2 hide">
             <div class="mb8">Sign in using social networks</div>
 
             <div class="btn-group">                    
