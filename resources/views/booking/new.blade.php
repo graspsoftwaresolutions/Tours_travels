@@ -32,18 +32,6 @@
    .dropdown-menu li {
    padding: 0 20px !important;
    }
-   .typeahead { border: 2px solid #FFF;border-radius: 4px;padding: 8px 12px;min-width: 290px;background: #e9ecef;}
-   .tt-menu { width:300px; }
-   ul.typeahead{margin:0px;padding:10px 0px;}
-   ul.typeahead.dropdown-menu li a {padding: 10px !important;	border-bottom:#CCC 1px solid;color:black;}
-   ul.typeahead.dropdown-menu li:last-child a { border-bottom:0px !important; }
-   .bgcolor {max-height:340px;background:url("world-contries.jpg") no-repeat center center;padding: 100px 10px 130px;border-radius:4px;text-align:center;margin:10px;}
-   .demo-label {font-size:1.5em;color: #686868;font-weight: 500;color:#FFF;}
-   .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-   text-decoration: none;
-   background-color: #639aeb;
-   outline: 0;
-   }
 </style>
 @endsection
 @section('main-content')	
@@ -197,6 +185,102 @@
       </div><!-- /.form-group -->
       </div><!-- ./col- -->
       </div><!-- /.row -->
+      
+                      <div class="col-md-6">
+                        <div class="input-field label-float">
+                           <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
+                           <br>
+                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
+                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
+                           <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
+                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
+                           <div class="input-highlight"></div>
+                        </div>
+                        <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
+                           <div class="modal-dialog" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                                    <h1 class="modal-title">Travellers Details</h1>
+                                 </div><!-- /.modal-header -->
+                                 <div class="modal-body">
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <label class="fixed-label">{{__('Adult:') }}</label>
+                                          <br>
+                                          <small>Age 13 and above</small>
+                                       </div>
+                                       <div class="col-md-9">
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >5</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >6</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1" >7</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
+                                          <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
+
+                                       </div>  
+                                       
+                                    </div>
+                                     <br>
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <label class="fixed-label">{{__('Children:') }}</label>
+                                          <br>
+                                          <small>Age 3 to 12</small>
+                                       </div>
+
+                                       <div class="col-md-9">
+                                          <a class="label child-travellers label-travellers z-depth-1  blue-dark" >0</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >1</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 ">2</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >3</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >4</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >5</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >6</a>
+                                          <a class="label child-travellers label-travellers z-depth-1" >7</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >8</a>
+                                          <a class="label child-travellers label-travellers z-depth-1 " >9</a>
+                                          
+                                       </div>  
+                                       
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                          <label class="fixed-label">{{__('Infant:') }}</label>
+                                          <br>
+                                          <small>Age 0 - 2</small>
+                                       </div>
+
+                                       <div class="col-md-9">
+                                           <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >1</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 ">2</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >3</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >4</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >5</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >6</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1" >7</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >8</a>
+                                          <a class="label infant-travellers label-travellers z-depth-1 " >9</a>
+                                          
+                                       </div>  
+                                       
+                                    </div>
+
+                                 </div><!-- /.modal-body -->
+                                 <div class="modal-footer">
+                                    Total travellers : <span id="total-travellers">2</span>
+                                    <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                    <button class="btn-flat waves-effect waves-theme hide">Save changes</button>
+                                 </div><!-- /.modal-footer -->
+                              </div><!-- /.modal-content -->
+                           </div><!-- /.modal-dialog -->
+                        </div>
+                     </div>
       </div><!-- /.row -->
       <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
       <div class="form-group clearfix">
@@ -205,6 +289,8 @@
       </form>
       </div> <!--</div> --><!-- /.row -->
       <div class="col-md-4 p8 sticky fixed">
+      
+
             <div id="destination-chart" class="destinations-division" style="margin-top:23px">
                   <div class="sortable">
                      <div class="card">
@@ -235,13 +321,56 @@
                          
                     </div>
                     <div id="dummyListNights">
-
-                    </div>
-                      
-                      
+                    </div>  
                   </div>
-               </div>
-
+               </div> <br>
+               <div class="col-md-12" style="background-color: #a6777726;">
+                        <h4 class="text-headline text-center">Traveling To</h4>
+                        <div class="select-row form-group">
+                           <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value="">{{__('Select country')}}</option>
+                              @php
+                              $defcountry = CommonHelper::DefaultCountry();
+                              @endphp
+                              @foreach($data['country_view'] as $value)
+                              <option value="{{$value->id}}" >
+                              {{$value->country_name}}</option>
+                              @endforeach
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->
+                         @php
+                        $statelist = CommonHelper::getStateList($defcountry);
+                        @endphp
+                        <div class="select-row form-group">
+                           <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value="" selected="">{{__('Select State') }}
+                              </option>
+                             <!--  @foreach ($statelist as $state)
+                              <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                              @endforeach -->
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <div class="select-row form-group">
+                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
+                              <option value="" selected="">{{__('Select City') }}
+                              </option>
+                              <!--  @foreach ($data['state_view'] as $state)
+                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                                 @endforeach -->
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
            </div>
            <div class="clearfix"/>
          
