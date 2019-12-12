@@ -208,7 +208,7 @@
   }
 
   .activities-summary{
-    padding-top: 30px;
+    padding-top: 40px;
   }
 
   .timeline-icon.ti-text {
@@ -220,6 +220,18 @@
   .summary-day-title{
     font-weight: bold;
     font-size: 1.5em;
+  }
+
+  .sub-summary-activity{
+    margin: 0 20px;
+  }
+
+  .price-section label{
+    font-size: 14px;
+    font-weight: normal;
+  }
+  input[readonly] {
+      background-color: #e9ecef;
   }
 
 </style>
@@ -235,13 +247,13 @@
       <h1>Tours and Travels</h1>
       <ul class="breadcrumbs">
          <li>Masters</li>
-         <li>{{__('Add Hotel') }}</li>
+         <li>{{__('Add Package') }}</li>
       </ul>
    </div>
    <div class="page-content">
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
-          <div class="col-md-9">
+          <div class="col-md-8">
           <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('package_save')}}">
             @csrf
             <h3>Travel Data</h3>
@@ -551,7 +563,7 @@
                                   <span id="summary-state">Bridges</span><br><span id="summary-cities" class="text-small"></span>
                                 </div>
                                 <div class="col-md-4"> 
-                                  <p id="summary-nights"><span class="night-count">3</span> nights</p><span id="summary-days" class="text-small"><span class="days-count">4</span> days</span>
+                                  <p id="summary-nights"><span class="night-count"></span> nights</p><span id="summary-days" class="text-small"><span class="days-count"></span> days</span>
                                 </div>
                                  <div class="col-md-4"> 
                                   <p id="summary-family"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span>
@@ -561,43 +573,10 @@
                           
                       </div>
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
-                          <!-- <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
-                            <div class="timeline-icon ti-text">Sarawak - Bintulu</div>
-                            <div id="place-activitylist-3" class="overall-place-activitylist">
-                              <div id="summary_activity_id_1" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">tes</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 30</a><p><a onclick="return RemoveActivity(1,3)" style="color: red;cursor:pointer;" class="">Remove</a></p></div>
-                               <div style="clear:both"></div>
-                              
-                            </div>
-                            <div style="clear:both"></div>
-                            <div class="activities-summary">
-                                   <div class="activites-details" >
-                                <span class="activity-1575936000">
-                                    <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div>
-                                </span>
-                            </div>
-                            <div style="clear:both"></div>
-                            
-                        </div>
-                          </li>
-                           <li id="summary-activityli-3" class="tl-item list-group-item item-avatar msg-row unread"> 
-                            <div class="timeline-icon ti-text">Sarawak - Miri</div>
-                            <div id="place-activitylist-3" class="overall-place-activitylist">
-                              <div id="summary_activity_id_1" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">tes</a><a href="#:;" class="msg-from"><i class="fa fa-inr"></i> 30</a><p><a onclick="return RemoveActivity(1,3)" style="color: red;cursor:pointer;" class="">Remove</a></p></div>
-                               <div style="clear:both"></div>
-                              
-                            </div>
-                            <div style="clear:both"></div>
-                            <div class="activities-summary">
-                                   <div class="activites-details" >
-                                <span class="activity-1575936000">
-                                    <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div>
-                                </span>
-                            </div>
-                            <div style="clear:both"></div>
-                            
-                        </div>
-                          </li> -->
+                          
                        </ul>
+                       <br>
+                        <br>
                     </div>
                   </div>
                 </div>
@@ -606,43 +585,109 @@
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
           </div>
-          <div class="col-md-3  p8 sticky fixed" >
-            <div id="destination-chart" class="destinations-division">
-                  <div class="sortable">
-                     <div class="card">
-                        <div class="p8 blue-grey">
-                           <div class="card-title">Places (State-City)</div>
-                        </div>
-                        <div class="card-block">
-                           <div class="scroller ">
-                              <ul id="place-sortList" class="list-group placecitylist item-border">
-                                 
-                              </ul>
-                              <div id="dummyList">
+          <div class="col-md-4  p8 sticky fixed" >
+             <div id="travel-section" class="">
+               <div id="destination-chart" class="destinations-division">
+                    <div class="sortable">
+                       <div class="card">
+                          <div class="p8 blue-grey">
+                             <div class="card-title">Places (State-City)</div>
+                          </div>
+                          <div class="card-block">
+                             <div class="scroller ">
+                                <ul id="place-sortList" class="list-group placecitylist item-border">
+                                   
+                                </ul>
+                                <div id="dummyList">
 
+                                </div>
+                             </div>
+                          </div><!-- /.card-block -->
+                       </div><!-- /.card -->
+                    </div>
+                   
+                 </div>
+                 <div id="destination-nights" class="destinations-nights">
+                    <div class="row">
+
+                      <div class="divider theme ml14 mr14"></div> 
+                       
+                      <div id="destination-night-area" class="destination-night-area">
+                           
+                      </div>
+                      <div id="dummyListNights">
+
+                      </div>
+                        
+                        
+                    </div>
+                 </div>
+               </div>
+               <div class="price-section hide">
+                  <div class="form-horizontal paper p20 ">   
+                        <h4 class="text-headline">Price Summary</h4>   
+                        <br>
+                         <div class="form-group">
+                            <label for="total_package_value" class="col-sm-5 control-label">Total package value
+                              <br>
+                              <small>[incl. Hotel+Activities]</small>
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_package_value" name="total_package_value" class="allow_decimal" placeholder="Total package value">    
+                                <div class="input-highlight"></div>
                               </div>
-                           </div>
-                        </div><!-- /.card-block -->
-                     </div><!-- /.card -->
-                  </div>
-                 
-               </div>
-               <div id="destination-nights" class="destinations-nights">
-                  <div class="row">
-
-                    <div class="divider theme ml14 mr14"></div> 
-                     
-                    <div id="destination-night-area" class="destination-night-area">
-                         
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="gst_amount" class="col-sm-5 control-label">GST <span>5</span>% <input type="text" name="gst_per" id="gst_per" value="5" class="hide" /> </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="gst_amount" name="gst_amount" readonly="true" placeholder="Total GST Amount">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                         <div class="form-group">
+                            <label for="total_amount" class="col-sm-5 control-label">Total</label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_amount" name="total_amount" readonly="true" placeholder="Total Amount">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                        <h5 class="text-headline">Additional Price</h5> 
+                         <div class="form-group">
+                            <label for="adult_price" class="col-sm-5 control-label">Adult Price/person </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="adult_price" class="allow_decimal" name="adult_price" placeholder="Adult Price/person">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                         <div class="form-group">
+                            <label for="child_price" class="col-sm-5 control-label">Child Price/person </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="child_price" class="allow_decimal" name="child_price" placeholder="Child Price/person">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                         <div class="form-group">
+                            <label for="infant_price" class="col-sm-5 control-label">Infant Price/person </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="infant_price" class="allow_decimal" name="infant_price" placeholder="Infant Price/person">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
                     </div>
-                    <div id="dummyListNights">
-
-                    </div>
-                      
-                      
-                  </div>
+                    
                </div>
-
            </div>
            <div class="clearfix"/>
          </div>
@@ -1067,13 +1112,16 @@
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
-  
+     
 
     form.steps({
         headerTag: "h3",
         bodyTag: "fieldset",
         onStepChanging: function (event, currentIndex, newIndex)
         {
+           $("#travel-section").removeClass('hide');
+           $(".price-section").addClass('hide');
+         // console.log('test changes');
             // Allways allow previous action even if the current form is not valid!
             if (currentIndex > newIndex)
             {
@@ -1094,32 +1142,43 @@
                }
               if($("#from_state_id").val()==''){
                   $('.from_state_id-error').remove();
-                  $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#from_state_id' );
+                  $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#from_state_id' );
                   formsubmit =false; 
                }
                if($("#to_state_id").val()==''){
                   $('.to_state_id-error').remove();
-                  $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose roomtype.</div>' ).insertAfter( '#to_state_id' );
+                  $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#to_state_id' );
                   formsubmit =false; 
                }
                if($("#from_city_id").val()==''){
                   $('.from_city_id-error').remove();
-                  $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose from_city_id.</div>' ).insertAfter( '#from_city_id' );
+                  $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#from_city_id' );
                   formsubmit =false; 
                }
                if($("#to_city_id").val()==''){
                   $('.to_city_id-error').remove();
-                  $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose to_city_id.</div>' ).insertAfter( '#to_city_id' );
+                  $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#to_city_id' );
                   formsubmit =false; 
                }
-               //  if($("#package_name").val()==''){
-               //    $('.package_name-error').remove();
-               //    $( '<div id="package_name-error" class="error package_name-error custom-error">Please ebter package name.</div>' ).insertAfter( '#package_name' );
-               //    formsubmit =false; 
-               // }
+                if($("#package_name").val()==''){
+                  $('.package_name-error').remove();
+                  $( '<div id="package_name-error" class="error package_name-error custom-error">Please enter package name.</div>' ).insertAfter( '#package_name' );
+                  formsubmit =false; 
+               }else{
+                 $("#package_name-error").remove();
+               }
                 
-              // return formsubmit;
+               return formsubmit;
             }
+            if(newIndex===3){
+              $("#travel-section").addClass('hide');
+              $(".price-section").removeClass('hide');
+            }
+            // if(newIndex===3){
+            //   $(".main-wrapper").addClass('menu-hidden');
+            // }else{
+            //   $(".main-wrapper").removeClass('menu-hidden');
+            // }
             // // Forbid next action on "Warning" step if the user is to young
             // if (newIndex === 3 && Number($("#age-2").val()) < 18)
             // {
@@ -1132,6 +1191,7 @@
                 form.find(".body:eq(" + newIndex + ") label.error").remove();
                 form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
             }
+
             form.validate().settings.ignore = ":disabled,:hidden";
             return form.valid();
         },
@@ -1167,14 +1227,20 @@
       //  $('#wizard1').trigger('submit');
     }).validate({
         rules: {
-          'package_name': {
-                  required: true,
-              },
+          // 'package_name': {
+          //         required: true,
+          //     },
+          //     'from_state_id': {
+          //         required: true,
+          //     },
         },
         messages: {
-              'package_name': {
-                  required: 'Please enter package name.',
-              },
+              // 'package_name': {
+              //     required: 'Please enter package name.',
+              // },
+              // 'from_state_id': {
+              //     required: 'Please select State.',
+              // },
           },
           errorElement: 'div',
       errorPlacement: function (error, element) {
@@ -1326,7 +1392,9 @@
 @section('footerSecondSection')
 <script type="text/javascript">
    (function($){
-
+      // alert('df');
+      setTimeout(AddHiddenMenu, 1000);
+      // $(".main-wrapper").addClass('menu-hidden');
       // Options on smoothscroll plugin
       smoothScroll.init({
             speed: 800,
@@ -1340,6 +1408,10 @@
       // list
       //$("#place-sortList").sortable();
    })(jQuery);
+   function AddHiddenMenu(){
+    //alert('Test');
+     $(".main-wrapper").addClass('menu-hidden');
+   }
    function PickPlace(paramscity){
       
       var place_area = paramscity.statename+' - '+paramscity.cityname;
@@ -1350,30 +1422,36 @@
       var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //var passparamscity = '"'+paramscity+'"';
       $("#place_button_"+paramscity.cityid).attr("disabled", true);
-      $("#place-sortList").append('<li data-cityid="'+paramscity.cityid+'" id="picked-li-'+paramscity.cityid+'" class="list-group-item sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
+      $("#place-sortList").append('<li data-cityid="'+paramscity.cityid+'" id="picked-li-'+paramscity.cityid+'" class="list-group-item cityplace sort-handle"> . '+paramscity.statename+' - '+paramscity.cityname+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+paramscity.cityid+'" value="'+paramscity.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></li>');
 
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
     
-      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
+      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select></div></div>');  
 
       $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
       $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> '+paramscity.statename+' - '+paramscity.cityname+'<input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="place-activitylists-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_activity_id_'+paramscity.cityid+'" class="msg-wrapper"><img src="http://localhost/Tours_travels/storage/app/hotels/1_201912090449091.jpg" alt="" class="avatar "><a href="#:;" class="msg-sub">JR Guest Home</a><a href="#:;" class="msg-from">Standard Room</a><p>Adults: 2</p></div><div style="clear:both"></div></div><div style="clear:both"></div><div class="activities-summary"> <div class="activites-details" > <span class="activity-1575936000"> <div id="activity-46474P1"><b>Maldives Submarine 2-Hour Tour From Male</b> - <b>Itinerary</b><br>This is a typical itinerary for this product<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>The complimentary transfer boat will pick you from the meeting point to take you to the submarine diving platform.<br><br><br>Duration: 15 minutes<br><br><b>Stop At:</b> Whale Submarine Maldives, Laccadive Sea, Maldives<br><br>On reaching the submarine diving platform you will be served complimentary fresh towels, water, before boarding. Boarding will start 15 minutes before dive time and passengers will enter the submarine via the main hatch down a staircase. Once you are seated (free seating), the submarine will leave this floating platform and cruise on the surface while crew give you a safety briefing and demonstrate the use of safety equipment’s on board the submarine.<br><br>Duration: 30 minutes<br></div></span> </div><div style="clear:both"></div></div></li>');
+      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+paramscity.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+paramscity.cityid+'" src="'+imagedummy+'" alt="" class="avatar "><a id="summary-hotel-name-'+paramscity.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+paramscity.cityid+'" class="msg-sub"></a><p id="summary-features-'+paramscity.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+paramscity.cityid+'" class="activities-summary"> </div></li>');
 
        $("#place-activitylist-"+paramscity.cityid).dragsort();
 
       
       $("#summary-cities").append(paramscity.cityname+', ');
+      $(".place-night-select").trigger('change');
 
+      var numItems = $('.cityplace').length;
+      //console.log(numItems);
+      $(".days-count").html(parseInt(numItems)+parseInt(1));
       
    }
    function DeleteNight(cityid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
            $("#place_night_"+cityid).remove();
            $("#picked-hotelli-"+cityid).remove();
+           $("#summary_hotel_id_"+cityid).remove();
+           $(".place-night-select").trigger('change');
       }else{
        // alert('Failed to delete');
       }
@@ -1423,6 +1501,7 @@ viewactivityconfirm
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
                   $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                
                 });
               // $('#masterid').val(result.id);
               // $('#masterid').attr('data-autoid', result.id);
@@ -1592,6 +1671,10 @@ viewactivityconfirm
             var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/>';
 
             $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
+              $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
+              $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
+              $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
+              $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
         }
     });
 
@@ -1738,6 +1821,9 @@ viewactivityconfirm
 
             if(!$('#city_activity_id_'+resultdata.id).length){
               $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p><a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
+              var act_overview  = resultdata.overview != null ? resultdata.overview : '';
+               var activityduration = (resultdata.duartion_hours/60).toFixed(0)+' hour '+(resultdata.duartion_hours%60)+' minutes';
+              $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> '+resultdata.amount+'</a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
              $("#pick-actitity-link-"+cityid).css('top','-20px');
             }else{
               alert("Activity already choosed");
@@ -1772,6 +1858,7 @@ viewactivityconfirm
       $("#summary-banner").attr("src", imagelocation);
    }
     function saveOrder() {
+       $("#summary-cities").empty();
       $("#dummyList").empty();
       $("#dummyList").append($("#place-sortList").clone());
       $('#dummyList #place-sortList').prop('id', 'dummy-place-sortList');
@@ -1806,6 +1893,11 @@ viewactivityconfirm
         $('#place-hotels').append($('#dummy-hotels #dummy-place-hotels #picked-hotelli-'+cityval));
         $('#place-activities').append($('#dummy-activities #dummy-place-activities #picked-activityli-'+cityval));
         $('#destination-night-area').append($('#dummyListNights #dummy-destination-night-area #place_night_'+cityval));
+
+        var summary_city_name = $("#summary-city-name-"+cityval).html();
+        $("#summary-cities").append(summary_city_name+', ');
+
+         $("#place-activitylist-"+cityval).dragsort();
 
          // var listid = $(this).attr('data-cityid');
         //   // var listinfo = "'";
@@ -1848,6 +1940,33 @@ viewactivityconfirm
         });
        
     });
+    $(document).on('change', '.place-night-select', function() {
+      var total_nights = 0;
+      $(".place-night-select").each(function() {
+         var night_count = parseInt($(this).val());
+         //console.log('this'+night_count);
+         total_nights = parseInt(night_count)+parseInt(total_nights);
+      });
+     // console.log(total_nights);
+      $(".night-count").html(total_nights);
+    });
+    $(document).on('input', '.allow_decimal', function(){
+     var self = $(this);
+     self.val(self.val().replace(/[^0-9\.]/g, ''));
+     if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) 
+     {
+       evt.preventDefault();
+     }
+   });
+  $(document).on('keyup', '#total_package_value', function(){
+     var total_package_value = $("#total_package_value").val();
+     total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+     var gst_per = $("#gst_per").val();
+     gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
+     var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
+     $("#gst_amount").val(tax_amount);
+     $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
+   });
 
   // var mySortableList = $('#overall-summary').sortable({
   //   handle: '.handle',
