@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
 <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+<link rel="stylesheet" href="{{ asset('public/assets/dist/css/sweet_alert.css') }}">
 <style type="text/css">
    .form-group {
    margin-bottom: 10px !important;
@@ -41,88 +42,193 @@
    <!-- =========================================================== -->
    <div class="aside-panel"></div>
    <div class="container-fluid">
-      <div class="page-header">
-         <h1>Booking Information</h1>
-         <ul class="breadcrumbs">
-            <li>Booking</li>
-            <li>Booking Details</li>
-         </ul>
-      </div>
-      <div class="page-content clearfix">
-         <div class="col-md-8">
-            <!-- <div class="col-sm-10 col-sm-offset-1"> -->
-            @include('includes.messages')
-            <form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
-               <h1 class="text-display-1">Booking Information</h1>
-               <input type="hidden" name="customer_id">
-               <div class="row">
-                  <div class="col-sm-6">
-                     <!-- <div class="input-append date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                        <input class="span2" size="16" type="text" value="12-02-2012" ="">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                        </div> -->
-                     <!-- <div class="form-group input-field label-float">
-                        <input  autofocus id="dp1" type="text">
-                                             <label for="name" class="fixed-label">{{__('From') }}<span style="color:red">*</span></label>
-                         <div class="input-highlight"></div>
-                        </div> -->
-                     <!-- <div class="input-group date" data-date-format="dd.mm.yyyy">
-                        <input  type="text" class="form-control" placeholder="dd.mm.yyyy">
-                        <div class="input-group-addon" >
-                        <span class="glyphicon glyphicon-th"></span>
-                        </div> -->
-                     <div class="form-group input-field label-float">
-                        <input  autofocus type="date">
-                        <label for="" class="fixed-label">{{__('from') }}<span style="color:red">*</span></label>
-                        <div class="input-highlight"></div>
-                     </div>
-                     <!-- /.form-group -->			
-                     <!--/.form-group -->
+   <div class="page-header">
+      <h1>Booking Information</h1>
+      <ul class="breadcrumbs">
+         <li>Booking</li>
+         <li>Booking Details</li>
+      </ul>
+   </div>
+   <div class="page-content clearfix">
+      <div class="col-md-8">
+         <!-- <div class="col-sm-10 col-sm-offset-1"> -->
+         @include('includes.messages')
+         <form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
+            <h1 class="text-display-1">Booking Information</h1>
+            <input type="hidden" name="customer_id">
+            <div class="row">
+               <div class="col-sm-6">
+                  <!-- <div class="input-append date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                     <input class="span2" size="16" type="text" value="12-02-2012" ="">
+                     <span class="add-on"><i class="icon-th"></i></span>
+                     </div> -->
+                  <!-- <div class="form-group input-field label-float">
+                     <input  autofocus id="dp1" type="text">
+                                          <label for="name" class="fixed-label">{{__('From') }}<span style="color:red">*</span></label>
+                      <div class="input-highlight"></div>
+                     </div> -->
+                  <!-- <div class="input-group date" data-date-format="dd.mm.yyyy">
+                     <input  type="text" class="form-control" placeholder="dd.mm.yyyy">
+                     <div class="input-group-addon" >
+                     <span class="glyphicon glyphicon-th"></span>
+                     </div> -->
+                  <div class="form-group input-field label-float">
+                     <input  autofocus type="date">
+                     <label for="" class="fixed-label">{{__('from') }}<span style="color:red">*</span></label>
+                     <div class="input-highlight"></div>
                   </div>
-                  <!-- ./col- -->
-                  <div class="col-sm-6">
-                     <div class="form-group input-field label-float">
-                        <input  autofocus type="date">
-                        <label for="" class="fixed-label">{{__('To') }}<span style="color:red">*</span></label>
-                        <div class="input-highlight"></div>
-                     </div>
-                     <!-- /.form-group -->			
-                  </div>
-                  <!-- ./col- -->	
-				  <div class="row">
-					  <div class="col-sm-6">
-						 <div class="form-group input-field label-float">
-							<input class="typeahead" style="margin-left: 15px;" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
-							<label style="margin-left: 15px;" for="" class="fixed-label">{{__('Package') }}<span style="color:red">*</span></label>
-							<div class="input-highlight"></div>
-						 </div>
-						 <!-- /.form-group -->			
-					  </div>
-                  <!-- ./col- -->	
-                  <div class="col-sm-6">
-                     <div class="select-row form-group">
-                        <label for="country_id" class="block">{{__('Customer Name') }}<span style="color:red">*</span></label>                 
-                        <!-- To validate the select add class "select-validate" -->     
-                        <div id="the-basics">
-                           <input class="typeahead" id="customer_name" name="customer_name"  type="text" placeholder="Type for a Customer" autocomplete='off'>
-                        </div>
-                        <div class="input-highlight"></div>
-                     </div>
-                  </div>
-                  <!-- ./col- -->
+                  <!-- /.form-group -->			
+                  <!--/.form-group -->
                </div>
-               <!-- /.row -->
-               <div class="row">
-                  <div class="col-sm-6">
-                     <div class="form-group input-field label-float">
-                        <input style="margin-left: 15px;" id="cus_state" name="cus_state"  type="text" placeholder="Customer State"  autocomplete='off'>
-                        <label style="margin-left: 15px;" for="address_one" class="fixed-label">{{__('State') }}</label>
-                        <div class="input-highlight"></div>
-                     </div>
-                     <!-- /.form-group -->			
+               <!-- ./col- -->
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <input  autofocus type="date">
+                     <label for="" class="fixed-label">{{__('To') }}<span style="color:red">*</span></label>
+                     <div class="input-highlight"></div>
                   </div>
-                  <!-- ./col- -->	
+                  <!-- /.form-group -->			
+               </div>
+               <div class="clearfix"></div>
+               <!-- ./col- -->	
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
+                     <label  for="" class="fixed-label">{{__('Package') }}<span style="color:red">*</span></label>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->			
+               </div>
+               <!-- ./col- -->	
+               <div class="col-md-6">
+                  <div class="input-field label-float">
+                     <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
+                     <br>
+                     <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
+                     <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
+                     <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
+                     <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
+                     <div class="input-highlight"></div>
+                  </div>
+                  <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
+                     <div class="modal-dialog" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                              <h1 class="modal-title">Travellers Details</h1>
+                           </div>
+                           <!-- /.modal-header -->
+                           <div class="modal-body">
+                              <div class="row">
+                                 <div class="col-md-3">
+                                    <label class="fixed-label">{{__('Adult:') }}</label>
+                                    <br>
+                                    <small>Age 13 and above</small>
+                                 </div>
+                                 <div class="col-md-9">
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >5</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >6</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1" >7</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
+                                    <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
+                                 </div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                 <div class="col-md-3">
+                                    <label class="fixed-label">{{__('Children:') }}</label>
+                                    <br>
+                                    <small>Age 3 to 12</small>
+                                 </div>
+                                 <div class="col-md-9">
+                                    <a class="label child-travellers label-travellers z-depth-1  blue-dark" >0</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >1</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 ">2</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >3</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >4</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >5</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >6</a>
+                                    <a class="label child-travellers label-travellers z-depth-1" >7</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >8</a>
+                                    <a class="label child-travellers label-travellers z-depth-1 " >9</a>
+                                 </div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                 <div class="col-md-3">
+                                    <label class="fixed-label">{{__('Infant:') }}</label>
+                                    <br>
+                                    <small>Age 0 - 2</small>
+                                 </div>
+                                 <div class="col-md-9">
+                                    <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >1</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 ">2</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >3</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >4</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >5</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >6</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1" >7</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >8</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >9</a>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- /.modal-body -->
+                           <div class="modal-footer">
+                              Total travellers : <span id="total-travellers">2</span>
+                              <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                              <button class="btn-flat waves-effect waves-theme hide">Save changes</button>
+                           </div>
+                           <!-- /.modal-footer -->
+                        </div>
+                        <!-- /.modal-content -->
+                     </div>
+                     <!-- /.modal-dialog -->
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <label for="country_id " class="block fixed-label">{{__('Customer Name') }}<span style="color:red">*</span></label>                 
+                     <!-- To validate the select add class "select-validate" -->     
+                     <div id="the-basics">
+                        <input class="typeahead" id="customer_name" name="customer_name"  type="text" placeholder="Search Customer" autocomplete='off'>
+                        <span id="no-results"></span>
+                     </div>
+                     <div class="input-highlight"></div>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </div>
+            <!-- ./col- -->
+            <div class="customer_add">
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <button type="button" class="btn theme modal-trigger" data-toggle="modal" data-target="#defaultModal">
+                     Add Customer
+                     </button>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->			
+               </div>
+            </div>
+            <div class="row customer_details">
                <!-- /.row -->
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <input  id="cus_state" name="cus_state"  type="text" placeholder="Customer State"  autocomplete='off'>
+                     <label  for="address_one" class="fixed-label">{{__('State') }}</label>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->			
+               </div>
+               <!-- ./col- -->	
+               <!-- /.row -->  
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
                      <input id="cus_city" name="cus_city"  type="text" placeholder="Customer City"  autocomplete='off'>
@@ -132,235 +238,232 @@
                   <!-- /.form-group -->			
                </div>
                <!-- ./col- -->	
-         </div>
-         <!-- /.row -->
-         
+               <!-- /.row -->      
+               <div class="col-sm-6">
+                  <div class="select-row form-group">
+                     <label for="cus_email" class="block">{{__('Customer Email') }}<span style="color:red">*</span></label>                 
+                     <!-- To validate the select add class "select-validate" -->     
+                     <input id="cus_email" name="cus_email"  type="text" placeholder="Customer Email"  autocomplete='off'>
+                     <div class="input-highlight"></div>
+                  </div>
+               </div>
+               <!-- ./col- -->	
+               <div class="col-sm-6">
+                  <div class="select-row form-group">
+                     <label for="cus_phone" class="block">{{__('Customer Phone') }}<span style="color:red">*</span></label>                 
+                     <input id="cus_phone" name="cus_phone"  type="text" placeholder="Customer Phone"  autocomplete='off'>
+                     <div class="input-highlight"></div>
+                  </div>
+               </div>
+               <!-- ./col- -->
+               <div class="clearfix"></div>
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <div class="input-field label-float">
+                        <input id="cus_zipcode"  name="cus_zipcode"  type="text" placeholder="Customer Zipcode"  autocomplete='off'>
+                        <label for="cus_zipcode"  class="fixed-label">{{__('Zipcode') }}</label>
+                        <div class="input-highlight"></div>
+                     </div>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <!-- ./col- -->
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <div class="input-field label-float">
+                        <input id="address_one"  name="address_one"  type="text" placeholder="Address One"  autocomplete='off'>
+                        <label for="address_one" class="fixed-label">{{__('Address One') }}</label>
+                        <div class="input-highlight"></div>
+                     </div>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <!-- ./col- -->
+               <div class="clearfix"></div>
+               <div class="col-sm-6">
+                  <div class="form-group input-field label-float">
+                     <div class="input-field label-float">
+                        <input id="address_two"  name="address_two"  type="text" placeholder="Address two"  autocomplete='off'>
+                        <label for="address_two"  class="fixed-label">{{__('Address two') }}</label>
+                        <div class="input-highlight"></div>
+                     </div>
+                     <div class="input-highlight"></div>
+                  </div>
+                  <!-- /.form-group -->
+               </div>
+               <!-- ./col- -->
+               <div class="clearfix"></div>
+            </div>
+            <p><span style="color:red;    margin-left: 0px;"> </span></p>
+            <div class="form-group clearfix">
+               <button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+            </div>
+            <!-- /.form-group -->
+         </form>
       </div>
-      <!-- /.row -->
-      <div class="row">
-	  <div class="col-sm-6">
-         <div class="select-row form-group">
-         <label for="cus_email" class="block">{{__('Customer Email') }}<span style="color:red">*</span></label>                 
-         <!-- To validate the select add class "select-validate" -->     
-         <input id="cus_email" name="cus_email"  type="text" placeholder="Customer Email"  autocomplete='off'>
-         <div class="input-highlight"></div>
-         </div>
-         </div><!-- ./col- -->	
-      <div class="col-sm-6">
-      <div class="select-row form-group">
-      <label for="cus_phone" class="block">{{__('Customer Phone') }}<span style="color:red">*</span></label>                 
-      <input id="cus_phone" name="cus_phone"  type="text" placeholder="Customer Phone"  autocomplete='off'>
-      <div class="input-highlight"></div>
-      </div>
-      </div><!-- ./col- -->
-      <div class="row">
-      <div class="col-sm-6">
-      <div class="form-group input-field label-float">
-      <div class="input-field label-float">
-      <input id="cus_zipcode" style="margin-left: 15px;" name="cus_zipcode"  type="text" placeholder="Customer Zipcode"  autocomplete='off'>
-      <label for="cus_zipcode" style="margin-left: 15px;" class="fixed-label">{{__('Zipcode') }}</label>
-      <div class="input-highlight"></div>
-      </div>
-      <div class="input-highlight"></div>
-      </div><!-- /.form-group -->
-      </div><!-- ./col- -->
-	  <div class="col-sm-6">
-      <div class="form-group input-field label-float">
-      <div class="input-field label-float">
-      <input id="address_one" style="margin-left: 15px;" name="address_one"  type="text" placeholder="Address One"  autocomplete='off'>
-      <label for="address_one" style="margin-left: 15px;" class="fixed-label">{{__('Address One') }}</label>
-      <div class="input-highlight"></div>
-      </div>
-      <div class="input-highlight"></div>
-      </div><!-- /.form-group -->
-      </div><!-- ./col- -->
-		<div class="col-sm-6">
-      <div class="form-group input-field label-float">
-      <div class="input-field label-float">
-      <input id="address_two" style="margin-left: 15px;" name="address_two"  type="text" placeholder="Address two"  autocomplete='off'>
-      <label for="address_two" style="margin-left: 15px;" class="fixed-label">{{__('Address two') }}</label>
-      <div class="input-highlight"></div>
-      </div>
-      <div class="input-highlight"></div>
-      </div><!-- /.form-group -->
-      </div><!-- ./col- -->
-      </div><!-- /.row -->
-      
-                      <div class="col-md-6">
-                        <div class="input-field label-float">
-                           <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
-                           <br>
-                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
-                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
-                           <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
-                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
-                           <div class="input-highlight"></div>
-                        </div>
-                        <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
-                           <div class="modal-dialog" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
-                              <div class="modal-content">
-                                 <div class="modal-header">
-                                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                                    <h1 class="modal-title">Travellers Details</h1>
-                                 </div><!-- /.modal-header -->
-                                 <div class="modal-body">
-                                    <div class="row">
-                                       <div class="col-md-3">
-                                          <label class="fixed-label">{{__('Adult:') }}</label>
-                                          <br>
-                                          <small>Age 13 and above</small>
-                                       </div>
-                                       <div class="col-md-9">
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
-
-                                       </div>  
-                                       
-                                    </div>
-                                     <br>
-                                    <div class="row">
-                                       <div class="col-md-3">
-                                          <label class="fixed-label">{{__('Children:') }}</label>
-                                          <br>
-                                          <small>Age 3 to 12</small>
-                                       </div>
-
-                                       <div class="col-md-9">
-                                          <a class="label child-travellers label-travellers z-depth-1  blue-dark" >0</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 ">2</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label child-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >9</a>
-                                          
-                                       </div>  
-                                       
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                       <div class="col-md-3">
-                                          <label class="fixed-label">{{__('Infant:') }}</label>
-                                          <br>
-                                          <small>Age 0 - 2</small>
-                                       </div>
-
-                                       <div class="col-md-9">
-                                           <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 ">2</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >9</a>
-                                          
-                                       </div>  
-                                       
-                                    </div>
-
-                                 </div><!-- /.modal-body -->
-                                 <div class="modal-footer">
-                                    Total travellers : <span id="total-travellers">2</span>
-                                    <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                                    <button class="btn-flat waves-effect waves-theme hide">Save changes</button>
-                                 </div><!-- /.modal-footer -->
-                              </div><!-- /.modal-content -->
-                           </div><!-- /.modal-dialog -->
+      <!--</div> --><!-- /.row -->
+      <div class="col-md-4 p8 sticky fixed">
+         <div id="destination-chart" class="destinations-division" style="margin-top:23px">
+            <div class="sortable">
+               <div class="card">
+                  <div class="p8 blue-grey">
+                     <div class="card-title">Places (State-City)</div>
+                     <input type="hidden" name="packageid" id="packageid"> 
+                  </div>
+                  <div class="card-block">
+                     <div class="scroller ">
+                        <ul id="place-sortList" class="list-group placecitylist item-border">
+                        </ul>
+                        <div id="dummyList">
                         </div>
                      </div>
-      </div><!-- /.row -->
-      <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
-      <div class="form-group clearfix">
-      <button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
-      </div><!-- /.form-group -->
-      </form>
-      </div> <!--</div> --><!-- /.row -->
-      <div class="col-md-4 p8 sticky fixed">
-      
-
-            <div id="destination-chart" class="destinations-division" style="margin-top:23px">
-                  <div class="sortable">
-                     <div class="card">
-                        <div class="p8 blue-grey">
-                           <div class="card-title">Places (State-City)</div>
-                           <input type="hidden" name="packageid" id="packageid"> 
-                        </div>
-                        <div class="card-block">
-                           <div class="scroller ">
-                              <ul id="place-sortList" class="list-group placecitylist item-border">
-                                 
-                              </ul>
-                              <div id="dummyList">
-
-                              </div>
-                           </div>
-                        </div><!-- /.card-block -->
-                     </div><!-- /.card -->
                   </div>
-                 
+                  <!-- /.card-block -->
                </div>
-               <div id="destination-nights" class="destinations-nights">
+               <!-- /.card -->
+            </div>
+         </div>
+         <div id="destination-nights" class="destinations-nights">
+            <div class="row">
+               <div class="divider theme ml14 mr14"></div>
+               <div id="destination-night-area" class="destination-night-area">
+               </div>
+               <div id="dummyListNights">
+               </div>
+            </div>
+         </div>
+         <br>
+         <div class="col-md-12" style="background-color: #a6777726;">
+            <h4 class="text-headline text-center">Traveling To</h4>
+            <div class="select-row form-group">
+               <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
+               <!-- To validate the select add class "select-validate" -->     
+               <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                  <option value="">{{__('Select country')}}</option>
+                  @php
+                  $defcountry = CommonHelper::DefaultCountry();
+                  @endphp
+                  @foreach($data['country_view'] as $value)
+                  <option value="{{$value->id}}" >
+                     {{$value->country_name}}
+                  </option>
+                  @endforeach
+               </select>
+               <div class="input-highlight"></div>
+            </div>
+            <!-- /.form-group -->
+            @php
+            $statelist = CommonHelper::getStateList($defcountry);
+            @endphp
+            <div class="select-row form-group">
+               <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
+               <!-- To validate the select add class "select-validate" -->     
+               <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                  <option value="" selected="">{{__('Select State') }}
+                  </option>
+                  <!--  @foreach ($statelist as $state)
+                     <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                     @endforeach -->
+               </select>
+               <div class="input-highlight"></div>
+            </div>
+            <div class="select-row form-group">
+               <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
+               <!-- To validate the select add class "select-validate" -->     
+               <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
+                  <option value="" selected="">{{__('Select City') }}
+                  </option>
+                  <!--  @foreach ($data['state_view'] as $state)
+                     <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                     @endforeach -->
+               </select>
+               <div class="input-highlight"></div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"/>
+      </div>
+   </div>
+   <!-- /.page-content -->
+   <!-- Default Modal -->
+   <div id="defaultModal" class="modal bs-example-modal-lg" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+            <div class="modal-header theme">
+               <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+               <h1 class="modal-title">Customer Details</h1>
+            </div>
+            <!-- /.modal-header -->
+            <div class="modal-body">
+               <form id="customerformValidate" class="" method="post" data-toggle="validator">
+                  <!-- <h1 class="text-display-1">Customer Information</h1> -->
+                  <input type="hidden" name="customer_id">
                   <div class="row">
-
-                    <div class="divider theme ml14 mr14"></div> 
-                     
-                    <div id="destination-night-area" class="destination-night-area">
-                         
-                    </div>
-                    <div id="dummyListNights">
-                    </div>  
-                  </div>
-               </div> <br>
-               <div class="col-md-12" style="background-color: #a6777726;">
-                        <h4 class="text-headline text-center">Traveling To</h4>
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <input placeholder="Name" class="clearable" id="name" name="name" autofocus type="text">
+                           <label for="name" class="fixed-label">{{__('Name') }}<span style="color:red">*</span></label>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->
+                     </div>
+                     <!-- ./col- -->
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <input placeholder="Email" class="clearable" id="email" name="email" type="email">
+                           <label for="" class="fixed-label">{{__('Email') }}<span style="color:red">*</span></label>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->			
+                     </div>
+                     <!-- ./col- -->	
+                     <div class="col-sm-4">
                         <div class="select-row form-group">
-                           <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
+                           <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                           <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
                               @php
                               $defcountry = CommonHelper::DefaultCountry();
                               @endphp
                               @foreach($data['country_view'] as $value)
-                              <option value="{{$value->id}}" >
+                              <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
                               {{$value->country_name}}</option>
                               @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
-                        <!-- /.form-group -->
-                         @php
-                        $statelist = CommonHelper::getStateList($defcountry);
-                        @endphp
+                     </div>
+                     <!-- ./col- -->
+                  </div>
+                  <!-- /.row -->
+                  <div class="row">
+                     @php
+                     $statelist = CommonHelper::getStateList($defcountry);
+                     @endphp
+                     <div class="col-sm-4">
                         <div class="select-row form-group">
-                           <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
+                           <label for="state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                           <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
                               </option>
-                             <!--  @foreach ($statelist as $state)
+                              @foreach ($statelist as $state)
                               <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                              @endforeach -->
+                              @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
+                     </div>
+                     <!-- ./col- -->	
+                     <div class="col-sm-4">
                         <div class="select-row form-group">
-                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
+                           <label for="city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
+                           <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
                               </option>
                               <!--  @foreach ($data['state_view'] as $state)
@@ -370,17 +473,68 @@
                            <div class="input-highlight"></div>
                         </div>
                      </div>
-                     <div class="clearfix"></div>
-           </div>
-           <div class="clearfix"/>
-         
+                     <!-- ./col- -->
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <input placeholder="Address One" class="clearable" id="customer_address_one" name="address_one" type="text">
+                           <label for="customer_address_one" class="fixed-label">{{__('Address One') }}</label>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->			
+                     </div>
+                     <!-- ./col- -->
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <div class="input-field label-float">
+                              <input placeholder="Address Two" class="clearable" id="customer_address_two" name="address_two" type="text">
+                              <label for="customer_address_two" class="fixed-label">{{__('Address Two') }}</label>
+                              </select>
+                              <div class="input-highlight"></div>
+                           </div>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->
+                     </div>
+                     <!-- ./col- -->
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <input placeholder="Zipcode" class="clearable" id="zipcode" name="zipcode" type="text">
+                           <label for="phone" class="fixed-label">{{__('Zipcode') }}<span style="color:red">*</span></label>
+                           <div class="input-highlight"></div>
+                        </div>
+                        <!-- /.form-group -->			
+                     </div>
+                     <!-- ./col- -->	
+                     <div class="col-sm-4">
+                        <div class="form-group input-field label-float">
+                           <input placeholder="phone" class="clearable" id="phone" name="phone" type="text">
+                           <label for="phone" class="fixed-label">{{__('Phone') }}<span style="color:red">*</span></label>
+                           <p class="no-margin em"></p>
+                        </div>
+                     </div>
+                     <!-- ./col- -->	
+                  </div>
+                  <!-- /.modal-body -->
+                  <div class="modal-footer">
+                     <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                     <!-- <button class="btn-flat waves-effect waves-theme">Save changes</button> -->
+                     <button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+                  </div>
+                  <!-- /.modal-footer -->
+               </form>
+            </div>
+            <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
       </div>
+      <!-- /.modal -->
+      <a id="back-to-top" href="#" class="btn-circle theme back-to-top">
+      <i class="mdi mdi-chevron-up medium"></i>
+      </a>
    </div>
-   <!-- /.page-content -->
-   <a id="back-to-top" href="#" class="btn-circle theme back-to-top">
-   <i class="mdi mdi-chevron-up medium"></i>
-   </a>
-   </div><!-- /.container-fluid -->
+   <!-- /.container-fluid -->
    <!-- =========================================================== -->
    <!-- End page content  -->
    <!-- =========================================================== -->
@@ -395,9 +549,114 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
 <script>
+$(document).ready(function(){
+   
+   $("#customerformValidate").validate({
+			rules: {
+				"name": {
+					required: true,
+				},
+            "email": {
+					required: true,
+               email : true,
+				},
+            "country_id" : {
+               required: true,
+            },
+            "state_id" : {
+               required: true,
+            },
+            "city_id" : {
+               required: true,
+            },
+            "zipcode" : {
+               required: true,
+               digits : true,
+            },
+            "phone" : {
+               required: true,
+               digits : true,
+               remote: {
+                url: "{{ url('/customer_phoneexists')}}",
+                type: "post",
+                data: {
+                    phone: function() {
+                        return $("#phone").val();
+                    },
+                    _token: "{{csrf_token()}}",
+                    phone: $(this).data('phone')
+                },
+                
+                
+            },
+            },	
+			},
+			messages: {
+				"name": {
+					required: "Please, enter Name",
+				},
+            "email": {
+					required: "Please, enter Email",
+               email : "Please enter valid email",
+				},
+            "country_id" : {
+               required: "Please, choose country",
+            },
+            "state_id" : {
+               required: "Please, choose state",
+            },
+            "city_id" : {
+               required: "Please, choose city",
+            },
+            "zipcode" : {
+               required: "Please, Enter Zipcode",
+               digits : "Numbers only",
+            },
+            "phone" : {
+               required: "Please, enter Phone Number",
+               digits : "Numbers only",
+               remote: "Phone Number Already Exists!"
+            },
+			},
+			submitHandler: function (form) {
+				$.ajax({
+					type: 'post',
+					url: "{{ route('customer_save') }}",
+					data: $('form').serialize(),
+					success: function(response){
+						if(response)
+						{ 
+                     swal("Success!", "Customer Added succesfully!", "success");
+                     $('#defaultModal').modal('toggle');
+                     $('#name').val('');
+                     $('#email').val('');
+                     $('#zipcode').val('');
+                     $('#phone').val('');
+                     $('#customer_address_one').val('');
+                     $('#customer_address_two').val('');
+                     $('#country_id').selectpicker('val', '');
+                     $('#state_id').selectpicker('val', '');
+                     $('#city_id').selectpicker('val', '');
+							
+						}
+					}
+			});
+         }
+		});
+
+});
+$(document).on('submit','form#stateformValidate',function(){
+     $("#saveMasterButton").prop('disabled',true);
+});
+
    (function ($) {
    $(document).ready(function () {
+
+   $('.customer_details').hide();
+   $('.customer_add').hide();
+   var NoResultsLabel = "No Results";
    $('#customer_name').autocomplete({
     // minChars: 1,
     source: function(request, response) {
@@ -412,41 +671,47 @@
         url: "{{route('customer_autocomplete')}}",
         data: 'action=customer_name'+'&name='+request.term,
         success: function(data) {
+         console.log(data.length);
+         if (data.length === 0) {   
+              // alert('hii');
+              $('.customer_details').hide();
+              $('.customer_add').show();
+            }
           response( $.map( data, function( item ) {
-              console.log(data);
-              var object = new Object();
-               object.label = item.value;
-               object.value = item.name;
-               object.city_name = item.city_name;
-               object.state_name = item.state_name;
-               object.zipcode = item.zipcode;
-               object.address_one = item.address_one;
-               object.address_two = item.address_two;
-               object.email = item.email;
-               object.phone = item.phone;
-              return object
+            console.log(data.length);
+                  var object = new Object();
+                  object.label = item.value;
+                  object.value = item.name;
+                  object.city_name = item.city_name;
+                  object.state_name = item.state_name;
+                  object.zipcode = item.zipcode;
+                  object.address_one = item.address_one;
+                  object.address_two = item.address_two;
+                  object.email = item.email;
+                  object.phone = item.phone;
+                  return object 
+                       
+                          
           }));
-          // response( $.map( data, function( item ) {
-          //     return {
-          //         label: item.title,
-          //         value: item.title
-          //     }
-          // }));
    
         }
+   
       });
     },
     select: function (event, ui) {
-      $("#customer_name").val(ui.item.value);
-      $("#cus_name").val(ui.item.name);
-      $("#cus_city").val(ui.item.city_name);
-      $("#cus_state").val(ui.item.state_name);
-      $("#cus_zipcode").val(ui.item.zipcode);
-      $("#address_one").val(ui.item.address_one);
-      $("#address_two").val(ui.item.address_two);
-      $("#cus_phone").val(ui.item.phone);
-      $("#cus_email").val(ui.item.email);
-     }
+      $('.customer_add').hide();
+         $('.customer_details').show();
+         $("#customer_name").val(ui.item.value);
+         $("#customer_name").val(ui.item.value);
+         $("#cus_name").val(ui.item.name);
+         $("#cus_city").val(ui.item.city_name);
+         $("#cus_state").val(ui.item.state_name);
+         $("#cus_zipcode").val(ui.item.zipcode);
+         $("#address_one").val(ui.item.address_one);
+         $("#address_two").val(ui.item.address_two);
+         $("#cus_phone").val(ui.item.phone);
+         $("#cus_email").val(ui.item.email);
+      },
    });
     $('#package_name').autocomplete({
     // minChars: 1,
@@ -483,11 +748,11 @@
     select: function (event, ui) {
       $("#package_name").val(ui.item.value);
       $('#packageid').val(ui.item.packageid);
-
-
+   
+   
        var packageid = $("#packageid").val();
        var url = "{{ route('package_place_details') }}?package_id="+packageid;   
-
+   
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -538,7 +803,7 @@
         "phone" : {
            required: true,
            digits : true,
-        },	
+        },
    },
    messages: {
    "name": {
