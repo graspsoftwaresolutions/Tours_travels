@@ -127,7 +127,7 @@ Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
 //Package
 Route::get('/new_package', 'PackageController@index')->name('package.new');
-Route::post('/package_new', 'PackageController@packageSave')->name('package_save');
+Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
 
 Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
 

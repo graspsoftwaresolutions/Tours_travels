@@ -254,7 +254,7 @@
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
           <div class="col-md-8">
-          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{route('package_save')}}">
+          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{ route('package_save') }}">
             @csrf
             <h3>Travel Data</h3>
             <fieldset>
@@ -578,6 +578,8 @@
                        <br>
                         <br>
                     </div>
+                    <div id="dummyRightList">
+                    </div>
                   </div>
                 </div>
             
@@ -585,7 +587,7 @@
             <p><span style="color:red;    margin-left: 40px;"> Mandatory (*)</span></p>
          </form>
           </div>
-          <div class="col-md-4  p8 sticky fixed" >
+          <div id="right-section-packagearea" class="col-md-4  p8 sticky fixed" >
              <div id="travel-section" class="">
                <div id="destination-chart" class="destinations-division">
                     <div class="sortable">
@@ -628,7 +630,7 @@
                         <h4 class="text-headline">Price Summary</h4>   
                         <br>
                          <div class="form-group">
-                            <label for="total_package_value" class="col-sm-5 control-label">Total package value
+                            <label for="total_package_value" class="col-sm-5 control-label">Total package value*
                               <br>
                               <small>[incl. Hotel+Activities]</small>
                             </label>
@@ -659,7 +661,7 @@
                         </div><!-- /.form-group -->
                         <h5 class="text-headline">Additional Price</h5> 
                          <div class="form-group">
-                            <label for="adult_price" class="col-sm-5 control-label">Adult Price/person </label>
+                            <label for="adult_price" class="col-sm-5 control-label">Adult Price/person* </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
                                 <input type="text" id="adult_price" class="allow_decimal" name="adult_price" placeholder="Adult Price/person">    
@@ -677,7 +679,7 @@
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
                          <div class="form-group">
-                            <label for="infant_price" class="col-sm-5 control-label">Infant Price/person </label>
+                            <label for="infant_price" class="col-sm-5 control-label">Infant Price/person</label>
                             <div class="col-sm-7">     
                               <div class="input-field">
                                 <input type="text" id="infant_price" class="allow_decimal" name="infant_price" placeholder="Infant Price/person">    
@@ -1220,26 +1222,41 @@
         onFinished: function (event, currentIndex)
         {
           
-           $.ajax({
-              type: 'POST',
-              url: "{{ route('package_save') }}",
-              data: new FormData(this),
-              dataType: 'json',
-              contentType: false,
-              cache: false,
-              processData:false,
-            //   beforeSend: function(){
-            //       $('.submitBtn').attr("disabled","disabled");
-            //       $('#wizard1').css("opacity",".5");
-            //   },
-              success: function(response){
+          var total_package_value = $("#total_package_value").val();
+          var adult_price = $("#adult_price").val();
+          if(total_package_value!="" && adult_price!=""){
+            $("#dummyRightList").empty();
+            $("#dummyRightList").append($("#right-section-packagearea").clone());
+            $("#dummyRightList").addClass('hide');
+            $("#wizard1").trigger('submit');
+             return true;
 
-               alert('package added succesfully');
-               window.location.reload();
+          }else{
+            $("#dummyRightList").empty();
+            alert('Please enter price details');
+          }
+          // var child_price = $("#child_price").val();
+          // var child_price = $("#child_price").val();
+          //  $.ajax({
+          //     type: 'POST',
+          //     url: "{{ route('package_save') }}",
+          //     data: new FormData(this),
+          //     dataType: 'json',
+          //     contentType: false,
+          //     cache: false,
+          //     processData:false,
+          //   //   beforeSend: function(){
+          //   //       $('.submitBtn').attr("disabled","disabled");
+          //   //       $('#wizard1').css("opacity",".5");
+          //   //   },
+          //     success: function(response){
+
+          //      alert('package added succesfully');
+          //      window.location.reload();
                 
-              }
-          });
-           return true;
+          //     }
+          // });
+          
         }
       //  $('#wizard1').trigger('submit');
     }).validate({

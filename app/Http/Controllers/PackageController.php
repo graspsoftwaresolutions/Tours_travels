@@ -39,6 +39,8 @@ class PackageController extends Controller
             'from_city_id' => 'required',
             'from_country_id' => 'required',
             'from_state_id' => 'required',
+            'total_package_value' => 'required',
+            'adult_price' => 'required',
                 ], [
             'package_name.required' => 'please select package name',
             'to_city_id.required' => 'please select city',
@@ -47,6 +49,8 @@ class PackageController extends Controller
             'from_city_id.required' => 'please select city',
             'from_country_id.required' => 'please select country',
             'from_state_id.required' => 'please select state',
+            'total_package_value.required' => 'please enter package value',
+            'adult_price.required' => 'please enter adult cost',
         ]);
          $SavePackage = new Package();
          $SavePackage->package_name = $request->package_name;
@@ -70,15 +74,15 @@ class PackageController extends Controller
 					$city_id = $request->input('picked_city')[$i];
 					$nights_count = $request->input('place_night_select')[$i];
 					
-                        $package = new PackagePlace() ;
-                        $package->package_id = $package_id;
-                        $package->state_id = $state_id;
-                        $package->city_id = $city_id;
-                        $package->nights_count = $nights_count;
-						$package->save();
+                    $package = new PackagePlace() ;
+                    $package->package_id = $package_id;
+                    $package->state_id = $state_id;
+                    $package->city_id = $city_id;
+                    $package->nights_count = $nights_count;
+                    $package->save();
 				}
 			}
-        return json_encode($package);
+        //return json_encode($package);
     }
 
     public function HotelsList(Request $request){
