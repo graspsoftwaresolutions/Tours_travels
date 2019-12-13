@@ -6,6 +6,13 @@ use Carbon\Carbon;
 use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
+use App\Model\ActivityImages;
+use App\Model\Activity;
+use App\Model\Package;
+use App\Model\PackagePlace;
+use App\Model\PackageHotel;
+use App\Model\PackageActivities;
+use App\Model\Hotel;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -119,7 +126,7 @@ class CommonHelper
 	}
 
 	public static function getCityList($stateid){
-        return DB::table('city')->select('id','city_name')->where('status','=','1')->where('state_id','=',$stateid)->get();
+        return DB::table('city')->select('id','city_name','city_image')->where('status','=','1')->where('state_id','=',$stateid)->get();
     }
     public static function getroomtypename($values)
     {
@@ -131,6 +138,32 @@ class CommonHelper
         $data = DB::table('hotels')->select('id','hotel_name')->where('status','=','1')->where('id','=',$hotelid)->get();
             dd($data);
    
+    }
+
+    public static function getcityDetails($cityid){
+        return City::where('id','=',$cityid)->first();
+    }
+
+    public static function getPackageHotel($packageid,$cityid){
+        $hotel_id = DB::table('package_hotel as ph')
+                    ->where('ph.package_id','=',$packageid)
+                    ->where('ph.city_id','=',$cityid)
+                    ->pluck('hotel_id')
+                    ->first();
+        //dd( $hotel_id);
+        $hotels = null;
+        if($hotel_id!=''){
+            $hotels = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                'roomtypes',
+                'hotelimages'
+            ))->where('id','=',$hotel_id)->first();
+        }
+        return $hotels;
+        
     }
 	
 	
