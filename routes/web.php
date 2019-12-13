@@ -143,4 +143,8 @@ Route::get('package_place_details','PackageController@packagePlaceDetails')->nam
 Route::get('/new_booking', 'BookingController@index')->name('booking.new');
 Route::get('/new_autocomplete', 'BookingController@auto');
 
+Route::get('/packages', 'PackageController@List')->name('package.list');
+Route::post('ajax_package_list','PackageController@ajax_package_list');
+Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('package.edit');
+
 

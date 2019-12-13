@@ -28,6 +28,13 @@ class CreatePackageMasterTable extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->nullable();
             $table->biginteger('status')->default('1');
+            $table->float('total_package_value', 8, 2);
+            $table->float('tax_percentage', 8, 2);
+            $table->float('tax_amount', 8, 2);
+            $table->float('total_amount', 8, 2);
+            $table->float('adult_price_person', 8, 2);
+            $table->float('child_price_person', 8, 2);
+            $table->float('infant_price', 8, 2);
         });
     }
 
