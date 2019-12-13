@@ -1461,7 +1461,7 @@
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
     
-      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
+      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" class="hide" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
 
       $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
@@ -1736,7 +1736,7 @@
                   var imagelocation = no_image_url;
 
                   if(activityimages.length>0){
-                     var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
+                     var imagelocation = image_url+'/activity/'+activityimages[0].image_name
                   }
 
                   var activityduration = (value.duartion_hours/60).toFixed(0)+' hour '+(value.duartion_hours%60)+' minutes';
@@ -1774,7 +1774,7 @@
               var imagelocation = no_image_url;
               if(activityimages!=null){
                  if(activityimages.length>0){
-                   var imagelocation = image_url+'/hotels/'+activityimages[0].image_name
+                   var imagelocation = image_url+'/activity/'+activityimages[0].image_name
                 }
               }
              
@@ -1782,7 +1782,7 @@
             $("#view-activity-imagearea").empty();
             if(activityimages!=null){
               $.each(activityimages, function(key, value) {
-                var imagefolder = image_url+'/hotels/';
+                var imagefolder = image_url+'/activity/';
                 if(key<=4){
                   var imagefullname = imagefolder+value.image_name;
                   var passimagename = "{  imagename: '"+imagefullname+"' }";
@@ -1858,7 +1858,7 @@
             var imagelocation = no_image_url;
 
             if(hotelimages.length>0){
-               var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+               var imagelocation = image_url+'/activity/'+hotelimages[0].image_name
             }
 
             var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/>';
