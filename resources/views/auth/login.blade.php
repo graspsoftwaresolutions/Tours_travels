@@ -10,24 +10,30 @@
         background-size: cover;
     }
     .paper{
-        background: #121c2da8;
+        background: #174551;
         outline: beige;
-        box-shadow: 2px 2px 10px 10px #949191 inset;
-        border: 2px solid #5d9fb3e8;
+        box-shadow: 2px 2px 10px 10px #143a45 inset;
+        border: 2px solid #a9b0b7;
     }
     .form-box .body {
         min-height: 130px;
         padding: 0px 20px;
+    }
+    #login-box{
+        margin-top: 140px;
+    }
+    .theme-mda .collapse-indicator:after, .theme-mda .input-field .prefix.active{
+       color: #74b1c3;
     }
 </style>
  <div class="page-background lr-page">
       <div class="page-background lr-page">
 
         <!-- Place your logo here. -->
-        <img src="#" alt="" class="login-logo">
+        <!--img src="#" alt="" class="login-logo"-->
 
         <div class="form-box paper" id="login-box">
-            <div class="header text-theme"><span>{{ __('Login') }}</span></div>
+            <div class="header text-theme" style="color: #fff;"><span>{{ __('Login') }}</span></div>
             <form id="signInForm" action="{{ route('login') }}" method="post">
                  @csrf
                 <div class="body">
@@ -36,7 +42,7 @@
                     <div class="input-field label-float @error('email') is-invalid @enderror">
                         <i class="mdi mdi-account prefix"></i>
                         <input id="email" name="email" type="text" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        <label for="email" class="fixed-label">{{ __('E-Mail Address') }}</label>
+                        <label for="email" style="color: #83b1be;" class="fixed-label">{{ __('E-Mail Address') }}</label>
                         <div class="input-highlight"></div>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -47,7 +53,7 @@
                     <div class="input-field label-float @error('password') is-invalid @enderror">
                         <i class="mdi mdi-key prefix"></i>
                         <input id="password" name="password" type="password">
-                        <label for="password" class="fixed-label">{{ __('Password') }}</label>
+                        <label for="password" style="color: #9ac4d0;" class="fixed-label">{{ __('Password') }}</label>
                         <div class="input-highlight"></div>
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -68,7 +74,7 @@
                     <button type="submit" class="btn theme btn-block waves-effect waves-light">Sign me in</button>  
                     
                     <p class="form-type mt20">
-                        <a class="btn-flat forgot-password waves-effect waves-theme text-blue-grey text-lighten-2" href="#">Forgot password</a>
+                        <a class="btn-flat forgot-password waves-effect waves-theme text-blue-grey text-lighten-2" style="color: #9ac4d0;" href="#">Forgot password</a>
                         
     
                     </p>
