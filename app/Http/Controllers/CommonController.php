@@ -331,6 +331,21 @@ class CommonController extends Controller
         }
         echo json_encode($result);
     }
-   
-
+    public function customerPhoneExists(Request $request)
+    {
+        $phone =  $request->input('phone');
+       
+            $phone_exists = DB::table('customer_details')->where([
+                ['phone','=',$phone],
+                ['status','=','1'],     
+                ])->count(); 
+          
+          if($phone_exists > 0)
+          {
+              return "false";
+          }
+          else{
+              return "true";
+          }
+    }
 }
