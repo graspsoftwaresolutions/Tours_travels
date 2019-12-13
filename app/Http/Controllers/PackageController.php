@@ -353,4 +353,14 @@ class PackageController extends Controller
            );
        echo json_encode($json_data); 
     }
+
+    public function EditPackage($encid){
+        $packageid = crypt::decrypt($encid);
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['package_info'] = Package::where('id','=',$packageid)->first();
+        $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
+        //$data['package_hotel'] = PackageHotel::where('package_id','=',$packageid)->get();
+        //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
+        return view('package.edit',compact('data',$data));
+    }
 }

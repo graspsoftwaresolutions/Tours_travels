@@ -247,9 +247,18 @@
       <h1>Tours and Travels</h1>
       <ul class="breadcrumbs">
          <li>Masters</li>
-         <li>{{__('Add Package') }}</li>
+         <li>{{__('Edit Package') }}</li>
       </ul>
    </div>
+   @php
+    $package_info = $data['package_info'];
+    $package_place = $data['package_place'];
+   
+    $citys_data = [];
+    foreach($data['package_place'] as $place){
+      $citys_data[] = $place->city_id;
+    }
+   @endphp
    <div class="page-content">
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
@@ -264,7 +273,7 @@
                   <div class="row">
                      <div class="col-md-6">
                         <div class="input-field label-float">
-                           <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" autofocus type="text">
+                           <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" value="{{ $package_info->package_name }}" autofocus type="text">
                            <label for="package_name" class="fixed-label">{{__('Package Name') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
@@ -273,10 +282,10 @@
                         <div class="input-field label-float">
                            <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
-                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
-                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
-                           <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
-                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
+                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">{{ $package_info->adult_count }}</span> Adults & <span class="child-count" id="child-count">{{ $package_info->child_count }}</span> Children & <span class="infant-count" id="infant-count">{{ $package_info->infant_count }}</span> Infants</a></p>
+                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="{{ $package_info->adult_count }}">
+                           <input type="text" name="child_count" id="child-count-val" class="hide" value="{{ $package_info->child_count }}">
+                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="{{ $package_info->infant_count }}">
                            <div class="input-highlight"></div>
                         </div>
                         <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
@@ -381,19 +390,17 @@
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_country_id" name="from_country_id" onchange="ChangeStates(this.value,0)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
-                              @php
-                              $defcountry = CommonHelper::DefaultCountry();
-                              @endphp
+                             
                               @foreach($data['country_view'] as $value)
-                              <option value="{{$value->id}}" @if($defcountry==$value->id) selected @endif >
+                              <option value="{{$value->id}}" @if($package_info->from_country_id==$value->id) selected @endif >
                               {{$value->country_name}}</option>
                               @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
                         <!-- /.form-group -->
-                         @php
-                        $statelist = CommonHelper::getStateList($defcountry);
+                        @php
+                          $fromstatelist = CommonHelper::getStateList($package_info->from_country_id);
                         @endphp
                         <div class="select-row form-group">
                            <label for="from_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
@@ -401,21 +408,24 @@
                            <select id="from_state_id" name="from_state_id"  onchange="ChangeCities(this.value,0)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
                               </option>
-                              @foreach ($statelist as $state)
-                              <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                              @foreach ($fromstatelist as $state)
+                              <option @if($package_info->from_state_id==$state->id) selected @endif value="{{ $state->id }}">{{ $state->state_name }}</option>
                               @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
+                        @php
+                          $fromcitylist = CommonHelper::getCityList($package_info->from_state_id);
+                        @endphp
                         <div class="select-row form-group">
                            <label for="from_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_city_id" name="from_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
                               </option>
-                              <!--  @foreach ($data['state_view'] as $state)
-                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                 @endforeach -->
+                              @foreach ($fromcitylist as $city)
+                              <option @if($package_info->from_city_id==$city->id) selected @endif value="{{ $city->id }}">{{ $city->city_name }}</option>
+                              @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
@@ -427,11 +437,9 @@
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
-                              @php
-                              $defcountry = CommonHelper::DefaultCountry();
-                              @endphp
+                             
                               @foreach($data['country_view'] as $value)
-                              <option value="{{$value->id}}" >
+                              <option @if($package_info->to_country_id==$value->id) selected @endif value="{{$value->id}}" >
                               {{$value->country_name}}</option>
                               @endforeach
                            </select>
@@ -439,7 +447,7 @@
                         </div>
                         <!-- /.form-group -->
                          @php
-                        $statelist = CommonHelper::getStateList($defcountry);
+                        $tostatelist = CommonHelper::getStateList($package_info->to_country_id);
                         @endphp
                         <div class="select-row form-group">
                            <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
@@ -447,21 +455,25 @@
                            <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
                               </option>
-                             <!--  @foreach ($statelist as $state)
-                              <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                              @endforeach -->
+                              @foreach ($tostatelist as $state)
+                              <option @if($package_info->to_state_id==$state->id) selected @endif value="{{ $state->id }}">{{ $state->state_name }}</option>
+                              @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
+                        @php
+                          $tocitylist = CommonHelper::getCityList($package_info->to_state_id);
+                          //dd($data['package_place']);
+                        @endphp
                         <div class="select-row form-group">
                            <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
                               </option>
-                              <!--  @foreach ($data['state_view'] as $state)
-                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                 @endforeach -->
+                              @foreach ($tocitylist as $city)
+                              <option @if($package_info->to_city_id==$city->id) selected @endif value="{{ $city->id }}">{{ $city->city_name }}</option>
+                              @endforeach
                            </select>
                            <div class="input-highlight"></div>
                         </div>
@@ -474,9 +486,27 @@
                              <br>
                               <br>
                          </div>
+                          @php
+                          $tocitylist = CommonHelper::getCityList($package_info->to_state_id);
+                          
+                          //dd($citys_data);
+                          @endphp
                         <div class="col-md-12">
                            <div id="destination-division" class="destinations-division">
-                             
+                              @foreach ($tostatelist as $state)
+                              <div id="state-cities-{{ $state->id }}" class="col-md-12 state-cities">
+                                <h5 class="text-headline text-bold">{{ $state->state_name }}</h5>
+                                 @php
+                                  $pickcitylist = CommonHelper::getCityList($state->id);
+                                 @endphp
+                                  <div class="destination-city" id="destination-city-1">
+                                    @foreach ($pickcitylist as $scity)
+                                       <button id="place_button_{{ $scity->id }}" type="button" onclick="PickPlace({  cityid: {{ $scity->id }},  stateid: {{ $state->id }}, cityname: '{{ $scity->city_name }}', statename: '{{ $state->state_name }}' , cityimage: '{{ $scity->city_image }}' })" class="btn theme-accent waves-effect waves-light " @if (in_array($scity->id, $citys_data)) disabled @endif ><i class="mdi mdi-plus left"></i>{{ $scity->city_name }}</button>
+                                    @endforeach
+                                    
+                                  </div>
+                              </div>
+                              @endforeach
                            </div>
                         </div>
                         <div class="col-md-4">
@@ -524,7 +554,50 @@
                   <h4 class="text-headline">Accommodation</h4>
                   <div class="row">
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
-                        
+                         @foreach($data['package_place'] as $place)
+
+                           @if($place->nights_count!=0)
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_name = CommonHelper::getcityName($place->city_id);
+                              $package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
+                            @endphp
+                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
+                                <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
+                                <div class="card media-card-sm">
+                                  <div id="picked-hotelmedia-{{ $place->city_id }}" class="media">
+                                    @if($package_hotel!=null)
+                                    <div class="media-left media-img">
+                                      <a href="#">
+                                        <img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/6_201911280629471.jpg" alt="...">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">new hotels</h4>
+                                      <p>Sarawak - Bintulu</p>
+                                      <p class="sub-text mt10">Free Drinks, Free Meal, Taxi Available</p>
+                                      <p class="sub-text mt10">Deluxe, Premium Plus
+                                        <button id="add_hotel_button_3" type="button" onclick="PickHotel({  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
+                                      </p>
+                                      <input type="text" class="hide" name="second_hotel_3[]" id="second_hotel_3" value="6">
+                                      <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="3">
+                                    </div>
+                                    @else
+                                    <div class="media-left media-img">
+                                      <a>
+                                        <img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" alt="...">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">Please choose hotel</h4> 
+                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: 5,  stateid: 2, cityname: 'Victoria', statename: 'Labuan' , cityimage: 'null' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
+                                    </div>
+                                    @endif
+                                  </div>
+                                </div>
+                              </li>
+                           @endif
+                        @endforeach
                     </ul>
                     <div id="dummy-hotels">
                       
@@ -598,7 +671,16 @@
                           <div class="card-block">
                              <div class="scroller ">
                                 <ul id="place-sortList" class="list-group placecitylist item-border">
-                                   
+                                  @foreach($data['package_place'] as $place)
+                                  @php 
+                                    $place_state_name = CommonHelper::getstateName($place->state_id);
+                                    $place_city_name = CommonHelper::getcityName($place->city_id);
+                                  @endphp
+                                  <li data-cityid="{{ $place->city_id }}" id="picked-li-{{ $place->city_id }}" class="list-group-item cityplace sort-handle">. {{ $place_state_name }} - {{ $place_city_name }}<span class="callout-left blue-grey"></span>
+                                    <input type="text" name="picked_state[]" class="hide" id="picked-state-{{ $place->city_id }}" value="{{ $place->state_id }}">
+                                    <input type="text" name="picked_city[]" class="hide" id="picked-city-{{ $place->city_id }}" value="{{ $place->city_id }}">
+                                  </li>
+                                  @endforeach
                                 </ul>
                                 <div id="dummyList">
 
@@ -615,7 +697,41 @@
                       <div class="divider theme ml14 mr14"></div> 
                        
                       <div id="destination-night-area" class="destination-night-area">
-                           
+                         @foreach($data['package_place'] as $place)
+                           @if($place->nights_count!=0)
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+                              $place_city_image = $place_city_image==null || $place_city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$place_city_image) ;
+                            @endphp
+                           <div data-cityid="{{ $place->city_id }}" id="place_night_{{ $place->city_id }}" class="col-xs-6 col-sm-6 col-md-4 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ $place_city_image }}" style="width:190px;height: 100px;" alt=""/>
+                              <div id="place_night_remove_{{ $place->city_id }}" class="button-close">
+                                <button type="button" onclick="return DeleteNight(3)" class="btn btn-sm red waves-effect waves-circle waves-light">x</button>
+                              </div>
+                              <small class="night-place-name">{{ $place_city_name }}</small>
+                              <div class="form-group">
+                                <select id="place_night_select_{{ $place->city_id }}" name="place_night_select[]" class="form-control place-night-select">
+                                  @for($l=1;$l<=10;$l++)
+                                  <option value="{{ $l }}" @if($place->nights_count==$l) selected @endif >{{ $l }} @if($l==1)Night @else Nights @endif</option>
+                                  @endfor
+                                 <!--  <option value="2">2 Nights</option>
+                                  <option value="3">3 Nights</option>
+                                  <option value="4">4 Nights</option>
+                                  <option value="5">5 Nights</option>
+                                  <option value="6">6 Nights</option>
+                                  <option value="7">7 Nights</option>
+                                  <option value="8">8 Nights</option>
+                                  <option value="9">9 Nights</option>
+                                  <option value="10">10 Nights</option> -->
+                                </select>
+                                <input type="text" class="hide" id="place_night_count_{{ $place->city_id }}" name="place_night_count_{{ $place->city_id }}[]" value="{{$place->nights_count}}">
+                              </div>
+                            </div> 
+                            @endif 
+                          @endforeach
                       </div>
                       <div id="dummyListNights">
 
@@ -636,16 +752,16 @@
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="total_package_value" name="total_package_value" class="allow_decimal" placeholder="Total package value">    
+                                <input type="text" id="total_package_value" name="total_package_value" value="{{ $package_info->total_package_value }}" class="allow_decimal" placeholder="Total package value">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
                         <div class="form-group">
-                            <label for="gst_amount" class="col-sm-5 control-label">GST <span>5</span>% <input type="text" name="gst_per" id="gst_per" value="5" class="hide" /> </label>
+                            <label for="gst_amount" class="col-sm-5 control-label">GST <span>{{ $package_info->tax_percentage }}</span>% <input type="text" name="gst_per" id="gst_per" value="{{ $package_info->tax_percentage }}" class="hide" /> </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="gst_amount" name="gst_amount" readonly="true" placeholder="Total GST Amount">    
+                                <input type="text" id="gst_amount" name="gst_amount" value="{{ $package_info->tax_amount }}" readonly="true" placeholder="Total GST Amount">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
@@ -654,7 +770,7 @@
                             <label for="total_amount" class="col-sm-5 control-label">Total</label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="total_amount" name="total_amount" readonly="true" placeholder="Total Amount">    
+                                <input type="text" id="total_amount" name="total_amount" value="{{ $package_info->total_amount }}" readonly="true" placeholder="Total Amount">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
@@ -664,7 +780,7 @@
                             <label for="adult_price" class="col-sm-5 control-label">Adult Price/person* </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="adult_price" class="allow_decimal" name="adult_price" placeholder="Adult Price/person">    
+                                <input type="text" id="adult_price" class="allow_decimal" value="{{ $package_info->adult_price_person }}" name="adult_price" placeholder="Adult Price/person">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
@@ -673,7 +789,7 @@
                             <label for="child_price" class="col-sm-5 control-label">Child Price/person </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="child_price" class="allow_decimal" name="child_price" placeholder="Child Price/person">    
+                                <input type="text" id="child_price" class="allow_decimal" value="{{ $package_info->child_price_person }}" name="child_price" placeholder="Child Price/person">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
@@ -682,7 +798,7 @@
                             <label for="infant_price" class="col-sm-5 control-label">Infant Price/person</label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="infant_price" class="allow_decimal" name="infant_price" placeholder="Infant Price/person">    
+                                <input type="text" id="infant_price" class="allow_decimal" value="{{ $package_info->infant_price }}" name="infant_price" placeholder="Infant Price/person">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
