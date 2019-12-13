@@ -127,7 +127,7 @@ Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
 //Package
 Route::get('/new_package', 'PackageController@index')->name('package.new');
-Route::post('/package_new', 'PackageController@packageSave')->name('package_save');
+Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
 
 Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
 
@@ -143,5 +143,9 @@ Route::get('package_place_details','PackageController@packagePlaceDetails')->nam
 //Booking
 Route::get('/new_booking', 'BookingController@index')->name('booking.new');
 Route::get('/new_autocomplete', 'BookingController@auto');
+
+Route::get('/packages', 'PackageController@List')->name('package.list');
+Route::post('ajax_package_list','PackageController@ajax_package_list');
+Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('package.edit');
 
 

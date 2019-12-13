@@ -153,7 +153,7 @@
               </a>
               <ul class="submenu lvl-1">
                 <li id="packages_sidebar_li_id" class="submenu-item">
-                  <a id="packages_sidebar_a_id" href="{{ route('master.activity') }}" class="submenu-target">{{ __('All Packages') }}</a>
+                  <a id="packages_sidebar_a_id" href="{{ route('package.list') }}" class="submenu-target">{{ __('All Packages') }}</a>
                 </li>
                 <li id="package_add_sidebar_li_id" class="submenu-item">
                   <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Package') }}</a>

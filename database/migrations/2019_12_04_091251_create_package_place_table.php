@@ -15,7 +15,7 @@ class CreatePackagePlaceTable extends Migration
     {
         Schema::create('package_place', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->Integer('package_id')->nullable();  
+            $table->unsignedBigInteger('package_id'); 
             $table->Integer('state_id')->nullable();
             $table->Integer('city_id')->nullable();
             $table->Integer('nights_count')->nullable();

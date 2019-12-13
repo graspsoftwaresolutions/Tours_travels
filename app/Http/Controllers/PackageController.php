@@ -10,6 +10,8 @@ use App\Model\ActivityImages;
 use App\Model\Activity;
 use App\Model\Package;
 use App\Model\PackagePlace;
+use App\Model\PackageHotel;
+use App\Model\PackageActivities;
 use App\Model\Hotel;
 use DB;
 use Session;
@@ -31,6 +33,7 @@ class PackageController extends Controller
     }
     public function packageSave(Request $request)
     {
+        //return $request->all();
         $request->validate([
             'package_name' => 'required',
             'to_city_id' => 'required',
@@ -39,6 +42,8 @@ class PackageController extends Controller
             'from_city_id' => 'required',
             'from_country_id' => 'required',
             'from_state_id' => 'required',
+            'total_package_value' => 'required',
+            'adult_price' => 'required',
                 ], [
             'package_name.required' => 'please select package name',
             'to_city_id.required' => 'please select city',
@@ -47,6 +52,8 @@ class PackageController extends Controller
             'from_city_id.required' => 'please select city',
             'from_country_id.required' => 'please select country',
             'from_state_id.required' => 'please select state',
+            'total_package_value.required' => 'please enter package value',
+            'adult_price.required' => 'please enter adult cost',
         ]);
          $SavePackage = new Package();
          $SavePackage->package_name = $request->package_name;
@@ -59,6 +66,14 @@ class PackageController extends Controller
          $SavePackage->from_city_id = $request->from_city_id;
          $SavePackage->from_country_id = $request->from_country_id;
          $SavePackage->from_state_id = $request->from_state_id;
+         $SavePackage->total_package_value = $request->total_package_value;
+         $SavePackage->tax_percentage = $request->gst_per;
+         $SavePackage->tax_amount = $request->gst_amount;
+         $SavePackage->total_amount = $request->total_amount;
+         $SavePackage->adult_price_person = $request->adult_price;
+         $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
+         $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
+
          $SavePackage->save();
          $package_id = $SavePackage->id; 
 
@@ -67,18 +82,51 @@ class PackageController extends Controller
 				$state_count = count($request->input('picked_state'));
 				for($i =0; $i<$state_count; $i++){
 					$state_id = $request->input('picked_state')[$i];
-					$city_id = $request->input('picked_city')[$i];
-					$nights_count = $request->input('place_night_select')[$i];
+                    $city_id = $request->input('picked_city')[$i];
+                    $nights_count = 0;
+                    $night_cnt = $request->input('place_night_count_'.$city_id);
+                    if(isset($night_cnt)){
+                        $nights_count = $night_cnt[0];
+                    }
+				
 					
-                        $package = new PackagePlace() ;
-                        $package->package_id = $package_id;
-                        $package->state_id = $state_id;
-                        $package->city_id = $city_id;
-                        $package->nights_count = $nights_count;
-						$package->save();
+                    $package_place = new PackagePlace() ;
+                    $package_place->package_id = $package_id;
+                    $package_place->state_id = $state_id;
+                    $package_place->city_id = $city_id;
+                    $package_place->nights_count = $nights_count;
+                    $package_place->save();
+
+                    $hotel_id = $request->input('second_hotel_'.$city_id);
+                   
+                    if(isset($hotel_id)){
+                        $package_hotel = new PackageHotel() ;
+                        $package_hotel->package_id = $package_id;
+                        $package_hotel->city_id = $city_id;
+                        $package_hotel->hotel_id = $hotel_id[0];
+                        $package_hotel->save();
+                    }
+                    
+                   
+
+                    $activity_ids = $request->input('second_activity_'.$city_id);
+                    if( isset($activity_ids)){
+                        $activity_count = count($activity_ids);
+                        for($j =0; $j<$activity_count; $j++){
+                            $activity_id = $request->input('second_activity_'.$city_id)[$j];
+                            $package_activities = new PackageActivities() ;
+                            $package_activities->package_id = $package_id;
+                            $package_activities->city_id = $city_id;
+                            $package_activities->activity_id = $activity_id;
+                            $package_activities->save();
+                        }
+                    }
+                   // dd($hotel_id);
+                    
 				}
-			}
-        return json_encode($package);
+            }
+        return redirect('/packages')->with('message','Package Added Successfully!!');
+        //return json_encode($package);
     }
 
     public function HotelsList(Request $request){
@@ -169,5 +217,140 @@ class PackageController extends Controller
                 ->where('pp.package_id','=',$package_id)->where('pp.status','=','1')->get();
         //dd($result);
         return json_encode($result);
+    }
+
+    public function List(){
+        $data = [];
+        return view('package.list')->with('data',$data);
+    }
+
+    public function ajax_package_list(Request $request)
+    {
+        $columns = array( 
+            0 => 'package_name', 
+            1 => 'adult_count', 
+            2 => 'total_package_value',
+            3 => 'to_state_id',
+            4 => 'to_city_id',
+            5 => 'id'
+        );
+        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                    ->count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){ 
+                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                ->orderBy($order,$dir)
+                ->where('p.status','=','1')
+                ->get()->toArray();
+            }else{
+                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                ->leftjoin('state as st','st.id','=','p.to_state_id')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('p.status','=','1')
+                ->get()->toArray();
+            }
+            //$Activity->dump();
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                        ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                        ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.status','=','1')
+                         ->where(function($query) use ($search){
+                        $query->orWhere('title_name', 'LIKE',"%{$search}%")
+                        ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                        ->orWhere('amount', 'LIKE',"%{$search}%")
+                        ->orWhere('city_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%")
+                        ->orWhere('zip_code', 'LIKE',"%{$search}%");
+                    })
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                        ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                        ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('title_name', 'LIKE',"%{$search}%")
+                            ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                            ->orWhere('amount', 'LIKE',"%{$search}%")
+                            ->orWhere('city_name', 'LIKE',"%{$search}%")
+                            ->orWhere('state_name', 'LIKE',"%{$search}%")
+                             ->orWhere('zip_code', 'LIKE',"%{$search}%");
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.id','LIKE',"%{$search}%")
+                    ->orWhere('title_name', 'LIKE',"%{$search}%")
+                    ->where('p.status','=','1')
+                    ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('zip_code', 'LIKE',"%{$search}%")
+                    ->count();
+        }
+        
+       // $table ="activities";
+       //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+    //   dd($Activity);
+       $data = array();
+       if(!empty($packages))
+       {
+           foreach ($packages as $package)
+           {
+              
+                  
+                   $nestedData['id'] = $package->id;
+                   $nestedData['title_name'] = $package->package_name;
+              
+                   $nestedData['adult_count'] = $package->adult_count;
+                   $nestedData['amount'] = $package->total_package_value;  
+                   $nestedData['city_name'] = $package->city_name;
+                   $nestedData['state_name'] = $package->state_name;
+                   $enc_id = Crypt::encrypt($package->id);
+                   $edit = route('package.edit',$enc_id);
+                   
+                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>";
+                   $nestedData['options'] = $actions;
+                 
+                   $data[] = $nestedData;
+               
+               
+           }
+       }
+   //dd($totalFiltered);
+      
+       $json_data = array(
+           "draw"            => intval($request->input('draw')),  
+           "recordsTotal"    => intval($totalData),  
+           "recordsFiltered" => intval($totalFiltered), 
+           "data"            => $data   
+           );
+       echo json_encode($json_data); 
     }
 }
