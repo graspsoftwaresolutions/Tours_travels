@@ -33,6 +33,25 @@
    .dropdown-menu li {
    padding: 0 20px !important;
    }
+   .label-travellers{
+      padding: 7px 10px;
+      margin-right: 10px;
+   }
+.change_qty{
+    display:inline-block;
+    color:#fff;
+    background:#2e748e;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    font-weight:900;
+    line-height:22px;
+    text-align: center; 
+}
+.cursor_hover{
+    cursor: hand;
+    cursor: pointer;
+}
 </style>
 @endsection
 @section('main-content')	
@@ -94,6 +113,8 @@
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
                      <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
+                  
+                     <!-- <span id="package_no_result"></span> -->
                      <label  for="" class="fixed-label">{{__('Package') }}<span style="color:red">*</span></label>
                      <div class="input-highlight"></div>
                   </div>
@@ -126,7 +147,7 @@
                                     <small>Age 13 and above</small>
                                  </div>
                                  <div class="col-md-9">
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
+                                    <a  class="label adult-travellers label-travellers z-depth-3 " >1</a>
                                     <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
                                     <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
                                     <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
@@ -135,7 +156,42 @@
                                     <a class="label adult-travellers label-travellers z-depth-1" >7</a>
                                     <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
                                     <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
+                                 </div>   
+                              </div> <br>
+                              <div class="row">
+                              <div class="select_listing adult">
+                                 <!-- <div class="row ">
+                                    <div class="col-md-2">
+                                       <label class="fixed-label"></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <label class="fixed-label">{{__('1. Adult with age') }}</label>
+                                    </div>
+                                       <div class="col-md-5">
+                                       <div class="change_qty minus cursor_hover">&#45;</div>
+                  
+                                       <input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35">
+                              
+                                       <div class="change_qty plus cursor_hover">&#43;</div>
+                                       </div>
+                                 </div> <br> -->
+                                 <div class="row adultage">
+                                       <!-- <div class="col-md-2">
+                                          <label class="fixed-label"></label>
+                                       </div>
+                                          <div class="col-md-3">
+                                             <label class="fixed-label">{{__('2. Adult with age') }}</label>
+                                          </div>
+                                          <div class="col-md-5">
+                                          <div class="change_qty minus cursor_hover">&#45;</div>
+                     
+                                          <input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35">
+                                          
+                                          <div class="change_qty plus cursor_hover">&#43;</div>
+                                          </div> -->
+                                       </div>
                                  </div>
+
                               </div>
                               <br>
                               <div class="row">
@@ -551,7 +607,66 @@
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
 <script>
+$(function(){
+$(".plus").click(function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $input = $this.siblings('input');
+  var value = parseInt($input.val());
+
+  if (value < 100) {
+    value = value + 1;
+  } 
+  else {
+    value =30;
+  }
+
+  $input.val(value);
+});
+
+$(".minus").click(function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $input = $this.siblings('input');
+  var value = parseInt($input.val());
+
+  if (value > 1) {
+    value = value - 1;
+  } 
+  else {
+    value =1;
+  }
+
+  $input.val(value);
+});
+
+$('.adult-travellers').click(function(e){
+   e.preventDefault();
+   //var domElement = $('<div class="row"><div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"> <div class="change_qty plus cursor_hover">&#43;</div> </div> </div> <br>');
+   $(".adultage").append('<div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"> <div class="change_qty plus cursor_hover">&#43;</div> </div> <br>');
+   //     // $(this).after(domElement);
+   // $('.adultage').append('<div class="col-md-2"> <label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('2. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"><div class="change_qty plus cursor_hover">&#43;</div></div>');
+
+});
+});
 $(document).ready(function(){
+
+   // $('.add').on('click',function(){
+      
+   //      var qty=$(this).closest('p').find('.number');
+   //      var currentVal = parseInt(qty.val());
+   //      if (!isNaN(currentVal)) {
+   //          qty.val(currentVal + 1);
+   //      }
+   //  });
+   //  $('.minus').on('click',function(){
+   //      var $qty=$(this).closest('p').find('.number');
+   //      var currentVal = parseInt($qty.val());
+   //      if (!isNaN(currentVal) && currentVal > 0) {
+   //          $qty.val(currentVal - 1);
+   //      }
+   //  });
+
    
    $("#customerformValidate").validate({
 			rules: {
@@ -727,6 +842,12 @@ $(document).on('submit','form#stateformValidate',function(){
         url: "{{ route('package_autocomplete') }}",
         data: 'action=package_name'+'&name='+request.term,
         success: function(data) {
+         if (data.length === 0) {   
+               var color = "No Results";
+              $('#package_no_result').css('background-color', '#' + color);
+              //$("#package_no_result").html("No Results");
+              $("#bg").fadeIn(300);
+            }
           response( $.map( data, function( item ) {
               //console.log(data);
               var object = new Object();
@@ -763,10 +884,10 @@ $(document).on('submit','form#stateformValidate',function(){
                 dataType: "json",
                 type: "GET",
                 success: function (data) {
-                    console.log(data);
-                    $.each(data, function( index, value ) {
+                    //console.log(data);
+                     $.each(data, function( index, value ) {
                             $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item sort-handle"> . '+value.state_name+' - '+value.city_name+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.stateid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
-                        });
+                     });
                 }
             });
     

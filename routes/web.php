@@ -80,8 +80,6 @@ Route::get('delete_hotel_image','HotelController@imageDelete')->name('hotel.imag
 Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelroom');
 
 Route::get('delete-roomtype-data','HotelController@deleteRoomtype');
-
-
 Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel');
 
 Route::get('/changePassword','HomeController@showChangePasswordForm')->name('changepassword');
