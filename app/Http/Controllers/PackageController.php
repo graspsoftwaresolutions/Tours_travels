@@ -210,13 +210,14 @@ class PackageController extends Controller
     }
     public function packagePlaceDetails(Request $request)
     {
+        $data = array();
         $package_id = $request->package_id;
-        $result = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id')
+        $data['place_details'] = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id')
                 ->leftjoin('state as s','s.id','=','pp.state_id')
                 ->leftjoin('city as c','c.id','=','pp.city_id')
                 ->where('pp.package_id','=',$package_id)->where('pp.status','=','1')->get();
-        //dd($result);
-        return json_encode($result);
+        $data['package_id'] = Crypt::encrypt($package_id);
+        return json_encode($data);
     }
 
     public function List(){
@@ -363,4 +364,20 @@ class PackageController extends Controller
         //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
         return view('package.edit',compact('data',$data));
     }
+
+    public function DeleteActivity(Request $request){
+        $activity_id = $request->input('activity_id');
+        $city_id = $request->input('city_id');
+        $package_id = $request->input('package_id');
+        return DB::table('package_activities')->where('package_id','=',$package_id)->where('activity_id','=',$activity_id)->delete();
+    }
+    // public function EditPackag(Request $req){
+    //     $packageid = crypt::decrypt($req->id);
+    //      $data['country_view'] = Country::where('status','=','1')->get();
+    //      $data['package_info'] = Package::where('id','=',$packageid)->first();
+    //      $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
+    //      //$data['package_hotel'] = PackageHotel::where('package_id','=',$packageid)->get();
+    //      //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
+    //      return view('package.edit',compact('data',$data));
+    // }
 }
