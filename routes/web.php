@@ -145,5 +145,6 @@ Route::get('/new_autocomplete', 'BookingController@auto');
 Route::get('/packages', 'PackageController@List')->name('package.list');
 Route::post('ajax_package_list','PackageController@ajax_package_list');
 Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('package.edit');
+Route::get('packag-edit','PackageController@EditPackag');
 
 

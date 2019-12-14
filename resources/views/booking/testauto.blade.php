@@ -9,9 +9,17 @@
       <script src="http://localhost/Tours_travels/public/assets/dist/js/jquery.min.js"></script>
       <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
       <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       
       <!-- Javascript -->
-      <script> @php $result = json_encode($data);  @endphp
+      <script>
+      
+ 
+      
+      
+      
+      
+      @php $result = json_encode($data);  @endphp
         //  $(function() {
         //     // var availableTutorials  =  [
         //     //    "ActionScript",
@@ -30,6 +38,32 @@
         //     });
         (function ($) {
   $(document).ready(function () {
+
+    $(".decreaseVal").click(function() {
+  var input_el=$(this).next('input');
+  var v= input_el.val()-1;
+  if(v>=input_el.attr('min'))
+  input_el.val(v)
+});
+
+
+$(".increaseVal").click(function() {
+  var input_el=$(this).prev('input');
+  var v= input_el.val()*1+1;
+  if(v<=input_el.attr('max'))
+  input_el.val(v)
+});
+
+
+
+
+
+
+
+
+
+
+
       $('#my_ajax').autocomplete({
         // minChars: 1,
         source: function(request, response) {
@@ -96,7 +130,7 @@
          <label for = "automplete-1">Tags: </label>
          <input id = "automplete-1"> 
          <input id = "automplete-2"> Name -->
-         <div class="form-group">
+         <!-- <div class="form-group">
             <input id="my_ajax" autofocus="" value="" type="text" name="q" placeholder="my_ajax" style="width:100%;max-width:600px;outline:0" autocomplete="off">
             <input id="phone" name="phone" type="text" value=''>
             <input id="email" name="email" type="text" value=''>
@@ -107,7 +141,21 @@
             <input id="zipcode" name="zipcode" type="text" value=''>
             <input id="address_one" name="address_one" type="text" value=''>
             <input id="address_two" name="address_two" type="text" value=''>
-            </div>
+            </div> -->
+        
+<input type="button" value="-" class="decreaseVal">
+<input type="number" min="1" max="22" value="20" class="val" disabled>
+<input type="button" value="+" class="increaseVal">
+
+<input type="button" value="-" class="decreaseVal">
+<input type="number" min="1" max="60" value="40" class="val" disabled>
+<input type="button" value="+" class="increaseVal">
+
+<div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><input type="button" value="-" class="decreaseVal"><input type="number" min="1" max="22" value="20" class="val" disabled> <input type="button" value="+" class="increaseVal"> </div> <br>
+
+
+
+<input type="button" value="-" class="decreaseVal"><input type="number" min="1" max="22" value="20" class="val" disabled><input type="button" value="+" class="increaseVal">
       </div>
    </body>
 </html>
