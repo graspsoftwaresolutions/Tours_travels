@@ -37,6 +37,21 @@
       padding: 7px 10px;
       margin-right: 10px;
    }
+/* .decreaseVal{
+    display:inline-block;
+    color:#fff;
+    background:#2e748e;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    font-weight:900;
+    line-height:22px;
+    text-align: center; 
+} */
+.cursor_hover{
+    cursor: hand;
+    cursor: pointer;
+}
 .change_qty{
     display:inline-block;
     color:#fff;
@@ -48,6 +63,18 @@
     line-height:22px;
     text-align: center; 
 }
+/* .increaseVal
+{
+   display:inline-block;
+    color:#fff;
+    background:#2e748e;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    font-weight:900;
+    line-height:22px;
+    text-align: center; 
+} */
 .cursor_hover{
     cursor: hand;
     cursor: pointer;
@@ -250,12 +277,11 @@
                <div class="clearfix"></div>
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
-                     <label for="country_id " class="block fixed-label">{{__('Customer Name') }}<span style="color:red">*</span></label>                 
+                     <label for="customer_name" class="block fixed-label">{{__('Customer Name') }}<span style="color:red">*</span></label>                 
                      <!-- To validate the select add class "select-validate" -->     
-                     <div id="the-basics">
-                        <input class="typeahead" id="customer_name" name="customer_name"  type="text" placeholder="Search Customer" autocomplete='off'>
-                        <span id="no-results"></span>
-                     </div>
+                    
+                        <input class="clearable" id="customer_name" name="customer_name"  type="text" placeholder="Search Customer" autocomplete='off'>
+                       
                      <div class="input-highlight"></div>
                   </div>
                </div>
@@ -361,7 +387,33 @@
       </div>
       <!--</div> --><!-- /.row -->
       <div class="col-md-4 p8 sticky fixed">
-         <div id="destination-chart" class="destinations-division" style="margin-top:23px">
+      <div class="col-md-12" style="background-color: #a6777726;margin-top: 23px" >
+            <h4 class="text-headline text-center">Traveling To</h4>
+            <div class="select-row form-group">
+               <label for="to_country_id" class="block">{{__('Country Name') }}</label>                 
+               <!-- To validate the select add class "select-validate" -->     
+               <input id="travelling_to_country_name"  name="travelling_to_country_name" readonly  type="text" placeholder="Country Name"  autocomplete='off'>
+               <input id="travelling_to_country_id"  name="travelling_to_country_id"  type="hidden" placeholder="Country Id"  autocomplete='off'>
+               <div class="input-highlight"></div>
+            </div>
+            <!-- /.form-group -->
+           
+            <div class="select-row form-group">
+               <label for="to_state_id" class="block">{{__('State Name') }}</label>                 
+               <input id="travelling_to_state_name"  name="travelling_to_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
+               <input id="travelling_to_state_id"  name="travelling_to_state_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
+               <div class="input-highlight"></div>
+            </div>
+            <div class="select-row form-group">
+               <label for="to_city_id" class="block">{{__('City Name') }}</label>                 
+               <!-- To validate the select add class "select-validate" -->     
+               <input id="travelling_to_city_name"  name="travelling_to_city_name"  readonly type="text" placeholder="City Name"  autocomplete='off'>
+               <input id="travelling_to_city_id"  name="travelling_to_city_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
+               <div class="input-highlight"></div>
+            </div>
+         </div>
+         <div class="clearfix"></div>  <br> 
+         <div id="destination-chart" class="destinations-division" >
             <div class="sortable">
                <div class="card">
                   <div class="p8 blue-grey">
@@ -381,64 +433,11 @@
                <!-- /.card -->
             </div>
          </div>
-         <div id="destination-nights" class="destinations-nights">
-            <div class="row">
-               <div class="divider theme ml14 mr14"></div>
-               <div id="destination-night-area" class="destination-night-area">
-               </div>
-               <div id="dummyListNights">
-               </div>
-            </div>
-         </div>
          <br>
-         <div class="col-md-12" style="background-color: #a6777726;">
-            <h4 class="text-headline text-center">Traveling To</h4>
-            <div class="select-row form-group">
-               <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
-               <!-- To validate the select add class "select-validate" -->     
-               <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                  <option value="">{{__('Select country')}}</option>
-                  @php
-                  $defcountry = CommonHelper::DefaultCountry();
-                  @endphp
-                  @foreach($data['country_view'] as $value)
-                  <option value="{{$value->id}}" >
-                     {{$value->country_name}}
-                  </option>
-                  @endforeach
-               </select>
-               <div class="input-highlight"></div>
-            </div>
-            <!-- /.form-group -->
-            @php
-            $statelist = CommonHelper::getStateList($defcountry);
-            @endphp
-            <div class="select-row form-group">
-               <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
-               <!-- To validate the select add class "select-validate" -->     
-               <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                  <option value="" selected="">{{__('Select State') }}
-                  </option>
-                  <!--  @foreach ($statelist as $state)
-                     <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                     @endforeach -->
-               </select>
-               <div class="input-highlight"></div>
-            </div>
-            <div class="select-row form-group">
-               <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
-               <!-- To validate the select add class "select-validate" -->     
-               <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
-                  <option value="" selected="">{{__('Select City') }}
-                  </option>
-                  <!--  @foreach ($data['state_view'] as $state)
-                     <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                     @endforeach -->
-               </select>
-               <div class="input-highlight"></div>
-            </div>
+         <div id="destination-char" class="destinations-division" >
+            
          </div>
-         <div class="clearfix"></div>
+         
       </div>
       <div class="clearfix"/>
       </div>
@@ -607,67 +606,94 @@
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
 <script>
-$(function(){
-$(".plus").click(function(e) {
-  e.preventDefault();
-  var $this = $(this);
-  var $input = $this.siblings('input');
-  var value = parseInt($input.val());
+// $(function(){
+//    var slno = 1;
+//    $('.adult-travellers').click(function(e){
+//    e.preventDefault();
+//     $(".adultage").append('<div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"> <div class="change_qty plus cursor_hover">&#43;</div> </div> <br>');
+//       //$(".adultage").append('<input type="button" value="-" class="decreaseVal"><input type="number" min="1" max="22" value="20" class="val" disabled><input type="button" value="+" class="increaseVal">');
+//     $(".plus").click(function(e) {
+//       e.preventDefault();
+//       var $this = $(this);
+//       var $input = $this.siblings('input');
+//       var value = parseInt($this.val());
 
-  if (value < 100) {
-    value = value + 1;
-  } 
-  else {
-    value =30;
-  }
+//       if (value < 100) {
+//          value = value + 1;
+//       } 
+//       else {
+//          value =30;
+//       }
 
-  $input.val(value);
-});
+//       $input.val(value);
+// });
 
-$(".minus").click(function(e) {
-  e.preventDefault();
-  var $this = $(this);
-  var $input = $this.siblings('input');
-  var value = parseInt($input.val());
+// $(".minus").click(function(e) {
+//   e.preventDefault();
+//   var $this = $(this);
+//   var $input = $this.siblings('input');
+//   var value = parseInt($input.val());
 
-  if (value > 1) {
-    value = value - 1;
-  } 
-  else {
-    value =1;
-  }
+//   if (value > 1) {
+//     value = value - 1;
+//   } 
+//   else {
+//     value =1;
+//   }
 
-  $input.val(value);
-});
+//   $input.val(value);
+// });
+// slno++;
+// $(".decreaseVal").click(function() {
+//   var input_el=$(this).next('input');
+//   var v= input_el.val()-1;
+//   if(v>=input_el.attr('min'))
+//   input_el.val(v)
+// });
 
-$('.adult-travellers').click(function(e){
-   e.preventDefault();
-   //var domElement = $('<div class="row"><div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"> <div class="change_qty plus cursor_hover">&#43;</div> </div> </div> <br>');
-   $(".adultage").append('<div class="select_listing adult"><div class="row "><div class="col-md-2"><label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('1. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"> <div class="change_qty plus cursor_hover">&#43;</div> </div> <br>');
-   //     // $(this).after(domElement);
-   // $('.adultage').append('<div class="col-md-2"> <label class="fixed-label"></label> </div><div class="col-md-3"><label class="fixed-label">{{__('2. Adult with age') }}</label></div><div class="col-md-5"><div class="change_qty minus cursor_hover">&#45;</div><input type="numeric" style="height:22px;width:40px;margin:0 .5em;text-align:center;" value="35"><div class="change_qty plus cursor_hover">&#43;</div></div>');
 
-});
-});
+// $(".increaseVal").click(function() {
+//   var input_el=$(this).prev('input');
+//   var v= input_el.val()*1+1;
+//   if(v<=input_el.attr('max'))
+//   input_el.val(v)
+// });
+
+
+//});
+$(function() {
+      $(".adult-travellers").click(function(){
+         var person_no = $(this).text();
+         $('.adult-travellers').removeClass('blue-dark');
+         $(this).addClass('blue-dark');
+         $("#adult-count-val").val(parseInt(person_no));
+         $(".adult-count").text(parseInt(person_no));
+         CalculateTotalTravellers();
+      });
+      $(".child-travellers").click(function(){
+         var person_no = $(this).text();
+         $('.child-travellers').removeClass('blue-dark');
+         $(this).addClass('blue-dark');
+         $("#child-count-val").val(parseInt(person_no));
+         $(".child-count").text(parseInt(person_no));
+         CalculateTotalTravellers();
+      });
+       $(".infant-travellers").click(function(){
+         var person_no = $(this).text();
+         $('.infant-travellers').removeClass('blue-dark');
+         $(this).addClass('blue-dark');
+         $("#infant-count-val").val(parseInt(person_no));
+         $(".infant-count").text(parseInt(person_no));
+         CalculateTotalTravellers();
+      });
+   });
+   function CalculateTotalTravellers(){
+      var childcount =parseInt($("#child-count-val").val());
+      var adultcount =parseInt($("#adult-count-val").val());
+      var infantcount =parseInt($("#infant-count-val").val());
+      $("#total-travellers").text(childcount+adultcount+infantcount);
+   }
 $(document).ready(function(){
-
-   // $('.add').on('click',function(){
-      
-   //      var qty=$(this).closest('p').find('.number');
-   //      var currentVal = parseInt(qty.val());
-   //      if (!isNaN(currentVal)) {
-   //          qty.val(currentVal + 1);
-   //      }
-   //  });
-   //  $('.minus').on('click',function(){
-   //      var $qty=$(this).closest('p').find('.number');
-   //      var currentVal = parseInt($qty.val());
-   //      if (!isNaN(currentVal) && currentVal > 0) {
-   //          $qty.val(currentVal - 1);
-   //      }
-   //  });
-
-   
    $("#customerformValidate").validate({
 			rules: {
 				"name": {
@@ -853,7 +879,14 @@ $(document).on('submit','form#stateformValidate',function(){
               var object = new Object();
                object.label = item.value;
                object.value = item.package_name;
-               object.packageid = item.packageid;          
+               object.packageid = item.packageid;     
+               object.travelling_to_country_name = item.tocountryname  
+               object.travelling_to_country_id =   item.tocountryid   
+               object.travelling_to_state_name = item.tostatename
+               object.travelling_to_state_id = item.tostateid
+               object.travelling_to_city_name = item.tocityname
+               object.travelling_to_city_id = item.tocityid
+               object.packagename = item.package_name;
               return object
           }));
           // response( $.map( data, function( item ) {
@@ -868,8 +901,14 @@ $(document).on('submit','form#stateformValidate',function(){
     },
     select: function (event, ui) {
       $("#package_name").val(ui.item.value);
+      $("#packagename").val(ui.item.value);
       $('#packageid').val(ui.item.packageid);
-   
+      $('#travelling_to_country_name').val(ui.item.travelling_to_country_name);
+      $('#travelling_to_country_id').val(ui.item.travelling_to_country_id);
+      $('#travelling_to_state_name').val(ui.item.travelling_to_state_name);
+      $('#travelling_to_state_id').val(ui.item.travelling_to_state_id);
+      $('#travelling_to_city_name').val(ui.item.travelling_to_city_name);
+      $('#travelling_to_city_id').val(ui.item.travelling_to_city_id);
    
        var packageid = $("#packageid").val();
        var url = "{{ route('package_place_details') }}?package_id="+packageid;   
@@ -883,14 +922,18 @@ $(document).on('submit','form#stateformValidate',function(){
                 url:  url,          
                 dataType: "json",
                 type: "GET",
+               
                 success: function (data) {
-                    //console.log(data);
-                     $.each(data, function( index, value ) {
+                    console.log(data.package_id);
+                    console.log(data.place_details);
+                     $.each(data.place_details, function( index, value ) {
                             $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item sort-handle"> . '+value.state_name+' - '+value.city_name+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.stateid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
                      });
+                     var encid = data.package_id;
+                     var url = "{{ url('packag-edit') }}?id="+encid;   
+                     $('#destination-char').append('<div class="sortable"><div class="card"> <div class="p8 blue-grey"><div class="card-title " id="packagelist"><a target="_blank" href="'+url+'" style="color:white; margin-left :5px;">View Package Details</a></div><input type="hidden" name="packageid" id="packageid"> </div> </div></div>');
                 }
             });
-    
      }
    });
    });

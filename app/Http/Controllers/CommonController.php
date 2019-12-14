@@ -320,9 +320,10 @@ class CommonController extends Controller
         $search_param = "{$keyword}%";
         if($keyword!='')
         {
-            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name','c.id as cityid','s.state_name','s.id as stateid')
+            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name as tocityname','c.id as tocityid','s.state_name as tostatename','s.id as tostateid','ct.country_name as tocountryname','ct.id as tocountryid')
                     ->leftjoin('city as c','c.id','=','p.to_city_id')
                     ->leftjoin('state as s','s.id','=','p.to_state_id')
+                    ->leftjoin('country as ct','ct.id','=','p.to_country_id')
                      ->orwhere("p.package_name","LIKE","%{$keyword}%")
                      ->orwhere("s.state_name","LIKE","%{$keyword}%")
                      ->orwhere("c.city_name","LIKE","%{$keyword}%")
