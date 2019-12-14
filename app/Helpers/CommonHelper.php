@@ -165,6 +165,21 @@ class CommonHelper
         return $hotels;
         
     }
+
+    public static function getPackageActivities($packageid,$cityid){
+        //dd($packageid);
+        $activity_ids = DB::table('package_activities as pa')
+                    ->where('pa.package_id','=',$packageid)
+                    ->where('pa.city_id','=',$cityid)
+                    ->pluck('pa.activity_id');
+       // dd($activity_ids);
+        $activities = Activity::with(
+            array(
+                'activity_images'
+            ))->whereIn('id',$activity_ids)->get();
+        //dd($activities);
+        return $activities;
+    }
 	
 	
 }

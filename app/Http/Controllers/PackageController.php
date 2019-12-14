@@ -363,4 +363,11 @@ class PackageController extends Controller
         //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
         return view('package.edit',compact('data',$data));
     }
+
+    public function DeleteActivity(Request $request){
+        $activity_id = $request->input('activity_id');
+        $city_id = $request->input('city_id');
+        $package_id = $request->input('package_id');
+        return DB::table('package_activities')->where('package_id','=',$package_id)->where('activity_id','=',$activity_id)->delete();
+    }
 }
