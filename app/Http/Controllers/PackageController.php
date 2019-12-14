@@ -364,13 +364,20 @@ class PackageController extends Controller
         //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
         return view('package.edit',compact('data',$data));
     }
-    public function EditPackag(Request $req){
-       $packageid = crypt::decrypt($req->id);
-        $data['country_view'] = Country::where('status','=','1')->get();
-        $data['package_info'] = Package::where('id','=',$packageid)->first();
-        $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
-        //$data['package_hotel'] = PackageHotel::where('package_id','=',$packageid)->get();
-        //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
-        return view('package.edit',compact('data',$data));
+
+    public function DeleteActivity(Request $request){
+        $activity_id = $request->input('activity_id');
+        $city_id = $request->input('city_id');
+        $package_id = $request->input('package_id');
+        return DB::table('package_activities')->where('package_id','=',$package_id)->where('activity_id','=',$activity_id)->delete();
     }
+    // public function EditPackag(Request $req){
+    //     $packageid = crypt::decrypt($req->id);
+    //      $data['country_view'] = Country::where('status','=','1')->get();
+    //      $data['package_info'] = Package::where('id','=',$packageid)->first();
+    //      $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
+    //      //$data['package_hotel'] = PackageHotel::where('package_id','=',$packageid)->get();
+    //      //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
+    //      return view('package.edit',compact('data',$data));
+    // }
 }
