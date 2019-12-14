@@ -145,6 +145,8 @@ Route::get('/new_autocomplete', 'BookingController@auto');
 Route::get('/packages', 'PackageController@List')->name('package.list');
 Route::post('ajax_package_list','PackageController@ajax_package_list');
 Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('package.edit');
-Route::get('packag-edit','PackageController@EditPackag');
+Route::get('delete_package_activity','PackageController@DeleteActivity')->name('delete_package_activity');
+Route::post('/package_update', 'PackageController@packageUpdate')->name('package_update');
+//Route::get('packag-edit','PackageController@EditPackag');
 
 

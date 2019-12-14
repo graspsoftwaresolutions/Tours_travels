@@ -263,7 +263,7 @@
       @include('includes.messages')
       <div class="paper toolbar-parent mt10">
           <div class="col-md-8">
-          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{ route('package_save') }}">
+          <form id="wizard1"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{ route('package_update') }}">
             @csrf
             <h3>Travel Data</h3>
             <fieldset>
@@ -494,18 +494,21 @@
                         <div class="col-md-12">
                            <div id="destination-division" class="destinations-division">
                               @foreach ($tostatelist as $state)
-                              <div id="state-cities-{{ $state->id }}" class="col-md-12 state-cities">
-                                <h5 class="text-headline text-bold">{{ $state->state_name }}</h5>
-                                 @php
+                                @php
                                   $pickcitylist = CommonHelper::getCityList($state->id);
-                                 @endphp
-                                  <div class="destination-city" id="destination-city-1">
-                                    @foreach ($pickcitylist as $scity)
-                                       <button id="place_button_{{ $scity->id }}" type="button" onclick="PickPlace({  cityid: {{ $scity->id }},  stateid: {{ $state->id }}, cityname: '{{ $scity->city_name }}', statename: '{{ $state->state_name }}' , cityimage: '{{ $scity->city_image }}' })" class="btn theme-accent waves-effect waves-light " @if (in_array($scity->id, $citys_data)) disabled @endif ><i class="mdi mdi-plus left"></i>{{ $scity->city_name }}</button>
-                                    @endforeach
-                                    
-                                  </div>
-                              </div>
+                                @endphp
+                                @if(count($pickcitylist)>0)
+                                <div id="state-cities-{{ $state->id }}" class="col-md-12 state-cities">
+                                  <h5 class="text-headline text-bold">{{ $state->state_name }}</h5>
+                                   
+                                    <div class="destination-city" id="destination-city-1">
+                                      @foreach ($pickcitylist as $scity)
+                                         <button id="place_button_{{ $scity->id }}" type="button" onclick="PickPlace({  cityid: {{ $scity->id }},  stateid: {{ $state->id }}, cityname: '{{ $scity->city_name }}', statename: '{{ $state->state_name }}' , cityimage: '{{ $scity->city_image }}' })" class="btn theme-accent waves-effect waves-light " @if (in_array($scity->id, $citys_data)) disabled @endif ><i class="mdi mdi-plus left"></i>{{ $scity->city_name }}</button>
+                                      @endforeach
+                                      
+                                    </div>
+                                </div>
+                                @endif
                               @endforeach
                            </div>
                         </div>
@@ -559,25 +562,53 @@
                            @if($place->nights_count!=0)
                             @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
-                              $place_city_name = CommonHelper::getcityName($place->city_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+
+                              //$place_city_name = CommonHelper::getcityName($place->city_id);
                               $package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
+                              $amenity_count = count($package_hotel->amenities);
+                             // dd($package_hotel->amenities);
+                              $amenitystring = '';
+
+                              foreach($package_hotel->amenities as $key => $amenity){
+                                $amenitystring .= $amenity->amenities_name;
+                                if($amenity_count-1 != $key){
+                                  $amenitystring .= ', ';
+                                } 
+                              }
+
+                              $roomtypesstring = '';
+                              $type_count = count($package_hotel->roomtypes);
+
+                              foreach($package_hotel->roomtypes as $key => $roomtype){
+                                $roomtypesstring .= $roomtype->room_type;
+                                if($type_count-1 != $key){
+                                  $roomtypesstring .= ', ';
+                                } 
+                              }
                             @endphp
                               <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
                                 <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
                                 <div class="card media-card-sm">
                                   <div id="picked-hotelmedia-{{ $place->city_id }}" class="media">
                                     @if($package_hotel!=null)
+                                    @php
+                                      $hotelimages = $package_hotel->hotelimages;
+                                      $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                    @endphp
                                     <div class="media-left media-img">
                                       <a href="#">
-                                        <img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/6_201911280629471.jpg" alt="...">
+                                        <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
                                       </a>
                                     </div>
                                     <div class="media-body p10">
-                                      <h4 class="media-heading">new hotels</h4>
-                                      <p>Sarawak - Bintulu</p>
-                                      <p class="sub-text mt10">Free Drinks, Free Meal, Taxi Available</p>
-                                      <p class="sub-text mt10">Deluxe, Premium Plus
-                                        <button id="add_hotel_button_3" type="button" onclick="PickHotel({  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
+                                      <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
+                                      <p>{{ $place_state_name }} - {{ $place_city_name }}</p>
+                                      <p class="sub-text mt10">{{ $amenitystring }}</p>
+                                      <p class="sub-text mt10">{{ $roomtypesstring }}
+                                        <button id="add_hotel_button_3" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
                                       </p>
                                       <input type="text" class="hide" name="second_hotel_3[]" id="second_hotel_3" value="6">
                                       <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="3">
@@ -585,12 +616,12 @@
                                     @else
                                     <div class="media-left media-img">
                                       <a>
-                                        <img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" alt="...">
+                                        <img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" alt="Hotel Image">
                                       </a>
                                     </div>
                                     <div class="media-body p10">
                                       <h4 class="media-heading">Please choose hotel</h4> 
-                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: 5,  stateid: 2, cityname: 'Victoria', statename: 'Labuan' , cityimage: 'null' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
+                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
                                     </div>
                                     @endif
                                   </div>
@@ -613,7 +644,40 @@
                   <h4 class="text-headline">Activities</h4>
                   <div class="row">
                     <ul id="place-activities" class="timeline bg-color-switch mt40 timeline-single">
+                      @foreach($data['package_place'] as $place)
+                        @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
 
+                              $package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                             // dd($package_activities);
+                        @endphp
+                        <li data-cityid="{{$place->city_id}}" id="picked-activityli-{{$place->city_id}}" class="tl-item list-group-item item-avatar msg-row unread">
+                          <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
+                        @if($package_activities!=null)
+                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" >
+                              @foreach($package_activities as $activity)
+                               @php
+                                  $activityimages = $activity->activity_images;
+                                  $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                @endphp
+                              <li>
+                                <div id="city_activity_id_{{ $activity->id }}" class="msg-wrapper">
+                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from"><i class="fa fa-inr"></i> {{ $activity->amount }}</a>
+                                  <p><input type="text" class="hide" name="second_activity_{{$place->city_id}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"><a onclick="return RemoveActivityDB({{ $package_info->id }}, {{ $activity->id }},{{$place->city_id}})" style="color: red;cursor:pointer;" class="">Remove</a></p>
+                                </div>
+                              </li>
+                              @endforeach
+                            </ul>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right" style="top: -20px;"><i class="mdi mdi-plus left"></i>Add activity</a>
+                        @else
+                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" ></ul>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
+                        @endif
+                        </li>
+                      @endforeach
                     </ul>
                     <div id="dummy-activities">
                       
@@ -626,27 +690,117 @@
             <fieldset>
                 <div class="col-sm-12">
                   <h4 class="text-headline">Summary</h4>
+                  @php
+                    $to_state_name = CommonHelper::getstateName($package_info->to_state_id);
+                    $to_city_data = CommonHelper::getcityDetails($package_info->to_city_id);
+                    $to_city_name = $to_city_data->city_name;
+                    $to_city_image = $to_city_data->city_image;
+                    $to_city_image = $to_city_image==null || $to_city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$to_city_image) ;
+                    $place_counts = count($data['package_place']);
+                    $summary_cities='';
+                    $night_count=0;
+                    foreach($data['package_place'] as $key => $place){
+                       $sum_city_name = CommonHelper::getcityName($place->city_id);
+                       $summary_cities .= $sum_city_name.', ';
+                       $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
+                    }
+                  
+                  @endphp
                   <div class="row sortable">
                     <div class="card">
                       <div class="card-image">
-                          <img id="summary-banner" src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
+                          <img id="summary-banner" src="{{ $to_city_image }}" style="height: 250px;" alt="">
                           <div class="row">
                             <div class="card-title">
                                 <div class="col-md-4"> 
-                                  <span id="summary-state">Bridges</span><br><span id="summary-cities" class="text-small"></span>
+                                  <span id="summary-state">{{ $to_state_name }}</span><br><span id="summary-cities" class="text-small">{{ $summary_cities }}</span>
                                 </div>
                                 <div class="col-md-4"> 
-                                  <p id="summary-nights"><span class="night-count"></span> nights</p><span id="summary-days" class="text-small"><span class="days-count"></span> days</span>
+                                  <p id="summary-nights"><span class="night-count">{{ $night_count }}</span> nights</p><span id="summary-days" class="text-small"><span class="days-count">{{ $place_counts+1 }}</span> days</span>
                                 </div>
                                  <div class="col-md-4"> 
-                                  <p id="summary-family"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span>
+                                  <p id="summary-family"><span class="adult-count">{{ $package_info->adult_count }}</span> Adults <span class="child-count">{{ $package_info->child_count }}</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">{{ $package_info->infant_count }}</span> Infant</span>
                                 </div>
                             </div>
                           </div>
                           
                       </div>
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
-                          
+                          @foreach($data['package_place'] as $place) 
+                           
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+                             
+                            @endphp
+                            <li data-cityid="{{$place->city_id}}" id="summary-activityli-{{$place->city_id}}" class="tl-item summary-activity list-group-item item-avatar msg-row unread">
+                                <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> {{ $place_state_name }} - <span id="summary-city-name-{{$place->city_id}}">{{ $place_city_name }}</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-{{$place->city_id}}" value="{{$place->city_id}}"></div>
+
+                                <div id="summary-hotelarea-{{$place->city_id}}" class="overall-place-activitylist">
+                                  @if($place->nights_count!=0)
+                                  @php
+                                     $sum_package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
+                                      $amenity_count = count($sum_package_hotel->amenities);
+                                     
+                                      $amenitystring = '';
+
+                                      foreach($sum_package_hotel->amenities as $key => $amenity){
+                                        $amenitystring .= $amenity->amenities_name;
+                                        if($amenity_count-1 != $key){
+                                          $amenitystring .= ', ';
+                                        } 
+                                      }
+
+                                      $roomtypesstring = '';
+                                      $type_count = count($sum_package_hotel->roomtypes);
+
+                                      foreach($sum_package_hotel->roomtypes as $key => $roomtype){
+                                        $roomtypesstring .= $roomtype->room_type;
+                                        if($type_count-1 != $key){
+                                          $roomtypesstring .= ', ';
+                                        } 
+                                      }
+                                      $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                  @endphp
+                                  @if($sum_package_hotel!=null)
+                                    @php
+                                      $hotelimages = $sum_package_hotel->hotelimages;
+                                      $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                    @endphp
+                                  <div id="summary_hotel_id_{{$place->city_id}}" class="msg-wrapper">
+                                    <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-{{$place->city_id}}" src="{{ $hotel_image }}" alt="" class="avatar "><a id="summary-hotel-name-{{$place->city_id}}" class="msg-from" style="display: initial;">{{ $sum_package_hotel->hotel_name }}</a><br><a id="summary-hotel-type-{{$place->city_id}}" class="msg-sub">{{ $roomtypesstring }}</a>
+                                    <p id="summary-features-{{$place->city_id}}">{{ $amenitystring }}</p>
+                                  </div>
+                                  @endif
+                                  @endif
+                                  <div style="clear:both"></div>
+                                </div>
+
+                                <div style="clear:both"></div>
+                                <div id="summary-activity-section-{{$place->city_id}}" class="activities-summary">
+                                  @foreach($sum_package_activities as $activity)
+                                  @php
+                                    $activityimages = $activity->activity_images;
+                                    $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                    $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+                                  @endphp
+                                  <div id="summary_city_activity_id_{{ $activity->id }}" class="">
+                                    <h3 style="text-decoration: underline;">{{ $activity->title_name }} <a class="pull-right"><i class="fa fa-inr"></i> {{ $activity->amount }}</a></h3>
+                                    <div class="sub-summary-activity">
+                                      <h5>Overview</h5>
+                                      <div id="activity-summary-overview" class="activity-description">
+                                        {!! $activity->overview !!}
+                                      </div>
+                                      <h5>Duration: {{ $activityduration }}</h5>
+                                    </div>
+                                  </div>
+                                  @endforeach
+                                </div>
+                              </li>
+                            
+                          @endforeach
                        </ul>
                        <br>
                         <br>
@@ -1579,7 +1733,7 @@
     
       $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" class="hide" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
 
-      $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+      $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
 
       $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
@@ -1650,7 +1804,7 @@
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="Hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 
                 });
               // $('#masterid').val(result.id);
@@ -1820,7 +1974,7 @@
 
             var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/>';
 
-            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="..."></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
+            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
               $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
@@ -1859,7 +2013,7 @@
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="..."></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="Hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 });
               // $('#masterid').val(result.id);
               // $('#masterid').attr('data-autoid', result.id);
@@ -1870,6 +2024,7 @@
      
 
       $("#hotelcityname").html(place_area);
+      $("#activitycityname").html(place_area);
       $("#CityActivityModal").modal();
   }
 
@@ -2000,6 +2155,26 @@
   }
   function RemoveActivity(activityid,cityid){
     $("#city_activity_id_"+activityid).remove();
+  }
+  function RemoveActivityDB(packageid, activityid,cityid){
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+      var url = "{{ url('/delete_package_activity') }}" + '?activity_id=' + activityid+'&city_id='+cityid+'&package_id='+packageid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+            if(resultdata){
+              $("#city_activity_id_"+activityid).remove();
+              $("#summary_city_activity_id_"+activityid).remove();
+            }
+          }
+        });
+    }else{
+
+    }
+
+   
   }
   // $( "#overall-summary" ).sortable({
   //     sort: function( event, ui ) {

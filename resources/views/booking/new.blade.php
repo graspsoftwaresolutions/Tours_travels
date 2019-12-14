@@ -929,11 +929,13 @@ $(document).on('submit','form#stateformValidate',function(){
                      $.each(data.place_details, function( index, value ) {
                             $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item sort-handle"> . '+value.state_name+' - '+value.city_name+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.stateid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
                      });
+                     
                      var encid = data.package_id;
-                     var url = "{{ url('packag-edit') }}?id="+encid;   
-                     $('#destination-char').append('<div class="sortable"><div class="card"> <div class="p8 blue-grey"><div class="card-title " id="packagelist"><a target="_blank" href="'+url+'" style="color:white; margin-left :5px;">View Package Details</a></div><input type="hidden" name="packageid" id="packageid"> </div> </div></div>');
+                     var url = "{{ url('package-edit') }}/"+encid;   
+                     $('#destination-char').html('<a target="_blank" href="'+url+'" style="color:white; margin-left :5px;" class="btn theme-accent waves-effect waves-light ">View Package Details</a>');
                 }
             });
+           //$('#place-sortList').empty();
      }
    });
    });
