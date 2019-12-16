@@ -153,9 +153,9 @@
                      <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                      <br>
                      <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
-                     <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
-                     <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
-                     <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
+                     <input type="text" name="adult_count" id="adult-count-val" class="text" value="2">
+                     <input type="text" name="child_count" id="child-count-val" class="text" value="0">
+                     <input type="text" name="infant_count" id="infant-count-val" class="text" value="0">
                      <div class="input-highlight"></div>
                   </div>
                   <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
@@ -174,15 +174,8 @@
                                     <small>Age 13 and above</small>
                                  </div>
                                  <div class="col-md-9">
-                                    <a  class="label adult-travellers label-travellers z-depth-3 " >1</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >5</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >6</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1" >7</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
-                                    <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
+                                     <input type="text" name="adult-travellers" class="adult-travellers" value="2" >
+                                    
                                  </div>   
                               </div> <br>
                               <div class="row">
@@ -228,16 +221,8 @@
                                     <small>Age 3 to 12</small>
                                  </div>
                                  <div class="col-md-9">
-                                    <a class="label child-travellers label-travellers z-depth-1  blue-dark" >0</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >1</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 ">2</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >3</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >4</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >5</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >6</a>
-                                    <a class="label child-travellers label-travellers z-depth-1" >7</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >8</a>
-                                    <a class="label child-travellers label-travellers z-depth-1 " >9</a>
+                                 <input type="text" name="child-travellers" class="child-travellers" value="0" >
+                                  
                                  </div>
                               </div>
                               <br>
@@ -248,7 +233,8 @@
                                     <small>Age 0 - 2</small>
                                  </div>
                                  <div class="col-md-9">
-                                    <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
+                                     <input type="text" name="infant-travellers" class="infant-travellers" value="0">
+                                    <!-- <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
                                     <a class="label infant-travellers label-travellers z-depth-1 " >1</a>
                                     <a class="label infant-travellers label-travellers z-depth-1 ">2</a>
                                     <a class="label infant-travellers label-travellers z-depth-1 " >3</a>
@@ -257,7 +243,7 @@
                                     <a class="label infant-travellers label-travellers z-depth-1 " >6</a>
                                     <a class="label infant-travellers label-travellers z-depth-1" >7</a>
                                     <a class="label infant-travellers label-travellers z-depth-1 " >8</a>
-                                    <a class="label infant-travellers label-travellers z-depth-1 " >9</a>
+                                    <a class="label infant-travellers label-travellers z-depth-1 " >9</a> -->
                                  </div>
                               </div>
                            </div>
@@ -377,7 +363,48 @@
                </div>
                <!-- ./col- -->
                <div class="clearfix"></div>
+			   
             </div>
+            <div class="price-section">
+                  <div class="form-horizontal paper p20 ">   
+                        <h4 class="text-headline">Price Summary</h4>   
+                        <br>
+                         <div class="form-group">
+                            <label for="total_package_value" class="col-sm-5 control-label">Total package value*
+                              <br>
+                              <small>[incl. Hotel+Activities]</small>
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_package_value" name="total_package_value" class="allow_decimal" placeholder="Total package value">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="gst_amount" class="col-sm-5 control-label">GST <span>5</span>% <input type="text" name="gst_per" id="gst_per" value="5" class="hide" /> </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="gst_amount" name="gst_amount" readonly="true" placeholder="Total GST Amount">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                         <div class="form-group">
+                            <label for="total_amount" class="col-sm-5 control-label">Total</label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_amount" name="total_amount" readonly="true" placeholder="Total Amount"> 
+                                <input type="text" id="adult_price_person" name="adult_price_person" readonly="true" placeholder="Adult Price">   
+                                <input type="text" id="child_price_person" name="child_price_person" readonly="true" placeholder="child price">  
+                                <input type="text" id="infant_price" name="infant_price" readonly="true" placeholder="Infant price"> 
+                                <input type="text" id="output" name="infant_price" readonly="true" placeholder="Click Count"> 
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><!-- /.col- -->
+                        </div><!-- /.form-group -->
+                    </div>
+					 </div>
             <p><span style="color:red;    margin-left: 0px;"> </span></p>
             <div class="form-group clearfix">
                <button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
@@ -397,7 +424,6 @@
                <div class="input-highlight"></div>
             </div>
             <!-- /.form-group -->
-           
             <div class="select-row form-group">
                <label for="to_state_id" class="block">{{__('State Name') }}</label>                 
                <input id="travelling_to_state_name"  name="travelling_to_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
@@ -437,6 +463,8 @@
          <div id="destination-char" class="destinations-division" >
             
          </div>
+         <br><br>
+         
          
       </div>
       <div class="clearfix"/>
@@ -661,38 +689,18 @@
 
 
 //});
-$(function() {
-      $(".adult-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.adult-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
-         $("#adult-count-val").val(parseInt(person_no));
-         $(".adult-count").text(parseInt(person_no));
-         CalculateTotalTravellers();
-      });
-      $(".child-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.child-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
-         $("#child-count-val").val(parseInt(person_no));
-         $(".child-count").text(parseInt(person_no));
-         CalculateTotalTravellers();
-      });
-       $(".infant-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.infant-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
-         $("#infant-count-val").val(parseInt(person_no));
-         $(".infant-count").text(parseInt(person_no));
-         CalculateTotalTravellers();
-      });
+$(document).on('keyup', '#total_package_value', function(){
+
+
+
+     var total_package_value = $("#total_package_value").val();
+     total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+     var gst_per = $("#gst_per").val();
+     gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
+     var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
+     $("#gst_amount").val(tax_amount);
+     $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
    });
-   function CalculateTotalTravellers(){
-      var childcount =parseInt($("#child-count-val").val());
-      var adultcount =parseInt($("#adult-count-val").val());
-      var infantcount =parseInt($("#infant-count-val").val());
-      $("#total-travellers").text(childcount+adultcount+infantcount);
-   }
 $(document).ready(function(){
    $("#customerformValidate").validate({
 			rules: {
@@ -780,7 +788,6 @@ $(document).ready(function(){
                      $('#country_id').selectpicker('val', '');
                      $('#state_id').selectpicker('val', '');
                      $('#city_id').selectpicker('val', '');
-							
 						}
 					}
 			});
@@ -879,7 +886,7 @@ $(document).on('submit','form#stateformValidate',function(){
               var object = new Object();
                object.label = item.value;
                object.value = item.package_name;
-               object.packageid = item.packageid;     
+               object.packageid = item.packageid;
                object.travelling_to_country_name = item.tocountryname  
                object.travelling_to_country_id =   item.tocountryid   
                object.travelling_to_state_name = item.tostatename
@@ -887,6 +894,12 @@ $(document).on('submit','form#stateformValidate',function(){
                object.travelling_to_city_name = item.tocityname
                object.travelling_to_city_id = item.tocityid
                object.packagename = item.package_name;
+               object.total_package_value = item.total_package_value;
+               object.tax_amount = item.tax_amount;
+               object.total_amount = item.total_amount;
+               object.adult_price_person = item.adult_price_person;
+               object.child_price_person = item.child_price_person;
+               object.infant_price = item.infant_price;
               return object
           }));
           // response( $.map( data, function( item ) {
@@ -909,7 +922,14 @@ $(document).on('submit','form#stateformValidate',function(){
       $('#travelling_to_state_id').val(ui.item.travelling_to_state_id);
       $('#travelling_to_city_name').val(ui.item.travelling_to_city_name);
       $('#travelling_to_city_id').val(ui.item.travelling_to_city_id);
-   
+      
+      $('#total_package_value').val(ui.item.total_package_value);
+      $('#gst_amount').val(ui.item.tax_amount);
+      $('#total_amount').val(ui.item.total_amount);
+      $('#adult_price_person').val(ui.item.adult_price_person);
+      $('#child_price_person').val(ui.item.child_price_person);
+      $('#infant_price').val(ui.item.infant_price);
+      
        var packageid = $("#packageid").val();
        var url = "{{ route('package_place_details') }}?package_id="+packageid;   
    
@@ -924,23 +944,126 @@ $(document).on('submit','form#stateformValidate',function(){
                 type: "GET",
                
                 success: function (data) {
-                    console.log(data.package_id);
-                    console.log(data.place_details);
+                  //   console.log(data.package_id);
+                  //   console.log(data.place_details);
+                     $('#place-sortList').empty('');
                      $.each(data.place_details, function( index, value ) {
                             $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item sort-handle"> . '+value.state_name+' - '+value.city_name+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.stateid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
                      });
-                     
                      var encid = data.package_id;
                      var url = "{{ url('package-edit') }}/"+encid;   
                      $('#destination-char').html('<a target="_blank" href="'+url+'" style="color:white; margin-left :5px;" class="btn theme-accent waves-effect waves-light ">View Package Details</a>');
                 }
             });
-           //$('#place-sortList').empty();
      }
    });
    });
    
    })(jQuery);
+   // $(function() {
+   //    $(".adult-travellers").click(function(){
+   //       //alert('hii');
+   //       var person_no = $(this).text();
+   //       // $('.adult-travellers').removeClass('blue-dark');
+   //       // $(this).addClass('blue-dark');
+   //       $("#adult-count-val").val(parseInt(person_no));
+   //       $(".adult-count").text(parseInt(person_no));
+   //       CalculateTotalTravellers();
+         
+   //    });
+   //    $(".child-travellers").click(function(){
+   //       var person_no = $(this).text();
+   //     //  $('.child-travellers').removeClass('blue-dark');
+   //      // $(this).addClass('blue-dark');
+   //       $("#child-count-val").val(parseInt(person_no));
+   //       $(".child-count").text(parseInt(person_no));
+   //       CalculateTotalTravellers();
+   //    });
+   //     $(".infant-travellers").click(function(){
+   //       var person_no = $(this).text();
+   //      // $('.infant-travellers').removeClass('blue-dark');
+   //      // $(this).addClass('blue-dark');
+   //       $("#infant-count-val").val(parseInt(person_no));
+   //       $(".infant-count").text(parseInt(person_no));
+   //       CalculateTotalTravellers();
+   //    });
+
+     
+   // });
+   $('#infantsModal').on('click', function(){
+      var adultcount = parseInt($(".adult-travellers").val());
+      var childcount = parseInt($(".child-travellers").val());
+      var infantcount = parseInt($(".infant-travellers").val());
+      $("#adult-count-val").val(parseInt(adultcount));
+      $(".adult-count").text(parseInt(adultcount));
+
+      $("#child-count-val").val(parseInt(childcount));
+      $(".child-count").text(parseInt(childcount));
+     
+      $("#infant-count-val").val(parseInt(infantcount));
+      $(".infant-count").text(parseInt(infantcount));
+
+
+      CalculateTotalTravellers();
+   
+   });
+   function CalculateTotalTravellers(){
+      var adultcount = parseInt($(".adult-travellers").val());
+      var childcount = parseInt($(".child-travellers").val());
+      var infantcount = parseInt($(".infant-travellers").val());
+
+    $("#total-travellers").text(childcount+adultcount+infantcount);
+     
+      if(adultcount > 2)
+      {
+         while (adultcount < 10) {
+            var adult_price_person = parseInt($('#adult_price_person').val());
+            var adultprice = (adultcount - 2) * adult_price_person;
+            break;
+         }
+        
+      }
+      else{
+         var adultprice = 0;
+      }
+      if(childcount > 0)
+      {
+         var child_price_person = parseInt($('#child_price_person').val());
+         var childprice = childcount * child_price_person;
+        
+      }
+      else{
+
+         var childprice = 0;
+      }
+
+      if(infantcount > 0 )
+      {
+         var infant_price = parseInt($('#infant_price').val());
+      }
+      else{
+         var infant_price = 0;
+      }
+
+      var personPackagePrie = parseInt(adultprice+childprice+infant_price) ;
+      //alert(personPackagePrie);
+      var total_package_value = parseInt($('#total_package_value').val()) ;
+
+      var personpackagetotal_val =  parseInt(total_package_value+personPackagePrie);
+     // alert(personpackagetotal_val);
+      
+      $('#total_package_value').val(personpackagetotal_val);
+
+         $(document).on('keyup', '#total_package_value', function(){
+         var total_package_value = $("#total_package_value").val();
+         total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+         var gst_per = $("#gst_per").val();
+         gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
+         var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
+         $("#gst_amount").val(tax_amount);
+         $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
+         });
+      }
    $(document).ready(function(){
    $('.input-group.date').datepicker({format: "dd-mm-yyyy"}); 
    $('#dp1').datepicker({ format: 'mm-dd-yyyy', });
