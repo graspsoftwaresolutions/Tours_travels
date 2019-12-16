@@ -1641,9 +1641,11 @@
 
              var roomtypeslist = resultdata.roomtypes;
              $("#view-hotel-roomtypes").empty();
+             var hotel_rooms = '<option value="1">1 Room(s)</option><option value="2">2 Room(s)</option>';
             $.each(roomtypeslist, function(keya, valuea) {
-              //console.log(keya);
-              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+'</h3><div>at <i class="fa fa-inr"></i> 14,460 more</div><br><br>');
+              //console.log(valuea.pivot.price);
+              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+' <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+valuea.pivot.description+'</div><br><br>');
+              $("#view-hotel-roomtypes").append('<select class="selectroom" id="room208149235201629479"></select>');
              
             }); 
              $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');

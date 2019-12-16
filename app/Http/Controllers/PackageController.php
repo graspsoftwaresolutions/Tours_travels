@@ -161,6 +161,11 @@ class PackageController extends Controller
                 'roomtypes',
                 'hotelimages'
             ))->where('id','=',$hotel_id)->first();
+            
+        $hotel_roomtypes = DB::table('hotel_roomtypes')->where('hotel_id','=',$hotel_id)->pluck('roomtype_id');
+
+        //$hotel_rooms = DB::table('hotel_rooms')->where('hotel_id','=',$hotel_id)->whereIn('roomtype_id',$hotel_roomtypes)->get();
+       // dd($hotel_rooms);
         //$hotels = Hotel::where('city_id','=',$city_id)->get();
        // $products = $hotels->amenities;
         //dd($products);
