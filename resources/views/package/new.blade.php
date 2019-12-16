@@ -94,10 +94,10 @@
   .overallplacecitylist {
     counter-reset: overall-place-counter;
   }
-  .overallplacecitylist span.summaryno::before {
+ /* .overallplacecitylist span.summaryno::before {
     content: counter(overall-place-counter);
     counter-increment: overall-place-counter;
-  }
+  }*/
   .timeline>li:after, .timeline>li:before {
       content: " ";
       display: initial !important;
@@ -280,76 +280,49 @@
                            <div class="input-highlight"></div>
                         </div>
                         <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
-                           <div class="modal-dialog" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
+                           <div class="modal-dialog modal-sm" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
                               <div class="modal-content">
                                  <div class="modal-header">
                                     <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                                    <h1 class="modal-title">Travellers Details</h1>
+                                    <h3 class="modal-title">Travellers Details</h3>
                                  </div><!-- /.modal-header -->
                                  <div class="modal-body">
                                     <div class="row">
-                                       <div class="col-md-3">
+                                       <div class="col-md-6">
                                           <label class="fixed-label">{{__('Adult:') }}</label>
                                           <br>
                                           <small>Age 13 and above</small>
                                        </div>
-                                       <div class="col-md-9">
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 blue-dark ">2</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label adult-travellers label-travellers z-depth-1 " >9</a>
+                                       <div class="col-md-6">
+                                          <input type="text" name="adult-travellers" class="adult-travellers allow_decimal" value="2" />
 
                                        </div>  
                                        
                                     </div>
                                      <br>
                                     <div class="row">
-                                       <div class="col-md-3">
+                                       <div class="col-md-6">
                                           <label class="fixed-label">{{__('Children:') }}</label>
                                           <br>
                                           <small>Age 3 to 12</small>
                                        </div>
 
-                                       <div class="col-md-9">
-                                          <a class="label child-travellers label-travellers z-depth-1  blue-dark" >0</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 ">2</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label child-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label child-travellers label-travellers z-depth-1 " >9</a>
+                                       <div class="col-md-6">
+                                           <input type="text" name="child-travellers" class="child-travellers allow_decimal" value="0" />
                                           
                                        </div>  
                                        
                                     </div>
                                     <br>
                                     <div class="row">
-                                       <div class="col-md-3">
+                                       <div class="col-md-6">
                                           <label class="fixed-label">{{__('Infant:') }}</label>
                                           <br>
                                           <small>Age 0 - 2</small>
                                        </div>
 
-                                       <div class="col-md-9">
-                                           <a class="label infant-travellers label-travellers z-depth-1  blue-dark" >0</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >1</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 ">2</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >3</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >4</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >5</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >6</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1" >7</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >8</a>
-                                          <a class="label infant-travellers label-travellers z-depth-1 " >9</a>
-                                          
+                                       <div class="col-md-6">
+                                          <input type="text" name="infant-travellers" class="infant-travellers allow_decimal" value="0" />
                                        </div>  
                                        
                                     </div>
@@ -629,23 +602,82 @@
                   <div class="form-horizontal paper p20 ">   
                         <h4 class="text-headline">Price Summary</h4>   
                         <br>
-                         <div class="form-group">
-                            <label for="total_package_value" class="col-sm-5 control-label">Total package value*
-                              <br>
-                              <small>[incl. Hotel+Activities]</small>
+                          <div class="form-group">
+                            <label for="total_accommodation" class="col-sm-5 control-label">Accommodation
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="total_package_value" name="total_package_value" class="allow_decimal" placeholder="Total package value">    
+                                <input type="text" id="total_accommodation" readonly="true" name="total_accommodation" class="allow_decimal" placeholder="Accommodation">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="total_activities" class="col-sm-5 control-label">Activities
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_activities" readonly="true" name="total_activities" class="allow_decimal" placeholder="Activities">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                          </div>
+                           <div class="form-group">
+                            <label for="transport_charges" class="col-sm-5 control-label">Transport Charges
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="transport_charges" name="transport_charges" class="allow_decimal" value="0" placeholder="Additional Charges">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                         </div>
+                          <div class="form-group">
+                            <label for="additional_charges" class="col-sm-5 control-label">Additional Charges
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="additional_charges" name="additional_charges" class="allow_decimal" value="0" placeholder="Additional Charges">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                         </div>
+                          <div class="form-group">
+                            <label for="total_package_value" class="col-sm-5 control-label">Total package value
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="total_package_value" readonly="true" name="total_package_value" class="allow_decimal" placeholder="Total package value">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="gst_amount" class="col-sm-5 control-label">GST <span>5</span>% <input type="text" name="gst_per" id="gst_per" value="5" class="hide" /> </label>
+                        
+                        <!--  <div class="form-group">
+                            <label for="sub_total" class="col-sm-5 control-label">Sub Total</label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="gst_amount" name="gst_amount" readonly="true" placeholder="Total GST Amount">    
+                                <input type="text" id="sub_total" name="sub_total" readonly="true" placeholder="Sub Total">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div><
+                        </div> -->
+                        @php
+                          $tax_info = $data['tax_data'];
+                          if(!empty($tax_info)){
+                            $tax_name = $tax_info->tax_name;
+                            $tax_value = $tax_info->tax_value;
+                          }else{
+                            $tax_name = 'GST';
+                            $tax_value = 8;
+                          }
+                          //dd( $tax_info);
+                        @endphp
+                        <div class="form-group">
+                            <label for="gst_amount" class="col-sm-5 control-label">{{$tax_name}} <span>{{$tax_value}}</span>% <input type="text" name="gst_per" id="gst_per" value="{{$tax_value}}" class="hide" /> </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="gst_amount" name="gst_amount" readonly="true" placeholder="Total {{$tax_name}} Amount">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div><!-- /.col- -->
@@ -876,8 +908,8 @@
                               </div>
                                <div class="hotel-description">
                                   Extra-person charges may apply and vary depending on property policy. <br>Government-issued photo identification and a credit card, debit card, or cash deposit are required at check-in for incidental charges. <br>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.  <ul><li>No onsite parking is available. </li>Please note that cultural norms and guest policies may differ by country and by property. The policies listed are provided by the property. </ul> Outside food and beverages are not permitted on the premises. For more details, please contact the property using the information on the reservation confirmation received after booking.
-                              </div> -->
-                              <button id="viewhotelconfirm" type="button" onclick="" class="btn btn-sm green waves-effect waves-theme">Confirm</button>
+                              </div>
+                              <button id="viewhotelconfirm" type="button" onclick="" class="btn btn-sm green waves-effect waves-theme">Confirm</button> -->
                             </div>
                           </div>
                            
@@ -1132,66 +1164,81 @@
             if (newIndex === 1 )
             {
                var formsubmit =true; 
-               if($("#from_country_id").val()==''){
-                  $('.from_country_id-error').remove();
-                  $( '<div id="from_country_id-error" class="error from_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#from_country_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_country_id-error").remove();
-               }
-               if($("#to_country_id").val()==''){
-                  $('.to_country_id-error').remove();
-                  $( '<div id="to_country_id-error" class="error to_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#to_country_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_country_id-error").remove();
-               }
-              if($("#from_state_id").val()==''){
-                  $('.from_state_id-error').remove();
-                  $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#from_state_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_state_id-error").remove();
-               }
-               if($("#to_state_id").val()==''){
-                  $('.to_state_id-error').remove();
-                  $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#to_state_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_state_id-error").remove();
-               }
-               if($("#from_city_id").val()==''){
-                  $('.from_city_id-error').remove();
-                  $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#from_city_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_city_id-error").remove();
-               }
-               if($("#to_city_id").val()==''){
-                  $('.to_city_id-error').remove();
-                  $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#to_city_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_city_id-error").remove();
-               }
-                if($("#package_name").val()==''){
-                  $('.package_name-error').remove();
-                  $( '<div id="package_name-error" class="error package_name-error custom-error">Please enter package name.</div>' ).insertAfter( '#package_name' );
-                  formsubmit =false; 
-               }else{
-                 $("#package_name-error").remove();
-               }
+              //  if($("#from_country_id").val()==''){
+              //     $('.from_country_id-error').remove();
+              //     $( '<div id="from_country_id-error" class="error from_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#from_country_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_country_id-error").remove();
+              //  }
+              //  if($("#to_country_id").val()==''){
+              //     $('.to_country_id-error').remove();
+              //     $( '<div id="to_country_id-error" class="error to_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#to_country_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_country_id-error").remove();
+              //  }
+              // if($("#from_state_id").val()==''){
+              //     $('.from_state_id-error').remove();
+              //     $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#from_state_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_state_id-error").remove();
+              //  }
+              //  if($("#to_state_id").val()==''){
+              //     $('.to_state_id-error').remove();
+              //     $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#to_state_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_state_id-error").remove();
+              //  }
+              //  if($("#from_city_id").val()==''){
+              //     $('.from_city_id-error').remove();
+              //     $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#from_city_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_city_id-error").remove();
+              //  }
+              //  if($("#to_city_id").val()==''){
+              //     $('.to_city_id-error').remove();
+              //     $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#to_city_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_city_id-error").remove();
+              //  }
+              //   if($("#package_name").val()==''){
+              //     $('.package_name-error').remove();
+              //     $( '<div id="package_name-error" class="error package_name-error custom-error">Please enter package name.</div>' ).insertAfter( '#package_name' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#package_name-error").remove();
+              //  }
 
-               if($('#place-sortList li').length==0 && formsubmit==true){
-                  alert("Please pick any place");
-                  formsubmit =false; 
-               }
+              //  if($('#place-sortList li').length==0 && formsubmit==true){
+              //     alert("Please pick any place");
+              //     formsubmit =false; 
+              //  }
                 
                return formsubmit;
             }
             if(newIndex===3){
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
+              var total_hotel_cost = 0;
+               $(".hotel_cost").each(function() {
+                 var hotel_cost = parseFloat($(this).val());
+                 total_hotel_cost = parseFloat(total_hotel_cost)+parseFloat(hotel_cost);
+              });
+              $("#total_accommodation").val(total_hotel_cost);
+             var total_activity_cost = 0;
+             $(".activity_cost").each(function() {
+                 var activity_cost = parseFloat($(this).val());
+                 total_activity_cost = parseFloat(total_activity_cost)+parseFloat(activity_cost);
+              });
+             $("#total_activities").val(total_activity_cost);
+            // var total_pack_cost = parseFloat(total_hotel_cost)+parseFloat(total_activity_cost);
+              //$("#total_package_value").val(total_pack_cost);
+              $("#transport_charges").trigger('keyup');
             }
             // if(newIndex===3){
             //   $(".main-wrapper").addClass('menu-hidden');
@@ -1310,26 +1357,20 @@
    
           
       // });
-      $(".adult-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.adult-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
+      $(".adult-travellers").keyup(function(){
+         var person_no = $(this).val();
          $("#adult-count-val").val(parseInt(person_no));
          $(".adult-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
-      $(".child-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.child-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
+      $(".child-travellers").keyup(function(){
+         var person_no = $(this).val();
          $("#child-count-val").val(parseInt(person_no));
          $(".child-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
-       $(".infant-travellers").click(function(){
-         var person_no = $(this).text();
-         $('.infant-travellers').removeClass('blue-dark');
-         $(this).addClass('blue-dark');
+       $(".infant-travellers").keyup(function(){
+         var person_no = $(this).val();
          $("#infant-count-val").val(parseInt(person_no));
          $(".infant-count").text(parseInt(person_no));
          CalculateTotalTravellers();
@@ -1467,7 +1508,9 @@
 
       $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+paramscity.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+paramscity.cityid+'" src="'+imagedummy+'" alt="" class="avatar "><a id="summary-hotel-name-'+paramscity.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+paramscity.cityid+'" class="msg-sub"></a><p id="summary-features-'+paramscity.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+paramscity.cityid+'" class="activities-summary"> </div></li>');
+      var listlength = $('#place-sortList li').length;
+
+      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+paramscity.cityid+'" class="summaryno">'+listlength+'</span></span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+paramscity.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+paramscity.cityid+'" src="'+imagedummy+'" alt="" class="avatar "><a id="summary-hotel-name-'+paramscity.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+paramscity.cityid+'" class="msg-sub"></a><p id="summary-features-'+paramscity.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+paramscity.cityid+'" class="activities-summary"> </div></li>');
 
        $("#place-activitylist-"+paramscity.cityid).dragsort();
 
@@ -1477,7 +1520,7 @@
 
       var numItems = $('.cityplace').length;
       //console.log(numItems);
-      $(".days-count").html(parseInt(numItems)+parseInt(1));
+      //$(".days-count").html(parseInt(numItems)+parseInt(1));
       
    }
    function DeleteNight(cityid){
@@ -1485,6 +1528,10 @@
            $("#place_night_"+cityid).remove();
            $("#picked-hotelli-"+cityid).remove();
            $("#summary_hotel_id_"+cityid).remove();
+           $("#summary-activityli-"+cityid).remove();
+           $("#picked-activityli-"+cityid).remove();
+           $("#picked-li-"+cityid).remove();
+           $("#place_button_"+cityid).attr("disabled", false);
            $(".place-night-select").trigger('change');
       }else{
        // alert('Failed to delete');
@@ -1518,12 +1565,23 @@
                   var roomtypeslist = value.roomtypes;
                   var roomtypesString = '';
                   var roomtypes_len = roomtypeslist.length;
+                  var confirm_btn ='';
+                  var room_cost = 0;
+                  var roomtype_id = '';
                   $.each(roomtypeslist, function(keya, valuea) {
                     //console.log(keya);
-                    roomtypesString += valuea.room_type;
-                    if(roomtypes_len-1!=keya){
-                        roomtypesString += ', ';
+                    
+                    if(keya==0){
+                      roomtypesString += valuea.room_type+' - 1';
+                      confirm_btn += 'return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+','+valuea.pivot.roomtype_id+',0)';
+                      room_cost = valuea.pivot.price;
+                      roomtype_id = valuea.pivot.roomtype_id;
+                    }else{
+                      return false;
                     }
+                    // if(roomtypes_len-1!=keya){
+                    //     roomtypesString += ', ';
+                    // }
                   }); 
                   var hotelimages = value.hotelimages;
                   var imagelocation = no_image_url;
@@ -1534,7 +1592,7 @@
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at 2,226 more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="hotellistconfirm" type="button" onclick="return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> '+room_cost+' more</p><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_'+value.id+'_'+roomtype_id+'" type="button" onclick="'+confirm_btn+'" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 
                 });
               // $('#masterid').val(result.id);
@@ -1641,17 +1699,27 @@
 
              var roomtypeslist = resultdata.roomtypes;
              $("#view-hotel-roomtypes").empty();
-             var hotel_rooms = '<option value="1">1 Room(s)</option><option value="2">2 Room(s)</option>';
+            var hotel_rooms_option = '';
+            var i;
+            for (i = 1; i <= 40; i++) {
+              if(i==1){
+                hotel_rooms_option += '<option selected value="'+i+'">'+i+' Room(s)</option>';
+              }else{
+                hotel_rooms_option += '<option value="'+i+'">'+i+' Room(s)</option>';
+              }
+            }
+
             $.each(roomtypeslist, function(keya, valuea) {
               //console.log(valuea.pivot.price);
-              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+' <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+valuea.pivot.description+'</div><br><br>');
-              $("#view-hotel-roomtypes").append('<select class="selectroom" id="room208149235201629479"></select>');
+              var button_evt =  'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+','+valuea.pivot.roomtype_id+',1)';
+              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+' <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+valuea.pivot.description+'</div><br>');
+              $("#view-hotel-roomtypes").append('<div class="row"><div class="col-md-offset-4 col-md-4"><select class="selectroom form-control" id="hotel_rooms_'+resultdata.id+'_'+valuea.pivot.roomtype_id+'">'+hotel_rooms_option+'</select></div><div class="col-md-4"><button id="viewhotelconfirm_'+resultdata.id+'_'+valuea.pivot.roomtype_id+'" type="button" onclick="'+button_evt+'" class="btn green waves-effect waves-theme">Confirm</button></div></div>');
              
             }); 
              $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');
 
             $("#view-hotel-listdescription").html(resultdata.listing_descriptions);
-            $('#viewhotelconfirm').attr('onclick', 'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
+            //$('#viewhotelconfirm').attr('onclick', 'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
           }
       });
 
@@ -1663,11 +1731,20 @@
     $("#view-city-full-image").attr("src", imagename);
     
   }
-  function ConfirmHotel(hotelid,cityid,paramscity){
+  function ConfirmHotel(hotelid,cityid,paramscity,roomtyeid,type){
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
     $("#picked-hotelmedia-"+cityid).empty();
     //var imagename ='';
     var place_area = paramscity.statename+' - '+paramscity.cityname;
+
+    if(type==1){
+      var hotel_room_nos = $("#hotel_rooms_"+hotelid+"_"+roomtyeid).val();
+       //console.log(hotel_room_nos);
+    }else{
+      var hotel_room_nos = 1;
+    }
+
+    // /console.log(hotelid+'room type'+roomtyeid);
 
     var url = "{{ url('/city_hotels_details') }}" + '?hotel_id=' + hotelid;
     $.ajax({
@@ -1696,17 +1773,27 @@
             var roomtypeslist = resultdata.roomtypes;
             var roomtypesString = '';
             var roomtypes_len = roomtypeslist.length;
+            var room_cost = 0;
             $.each(roomtypeslist, function(keya, valuea) {
               //console.log(keya);
-              roomtypesString += valuea.room_type;
-              if(roomtypes_len-1!=keya){
-                  roomtypesString += ', ';
+             
+
+              if(valuea.pivot.roomtype_id==roomtyeid){
+                roomtypesString = valuea.room_type+' - '+hotel_room_nos;
+                room_cost = valuea.pivot.price;
+                //alert(roomtypesString);
               }
+
+              // if(roomtypes_len-1!=keya){
+              //     roomtypesString += ', ';
+              // }
             }); 
 
-            var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/>';
+            var total_roomcost = room_cost*hotel_room_nos;
 
-            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
+            var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_roomcost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+hotel_room_nos+'" />';
+
+            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
               $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
@@ -1850,6 +1937,9 @@
     //$("#picked-hotelmedia-"+cityid).empty();
     //var imagename ='';
     var place_area = paramscity.statename+' - '+paramscity.cityname;
+    var adult_count = $("#adult-count-val").val();
+    var child_count = $("#child-count-val").val();
+    var total_count = parseInt(adult_count)+parseInt(child_count);
 
     var url = "{{ url('/city_activity_details') }}" + '?activity_id=' + activityid;
     $.ajax({
@@ -1864,13 +1954,15 @@
                var imagelocation = image_url+'/activity/'+hotelimages[0].image_name
             }
 
-            var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/>';
+            var total_act_cost = total_count*resultdata.amount;
+
+            var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+resultdata.id+'" value="'+total_act_cost+'" />';
 
             if(!$('#city_activity_id_'+resultdata.id).length){
-              $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> '+resultdata.amount+'</a><p>'+hiddenvalues+'<a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
+              $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> '+total_act_cost+'</a><p>'+hiddenvalues+'<a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
               var act_overview  = resultdata.overview != null ? resultdata.overview : '';
                var activityduration = (resultdata.duartion_hours/60).toFixed(0)+' hour '+(resultdata.duartion_hours%60)+' minutes';
-              $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> '+resultdata.amount+'</a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
+              $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> '+total_act_cost+'</a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
              $("#pick-actitity-link-"+cityid).css('top','-20px');
             }else{
               alert("Activity already choosed");
@@ -1990,17 +2082,26 @@
     });
     $(document).on('change', '.place-night-select', function() {
       var total_nights = 0;
+      var startday = 1;
       $(".place-night-select").each(function() {
          var night_count = parseInt($(this).val());
          dropdown_id = $(this).attr('id');
          dropdown_arr = dropdown_id.split('_');
          var city_id_night = dropdown_arr[3];
          $("#place_night_count_"+city_id_night).val(night_count);
+         if(night_count==1){
+           $("#summary-night-"+city_id_night).html(startday);
+         }else{
+           $("#summary-night-"+city_id_night).html(startday+' - '+(parseInt(startday)+parseInt(night_count)-1));
+         }
+        
+         startday = parseInt(startday)+parseInt(night_count);
          //console.log('this'+night_count);
          total_nights = parseInt(night_count)+parseInt(total_nights);
       });
      // console.log(total_nights);
       $(".night-count").html(total_nights);
+      $(".days-count").html(parseInt(total_nights)+1);
     });
     $(document).on('input', '.allow_decimal', function(){
      var self = $(this);
@@ -2010,9 +2111,21 @@
        evt.preventDefault();
      }
    });
-  $(document).on('keyup', '#total_package_value', function(){
-     var total_package_value = $("#total_package_value").val();
-     total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+  $(document).on('keyup', '#transport_charges,#additional_charges', function(){
+     //var total_package_value = $("#total_package_value").val();
+     var transport_charges = $("#transport_charges").val();
+     var additional_charges = $("#additional_charges").val();
+     var total_accommodation = $("#total_accommodation").val();
+     var total_activities = $("#total_activities").val();
+     
+     //total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+     additional_charges = additional_charges=='' ? 0 : parseFloat(additional_charges);
+     transport_charges = transport_charges=='' ? 0 : parseFloat(transport_charges);
+     total_accommodation = total_accommodation=='' ? 0 : parseFloat(total_accommodation);
+     total_activities = total_activities=='' ? 0 : parseFloat(total_activities);
+     var total_package_value = parseFloat(additional_charges)+parseFloat(transport_charges)+parseFloat(total_accommodation)+parseFloat(total_activities);
+     $("#total_package_value").val(total_package_value);
+     // /alert(total_pack_cost);
      var gst_per = $("#gst_per").val();
      gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
      var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
