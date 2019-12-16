@@ -551,13 +551,14 @@
                </div>
                <!-- /.col- -->
             </fieldset>
+
             <h3>Hotels</h3>
             <fieldset>
                <div class="col-sm-12">
                   <h4 class="text-headline">Accommodation</h4>
                   <div class="row">
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
-                         @foreach($data['package_place'] as $place)
+                         @foreach($data['package_place'] as $key => $place)
 
                            @if($place->nights_count!=0)
                             @php 
@@ -568,27 +569,39 @@
 
                               //$place_city_name = CommonHelper::getcityName($place->city_id);
                               $package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
-                              $amenity_count = count($package_hotel->amenities);
-                             // dd($package_hotel->amenities);
+
+                            
+                              
+
+                              $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
+                             // 
                               $amenitystring = '';
 
-                              foreach($package_hotel->amenities as $key => $amenity){
-                                $amenitystring .= $amenity->amenities_name;
-                                if($amenity_count-1 != $key){
-                                  $amenitystring .= ', ';
-                                } 
+                              if($package_hotel!=null){
+                                foreach($package_hotel->amenities as $key => $amenity){
+                                  $amenitystring .= $amenity->amenities_name;
+                                  if($amenity_count-1 != $key){
+                                    $amenitystring .= ', ';
+                                  } 
+                                }
                               }
+                              
+                              //dd($package_hotel->amenities);
 
                               $roomtypesstring = '';
-                              $type_count = count($package_hotel->roomtypes);
+                              $type_count = $package_hotel!=null ? count($package_hotel->roomtypes) : 0;
 
-                              foreach($package_hotel->roomtypes as $key => $roomtype){
-                                $roomtypesstring .= $roomtype->room_type;
-                                if($type_count-1 != $key){
-                                  $roomtypesstring .= ', ';
-                                } 
+                              if($package_hotel!=null){
+                                foreach($package_hotel->roomtypes as $key => $roomtype){
+                                  $roomtypesstring .= $roomtype->room_type;
+                                  if($type_count-1 != $key){
+                                    $roomtypesstring .= ', ';
+                                  } 
+                                }
                               }
+                             
                             @endphp
+
                               <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
                                 <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
                                 <div class="card media-card-sm">
@@ -598,6 +611,7 @@
                                       $hotelimages = $package_hotel->hotelimages;
                                       $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                                     @endphp
+
                                     <div class="media-left media-img">
                                       <a href="#">
                                         <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
@@ -627,8 +641,10 @@
                                   </div>
                                 </div>
                               </li>
+
                            @endif
                         @endforeach
+
                     </ul>
                     <div id="dummy-hotels">
                       
@@ -639,6 +655,7 @@
                   
             </fieldset>
             <h3>Activities</h3>
+
             <fieldset>
                 <div class="col-sm-12">
                   <h4 class="text-headline">Activities</h4>
@@ -706,6 +723,7 @@
                     }
                   
                   @endphp
+
                   <div class="row sortable">
                     <div class="card">
                       <div class="card-image">
@@ -742,25 +760,30 @@
                                   @if($place->nights_count!=0)
                                   @php
                                      $sum_package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
-                                      $amenity_count = count($sum_package_hotel->amenities);
+                                      $amenity_count = $package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
                                      
                                       $amenitystring = '';
 
-                                      foreach($sum_package_hotel->amenities as $key => $amenity){
-                                        $amenitystring .= $amenity->amenities_name;
-                                        if($amenity_count-1 != $key){
-                                          $amenitystring .= ', ';
-                                        } 
+                                      if($package_hotel!=null){
+                                         foreach($sum_package_hotel->amenities as $key => $amenity){
+                                          $amenitystring .= $amenity->amenities_name;
+                                          if($amenity_count-1 != $key){
+                                            $amenitystring .= ', ';
+                                          } 
+                                        }
                                       }
+                                     
 
                                       $roomtypesstring = '';
-                                      $type_count = count($sum_package_hotel->roomtypes);
+                                      $type_count = $package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
 
-                                      foreach($sum_package_hotel->roomtypes as $key => $roomtype){
-                                        $roomtypesstring .= $roomtype->room_type;
-                                        if($type_count-1 != $key){
-                                          $roomtypesstring .= ', ';
-                                        } 
+                                      if($package_hotel!=null){
+                                        foreach($sum_package_hotel->roomtypes as $key => $roomtype){
+                                          $roomtypesstring .= $roomtype->room_type;
+                                          if($type_count-1 != $key){
+                                            $roomtypesstring .= ', ';
+                                          } 
+                                        }
                                       }
                                       $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
                                   @endphp
@@ -845,6 +868,7 @@
                     </div>
                    
                  </div>
+
                  <div id="destination-nights" class="destinations-nights">
                     <div class="row">
 
@@ -1081,6 +1105,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
      <!-- /.container-fluid style="top: -44px;" -->
    <div id="CityHotelDetailsModal" class="modal" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-lg" role="document">

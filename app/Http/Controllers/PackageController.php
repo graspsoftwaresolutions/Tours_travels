@@ -371,6 +371,11 @@ class PackageController extends Controller
         $package_id = $request->input('package_id');
         return DB::table('package_activities')->where('package_id','=',$package_id)->where('activity_id','=',$activity_id)->delete();
     }
+
+    public function packageUpdate(){
+        $data = [];
+        return view('package.list')->with('data',$data);
+    }
     // public function EditPackag(Request $req){
     //     $packageid = crypt::decrypt($req->id);
     //      $data['country_view'] = Country::where('status','=','1')->get();
