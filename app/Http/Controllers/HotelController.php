@@ -92,9 +92,10 @@ class HotelController extends CommonController
               {
                     $price = $request->input('price')[$i];
                     $room_type = $request->input('room_typ')[$i];
+                    $description = $request->input('description')[$i];
                     DB::table('hotel_roomtypes')->insert(
-                                    ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price]
-                                );
+                                    ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price ,'description' => $description]
+                    );
               }
           }
         //$file_name = $hotel->id.strtotime('Ymd');
