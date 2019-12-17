@@ -29,6 +29,7 @@ class PackageController extends Controller
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['city_view'] = State::where('status','=','1')->get();
+        $data['tax_data'] = DB::table('settings_tax')->where('status','=','1')->first();
         return view('package.new',compact('data',$data));
     }
     public function packageSave(Request $request)
@@ -66,6 +67,9 @@ class PackageController extends Controller
          $SavePackage->from_city_id = $request->from_city_id;
          $SavePackage->from_country_id = $request->from_country_id;
          $SavePackage->from_state_id = $request->from_state_id;
+         $SavePackage->total_accommodation = $request->total_accommodation;
+         $SavePackage->total_activities = $request->total_activities;
+         $SavePackage->additional_charges = $request->additional_charges;
          $SavePackage->total_package_value = $request->total_package_value;
          $SavePackage->tax_percentage = $request->gst_per;
          $SavePackage->tax_amount = $request->gst_amount;
@@ -104,6 +108,15 @@ class PackageController extends Controller
                         $package_hotel->package_id = $package_id;
                         $package_hotel->city_id = $city_id;
                         $package_hotel->hotel_id = $hotel_id[0];
+                        $hotel_nos = $request->input('hotel_number_count_'.$city_id);
+                        if(isset($hotel_nos)){
+                            $package_hotel->total_rooms = $hotel_nos[0];
+                        }
+                        $hotel_cost = $request->input('hotel_cost_'.$city_id);
+                        if(isset($hotel_cost)){
+                            $package_hotel->total_amount = $hotel_cost[0];
+                        }
+                        
                         $package_hotel->save();
                     }
                     
@@ -118,6 +131,10 @@ class PackageController extends Controller
                             $package_activities->package_id = $package_id;
                             $package_activities->city_id = $city_id;
                             $package_activities->activity_id = $activity_id;
+                            $activity_cost = $request->input('activity_cost_'.$city_id);
+                            if(isset($activity_cost)){
+                                $package_activities->total_amount = $activity_cost[0];
+                            }
                             $package_activities->save();
                         }
                     }
