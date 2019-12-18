@@ -21,7 +21,7 @@
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
                     <li>Masters</li>
-                    <li>{{__('Country List') }}</li>
+                    <li>{{__('Package Type List') }}</li>
                 </ul>
             </div>          
 
@@ -61,7 +61,7 @@
                                         &nbsp;
 
                                         <a>
-                                            <form style='display:inline-block;' action='{{ route("master.countrydestroy",$packagetype->id) }}' method='POST'>
+                                            <form style='display:inline-block;' action='{{ route("master.packageTypedestroy",$packagetype->id) }}' method='POST'>
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                             <button type="submit" class="btn btn-sm red waves-effect waves-circle waves-light" onclick='return ConfirmDeletion()' ><i class="mdi mdi-delete"></i></button>
@@ -95,7 +95,7 @@
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
                             <h1 class="modal-title">Package Type Details</h1>
                         </div><!-- /.modal-header -->
-                        <form class="formValidate" id="packageformValidate" method="post" action="{{ route('master.savecountry') }}">
+                        <form class="formValidate" id="packageformValidate" method="post" action="{{ route('master.savepackagetype') }}">
                             @csrf
                             <div class="modal-body">
                                <div class="col-sm-12">
@@ -173,27 +173,27 @@
             }
         },
     });
-    function showeditForm(countryid) {
+    function showeditForm(packageid) {
        // $('.edit_hide').hide();
         //$('.add_hide').hide();
        // $('.edit_hide_btn').show();
         $("#masterModal").modal();
         //loader.showLoader();
-        var url = "{{ url('/country_detail') }}" + '?country_id=' + countryid;
+        var url = "{{ url('/packagetype_detail') }}" + '?package_id=' + packageid;
         $.ajax({
             url: url,
             type: "GET",
             success: function(result) {
                 $('#masterid').val(result.id);
                 $('#masterid').attr('data-autoid', result.id);
-                $('#country_name').val(result.country_name);
+                $('#package_type').val(result.package_type);
                 //loader.hideLoader();
                 //$("#modal_add_edit").modal('open');
                 //$('.common-label').addClass('force-active');
             }
         });
     }
-    $(document).on('submit','form#countryformValidate',function(){
+    $(document).on('submit','form#packageformValidate',function(){
         $("#saveMasterButton").prop('disabled',true);
     });
     function ConfirmDeletion() {

@@ -15,6 +15,7 @@ use App\Model\ActivityImages;
 use App\Model\Activity;
 use App\Model\Enquiry;
 use App\Model\CustomerDetails;
+use App\Model\PackageType;
 use App\User;
 use DB;
 use View;
@@ -843,6 +844,34 @@ class AjaxController extends CommonController
         "data"            => $data   
         );
         echo json_encode($json_data);
-    }  
+    }
+    public function checkpackageType_exists(Request $request)
+    {   
+       $package_type =  $request->input('package_type');
+       $packagetype_id = $request->input('packagetype_id');
+
+       if(!empty($packagetype_id))
+         {
+                $package_exists = PackageType::where([
+                 ['package_type','=',$package_type],
+                 ['id','!=',$packagetype_id],
+                 ['status','=','1']
+                 ])->count();
+         }
+         else
+         {
+           $package_exists = PackageType::where([
+               ['package_type','=',$package_type],
+               ['status','=','1'],     
+               ])->count(); 
+         } 
+         if($package_exists > 0)
+         {
+             return "false";
+         }
+         else{
+             return "true";
+         }
+    }       
    
 }

@@ -31,6 +31,7 @@ class MasterController extends CommonController {
         $this->User = new User;
         $this->Amenities = new Amenities;
         $this->RoomType = new RoomType;
+        $this->PackageType = new PackageType;
     }
 
     public function countryList() {
@@ -383,5 +384,57 @@ class MasterController extends CommonController {
     {
         $data['packgetype_list'] = PackageType::where('status','=','1')->get();
         return view('package.packagetype.list')->with('data', $data);
+    }
+    public function packageTypeSave(Request $request)
+    {
+        $request->validate([
+            'package_type' => 'required',
+                ], [
+            'package_type.required' => 'please enter Package Type',
+        ]);
+        $data = $request->all();
+        if($request->input('masterid')!=''){
+            $data_exists =  PackageType::where([
+                 ['package_type','=',$request->input('package_type')],
+                 ['id','!=',$request->input('masterid')],
+                 ['status','=','1']
+                 ])->count();
+        }else{
+            $data_exists = PackageType::where([
+                ['package_type','=',$request->input('package_type')],['status','=','1']
+                ])->count();
+        }
+        if($data_exists>0)
+        {
+            return  redirect('/packagetype_list')->with('error','package Type Already Exists'); 
+        }
+        else{
+
+            $savePackageType = $this->PackageType->savePackageTypedata($data);
+            if ($savePackageType == true) {
+                if($request->input('masterid')!='')
+                {
+                    return redirect('/packagetype_list')->with('message', 'Package Details Updated Succesfully');
+                }
+                else
+                {
+                    return redirect('/packagetype_list')->with('message', 'Package Details Added Succesfully');
+                }
+                
+            }
+        }
+    }
+    public function packageTypeDestroy($id)
+    {
+        $packgetype_count=0;
+        if($packgetype_count>0 )
+        {
+            return redirect('packagetype_list')->with('error','You cannot delete the Packge Type!');
+        }
+        else{
+            
+            $this->PackageType->where('id','=',$id)->update(['status'=>'0']);
+        }
+        return redirect('/packagetype_list')->with('message','Package Type Details Deleted Successfully!!');
     }
 }

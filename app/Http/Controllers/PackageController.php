@@ -12,7 +12,7 @@ use App\Model\Package;
 use App\Model\PackagePlace;
 use App\Model\PackageHotel;
 use App\Model\PackageActivities;
-use App\Model\PackageType;
+
 use App\Model\Hotel;
 use DB;
 use Session;
@@ -528,9 +528,5 @@ class PackageController extends Controller
     //      //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
     //      return view('package.edit',compact('data',$data));
     // }
-    public function packageTypeList()
-    {
-        $data['packgetype_list'] = PackageType::where('status','=','1')->get();
-        return view('package.packagetype.list');
-    }
+   
 }
