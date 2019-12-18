@@ -94,10 +94,10 @@
   .overallplacecitylist {
     counter-reset: overall-place-counter;
   }
-  .overallplacecitylist span.summaryno::before {
+  /*.overallplacecitylist span.summaryno::before {
     content: counter(overall-place-counter);
     counter-increment: overall-place-counter;
-  }
+  }*/
   .timeline>li:after, .timeline>li:before {
       content: " ";
       display: initial !important;
@@ -293,8 +293,8 @@
                            <div class="modal-dialog modal-sm" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
                               <div class="modal-content">
                                  <div class="modal-header">
-                                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                                    <h1 class="modal-title">Travellers Details</h1>
+                                    <button type="button" class="btn-close modal-close" style="margin: 1rem;" data-dismiss="modal" aria-label="Close"></button>
+                                    <h2 class="text-headline">Travellers Details</h2>
                                  </div><!-- /.modal-header -->
                                  <div class="modal-body">
                                     <div class="row">
@@ -748,7 +748,7 @@
                              
                             @endphp
                             <li data-cityid="{{$place->city_id}}" id="summary-activityli-{{$place->city_id}}" class="tl-item summary-activity list-group-item item-avatar msg-row unread">
-                                <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span class="summaryno"></span>.</span> <br> {{ $place_state_name }} - <span id="summary-city-name-{{$place->city_id}}">{{ $place_city_name }}</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-{{$place->city_id}}" value="{{$place->city_id}}"></div>
+                                <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-{{$place->city_id}}" class="summaryno"></span></span> <br> {{ $place_state_name }} - <span id="summary-city-name-{{$place->city_id}}">{{ $place_city_name }}</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-{{$place->city_id}}" value="{{$place->city_id}}"></div>
 
                                 <div id="summary-hotelarea-{{$place->city_id}}" class="overall-place-activitylist">
                                   @if($place->nights_count!=0)
@@ -1124,6 +1124,7 @@
                return formsubmit;
             }
             if(newIndex===3){
+               $(".place-night-select").trigger('change');
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;

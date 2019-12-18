@@ -2,28 +2,40 @@
 	$(function() {
      
       $(".adult-travellers").keyup(function(){
-         var person_no = $(this).val();
+         var person_no = $(this).val()=='' ? 0 : $(this).val();
          $("#adult-count-val").val(parseInt(person_no));
          $(".adult-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
       $(".child-travellers").keyup(function(){
-         var person_no = $(this).val();
+         var person_no = $(this).val()=='' ? 0 : $(this).val();
          $("#child-count-val").val(parseInt(person_no));
          $(".child-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
        $(".infant-travellers").keyup(function(){
-         var person_no = $(this).val();
+         var person_no = $(this).val()=='' ? 0 : $(this).val();
          $("#infant-count-val").val(parseInt(person_no));
          $(".infant-count").text(parseInt(person_no));
          CalculateTotalTravellers();
       });
    });
    function CalculateTotalTravellers(){
-      var childcount =parseInt($("#child-count-val").val());
-      var adultcount =parseInt($("#adult-count-val").val());
-      var infantcount =parseInt($("#infant-count-val").val());
+      var childcount = $("#child-count-val").val()=='' ? 0 : parseInt($("#child-count-val").val());
+      var adultcount = $("#adult-count-val").val()=='' ? 0 : parseInt($("#adult-count-val").val());
+      var infantcount = $("#infant-count-val").val()=='' ? 0 :  parseInt($("#infant-count-val").val());
+      var total_countable = parseInt(childcount)+parseInt(adultcount);
+
+      if(adultcount==0){
+        $(".adult-travellers").val(1);
+        $(".adult-count").text(1);
+        adultcount = 1;
+        $("#adult-count-val").val(1);
+        alert('Adults should be minimum 1 member');
+
+      }
+      //console.log('child-'+childcount+',adult-'+adultcount+',infant-'+infantcount);
+
       $("#total-travellers").text(childcount+adultcount+infantcount);
    }
 
