@@ -252,6 +252,7 @@
    </div>
    @php
     $package_info = $data['package_info'];
+    //dd($package_info->package_type);
     $package_place = $data['package_place'];
    
     $citys_data = [];
@@ -271,14 +272,30 @@
                   <h4 class="text-headline">Package Information</h4>
                   <!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
                   <div class="row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <div class="input-field label-float">
                            <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" value="{{ $package_info->package_name }}" autofocus type="text">
                            <label for="package_name" class="fixed-label">{{__('Package Name') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
-                      <div class="col-md-6">
+                     <div class="col-md-4">
+                        <div class="select-row form-group">
+                           <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="package_type" name="package_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value="">{{__('Select Package')}}</option>
+                              
+                              @foreach($data['package_type'] as $type)
+                                <option @if($package_info->package_type==$type->id) selected @endif value="{{$type->id}}" >
+                                 {{$type->package_type}}
+                                </option>
+                              @endforeach
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
+                     </div>
+                      <div class="col-md-4">
                         <div class="input-field label-float">
                            <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
@@ -607,12 +624,12 @@
                                       <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
                                       <p>{{ $place_state_name }} - {{ $place_city_name }}</p>
                                       <p class="sub-text mt10">{{ $amenitystring }}</p>
-                                      <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span>
-                                        <button id="add_hotel_button_3" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
+                                      <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span> <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{$package_hotel->roomtype_id}},{{$package_hotel->total_rooms}})" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button>
+                                        <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
                                       </p>
                                       <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $cityhotelid }}"/>
                                       <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
-                                      <input type="text" class="hide hotel_cost" name="hotel_cost_3[]" id="hotel_cost_3" value="{{ $room_cost }}"/>
+                                      <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $room_cost }}"/>
                                       <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $cityhotelroomnumbers }}"/>
                                       <input type="text" class="hide hotel_room_type" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $place->city_id }}" value="{{ $cityhotelroomtype }}"/>
                                     </div>
@@ -673,10 +690,11 @@
                                 @endphp
                               <li>
                                 <div id="city_activity_id_{{ $activity->id }}" class="msg-wrapper">
-                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from"><i class="fa fa-inr"></i> {{ $package_activity_cost }}</a>
+                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
                                   <p>
                                     <input type="text" class="hide" name="second_activity_{{$place->city_id}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
                                     <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
+                                    <input type="text" class="hide activity_person_cost" name="activity_person_cost_{{$place->city_id}}[]"  id="activity_person_cost_{{ $activity->id }}" value="{{$activity->amount}}" />
                                     <a onclick="return RemoveActivityDB({{ $package_info->id }}, {{ $activity->id }},{{$place->city_id}})" style="color: red;cursor:pointer;" class="">Remove</a></p>
                                 </div>
                               </li>
@@ -987,6 +1005,7 @@
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
                         <h5 class="text-headline">Additional Price</h5> 
+                        <small>[Incl. Transport Charges &amp; Additional Charges]</small>
                          <div class="form-group">
                             <label for="adult_price" class="col-sm-5 control-label">Adult Price/person* </label>
                             <div class="col-sm-7">     

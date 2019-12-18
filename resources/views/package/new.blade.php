@@ -2,7 +2,7 @@
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ asset('public/css/font-awesome.min.css') }}">
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/pages/inbox.css') }}" rel="stylesheet" type="text/css"> 
 <style type="text/css">
    .form-group {
@@ -262,14 +262,30 @@
                   <h4 class="text-headline">Package Information</h4>
                   <!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
                   <div class="row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <div class="input-field label-float">
                            <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" autofocus type="text">
                            <label for="package_name" class="fixed-label">{{__('Package Name') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
+                        <div class="select-row form-group">
+                           <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="package_type" name="package_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option selected value="">{{__('Select Package')}}</option>
+                              
+                              @foreach($data['package_type'] as $type)
+                                <option value="{{$type->id}}" >
+                                 {{$type->package_type}}
+                                </option>
+                              @endforeach
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
+                     </div>
+                      <div class="col-md-4">
                         <div class="input-field label-float">
                            <label for="package_name" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
@@ -692,6 +708,7 @@
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
                         <h5 class="text-headline">Additional Price</h5> 
+                        <small>[Incl. Transport Charges &amp; Additional Charges]</small>
                          <div class="form-group">
                             <label for="adult_price" class="col-sm-5 control-label">Adult Price/person* </label>
                             <div class="col-sm-7">     
@@ -746,7 +763,7 @@
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.pagination.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/code-prettify/prettify.js') }}"></script>
-<script src="https://www.jqueryscript.net/demo/Create-Draggable-Sortable-Lists-In-jQuery-Dragsort/dist/js/jquery.dragsort.js"></script>
+<script src="{{ asset('public/js/jquery.dragsort.js') }}"></script>
   <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
   <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
  <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -820,6 +837,14 @@
                   formsubmit =false; 
                }else{
                  $("#package_name-error").remove();
+               }
+
+                if($("#package_type").val()==''){
+                  $('.package_type-error').remove();
+                  $( '<div id="package_type-error" class="error from_city_id-error custom-error">Please choose Type.</div>' ).insertAfter( '#package_type' );
+                  formsubmit =false; 
+               }else{
+                 $("#package_type-error").remove();
                }
 
                if($('#place-sortList li').length==0 && formsubmit==true){
