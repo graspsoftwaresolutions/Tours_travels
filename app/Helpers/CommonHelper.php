@@ -145,14 +145,12 @@ class CommonHelper
     }
 
     public static function getPackageHotel($packageid,$cityid){
-        $hotel_id = DB::table('package_hotel as ph')
+        $hotel_data = DB::table('package_hotel as ph')->select('hotel_id','roomtype_id','total_rooms','total_amount')
                     ->where('ph.package_id','=',$packageid)
-                    ->where('ph.city_id','=',$cityid)
-                    ->pluck('hotel_id')
-                    ->first();
-        //dd( $hotel_id);
+                    ->where('ph.city_id','=',$cityid)->first();
+      
         $hotels = null;
-        if($hotel_id!=''){
+        if(!empty($hotel_data)){
             $hotels = Hotel::with(
             array(
                 'amenities'=>function($query){
@@ -160,7 +158,12 @@ class CommonHelper
                 },
                 'roomtypes',
                 'hotelimages'
-            ))->where('id','=',$hotel_id)->first();
+            ))->where('id','=',$hotel_data->hotel_id)->first();
+            $hotels['roomtype_id'] = $hotel_data->roomtype_id;
+            $hotels['total_rooms'] = $hotel_data->total_rooms;
+            $hotels['total_amount'] = $hotel_data->total_amount;
+              //dd( $hotels);
+            //return json_encode(['hotels' => $hotels, 'roomtype' => $hotel_data->roomtype_id]);
         }
         return $hotels;
         
@@ -181,5 +184,13 @@ class CommonHelper
         return $activities;
     }
 	
+    public static function getPackageActivityCost($packageid,$activityid){
+         $activity_amount = DB::table('package_activities as pa')
+                    ->where('pa.package_id','=',$packageid)
+                    ->where('pa.activity_id','=',$activityid)
+                    ->pluck('pa.total_amount')->first();
+                   // dd(  $activity_amount);
+        return $activity_amount==null ? 0 : $activity_amount;
+    }
 	
 }
