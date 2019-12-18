@@ -250,7 +250,7 @@
                            <!-- /.modal-body -->
                            <div class="modal-footer">
                               Total travellers : <span id="total-travellers">2</span>
-                              <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                              <button class="btn-flat waves-effect waves-theme" id="travelers-close" data-dismiss="modal">Close</button>
                               <button class="btn-flat waves-effect waves-theme hide">Save changes</button>
                            </div>
                            <!-- /.modal-footer -->
@@ -1003,25 +1003,21 @@ $(document).on('submit','form#stateformValidate',function(){
       $("#infant-count-val").val(parseInt(infantcount));
       $(".infant-count").text(parseInt(infantcount));
 
+      $('#travelers-close').click(function(){}
 
-      CalculateTotalTravellers();
-   
+           CalculateTotalPackage();
+      });
    });
-   function CalculateTotalTravellers(){
+   function CalculateTotalPackage(){
       var adultcount = parseInt($(".adult-travellers").val());
       var childcount = parseInt($(".child-travellers").val());
       var infantcount = parseInt($(".infant-travellers").val());
 
-    $("#total-travellers").text(childcount+adultcount+infantcount);
-     
+      $("#total-travellers").text(childcount+adultcount+infantcount);
       if(adultcount > 2)
       {
-         while (adultcount < 10) {
             var adult_price_person = parseInt($('#adult_price_person').val());
             var adultprice = (adultcount - 2) * adult_price_person;
-            break;
-         }
-        
       }
       else{
          var adultprice = 0;
@@ -1030,13 +1026,10 @@ $(document).on('submit','form#stateformValidate',function(){
       {
          var child_price_person = parseInt($('#child_price_person').val());
          var childprice = childcount * child_price_person;
-        
       }
       else{
-
          var childprice = 0;
       }
-
       if(infantcount > 0 )
       {
          var infant_price = parseInt($('#infant_price').val());
@@ -1044,25 +1037,27 @@ $(document).on('submit','form#stateformValidate',function(){
       else{
          var infant_price = 0;
       }
+         var personPackagePrie = parseInt(adultprice+childprice+infant_price) ;
+         var total_package_value = parseInt($('#total_package_value').val()) ;
 
-      var personPackagePrie = parseInt(adultprice+childprice+infant_price) ;
-      //alert(personPackagePrie);
-      var total_package_value = parseInt($('#total_package_value').val()) ;
+         var personpackagetotal_val =  parseInt(total_package_value+personPackagePrie);
 
-      var personpackagetotal_val =  parseInt(total_package_value+personPackagePrie);
-     // alert(personpackagetotal_val);
-      
-      $('#total_package_value').val(personpackagetotal_val);
+         parseInt($(".adult-travellers").val(''));
+         parseInt($(".child-travellers").val(''));
+         parseInt($(".infant-travellers").val(''));
+         //alert(personpackagetotal_val);
 
-         $(document).on('keyup', '#total_package_value', function(){
-         var total_package_value = $("#total_package_value").val();
-         total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
-         var gst_per = $("#gst_per").val();
-         gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
-         var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
-         $("#gst_amount").val(tax_amount);
-         $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
-         });
+        // parseInt($('#total_package_value').val(personpackagetotal_val));
+
+         // $(document).on('keyup', '#total_package_value', function(){
+         // var total_package_value = $("#total_package_value").val();
+         // total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
+         // var gst_per = $("#gst_per").val();
+         // gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
+         // var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
+         // $("#gst_amount").val(tax_amount);
+         // $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
+         // });
       }
    $(document).ready(function(){
    $('.input-group.date').datepicker({format: "dd-mm-yyyy"}); 

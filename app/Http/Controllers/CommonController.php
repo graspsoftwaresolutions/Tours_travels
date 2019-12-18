@@ -118,11 +118,10 @@ class CommonController extends Controller
 
     public function hotelDetail(Request $request)
     {
-        $hotelid =  $request->hotelid;
-        $roomtypeid = $request->roomtypeid;
-        $data = DB::table('hotel_roomtypes as room')->select('room.hotel_id as roomhotelid','room.roomtype_id','room.price','roomtype.room_type') 
+        $roomtypeid = $request->id;
+        $data = DB::table('hotel_roomtypes as room')->select('room.id as roomid','room.hotel_id as roomhotelid','room.roomtype_id','room.price','roomtype.room_type','room.description') 
                 ->leftjoin('room_type as roomtype','room.roomtype_id','=','roomtype.id')
-                ->where('room.hotel_id','=',$hotelid)->where('room.roomtype_id','=',$roomtypeid)->first();
+               ->where('room.id','=',$roomtypeid)->first();
         return json_encode($data);
         //return $data;
     }

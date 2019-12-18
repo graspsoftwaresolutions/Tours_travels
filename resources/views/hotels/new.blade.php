@@ -231,12 +231,10 @@
 						        <!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
 						 
 						        <div class="row">
-    									
-                    
                       <div class="col-sm-2">
     									  <div class="select-row form-group">
                         <label for="address_one" class="fixed-label"></label> 
-                           <a class="btn"  class="btn theme modal-trigger" data-toggle="modal" data-target="#masterModal" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD HOTEL ROOM TYPE DETAILS</a>
+                            <a class="btn"  class="btn theme modal-trigger" data-toggle="modal" data-target="#masterModal" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD HOTEL ROOM TYPE DETAILS</a>
                             <!-- <a class="btn" id="price_add" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD HOTEL ROOM TYPE DETAILS</a> -->
                         <!-- <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a>  -->
                              <div class="input-highlight"></div>                       
