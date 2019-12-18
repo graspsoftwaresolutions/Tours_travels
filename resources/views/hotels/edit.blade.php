@@ -239,40 +239,13 @@
 
 					    	<div class="col-sm-12">
 						        <h4 class="text-headline">Hotel Room Details</h4>
-						        <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
-						 
+						        <!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
 						        <div class="row">
-    									<div class="col-sm-4">
-    									  <div class="select-row form-group">
-                            <label for="room_type" class="block">{{__('Room Type') }}</label>                 
-                            <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                            <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                                 <option value="" disabled="true">{{__('Select Room Type') }}
-                                 </option>
-                                  @foreach ($data['types_view'] as $type)
-                                  <option value="{{ $type->id }}">{{ $type->room_type }}</option>
-                                  @endforeach
-                            </select>   
-
-
-                             <div class="input-highlight"></div>                       
-                        </div><!-- /.form-group -->
-    									</div><!-- ./col- -->
-                      <div class="col-sm-4">
-    									  <div class="select-row form-group">
-                        <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
-                              <input placeholder="Price" class="clearable" id="price" name="price" type="text">
-                                          
-
-                            <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                                  
-                             <div class="input-highlight"></div>                       
-                        </div><!-- /.form-group -->
-    									</div><!-- ./col- -->
-                      <div class="col-sm-2">
+                    <div class="col-sm-2">
     									  <div class="select-row form-group">
                         <label for="address_one" class="fixed-label"></label> 
-                            <a class="btn" id="price_add" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD</a>
+                            <a class="btn"  class="btn theme modal-trigger" data-toggle="modal" data-target="#addHotelModal" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD HOTEL ROOM TYPE DETAILS</a>
+                            <!-- <a class="btn" id="price_add" title="Add" style="margin-top: 25px; background-color: #4a7885;color: white;">ADD HOTEL ROOM TYPE DETAILS</a> -->
                         <!-- <a href="#" data-toggle="modal" title="Add" data-target="#masterModal">  <i class="fa fa-plus-circle" style="font-size: 22px; color: #ec415f;margin: 5px;"></i> </a>  -->
                              <div class="input-highlight"></div>                       
                         </div><!-- /.form-group -->
@@ -293,15 +266,27 @@
                                     </tr>
                                   </thead>
                                   <tbody id="exampleTable">
+                                  @php $Slno = 1; @endphp
                                     @foreach($data['hote_roomtype_data'] as $val)
                                      <tr>
-                                         <input type="hidden" id="currentRow"/>
-                                        <td><input type="hidden" name="roomid" value="{{$val->roomtype_id}}">{{$val->room_type}}</td>
-                                        <td><input type="hidden" name="price" value="{{$val->price}}">{{$val->price}}</td>
                                         <td>
-                                        <button type="button" id="roomtype_{{$val->roomtype_id}}" onClick='showeditForm({{$val->roomtype_id}},{{$val->roomhotelid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button>
+                                        <input type="hidden" name="roomtypeid_db[]" value="{{$val->roomtypeid}}">
+                                        <input type="hidden" name="edithotelroomtypeid[]" id="hotelroomtypeid_{{$val->roomtypeid}}" value="{{$val->roomtype_id}}">
+                                        <span id="hotelroom_{{$val->roomtypeid}}">{{$val->room_type}}</span>
+                                        </td>
+                                        <td>
+                                        <!-- <input type="hidden" name="" value="{{$val->price}}"> -->
+                                            <input type="hidden"  name="editrromtypeprice[]" id="roomprice_{{$val->roomtypeid}}" value="{{$val->price}}">
+                                            <span  id="hotelprice_{{$val->roomtypeid}}">{{$val->price}} </span>  
+                                        </td>
+                                        <td class="hide">
+                                            <span id="hotelroomdescription_{{$val->roomtypeid}}" class="hide">{{$val->description}}</span>
+                                            <input type="hidden"  name="editdescription[]" id="editdescription_{{$val->roomtypeid}}" value="{{$val->description}}">                                           
+                                        <td>
+                                        <button type="button" onClick='showeditForm({{$val->roomtypeid}});' class="btn btn-sm blue waves-effect waves-circle waves-light roomtypeidvalue"><i class="mdi mdi-lead-pencil"></i></button>
                                         <button type="button" style="margin-left: 10px;" class="btn btn-sm red waves-effect waves-circle waves-light delete_roomtype_db" data-id="{{$val->roomtypeid}}" title="delete"><i class="mdi mdi-delete"></i></td>
                                      </tr>
+                                     @php $Slno++; @endphp
                                     @endforeach
                                   </tbody>
                               </table>
@@ -309,13 +294,11 @@
                         </div>
                         </div><!-- ./col- -->
                           <br></br>
-
-
                       <div class="row">
                         <div class="col-sm-12">
                            <div class="form-group">
                               <div class="input-field label-float">
-                                <textarea id="listing_descriptions" name="listing_descriptions" style="border: 1px solid #9e9e9e; padding: 10px;" class="textarea-auto-resize">{{ $hotel_data->listing_descriptions}}</textarea>
+                                <textarea id="listing_descriptions" name="listing_descriptions"  class="textarea-auto-resize">{{ $hotel_data->listing_descriptions}}</textarea>
                                 
                                 <label for="listing_descriptions" class="fixed-label">{{__('Listing Descriptions') }}</label>
                                 <div class="input-highlight"></div>
@@ -326,9 +309,6 @@
                      </div><!-- /.row -->
                        </br> </br> </br> </br>
 					        </div><!-- /.col- -->
-
-                  
-
 					    </fieldset>
 					 
 					    <h3>Photo Gallery</h3>
@@ -368,24 +348,66 @@
                   </div>
 						    </div><!-- /.col- -->
 					    </fieldset>
-					 
-					   <!--  <h3>Finish</h3>
-					    <fieldset>
-					    	<div class="col-sm-8 col-sm-offset-1">
-						        <div class="text-headline">Terms and Conditions</div>
-						 		
-						 		<div class="form-group mt40">
-					 					<input id="acceptTerms1" name="acceptTerms1" type="checkbox"> <label for="acceptTerms1" class="text-subhead sub-text">I agree with the Terms and Conditions.</label>      	
-								</div>
-							</div>
-					    </fieldset> -->
-					</form>
-                </div>
-
-                
-       <!-- Default Modal -->
-            <div id="myModal" class="modal" tabindex="-1" role="dialog">
+                          <!-- Default Modal -->
+            <div id="addHotelModal" class="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header theme">
+                            <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title">Room Type Details</h1>
+                        </div><!-- /.modal-header -->
+                            @csrf
+                            <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-field label-float">
+                                            <label for="room_type" class="block fixed-label">{{__('Room Type') }}</label>                 
+                                              <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                                  <option value="" disabled="true">{{__('Select Room Type') }}
+                                                  </option>
+                                                    @foreach ($data['types_view'] as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->room_type }}</option>
+                                                    @endforeach
+                                              </select>     
+                                                <div class="input-highlight"></div>
+                                            </div>
+                                        </div><!-- ./col- -->
+                                        <div class="col-sm-6">
+                                                      <div class="select-row form-group">
+                                                      <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
+                                                          <input placeholder="Price" class="clearable" id="price" type="text">             
+                                                        <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
+                                                
+                                                    <div class="input-highlight"></div>    
+                                               </div>
+                                          </div>
+                                          <div class="col-sm-12">
+                                                      <div class="select-row form-group">
+                                                      <label for="address_one" class="fixed-label">{{__('Descriptions') }}</label>   
+                                                      <textarea id="description"></textarea>            
+                                                        <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
+                                                    <div class="input-highlight"></div>    
+                                          </div>  </div>
+                                          
+                                    </div><!-- /.row -->
+                                    <div class="row">
+                                        
+                                    </div>
+                                
+                               
+                            </div><!-- /.modal-body -->
+                            <div class="modal-footer">
+                                <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                <button type="button" id="price_add" class="btn-flat waves-effect waves-theme">Save</button>
+                            </div><!-- /.modal-footer -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <!-- Edit  Modal -->
+            @php  @endphp
+            <div id="myModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header theme">
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
@@ -394,19 +416,19 @@
 
                             <div class="modal-body">
                                <div class="col-sm-12">
-                                     <input class="hide" id="masterid" name="masterid" type="text">
+                                    <input class=" roomautoid" id="roomid" name="roomid" type="hidden">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                             <label for="room_type" class="block fixed-label">{{__('Room Type') }}</label>                 
                                                 <!-- To validate the select add class "select-validate" data-live-search="true"  -->     
-                                                <select id="room_type_modal" name="room_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                                                <select id="edit_room_type" name="room_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                                     <option value="" disabled="true">{{__('Select Room Type') }}
                                                     </option>
                                                       @foreach($data['types_view'] as $type)
                                                       <option value="{{ $type->id }}">{{ $type->room_type }}</option>
                                                       @endforeach
-                                                </select>  
+                                                </select>
                                                 <div class="input-highlight"></div>
                                             </div>
                                            
@@ -414,26 +436,35 @@
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
                                                   <label for="address_one" class="fixed-label">{{__('Price') }}</label>   
-                                                  <input placeholder="Price" class="clearable" id="modal_price" name="price" type="text">
+                                                  <input placeholder="Price" class="clearable" id="edit_modal_price" name="price" type="text">
                                                 <div class="input-highlight"></div>
                                             </div>
-                                           
                                         </div>
+                                        <div class="col-sm-12">
+                                                <label for=""><strong>Overview: </strong></label>
+                                                <textarea id="editdescription" name="descript"></textarea>  
+                                                <p class="no-margin em"></p>
+                                          </div>
  
                                     </div><!-- /.row -->
-                                   
-                                    
                                 </div><!-- /.row -->    
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">
                                 <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                                <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                                <button type="button" class="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
                             </div><!-- /.modal-footer -->
                         
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+					 
+					</form>
+                </div>
+              
+  
 
+                
+       
                           
             </div><!-- /.page-content -->
 
@@ -455,33 +486,61 @@
 <script>
 	$("#hotel_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
-  function showeditForm(hotelroomtypeid,hotelid) {
+  function showeditForm(hotelroomtypeid) {
         $("#myModal").modal();
-         var  url = "{{ url('/hotel_detail') }}?roomtypeid="+hotelroomtypeid+'&hotelid=' + hotelid ;
+        var  url = "{{ url('/hotel_detail') }}?id="+hotelroomtypeid ;
        $.ajax({
         url: url,
         type: "GET",
         dataType: "json",
         success: function(result) {
-           console.log(result.room_type);
-            $('#modal_price').val(result.price);
-            $('#room_type_modal').selectpicker('val', result.roomtype_id);
+          console.log(result.description);
+          $('#edit_modal_price').val(result.price);
+          var markupStr = result.description;
+          $('#editdescription').summernote('code', markupStr);
+          $('#edit_room_type').selectpicker('val', result.roomtype_id);
+          $('#roomid').val(result.roomid);
         }
     });
     }
+
   $(document).ready(function() {
-    $('#saveMasterButton').click(function(){
-        var modal_roomid = $("#room_type_modal").val();
-        var modal_roomname =$('#room_type_modal option:selected').html();
-        var modal_price = $('#modal_price').val();
-      });
+
+        $('.saveMasterButton').click(function () {
+          var slno = 1;
+          var autoid = $('#roomid').val();
+          var price = $('#edit_modal_price').val();
+          var roomtypeid = $('#edit_room_type').val();
+          var room_name =$('#edit_room_type option:selected').html();
+          var descrp = $('#editdescription').summernote('code');
+          //alert(descrp);
+
+          $('#hotelprice_'+autoid).text(price);
+          $('#hotelroom_'+autoid).text(room_name);
+          $('#hotelroomtypeid_'+autoid).val(roomtypeid);
+
+          $('#hotelroomdescription_'+autoid).val(descrp);
+          $('#editdescription_'+autoid).val(descrp);
+          //alert(descrp);
+          $('#roomprice_'+autoid).val(price);
+          $('#myModal').modal('toggle');
+          slno++;
+          $('#editdescription_'+autoid).summernote({
+            height: 300,   //set editable area's height
+            placeholder: 'Write here...'
+          });
+
+
+        });
         $('#price_add').click(function(){
-        var room_type_id  =  $("#room_type").val(); 
+          alert('hii');
+        var room_type_id  =  $("#room_type").val();
         var room_name =$('#room_type option:selected').html();
         var price = $('#price').val();
         var room_type = $('#room_type').val();
         var slno=0;
         var price = $('#price').val();
+        var description  = $('#description').val();
 
         if((room_type_id != '') &&  (price != '') )
         {
@@ -496,15 +555,17 @@
             if (flag == 1) {
               swal("Error!", "Room Type is Already Exists!", "error");
             } else {
-              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"></td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="price[]" value="'+price+'"></td>  <td>  <button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
+              $('#ExclusionTable tbody').append('<tr class="child" ><td>'+room_name+'<input type="hidden" id="inclu_name_'+slno+'" name="room_typ[]" value="'+room_type_id+'"></td><td>'+price+'<input type="hidden" id="price_'+slno+'" name="addprice[]" value="'+price+'"></td><td class="hide"><textarea name="description[]" class="hide" name="description[]" id="description_'+slno+'">'+description+'</textarea></td><td><button type="button"   class="btn btn-sm red waves-effect waves-circle waves-light removebutton" title="delete"><i class="mdi mdi-delete"></i></td></tr>');
              slno++;
              // swal("Success!", "Room Type is Added!", "success");
             }
+            $('#addHotelModal').modal('toggle');
         }
         else{
           swal("Error!", "Please select room type and Enter price!", "error");
         }
         $('#price').val('');
+        $('#editdescription').summernote('code', '');
        // $('#room_type').prop('selectedIndex',0);
       }); 
       $(document).on('click', 'button.removebutton', function () {
@@ -515,7 +576,9 @@
               return false;
           }  
 });
-});
+      });
+
+// });
         $(document.body).on('click', '.delete_roomtype_db', function() {
           if (confirm("{{ __('Are you sure you want to delete?') }}")) {
         var roomtype_id = $(this).data('id'); 
@@ -601,6 +664,18 @@
     height: 300,   //set editable area's height
     placeholder: 'Write here...'
   });
+  $('#listing_descriptions').summernote({
+    height: 300,   //set editable area's height
+    placeholder: 'Write here...'
+  });
+  
+  $('#description').summernote({
+    height: 100,   //set editable area's height
+    placeholder: 'Write here...'
+  });
+  
+
+  
   $(function() {
     $('select[name=country_id]').change(function() {
        // alert('ok');

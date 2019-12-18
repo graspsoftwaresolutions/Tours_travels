@@ -121,7 +121,7 @@ class HotelController extends CommonController
         $data['hotel_data'] = Hotel::where('id','=',$autoid)->first();
         $data['hotel_features'] = DB::table('hotel_amenities')->where('hotel_id','=', $autoid)->pluck('amenity_id')->toArray();
         $data['hotel_types'] = DB::table('hotel_roomtypes')->where('hotel_id','=', $autoid)->pluck('roomtype_id')->toArray();
-        $data['hote_roomtype_data'] =  DB::table('hotel_roomtypes as room')->select('hot.id as hotelid','hot.hotel_name','room.hotel_id as roomhotelid','room.roomtype_id','room.price','room.id as roomtypeid','roomtype.room_type','roomtype.id as roomtypid') 
+        $data['hote_roomtype_data'] =  DB::table('hotel_roomtypes as room')->select('hot.id as hotelid','hot.hotel_name','room.hotel_id as roomhotelid','room.roomtype_id','room.price','room.id as roomtypeid','roomtype.room_type','roomtype.id as roomtypid','room.description') 
                                         ->leftjoin('hotels as hot','room.hotel_id','=','hot.id')
                                         ->leftjoin('room_type as roomtype','room.roomtype_id','=','roomtype.id')
                                         ->where('hotel_id','=', $autoid)->get();
@@ -171,6 +171,7 @@ class HotelController extends CommonController
     }
 
     public function hotelUpdate(Request $request){
+     
         //return $request->all();
         $request->validate([
             'hotel_name' => 'required',
@@ -232,25 +233,54 @@ class HotelController extends CommonController
         //         );
         //     }
         // }
-        $check_room_type = $request->input('room_typ');
-        if(isset($check_room_type))
-        {
-           $room_count = count($request->input('room_typ'));
-            for($i=0;$i<$room_count;$i++)
-            {  
-                  $price = $request->input('price')[$i];
-                  $room_type = $request->input('room_typ')[$i];
-                  DB::table('hotel_roomtypes')->insert(
-                                  ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price]
-                              );
+        $roomid = $request->roomid;
+        
+         if($roomid!='')
+         {
+            //  $data = $request->all();
+            //  dd($data);
+            //dd($autoid);
+            $check_roomtypeid_db = $request->input('roomtypeid_db');
+            $check_room_type = $request->input('edithotelroomtypeid');
+            $editprice = $request->input('editrromtypeprice');
+            $editdescription = $request->input('editdescription');
+            if(isset($check_roomtypeid_db))
+            {
+                DB::connection()->enableQueryLog();
+                $room_count = count($request->input('roomtypeid_db'));
+               // dd($check_room_type);
+                for($i=0;$i<$room_count;$i++)
+                {
+                    $autoid = $request->input('roomtypeid_db')[$i];
+                    $roomtype_id = $request->input('edithotelroomtypeid')[$i];
+                    $price = $request->input('editrromtypeprice')[$i];
+                    $description = $request->input('editdescription')[$i];
+                   // dd($autoid.$description);
+                    $result =  DB::table('hotel_roomtypes')->where('id','=',$autoid)->update([ 'roomtype_id' => $roomtype_id , 'price' => $price ,'description' => $description]);
+                }
             }
-        }
-        //$file_name = $hotel->id.strtotime('Ymd');
-        // $imageName = $hotel->id.time().'.'.$request->hotel_images->getClientOriginalExtension();
+            
+         }
+         else{
+            $check_room_type = $request->input('room_typ');
+            
+            if(isset($check_room_type))
+            {
+               $room_count = count($request->input('room_typ'));
+                for($i=0;$i<$room_count;$i++)
+                {
+                      $price = $request->input('addprice')[$i];
+                      $room_type = $request->input('room_typ')[$i];
+                      $description  = $request->input('description')[$i];
+                      DB::table('hotel_roomtypes')->insert(
+                                      ['hotel_id' => $hotel->id, 'roomtype_id' => $room_type, 'price' => $price , 'description' => $description]
+                                  );
+                }
+            }
+         }
 
-        // if(Input::hasFile('file')){
-        //     $file = $request->file('hotel_images')->storeAs('hotels', $imageName  ,'local');
-        // }
+       
+        
 
         return redirect('/hotels')->with('message','Hotel Details Updated Successfully!!');
     }
