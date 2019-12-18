@@ -283,8 +283,8 @@
                            <div class="modal-dialog modal-sm" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
                               <div class="modal-content">
                                  <div class="modal-header">
-                                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                                    <h3 class="modal-title">Travellers Details</h3>
+                                    <button type="button" class="btn-close modal-close" style="margin: 1rem;" data-dismiss="modal" aria-label="Close"></button>
+                                    <h2 class="text-headline">Travellers Details</h2>
                                  </div><!-- /.modal-header -->
                                  <div class="modal-body">
                                     <div class="row">
