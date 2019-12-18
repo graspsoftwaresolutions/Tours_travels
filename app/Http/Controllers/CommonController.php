@@ -11,6 +11,7 @@ use App\Model\City;
 use App\Model\Amenities;
 use App\Model\Package;
 use App\Model\RoomType;
+use App\Model\PackageType;
 use DB;
 use View;
 use Mail;
@@ -347,5 +348,11 @@ class CommonController extends Controller
           else{
               return "true";
           }
+    }
+    public function getPackageDetails(Request $request)
+    {
+        $id = $request->package_id;
+        $data = PackageType::find($id);
+        return $data;
     }
 }

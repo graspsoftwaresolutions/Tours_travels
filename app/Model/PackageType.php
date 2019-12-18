@@ -10,4 +10,14 @@ class PackageType extends Model
     protected $fillable = ['id','package_type','status'];
     public $timestamps = true;
 
+    public function savePackageTypedata($data=array())
+    {
+        if (!empty($data['masterid'])) {
+            $savedata = PackageType::find($data['masterid'])->update($data);
+        } else {
+            $savedata = PackageType::create($data);
+        }
+        return $savedata;
+    }
+
 }
