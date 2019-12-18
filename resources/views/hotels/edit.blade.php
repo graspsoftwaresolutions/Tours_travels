@@ -431,7 +431,6 @@
                                                 </select>
                                                 <div class="input-highlight"></div>
                                             </div>
-                                           
                                         </div><!-- ./col- -->
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
@@ -451,7 +450,7 @@
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">
                                 <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                                <button type="button" class="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                                <button type="button" class="btn-flat waves-effect waves-theme saveMasterButton">Save</button>
                             </div><!-- /.modal-footer -->
                         
                     </div><!-- /.modal-content -->
@@ -459,13 +458,7 @@
             </div><!-- /.modal -->
 					 
 					</form>
-                </div>
-              
-  
-
-                
-       
-                          
+                </div>         
             </div><!-- /.page-content -->
 
             <a id="back-to-top" href="#" class="btn-circle theme back-to-top">
@@ -530,10 +523,9 @@
             placeholder: 'Write here...'
           });
 
-
         });
         $('#price_add').click(function(){
-          alert('hii');
+         //alert('hii');
         var room_type_id  =  $("#room_type").val();
         var room_name =$('#room_type option:selected').html();
         var price = $('#price').val();
