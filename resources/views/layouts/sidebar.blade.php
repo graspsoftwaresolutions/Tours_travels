@@ -158,6 +158,9 @@
                 <li id="package_add_sidebar_li_id" class="submenu-item">
                   <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Package') }}</a>
                 </li>
+                <li id="package_add_sidebar_li_id" class="submenu-item">
+                  <a id="packagetype_add_sidebar_a_id" href="{{route('packagetype.list')}}" class="submenu-target">{{ __('Package Type') }}</a>
+                </li>
               </ul>
             </li> 
             <li id="booking-menu" class="menubar-item">

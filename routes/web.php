@@ -123,11 +123,17 @@ Route::post('customer_autocomplete','CommonController@customerAutocomplete')->na
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
+
 //Package
 Route::get('/new_package', 'PackageController@index')->name('package.new');
 Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
+Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
+Route::get('/packagetype_list', 'MasterController@packageTypeList')->name('packagetype.list');
+Route::post('packagetype_exists','AjaxController@checkAmenities_exists');
 
 Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
+
+Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
 
 Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
 Route::get('city_activities','PackageController@ActivitiesList')->name('city.activities');

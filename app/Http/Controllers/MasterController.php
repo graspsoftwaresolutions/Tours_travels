@@ -9,6 +9,7 @@ use App\Model\Country;
 use App\Model\State;
 use App\Model\City;
 use App\Model\Amenities;
+use App\Model\PackageType;
 
 use App\Model\RoomType;
 use App\User;
@@ -377,5 +378,10 @@ class MasterController extends CommonController {
             $this->RoomType->where('id','=',$id)->update(['status'=>'0']);
         }
         return redirect('/new_roomtype')->with('message','Room Type Details Deleted Successfully!!');
+    }
+    public function packageTypeList()
+    {
+        $data['packgetype_list'] = PackageType::where('status','=','1')->get();
+        return view('package.packagetype.list')->with('data', $data);
     }
 }
