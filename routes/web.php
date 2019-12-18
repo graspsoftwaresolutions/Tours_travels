@@ -129,7 +129,7 @@ Route::post('/package_save', 'PackageController@packageSave')->name('package_sav
 Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
 
 Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
-Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
+//Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
 
 Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
 Route::get('city_activities','PackageController@ActivitiesList')->name('city.activities');
@@ -155,7 +155,7 @@ Route::post('/package_update', 'PackageController@packageUpdate')->name('package
 //Package TYpe
 Route::get('/packagetype_list', 'MasterController@packageTypeList')->name('packagetype.list');
 Route::post('packagetype_exists','AjaxController@checkpackageType_exists');
-Route::post('package_save','MasterController@packageTypeSave')->name('master.savepackagetype');
+Route::post('packagetype_save','MasterController@packageTypeSave')->name('master.savepackagetype');
 Route::get('/packagetype_detail', 'CommonController@getPackageDetails');
 Route::delete('packagetype_delete/{id}','MasterController@packageTypeDestroy')->name('master.packageTypedestroy');
 
