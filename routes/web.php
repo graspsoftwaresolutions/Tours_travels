@@ -158,5 +158,5 @@ Route::post('packagetype_exists','AjaxController@checkpackageType_exists');
 Route::post('packagetype_save','MasterController@packageTypeSave')->name('master.savepackagetype');
 Route::get('/packagetype_detail', 'CommonController@getPackageDetails');
 Route::delete('packagetype_delete/{id}','MasterController@packageTypeDestroy')->name('master.packageTypedestroy');
-
+Route::get('package_pdf/{parameter}','PdfController@packageView')->name('package.pdf');
 

@@ -363,8 +363,9 @@ class PackageController extends Controller
                    $nestedData['state_name'] = $package->state_name;
                    $enc_id = Crypt::encrypt($package->id);
                    $edit = route('package.edit',$enc_id);
+                   $pdf = route('package.pdf',$enc_id);
                    
-                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>";
+                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a target='_blank' class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
                    $nestedData['options'] = $actions;
                  
                    $data[] = $nestedData;

@@ -41,8 +41,8 @@
    <div class="container-fluid">
       <div class="page-header">
          <ul class="breadcrumbs">
-            <li>Tax</li>
-            <li>Add Tax</li>
+            <li>Company</li>
+            <li>Add Company</li>
          </ul>
       </div>
       @php              

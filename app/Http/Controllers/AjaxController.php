@@ -670,9 +670,6 @@ class AjaxController extends CommonController
                    $nestedData['options'] = $actions;
                  
                    $data[] = $nestedData;
-               }else{
-                   $totalFiltered--;
-                   $totalData--;
                }
                
            }
