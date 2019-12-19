@@ -152,6 +152,8 @@
    function AddHiddenMenu(){
     //alert('Test');
      $(".main-wrapper").addClass('menu-hidden');
+     $(".main-wrapper").removeClass('menu-small');
+     $(".main-menu.menu-vertical-js").removeClass('menu-small');
    }
     function PickPlace(paramscity){
       

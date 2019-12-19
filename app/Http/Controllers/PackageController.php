@@ -242,10 +242,15 @@ class PackageController extends Controller
     {
         $data = array();
         $package_id = $request->package_id;
-        $data['place_details'] = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id')
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['package_info'] = Package::where('id','=',$package_id)->first();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
+        $data['package_place'] = PackagePlace::where('package_id','=',$package_id)->get();
+
+        $data['place_details'] = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id','pp.nights_count')
                 ->leftjoin('state as s','s.id','=','pp.state_id')
                 ->leftjoin('city as c','c.id','=','pp.city_id')
-                ->where('pp.package_id','=',$package_id)->where('pp.status','=','1')->get();
+                ->where('pp.package_id','=',$package_id)->get();
         $data['package_id'] = Crypt::encrypt($package_id);
         return json_encode($data);
     }
