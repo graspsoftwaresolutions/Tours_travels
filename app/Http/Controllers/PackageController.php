@@ -31,6 +31,7 @@ class PackageController extends Controller
         $data['state_view'] = State::where('status','=','1')->get();
         $data['city_view'] = State::where('status','=','1')->get();
         $data['tax_data'] = DB::table('settings_tax')->where('status','=','1')->first();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
         return view('package.new',compact('data',$data));
     }
     public function packageSave(Request $request)
@@ -77,6 +78,7 @@ class PackageController extends Controller
          $SavePackage->tax_amount = $request->gst_amount;
          $SavePackage->total_amount = $request->total_amount;
          $SavePackage->adult_price_person = $request->adult_price;
+         $SavePackage->package_type = $request->package_type;
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
 
@@ -258,12 +260,12 @@ class PackageController extends Controller
         $columns = array( 
             0 => 'package_name', 
             1 => 'adult_count', 
-            2 => 'total_package_value',
+            2 => 'total_amount',
             3 => 'to_state_id',
             4 => 'to_city_id',
             5 => 'id'
         );
-        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                     ->count();
@@ -279,14 +281,14 @@ class PackageController extends Controller
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){ 
-                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                 ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->orderBy($order,$dir)
                 ->where('p.status','=','1')
                 ->get()->toArray();
             }else{
-                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                 ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                 ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->offset($start)
@@ -300,7 +302,7 @@ class PackageController extends Controller
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
@@ -315,7 +317,7 @@ class PackageController extends Controller
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
@@ -332,7 +334,7 @@ class PackageController extends Controller
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_package_value','p.status','cit.city_name','st.state_name')
+        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.id','LIKE',"%{$search}%")
@@ -358,7 +360,7 @@ class PackageController extends Controller
                    $nestedData['title_name'] = $package->package_name;
               
                    $nestedData['adult_count'] = $package->adult_count;
-                   $nestedData['amount'] = $package->total_package_value;  
+                   $nestedData['amount'] = $package->total_amount;  
                    $nestedData['city_name'] = $package->city_name;
                    $nestedData['state_name'] = $package->state_name;
                    $enc_id = Crypt::encrypt($package->id);
@@ -388,6 +390,7 @@ class PackageController extends Controller
         $packageid = crypt::decrypt($encid);
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['package_info'] = Package::where('id','=',$packageid)->first();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
         $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
         //$data['package_hotel'] = PackageHotel::where('package_id','=',$packageid)->get();
         //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
@@ -445,6 +448,7 @@ class PackageController extends Controller
          $SavePackage->tax_amount = $request->gst_amount;
          $SavePackage->total_amount = $request->total_amount;
          $SavePackage->adult_price_person = $request->adult_price;
+         $SavePackage->package_type = $request->package_type;
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
 
