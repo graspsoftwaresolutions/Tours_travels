@@ -284,7 +284,7 @@
                         <div class="select-row form-group">
                            <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="package_type" name="package_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                           <select id="package_type" name="package_type" class="selectpicker select-validate" onchange="return ClearPackageInfo()" data-live-search="true" data-width="100%">
                               <option selected value="">{{__('Select Package')}}</option>
                               
                               @foreach($data['package_type'] as $type)
@@ -293,16 +293,16 @@
                                 </option>
                               @endforeach
                            </select>
-                            <input type="hidden" name="packageid" id="packageid"> 
+                            
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                       <div class="col-sm-6">
                           <div class="form-group input-field label-float">
                              <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
-                          
+                             <input type="hidden" name="packageid" id="packageid"> 
                              <!-- <span id="package_no_result"></span> -->
-                             <label  for="" class="fixed-label">{{__('Package') }}<span style="color:red">*</span></label>
+                             <label  for="" class="fixed-label">{{__('Search Package') }}<span style="color:red">*</span></label>
                              <div class="input-highlight"></div>
                           </div>
                           <!-- /.form-group -->     
@@ -987,7 +987,7 @@
 <script src="{{ asset('public/assets/dist/js/plugins/list/list.pagination.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/code-prettify/prettify.js') }}"></script>
 <script src="{{ asset('public/js/jquery.dragsort.js') }}"></script>
-<script src ="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src ="{{ asset('public/assets/dist/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
   <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
   <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
@@ -1179,17 +1179,24 @@
            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
            }
       });
+
       $.ajax({
         type: 'POST',
         dataType: 'json',
         url: "{{ route('package_autocomplete') }}",
-        data: 'action=package_name'+'&name='+request.term,
+        data: 'action=package_name'+'&name='+request.term+'&package_type='+$("#package_type").val(),
         success: function(data) {
          if (data.length === 0) {   
-               var color = "No Results";
-              $('#package_no_result').css('background-color', '#' + color);
+               var res_msg = "No Results found, please add package";
+               if($("#package_type").val()==''){
+                alert('Please pick package type');
+               }else{
+                 alert(res_msg);
+               }
+              
+             // $('#package_no_result').css('background-color', '#' + color);
               //$("#package_no_result").html("No Results");
-              $("#bg").fadeIn(300);
+              //$("#bg").fadeIn(300);
             }
           response( $.map( data, function( item ) {
               //console.log(data);
@@ -1218,6 +1225,10 @@
                object.adult_price_person = item.adult_price_person;
                object.child_price_person = item.child_price_person;
                object.infant_price = item.infant_price;
+
+               object.adult_count = item.adult_count;
+               object.child_count = item.child_count;
+               object.infant_count = item.infant_count;
               return object
           }));
           // response( $.map( data, function( item ) {
@@ -1254,6 +1265,17 @@
       $('#adult_price_person').val(ui.item.adult_price_person);
       $('#child_price_person').val(ui.item.child_price_person);
       $('#infant_price').val(ui.item.infant_price);
+
+      $('.adult-count').text(ui.item.adult_count);
+      $('.child-count').text(ui.item.child_count);
+      $('.infant-count').text(ui.item.infant_count);
+
+      $('#adult-count-val,.adult-travellers').val(ui.item.adult_count);
+      $('#child-count-val,.child-travellers').val(ui.item.child_count);
+      $('#infant-count-val,.infant-travellers').val(ui.item.infant_count);
+      var total_members = parseInt(ui.item.adult_count)+parseInt(ui.item.child_count)+parseInt(ui.item.infant_count);
+      $("#total-travellers").text(total_members);
+     // console.log(ui.item);
       
        var packageid = $("#packageid").val();
        var url = "{{ route('package_place_details') }}?package_id="+packageid;   
@@ -1271,9 +1293,102 @@
                 success: function (data) {
                   //   console.log(data.package_id);
                   //   console.log(data.place_details);
-                     $('#place-sortList').empty();
+                     $('#place-sortList,#place-hotels').empty();
+                      //console.log(data.place_details);
                      $.each(data.place_details, function( index, value ) {
-                        $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item cityplace sort-handle"> . '+value.state_name+' - '+value.city_name+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.cityid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
+                        var cityid = value.cityid;
+                         //console.log(value);
+                        var state_city_names = value.state_name+' - '+value.city_name;
+                        $("#place-sortList").append('<li data-cityid="'+value.cityid+'" id="picked-li-'+value.cityid+'" class="list-group-item cityplace sort-handle"> . '+state_city_names+'<span class="callout-left blue-grey"></span><input type="text" name="picked_state[]" class="hide" id="picked-state-'+value.cityid+'" value="'+value.stateid+'"/><input type="text" name="picked_city[]" class="hide" id="picked-city-'+value.cityid+'" value="'+value.cityid+'"/></li>');
+
+                         var passparamscity = "{  cityid: "+value.cityid+",  stateid: "+value.stateid+", cityname: '"+value.city_name+"', statename: '"+value.state_name+"' , cityimage: '"+value.city_image+"' }";
+                         var imagedummy =  no_image_url;
+
+                        if(value.nights_count!=0){
+                          var night_url = "{{ url('get-hotel-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
+                          $.get(night_url, function(package_hotel_data) {
+                            if(package_hotel_data!=null && typeof(package_hotel_data)!='string'){
+                              var amenitieslist = package_hotel_data.amenities;
+                             
+                              amenities_len = package_hotel_data!=null || typeof(package_hotel_data)!='string' ? amenitieslist.length : 0;
+                               //console.log('test-'+amenities_len);
+
+                             // 
+                              var amenitiesString = '';
+                              var roomtypesString = '';
+
+                              if(package_hotel_data!=null){
+                                $.each(amenitieslist, function(keya, valuea) {
+                                    //console.log(keya);
+                                    amenitiesString += valuea.amenities_name;
+                                    if(amenities_len-1!=keya){
+                                        amenitiesString += ', ';
+                                    }
+                                  }); 
+                              }
+
+                               var roomtypeslist = package_hotel_data.roomtypes;
+
+                              if(package_hotel_data!=null){
+                                total_room_cost = package_hotel_data.total_amount;
+                                //cityhotelid = package_hotel_data.id;
+                               // cityhotelroomtype = package_hotel_data.roomtype_id;
+                               // cityhotelroomnumbers = package_hotel_data.total_rooms;
+
+                                $.each(roomtypeslist, function(keya, valuea) {
+                              
+
+                                  if(valuea.pivot.roomtype_id==package_hotel_data.roomtype_id){
+                                    roomtypesString = valuea.room_type+' - '+package_hotel_data.total_rooms;
+                                    room_cost = valuea.pivot.price;
+                                    //alert(roomtypesString);
+                                  }
+
+                                }); 
+
+                               
+                              }
+                              var imagelocation = no_image_url;
+                              var hotelimages = package_hotel_data.hotelimages;
+
+                              if(hotelimages.length>0){
+                                 var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+                              }
+
+                               var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+package_hotel_data.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_room_cost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+package_hotel_data.total_rooms+'" /><input type="text" class="hide hotel_room_type" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+cityid+'" value="'+package_hotel_data.roomtype_id+'" />';
+
+                              $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+package_hotel_data.hotel_name+'</h4><p>'+state_city_names+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_room_cost+' </span> <button id="edit_hotel_button_'+value.cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+package_hotel_data.id+','+package_hotel_data.roomtype_id+','+package_hotel_data.total_rooms+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div></div></div></li> ');
+                            }else{
+                              $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+                            }
+                            
+                          });
+                        }
+                        var activity_url = "{{ url('get-activity-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
+                        $.get(activity_url, function(package_activity_data) {
+                          if(package_activity_data.length!=0){
+                            $.each(package_activity_data, function(keyact, valueact) {
+                              var activityimages = valueact.activity_images;
+                              var act_image = no_image_url;
+                              if(activityimages.length>0){
+                                 var act_image = image_url+'/activity/'+activityimages[0].image_name;
+                              }
+                              var total_cost_act = 0;
+                              var activity_cost_url = "{{ url('get-activity-cost') }}" + '?package_id=' + packageid + '&activity_id=' + valueact.id;
+                              $.get(activity_cost_url, function(package_activity_cost) {
+                                var total_cost_act = package_activity_cost;
+                                var hiddenvalues_one = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+valueact.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+valueact.id+'" value="'+total_cost_act+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+resultdata.id+'" value="'+valueact.amount+'" />';
+                                $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+valueact.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+valueact.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_'+valueact.id+'">'+total_act_cost+'</span></a><p>'+hiddenvalues_one+'<a onclick="return RemoveActivity('+valueact.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
+                                  var act_overview  = valueact.overview != null ? valueact.overview : '';
+                                   var activityduration = (valueact.duartion_hours/60).toFixed(0)+' hour '+(resultdata.duartion_hours%60)+' minutes';
+                                  $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> <span id="summary_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
+                                 $("#pick-actitity-link-"+cityid).css('top','-20px');
+                              }); 
+
+                            }); 
+                          }
+                          console.log(package_activity_data);
+                        });
 
                      });
                      //var encid = data.package_id;
@@ -1297,11 +1412,14 @@
         url: "{{route('customer_autocomplete')}}",
         data: 'action=customer_name'+'&name='+request.term,
         success: function(data) {
-         console.log(data.length);
+         //console.log(data.length);
          if (data.length === 0) {   
               // alert('hii');
               $('.customer_details').hide();
               $('.customer_add').show();
+               var res_msg = "No Results found, please add Customer";
+                alert(res_msg);
+              
             }
           response( $.map( data, function( item ) {
             //console.log(data.length);
@@ -1482,7 +1600,9 @@
       });
    });
   } );
-   
+   function ClearPackageInfo(){
+      $("#package_name,#packageid").val('');
+   }
 </script>
 @endsection
 @section('footerSecondSection')

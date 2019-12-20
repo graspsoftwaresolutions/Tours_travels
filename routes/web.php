@@ -160,3 +160,7 @@ Route::get('/packagetype_detail', 'CommonController@getPackageDetails');
 Route::delete('packagetype_delete/{id}','MasterController@packageTypeDestroy')->name('master.packageTypedestroy');
 Route::get('package_pdf/{parameter}','PdfController@packageView')->name('package.pdf');
 
+Route::get('/get-hotel-list', 'PackageController@PackageHotels')->name('package.hotels');
+Route::get('/get-activity-list', 'PackageController@PackageActivities')->name('package.activities');
+Route::get('/get-activity-cost', 'PackageController@ActivityCost')->name('activity.cost');
+

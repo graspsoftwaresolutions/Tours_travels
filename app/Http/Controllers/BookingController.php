@@ -6,9 +6,15 @@ use App\Model\State;
 use App\Model\City;
 use Illuminate\Http\Request;
 use DB;
+use App\Helpers\CommonHelper;
 
 class BookingController extends Controller
 {
+    public function __construct()
+	{
+	    $this->middleware('auth');
+    }
+    
     public function index()
     {
         $data['country_view'] = Country::where('status','=','1')->get();
