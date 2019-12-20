@@ -321,7 +321,7 @@ class CommonController extends Controller
         $search_param = "{$keyword}%";
         if($keyword!='' && $package_type!='')
         {
-            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name as tocityname','c.id as tocityid','s.state_name as tostatename','s.id as tostateid','ct.country_name as tocountryname','ct.id as tocountryid','p.total_package_value','p.total_amount','p.tax_amount','p.adult_price_person','p.child_price_person','p.infant_price','cf.city_name as fromcityname','cf.id as fromcityid','sf.state_name as fromstatename','sf.id as fromstateid','ctf.country_name as fromcountryname','ctf.id as fromcountryid','p.adult_count','p.child_count','p.infant_count')
+            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name as tocityname','c.id as tocityid','s.state_name as tostatename','s.id as tostateid','ct.country_name as tocountryname','ct.id as tocountryid','p.total_package_value','p.total_amount','p.tax_amount','p.adult_price_person','p.child_price_person','p.infant_price','cf.city_name as fromcityname','cf.id as fromcityid','sf.state_name as fromstatename','sf.id as fromstateid','ctf.country_name as fromcountryname','ctf.id as fromcountryid','p.adult_count','p.child_count','p.infant_count','p.transport_charges','p.additional_charges')
                     ->leftjoin('city as c','c.id','=','p.to_city_id')
                     ->leftjoin('state as s','s.id','=','p.to_state_id')
                     ->leftjoin('country as ct','ct.id','=','p.to_country_id')

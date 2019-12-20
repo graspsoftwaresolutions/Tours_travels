@@ -163,4 +163,5 @@ Route::get('package_pdf/{parameter}','PdfController@packageView')->name('package
 Route::get('/get-hotel-list', 'PackageController@PackageHotels')->name('package.hotels');
 Route::get('/get-activity-list', 'PackageController@PackageActivities')->name('package.activities');
 Route::get('/get-activity-cost', 'PackageController@ActivityCost')->name('activity.cost');
-
+Route::post('/booking_save', 'BookingController@bookingSave')->name('booking_save');
+Route::get('/bookings', 'BookingController@List')->name('booking.list');
