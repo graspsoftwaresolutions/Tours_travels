@@ -180,7 +180,7 @@ class CommonHelper
             array(
                 'activity_images'
             ))->whereIn('id',$activity_ids)->get();
-        //dd($activities);
+       // dd($activities);
         return $activities;
     }
 	
@@ -191,6 +191,37 @@ class CommonHelper
                     ->pluck('pa.total_amount')->first();
                    // dd(  $activity_amount);
         return $activity_amount==null ? 0 : $activity_amount;
+    }
+    public static function getHoteloverview($hotel_id)
+    {
+        $hotel_overview = DB::table('hotels')->where('id','=',$hotel_id)->pluck('overview')->first();
+        return $hotel_overview;
+    }
+    public static function getHotelImages($hotel_id)
+    {
+        $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$hotel_id)->select('image_name')->take(3)->get();
+        return $hotel_images;
+    }
+    public static function getPackageInfo($packageid)
+    {
+        // $activity_ids = DB::table('package_activities as pa')
+        //             ->where('pa.package_id','=',$packageid)
+        //             ->select('pa.activity_id');
+        $additionalInfo = DB::table('activities as a')
+                    ->leftjoin('package_activities as pa','a.id','=','pa.activity_id')
+                    ->where('pa.package_id','=',$packageid)->get();
+        //dd($additionalInfo);
+    }
+    public static function getPackagetypename($packagetypeid)
+    {
+        $packagetype = DB::table('package_type')->where('id','=',$packagetypeid)->pluck('package_type')->first();
+        return $packagetype;
+    }
+    
+    public static function getActivityImages($activityid)
+    {
+        $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->select('image_name')->take(3)->get();
+        return $activity_images;
     }
 	
 }
