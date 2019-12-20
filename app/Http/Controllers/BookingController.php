@@ -14,6 +14,8 @@ class BookingController extends Controller
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['city_view'] = City::where('status','=','1')->get();
+        $data['tax_data'] = DB::table('settings_tax')->where('status','=','1')->first();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
         return view('booking.new')->with('data',$data);
     }
     public function auto()
