@@ -111,7 +111,7 @@
         },
         "columns": [
             {
-                "data": "title_name"
+                "data": "package_name"
             },
             {
                 "data": "adult_count"

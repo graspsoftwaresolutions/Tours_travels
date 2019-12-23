@@ -312,12 +312,13 @@ class PackageController extends Controller
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
                          ->where(function($query) use ($search){
-                        $query->orWhere('title_name', 'LIKE',"%{$search}%")
-                        ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
-                        ->orWhere('amount', 'LIKE',"%{$search}%")
+                        $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                      //  ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                       // ->orWhere('amount', 'LIKE',"%{$search}%")
+                       ->orWhere('total_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
-                        ->orWhere('state_name', 'LIKE',"%{$search}%")
-                        ->orWhere('zip_code', 'LIKE',"%{$search}%");
+                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                       // ->orWhere('zip_code', 'LIKE',"%{$search}%") 
                     })
                     ->orderBy($order,$dir)
                     ->get()->toArray();
@@ -327,12 +328,12 @@ class PackageController extends Controller
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
                         ->where(function($query) use ($search){
-                            $query->orWhere('title_name', 'LIKE',"%{$search}%")
-                            ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
-                            ->orWhere('amount', 'LIKE',"%{$search}%")
+                            $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                        //    ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                            ->orWhere('total_amount', 'LIKE',"%{$search}%")
                             ->orWhere('city_name', 'LIKE',"%{$search}%")
-                            ->orWhere('state_name', 'LIKE',"%{$search}%")
-                             ->orWhere('zip_code', 'LIKE',"%{$search}%");
+                            ->orWhere('state_name', 'LIKE',"%{$search}%");
+                             //->orWhere('zip_code', 'LIKE',"%{$search}%")
                         })
                         ->offset($start)
                         ->limit($limit)
@@ -343,14 +344,14 @@ class PackageController extends Controller
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.id','LIKE',"%{$search}%")
-                    ->orWhere('title_name', 'LIKE',"%{$search}%")
+                    ->orWhere('package_name', 'LIKE',"%{$search}%")
+                    ->orWhere('total_amount', 'LIKE',"%{$search}%")
                     ->where('p.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%")
-                    ->orWhere('zip_code', 'LIKE',"%{$search}%")
+                   // ->orWhere('zip_code', 'LIKE',"%{$search}%")
                     ->count();
         }
-        
        // $table ="activities";
        //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
     //   dd($Activity);
@@ -358,11 +359,9 @@ class PackageController extends Controller
        if(!empty($packages))
        {
            foreach ($packages as $package)
-           {
-              
-                  
+           {  
                    $nestedData['id'] = $package->id;
-                   $nestedData['title_name'] = $package->package_name;
+                   $nestedData['package_name'] = $package->package_name;
               
                    $nestedData['adult_count'] = $package->adult_count;
                    $nestedData['amount'] = $package->total_amount;  
@@ -375,9 +374,7 @@ class PackageController extends Controller
                    $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a target='_blank' class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
                    $nestedData['options'] = $actions;
                  
-                   $data[] = $nestedData;
-               
-               
+                   $data[] = $nestedData;             
            }
        }
    //dd($totalFiltered);
@@ -476,8 +473,6 @@ class PackageController extends Controller
                     if(isset($night_cnt)){
                         $nights_count = $night_cnt[0];
                     }
-				
-					
                     $package_place = new PackagePlace() ;
                     $package_place->package_id = $package_id;
                     $package_place->state_id = $state_id;

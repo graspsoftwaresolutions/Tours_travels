@@ -192,11 +192,6 @@ class CommonHelper
                    // dd(  $activity_amount);
         return $activity_amount==null ? 0 : $activity_amount;
     }
-    public static function getHoteloverview($hotel_id)
-    {
-        $hotel_overview = DB::table('hotels')->where('id','=',$hotel_id)->pluck('overview')->first();
-        return $hotel_overview;
-    }
     public static function getHotelImages($hotel_id)
     {
         $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$hotel_id)->select('image_name')->take(3)->get();
@@ -217,11 +212,9 @@ class CommonHelper
         $packagetype = DB::table('package_type')->where('id','=',$packagetypeid)->pluck('package_type')->first();
         return $packagetype;
     }
-    
     public static function getActivityImages($activityid)
     {
         $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->select('image_name')->take(3)->get();
         return $activity_images;
     }
-	
 }

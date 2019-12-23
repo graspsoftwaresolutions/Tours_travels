@@ -13,7 +13,7 @@ class PdfController extends Controller
     public function packageView($encid)
     {
         $packageid = crypt::decrypt($encid);
-        $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type')
+        $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
                             ->leftjoin('country as con','con.id','=','pm.to_country_id')
                             ->leftjoin('state as st','st.id','=','pm.to_state_id')
                             ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
@@ -33,10 +33,10 @@ class PdfController extends Controller
         //dd($data);
         if($data!='')
         {
-           // return view('package.pdf.packagepdf')->with('data',$data);
+         // return view('package.pdf.packagepdf')->with($data);
            $pdf = PDF::loadView('package.pdf.packagepdf', $data);
            return  $pdf->stream();
-           //return $pdf->download('package_details.pdf');
+         //  return $pdf->download('package_details.pdf');
         }
     }
 }
