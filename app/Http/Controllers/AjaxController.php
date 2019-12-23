@@ -943,7 +943,7 @@ class AjaxController extends CommonController
                 ->orderBy($order,$dir)
                 ->get()->toArray();
         }else{
-        $booking = table('booking_master as b')
+        $booking = DB::table('booking_master as b')
                 ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                 ->leftjoin('package_master as p','p.id','=','b.package_id')
                 ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
@@ -961,7 +961,7 @@ class AjaxController extends CommonController
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }
-            $totalFiltered = table('booking_master as b')
+            $totalFiltered = DB::table('booking_master as b')
                     ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
                     ->leftjoin('package_master as p','p.id','=','b.package_id')
                     ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
