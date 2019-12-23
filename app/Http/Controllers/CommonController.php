@@ -316,22 +316,31 @@ class CommonController extends Controller
     public function packageAutocomplete(Request $request)
     {
         $keyword = $request->get('name');
-        $type = $request->type;
+        $package_type = $request->input('package_type');
+        //$type = $request->type;
         $search_param = "{$keyword}%";
-        if($keyword!='')
+        if($keyword!='' && $package_type!='')
         {
-            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name as tocityname','c.id as tocityid','s.state_name as tostatename','s.id as tostateid','ct.country_name as tocountryname','ct.id as tocountryid','p.total_package_value','p.total_amount','p.tax_amount','p.adult_price_person','p.child_price_person','p.infant_price','cf.city_name as fromcityname','cf.id as fromcityid','sf.state_name as fromstatename','sf.id as fromstateid','ctf.country_name as fromcountryname','ctf.id as fromcountryid')
+            $result = DB::table('package_master as p')->select(DB::raw("CONCAT(p.package_name,'-',c.city_name) AS value"),'p.package_name','p.id as packageid','c.city_name as tocityname','c.id as tocityid','s.state_name as tostatename','s.id as tostateid','ct.country_name as tocountryname','ct.id as tocountryid','p.total_package_value','p.total_amount','p.tax_amount','p.adult_price_person','p.child_price_person','p.infant_price','cf.city_name as fromcityname','cf.id as fromcityid','sf.state_name as fromstatename','sf.id as fromstateid','ctf.country_name as fromcountryname','ctf.id as fromcountryid','p.adult_count','p.child_count','p.infant_count','p.transport_charges','p.additional_charges')
                     ->leftjoin('city as c','c.id','=','p.to_city_id')
                     ->leftjoin('state as s','s.id','=','p.to_state_id')
                     ->leftjoin('country as ct','ct.id','=','p.to_country_id')
                     ->leftjoin('city as cf','cf.id','=','p.from_city_id')
                     ->leftjoin('state as sf','sf.id','=','p.from_state_id')
                     ->leftjoin('country as ctf','ctf.id','=','p.from_country_id')
-                     ->orwhere("p.package_name","LIKE","%{$keyword}%")
-                     ->orwhere("s.state_name","LIKE","%{$keyword}%")
-                     ->orwhere("c.city_name","LIKE","%{$keyword}%")
-                    ->get();
-                  //  dd($result);
+                    ->where(function($query) use ($keyword){
+                        $query->where('p.package_name', 'LIKE',"%{$keyword}%")
+                        ->orwhere("s.state_name","LIKE","%{$keyword}%")
+                         ->orwhere("c.city_name","LIKE","%{$keyword}%");
+                    });
+            if($package_type!=''){
+                $result = $result->where('p.package_type','=',$package_type);
+            }
+                   
+            $result = $result->get();
+            //  dd($result);
+        }else{
+            $result = [];
         }
         echo json_encode($result);
     }

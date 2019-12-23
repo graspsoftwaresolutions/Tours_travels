@@ -17,6 +17,7 @@ use App\Model\Hotel;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
+use App\Helpers\CommonHelper;
 
 class PackageController extends Controller
 {
@@ -247,7 +248,7 @@ class PackageController extends Controller
         $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
         $data['package_place'] = PackagePlace::where('package_id','=',$package_id)->get();
 
-        $data['place_details'] = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id','pp.nights_count')
+        $data['place_details'] = DB::table('package_place as pp')->select('s.id as stateid','s.state_name','c.id as cityid','c.city_name','pp.id as pacakgeplaeid','pp.package_id','pp.nights_count','c.city_image')
                 ->leftjoin('state as s','s.id','=','pp.state_id')
                 ->leftjoin('city as c','c.id','=','pp.city_id')
                 ->where('pp.package_id','=',$package_id)->get();
@@ -533,5 +534,27 @@ class PackageController extends Controller
     //      //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
     //      return view('package.edit',compact('data',$data));
     // }
+
+    public function PackageHotels(Request $request){
+        $package_id = $request->input('package_id');
+        $city_id = $request->input('city_id');
+        $package_hotel = CommonHelper::getPackageHotel($package_id,$city_id);
+        return $package_hotel;
+    }
+
+
+    public function PackageActivities(Request $request){
+        $package_id = $request->input('package_id');
+        $city_id = $request->input('city_id');
+        $package_activities = CommonHelper::getPackageActivities($package_id,$city_id);
+        return $package_activities;
+    }
+
+    public function ActivityCost(Request $request){
+        $package_id = $request->input('package_id');
+        $activity_id = $request->input('activity_id');
+        $ActivityCost = CommonHelper::getPackageActivityCost($package_id,$activity_id);
+        return $ActivityCost;
+    }
    
 }
