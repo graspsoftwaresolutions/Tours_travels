@@ -170,7 +170,7 @@
               </a>
               <ul class="submenu lvl-1">
                 <li id="booking_sidebar_li_id" class="submenu-item">
-                  <a id="booking_sidebar_a_id" href="{{ route('master.activity') }}" class="submenu-target">{{ __('All Bookings') }}</a>
+                  <a id="booking_sidebar_a_id" href="{{ route('bookings.list') }}" class="submenu-target">{{ __('All Bookings') }}</a>
                 </li>
                 <li id="booking_add_sidebar_li_id" class="submenu-item">
                   <a id="booking_add_sidebar_a_id" href="{{route('booking.new')}}" class="submenu-target">{{ __('Add Booking') }}</a>

@@ -142,6 +142,8 @@ Route::post('/customer_phoneexists', 'CommonController@customerPhoneExists');
 Route::get('package_place_details','PackageController@packagePlaceDetails')->name('package_place_details');
 
 //Booking
+
+
 Route::get('/new_booking', 'BookingController@index')->name('booking.new');
 Route::get('/new_autocomplete', 'BookingController@auto');
 
@@ -165,3 +167,8 @@ Route::get('/get-activity-list', 'PackageController@PackageActivities')->name('p
 Route::get('/get-activity-cost', 'PackageController@ActivityCost')->name('activity.cost');
 Route::post('/booking_save', 'BookingController@bookingSave')->name('booking_save');
 Route::get('/bookings', 'BookingController@List')->name('booking.list');
+Route::get('/booking_list', 'BookingController@bookingList')->name('bookings.list');
+
+Route::post('ajax_booking_list','AjaxController@ajax_booking_list');
+
+Route::get('booking_pdf/{parameter}','PdfController@BookingView')->name('booking.pdf');

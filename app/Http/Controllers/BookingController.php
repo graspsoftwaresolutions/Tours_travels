@@ -155,4 +155,9 @@ class BookingController extends Controller
         $data = [];
         return view('package.list')->with('data',$data);
     }
+    public function bookingList()
+    {
+        $data = [];
+        return view('booking.list')->with('data',$data);
+    }
 }

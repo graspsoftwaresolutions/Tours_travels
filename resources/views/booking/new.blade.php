@@ -1533,7 +1533,7 @@
         data: 'action=customer_name'+'&name='+request.term,
         success: function(data) {
          //console.log(data.length);
-         if (data.length === 0) {   
+         if (data.length === 0) {
               // alert('hii');
               $('.customer_details').hide();
               $('.customer_add').show();

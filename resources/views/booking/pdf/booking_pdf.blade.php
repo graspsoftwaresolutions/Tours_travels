@@ -2,11 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 @php $company_data = $website_data[0]; 
-   		$package = $package_data[0];
-        $package_place_data = $package_place;
-        $package_hotel_data = $package_hotel;
+     $booking_data = $booking_data[0];
+     $package_data = $booking_package[0];
+     $customer_data = $booking_customer[0];
+     $booking_place_details = $booking_place;
    @endphp
-	<title>{{$package->package_name ? $package->package_name : ''}}</title>
+	<title>{{$package_data->package_name ? $package_data->package_name : ''}}</title>
 	<style>
 		.company-details{
 			text-align:center;
@@ -84,10 +85,10 @@
 			<div style="text-align:center;">
 		  	<a style="padding:10px !important;" href="index.html"><img src="{{ asset('public/assets/images/website_logo/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
 				<h1 style="color:#4A7885">{{$company_data->company_name ? $company_data->company_name : ''}}</h1>
-				<h2 style=""><b> {{$package->package_name ? $package->package_name : ''}}</b> </h2>
-			</div>			
+				<h2 style=""><b> {{$package_data->package_name ? $package_data->package_name : ''}}</b> </h2>
+			</div>		
 		</div>
-		<div class="clearfix"/>
+        <div class="clearfix"/>
 		<table width="100%">
 			<thead>
 			<tr >
@@ -95,9 +96,9 @@
 				<th width="20%" style="color:#4A7885">To Place </th>
 			</tr> </thead>    
 			<tr> 
-				@php $from_country_name = CommonHelper::getCountryName($package->from_country_id);
-					$from_state_name = CommonHelper::getstateName($package->from_state_id);
-					$from_city_name = CommonHelper::getcityName($package->from_city_id);
+				@php $from_country_name = CommonHelper::getCountryName($booking_data->from_country_id);
+					$from_state_name = CommonHelper::getstateName($booking_data->from_state_id);
+					$from_city_name = CommonHelper::getcityName($booking_data->from_city_id);
 			 	@endphp
 			<td >
 			<p >Country Name : {{$from_country_name ? $from_country_name : ''}} </p>
@@ -105,9 +106,9 @@
 			<p >City Name : {{$from_city_name ? $from_city_name : ''}} </p>
 			</td>
 			<td >
-			<p >Country Name : {{$package->country_name ? $package->country_name : ''}}</p>
-			<p >State name : {{$package->state_name ? $package->state_name : ''}}</p>
-			<p >City Name : {{$package->city_name ? $package->city_name : ''}}</p> </td>
+			<p >Country Name : {{$booking_data->country_name ? $booking_data->country_name : ''}}</p>
+			<p >State name : {{$booking_data->state_name ? $booking_data->state_name : ''}}</p>
+			<p >City Name : {{$booking_data->city_name ? $booking_data->city_name : ''}}</p> </td>
 			</tr>            
 		</table>
 		<div class="clearfix"/>
@@ -117,19 +118,20 @@
 			   
 			<tr>   
                 <td style="color:#4A7885"> Persons   </td> 
-				<td> {{$package->adult_count ? $package->adult_count : 0 }} persons , {{$package->child_count ? $package->child_count : 0 }}  childerns and {{$package->infant_count ? $package->infant_count : 0 }} Infants </p> </td>
+				<td> {{$booking_data->adult_count ? $booking_data->adult_count : 0 }} persons , {{$booking_data->child_count ? $booking_data->child_count : 0 }}  childerns and {{$booking_data->infant_count ? $booking_data->infant_count : 0 }} Infants </p> </td>
 			</tr> 
                 @php
-                $package_type = CommonHelper::getPackagetypename($package->package_type);
+                $package_type = CommonHelper::getPackagetypename($booking_data->package_type);
+                $from_date = CommonHelper::convert_date_datepicker($booking_data->from_date);
+                $to_date = CommonHelper::convert_date_datepicker($booking_data->to_date);
                 $summary_cities='';
                     $night_count=0;
 
-                    foreach($package_place_data as $key => $place){
+                    foreach($booking_place_details as $key => $place){
                        $sum_city_name = CommonHelper::getcityName($place->city_id);
                        $summary_cities .= $sum_city_name.', ';
                        $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
                     }
-                    
                  @endphp   
                 <tr> 
 					<td style="color:#4A7885"> Days and Nights </td>
@@ -139,10 +141,61 @@
 					<td style="color:#4A7885"> Package Type  </td>
 					<td>  {{ $package_type ? $package_type : ''}} </td>
 				</tr>
+                <tr>
+					<td style="color:#4A7885"> From date  </td>
+					<td>  {{ $from_date ? $from_date : ''}} </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885"> To date  </td> 
+					<td>  {{ $to_date ? $to_date : ''}} </td>
+				</tr>
 		</table>
 		<div class="clearfix"/> <br>
+        <br>
+		<h2 style="color:#4A7885"><b> Customer Information</b> </h2>	
+		<table width="100%" class="package_table">
+			   
+                <tr> 
+					<td style="color:#4A7885">  Name </td>
+					<td> {{ $customer_data->name ? $customer_data->name : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  Email </td>
+					<td> {{ $customer_data->email ? $customer_data->email : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  Phone </td>
+					<td> {{ $customer_data->phone ? $customer_data->phone : ''}}  </td>
+				</tr>
+                @php $customer_country_name = CommonHelper::getCountryName($customer_data->country_id);
+					$customer_state_name = CommonHelper::getstateName($customer_data->state_id);
+					$customer_city_name = CommonHelper::getcityName($customer_data->city_id);
+			 	@endphp
+                <tr> 
+					<td style="color:#4A7885">  Country </td>
+					<td> {{ $customer_country_name ? $customer_country_name : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  State </td>
+					<td> {{ $customer_state_name ? $customer_state_name : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  city </td>
+					<td> {{ $customer_city_name ? $customer_city_name : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  Address </td>
+					<td> {{ $customer_data->address_one ? $customer_data->address_one : ''}} , {{ $customer_data->address_two ? $customer_data->address_two : ''}}  </td>
+				</tr>
+                <tr> 
+					<td style="color:#4A7885">  Zipcode </td>
+					<td> {{ $customer_data->zipcode ? $customer_data->zipcode : ''}}  </td>
+				</tr>
+		</table>
+		<div class="clearfix"/> <br>
+        <h2 style="color:#4A7885"><b> Trip Information</b> </h2>	
         @php  $sno = 0; $slno = 1; @endphp
-		 @foreach($package_place_data as $place) 
+		 @foreach($booking_place_details as $place) 
                             @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
                               $place_city_data = CommonHelper::getcityDetails($place->city_id);
@@ -152,7 +205,7 @@
 							    
 				if($nightcount > 1 )
                 {
-                    $days_val = 'Day 1 - '.$nightcount ;
+                    $days_val = 'Day 1 - '.($nightcount+1) ;
                 }
                 else{
                     $days_val = 'Day '.$nightcount;
@@ -172,9 +225,10 @@
 		
 		@endforeach
 		<div class="clearfix"/> <br>
+        <div class="clearfix"/> <br>
 		<h2 style="color:#4A7885"><b>Detailed Summary</b> </h2>
-		@foreach($package_place_data as $place) 
-			@php 
+		@foreach($booking_place_details as $place) 
+        @php 
 			  $place_state_name = CommonHelper::getstateName($place->state_id);
 			  $place_city_data = CommonHelper::getcityDetails($place->city_id);
 			  $place_city_name = $place_city_data->city_name;
@@ -182,7 +236,7 @@
 			  @endphp
 			   @if($place->nights_count!=0)
 				  @php
-					 $sum_package_hotel = CommonHelper::getPackageHotel($package->packageautoid,$place->city_id);
+					 $sum_package_hotel = CommonHelper::getBookingHotel($booking_data->id,$place->city_id);
 					  $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
 					 
 					  $amenitystring = '';
@@ -198,15 +252,8 @@
 					  $roomtypesstring = '';
 					  $type_count = $sum_package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
 
-					  if($sum_package_hotel!=null){
-						foreach($sum_package_hotel->roomtypes as $key => $roomtype){
-						  if($roomtype->pivot->roomtype_id==$sum_package_hotel->roomtype_id){
-							$roomtypesstring = $roomtype->room_type;
-							//dd($roomtypesstring);
-						  } 
-						}
-					  }
-					  $sum_package_activities = CommonHelper::getPackageActivities($package->packageautoid,$place->city_id);
+					 
+					  $sum_booking_activities = CommonHelper::getBookingActivities($booking_data->id,$place->city_id);
                      
 				    @endphp
                     <p > <b> {{$slno}} . {{ $place_state_name }} - {{ $place_city_name }} </b> </p>
@@ -242,17 +289,15 @@
                             {!! $sum_package_hotel->overview !!} 
                         </div>
                         <div class="clearfix"/> 
-                        <p> Room Type : {{$roomtypesstring ? $roomtypesstring : ''}} </p>
                         <p> No of Rooms : {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
                         <p> Total Amount : {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
-			    <br>
-					@endif
-                    @foreach($sum_package_activities as $activity)
+                 @endif 
+                 @foreach($sum_booking_activities as $activity)
                         @php
                         $activityimages = $activity->activity_images;
                         $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                         $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
-                            $package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
+                            $booking_activity_cost= CommonHelper::getBookingActivityCost($booking_data->id,$activity->id);
                             $activity_images  = CommonHelper::getActivityImages($activity->id);
                         @endphp
                         <p ><b>  Activity Name : </b> {{ $activity->title_name ? $activity->title_name : '' }}  </p>  <br>
@@ -301,74 +346,69 @@
                                 <p class="inner-bullets"> *  {{$values ? $values : ''}} </p>
                               @endforeach
                               <p><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
-                              <p ><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
+                              <p ><b> Amount </b> : {{$booking_activity_cost ? $booking_activity_cost : ''}} </p>
 
-                        @endforeach   
+                              @endforeach   
                 @endif 
-                @php $slno++; @endphp  
-
-		@endforeach
-        <p style="color:#4A7885"><b> Price Summary </b> : </p>
+                @php $slno++; @endphp 
+                @endforeach   
+                <p style="color:#4A7885"><b> Price Summary </b> : </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
 							  <td style="color:#4A7885"> Accommodation </td>
-							  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
+							  <td> {{$booking_data->total_accommodation ? $booking_data->total_accommodation : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> Activities </td>
-							  <td> {{$package->total_activities ? $package->total_activities : ''}} </td>
+							  <td> {{$booking_data->total_activities ? $booking_data->total_activities : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> Transport Charges </td>
-							  <td> {{$package->transport_charges ? $package->transport_charges : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> Additional Charges </td>
-							  <td> {{$package->additional_charges ? $package->additional_charges : ''}} </td>
+							  <td> {{$booking_data->transport_additional_charges ? $booking_data->transport_additional_charges : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> Total package value </td>
-							  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
+							  <td> {{$booking_data->total_package_value ? $booking_data->total_package_value : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> GST </td>
-							  <td> {{$package->tax_percentage ? $package->tax_percentage : ''}} % </td>
+							  <td> {{$booking_data->tax_percentage ? $booking_data->tax_percentage : ''}} % </td>
 						   </tr>
 						    <tr> 
 							  <td style="color:#4A7885"> Tax Amount </td>
-							  <td> {{$package->tax_amount ? $package->tax_amount : ''}} </td>
+							  <td> {{$booking_data->tax_amount ? $booking_data->tax_amount : ''}} </td>
 						   </tr> <tr> 
 							  <td style="color:#4A7885"> Total Amount </td>
-							  <td> {{$package->total_amount ? $package->total_amount : ''}} </td>
+							  <td> {{$booking_data->total_amount ? $booking_data->total_amount : ''}} </td>
 						   </tr>
 					</table>
-			<p ><b> Additional price </b> </p>
+                    <p ><b> Additional price </b> </p>
                         <p > [Including transport and additional Charges] </p>             
 							 <table width="100%" class="package_table">
                         
 							<tr> 
 							  <td style="color:#4A7885"> Adult Per price </td>
-							  <td> {{$package->adult_price_person ? $package->adult_price_person : ''}} </td>
+							  <td> {{$booking_data->adult_price_person ? $booking_data->adult_price_person : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> Child per price </td>
-							  <td> {{$package->child_price_person ? $package->child_price_person : ''}} </td>
+							  <td> {{$booking_data->child_price_person ? $booking_data->child_price_person : ''}} </td>
 						   </tr>
 						   <tr> 
 							  <td style="color:#4A7885"> Infant per price </td>
-							  <td> {{$package->infant_price ? $package->infant_price : ''}} </td>
+							  <td> {{$booking_data->infant_price ? $booking_data->infant_price : ''}} </td>
 						   </tr>	
 						</table>
-			<h2 style="color:#4A7885"><b>  Contact Info</b> </h2>
-				<p ><b> Company Name </b> : {{$company_data->company_name ? $company_data->company_name : '' }}  </p>
-				<p ><b> Company Website </b> : {{$company_data->company_website ? $company_data->company_website : '' }} </p>
-				<p ><b> Company Email </b> : {{$company_data->company_email ? $company_data->company_email : '' }} </p>
-				<p ><b> Company Phone </b> : {{$company_data->company_phone ? $company_data->company_phone : '' }} </p>
-				  @php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
-					  $company_state_name = CommonHelper::getstateName($company_data->state_id);
-					  $company_city_name = CommonHelper::getcityName($company_data->city_id);
-				  @endphp
-			 <p ><b> Company Address </b> : {{$company_data->company_address_one ? $company_data->company_address_one : '' }} , {{$company_data->company_address_two ? $company_data->company_address_two : '' }} , {{ $company_country_name }} , {{ $company_state_name }} , {{ $company_city_name }} {{ $company_data->zipcode }}  </p>
+                        <h2 style="color:#4A7885"><b>  Contact Info</b> </h2>
+                        <p ><b> Company Name </b> : {{$company_data->company_name ? $company_data->company_name : '' }}  </p>
+                        <p ><b> Company Website </b> : {{$company_data->company_website ? $company_data->company_website : '' }} </p>
+                        <p ><b> Company Email </b> : {{$company_data->company_email ? $company_data->company_email : '' }} </p>
+                        <p ><b> Company Phone </b> : {{$company_data->company_phone ? $company_data->company_phone : '' }} </p>
+                        @php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
+                            $company_state_name = CommonHelper::getstateName($company_data->state_id);
+                            $company_city_name = CommonHelper::getcityName($company_data->city_id);
+                        @endphp
+                    <p ><b> Company Address </b> : {{$company_data->company_address_one ? $company_data->company_address_one : '' }} , {{$company_data->company_address_two ? $company_data->company_address_two : '' }} , {{ $company_country_name }} , {{ $company_state_name }} , {{ $company_city_name }} {{ $company_data->zipcode }}  </p>
 	</div>
 </body>
 </html>

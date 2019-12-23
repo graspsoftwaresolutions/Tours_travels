@@ -39,4 +39,34 @@ class PdfController extends Controller
            return $pdf->download('package_details.pdf');
         }
     }
+    public function BookingView($encid)
+    {
+        $bookingid = crypt::decrypt($encid);
+        $data['booking_data'] = DB::table('booking_master as bm')->select('bm.id','bm.package_id','bm.customer_id','bm.package_type','bm.adult_count','child_count','infant_count','adult_count','con.country_name','st.state_name','cit.city_name','total_package_value','tax_percentage','tax_amount','total_amount','adult_price_person','child_price_person','infant_price','total_accommodation','total_activities','discount_amount','transport_additional_charges','from_country_id','from_state_id','from_city_id','from_date','to_date')
+                            ->leftjoin('country as con','con.id','=','bm.to_country_id')
+                            ->leftjoin('state as st','st.id','=','bm.to_state_id')
+                            ->leftjoin('city as cit','cit.id','=','bm.to_city_id')
+                            ->where('bm.id','=',$bookingid)->get(); 
+
+         $data['booking_package'] = DB::table('booking_master as bm')
+                                 ->leftjoin('package_master as pm','pm.id','=','bm.package_id')
+                                  ->where('bm.id','=',$bookingid)->get();
+
+        $data['booking_customer'] = DB::table('booking_master as bm')
+                                ->leftjoin('customer_details as cd','cd.id','=','bm.customer_id')
+                                ->where('bm.id','=',$bookingid)->get();         
+         $data['booking_place'] = DB::table('booking_place as bp')
+                                     ->leftjoin('booking_master as bm','bm.id','=','bp.booking_id')
+                                     ->where('bm.id','=',$bookingid)->get();
+        // dd($data['booking_place']);
+         $data['website_data'] = Website::where('status','=','1')->get();
+        
+         if($data!='')
+         {
+          // return view('booking.pdf.booking_pdf')->with($data);
+            $pdf = PDF::loadView('booking.pdf.booking_pdf', $data);
+           // return  $pdf->stream();
+            return $pdf->download('booking_details.pdf');
+         }
+    }
 }

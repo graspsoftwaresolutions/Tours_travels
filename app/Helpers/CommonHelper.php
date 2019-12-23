@@ -217,4 +217,52 @@ class CommonHelper
         $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->select('image_name')->take(3)->get();
         return $activity_images;
     }
+    public static function getBookingHotel($bookingid,$cityid){
+        $hotel_data = DB::table('booking_hotel as bh')->select('hotel_id','total_rooms','total_amount')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)->first();
+      
+        $hotels = null;
+        if(!empty($hotel_data)){
+            $hotels = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                'roomtypes',
+                'hotelimages'
+            ))->where('id','=',$hotel_data->hotel_id)->first();
+            // $hotels['roomtype_id'] = $hotel_data->roomtype_id;
+            $hotels['total_rooms'] = $hotel_data->total_rooms;
+            $hotels['total_amount'] = $hotel_data->total_amount;
+              //dd( $hotels);
+            //return json_encode(['hotels' => $hotels, 'roomtype' => $hotel_data->roomtype_id]);
+        }
+        return $hotels;
+
+    }
+    public static  function getBookingActivities($bookingid,$cityid){
+        
+            //dd($packageid);
+            $activity_ids = DB::table('booking_activities as ba')
+                        ->where('ba.booking_id','=',$bookingid)
+                        ->where('ba.city_id','=',$cityid)
+                        ->pluck('ba.activity_id');
+           // dd($activity_ids);
+            $activities = Activity::with(
+                array(
+                    'activity_images'
+                ))->whereIn('id',$activity_ids)->get();
+           // dd($activities);
+            return $activities;
+    }
+    
+    public static function getBookingActivityCost($bookingid,$activityid){
+        $activity_amount = DB::table('booking_activities as ba')
+                   ->where('ba.booking_id','=',$bookingid)
+                   ->where('ba.activity_id','=',$activityid)
+                   ->pluck('ba.total_amount')->first();
+                  // dd(  $activity_amount);
+       return $activity_amount==null ? 0 : $activity_amount;
+   }
 }
