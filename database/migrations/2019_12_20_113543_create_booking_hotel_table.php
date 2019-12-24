@@ -18,6 +18,7 @@ class CreateBookingHotelTable extends Migration
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('hotel_id');
+            $table->integer('roomtype_id')->nullable();
             $table->integer('total_rooms')->default(0);
             $table->float('total_amount', 8, 2)->default(0);
             $table->timestamps();

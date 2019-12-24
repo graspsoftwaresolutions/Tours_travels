@@ -908,7 +908,7 @@
             <div class="modal-body">
                <form id="customerformValidate" class="" method="post" data-toggle="validator">
                   <!-- <h1 class="text-display-1">Customer Information</h1> -->
-                  <input type="hidden" name="customer_id">
+                  <!--input type="hidden" name="customer_id"-->
                   <div class="row">
                      <div class="col-sm-4">
                         <div class="form-group input-field label-float">

@@ -43,6 +43,7 @@ class BookingController extends Controller
 
     public function bookingSave(Request $request)
     {
+        //return $request->transport_additional_charges;
         //return $request->all();
         $request->validate([
             'packageid' => 'required',
@@ -57,20 +58,21 @@ class BookingController extends Controller
         ]);
          $SaveBooking = new Booking();
          $SaveBooking->package_id = $request->packageid;
+         $SaveBooking->customer_id = $request->customer_id;
          $SaveBooking->adult_count = $request->adult_count;
          $SaveBooking->child_count = $request->child_count;
          $SaveBooking->infant_count = $request->infant_count;
-        //  $SaveBooking->to_city_id = $request->to_city_id;
-        //  $SaveBooking->to_country_id = $request->to_country_id;
-        //  $SaveBooking->to_state_id = $request->to_state_id;
-        //  $SaveBooking->from_city_id = $request->from_city_id;
-        //  $SaveBooking->from_country_id = $request->from_country_id;
-        //  $SaveBooking->from_state_id = $request->from_state_id;
+         $SaveBooking->to_city_id = $request->travelling_to_city_id;
+         $SaveBooking->to_country_id = $request->travelling_to_country_id;
+         $SaveBooking->to_state_id = $request->travelling_to_state_id;
+         $SaveBooking->from_city_id = $request->travelling_from_city_id;
+         $SaveBooking->from_country_id = $request->travelling_from_country_id;
+         $SaveBooking->from_state_id = $request->travelling_from_state_id;
          $SaveBooking->total_accommodation = $request->total_accommodation;
          $SaveBooking->total_activities = $request->total_activities;
         // $SaveBooking->additional_charges = $request->additional_charges;
         // $SaveBooking->transport_charges = $request->transport_charges;
-         $SaveBooking->transport_additional_charges = $request->transport_additional_charges;
+         $SaveBooking->transport_additional_charges = $request->additional_transport;
          $SaveBooking->total_package_value = $request->total_package_value;
          $SaveBooking->tax_percentage = $request->gst_per;
          $SaveBooking->tax_amount = $request->gst_amount;
@@ -78,7 +80,10 @@ class BookingController extends Controller
          $SaveBooking->adult_price_person = $request->adult_price;
          $SaveBooking->package_type = $request->package_type;
          $SaveBooking->child_price_person = $request->child_price==null ? 0 : $request->child_price;
-         $SavePacSaveBookingkage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
+         $SaveBooking->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
+         $SaveBooking->discount_amount = $request->discount_amt;
+         $SaveBooking->from_date = $request->from_date;
+         $SaveBooking->to_date = $request->to_date;
 
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 
@@ -148,7 +153,7 @@ class BookingController extends Controller
                     
 				}
             }
-        return redirect('/booking')->with('message','Package Added Successfully!!');
+        return redirect('/booking_list')->with('message','Package Added Successfully!!');
         //return json_encode($package);
     }
     public function List(){
