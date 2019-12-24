@@ -218,6 +218,9 @@
 			   @if($place->nights_count!=0)
 				  @php
 					 $sum_package_hotel = CommonHelper::getBookingHotel($booking_data->id,$place->city_id);
+
+					 
+					 
 					  $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
 					 
 					  $amenitystring = '';
@@ -247,39 +250,40 @@
                     <p > <b> {{$slno}} . {{ $place_state_name }} - {{ $place_city_name }} </b> </p>
 				    @if($sum_package_hotel!=null)
                         @php
-                        $hotelimages  = CommonHelper::getHotelImages($sum_package_hotel->hotel_id); 
-                        $hotelimages = $sum_package_hotel->hotelimages;
+                        $hotelimages  = CommonHelper::getHotelImages($sum_package_hotel->id); 
+						//dd($hotelimages);
+                       // $hotelimages = $sum_package_hotel->hotelimages;
                         $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-                        @endphp
-                        <p > <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
+					    @endphp
+                        <p class="inner-bullets"> <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
                        <br>
                         <p> @php
                         if(count($hotelimages) > 0)
                         {
                             @endphp
                             @foreach($hotelimages as $val)
-                        <img alt="{{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }}" style="width:200px;height:180px;border-width:5px;border-style:solid;border-color:#8ebfed   ;"  border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}">
+                        <img class="inner-bullets" alt="hotel_images" style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed   ;"  border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}">
                             @endforeach
                         @php
                         }
                         else{ 
                         @endphp
-                        <img style="width:200px;height:200px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
+                        <img class="inner-bullets" style="width:200px;height:200px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
                         @php
                         }
                     @endphp  
 			  </p> 
-                    <p><b> Amenities </b> : {{ $amenitystring  ? $amenitystring : ''}}</p>
+                    <p class="inner-bullets"><b> Amenities </b> : {{ $amenitystring  ? $amenitystring : ''}}</p>
                     <div class="clearfix"/> 
-                        <p > <b> Overview : </b> </p>
+                        <p class="inner-bullets"> <b> Overview : </b> </p>
                         <div class="clearfix"/> 
-                        <div class="overview-section">
+                        <div class="overview-section inner-bullets">
                             {!! $sum_package_hotel->overview !!} 
                         </div>
                         <div class="clearfix"/> 
-						<p> <b> Room Type : </b> {{$roomtypesstring ? $roomtypesstring : ''}} </p>
-                        <p> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
-                        <p> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
+						<p class="inner-bullets">  <b> Room Type : </b> {{$roomtypesstring ? $roomtypesstring : ''}} </p>
+                        <p class="inner-bullets"> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
+                        <p class="inner-bullets"> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
                  @endif 
                  @foreach($sum_booking_activities as $activity)
                         @php
@@ -289,20 +293,20 @@
                             $booking_activity_cost= CommonHelper::getBookingActivityCost($booking_data->id,$activity->id);
                             $activity_images  = CommonHelper::getActivityImages($activity->id);
                         @endphp
-                        <p ><b>  Activity Name : </b> {{ $activity->title_name ? $activity->title_name : '' }}  </p>  <br>
+                        <p class="inner-bullets"><b>  Activity Name : </b> {{ $activity->title_name ? $activity->title_name : '' }}  </p>  <br>
                               <p > 
                                       @php
                                         if(count($activity_images) > 0)
                                         {
                                           @endphp
                                             @foreach($activity_images as $valu)
-                                          <img alt="{{ $activity->title_name ? $activity->title_name : '' }}" style="width:200px;height:200px;border-width:5px;border-style:solid;border-color:#8ebfed " src="{{ asset('storage/app/activity/'.$valu->image_name) }}">
+                                          	<img alt="activity_images" class="inner-bullets" style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed " src="{{ asset('storage/app/activity/'.$valu->image_name) }}">
                                             @endforeach
                                           @php
                                         }
                                         else{
                                           @endphp
-                                          <img style="width:200px;height:200px;border-width:5px;border-style:solid;border-color:#8ebfed "  src="{{ asset('public/assets/images/no_image.jpg') }}">
+                                          <img class="inner-bullets" style="width:200px;height:200px;border-width:5px;border-style:solid;border-color:#8ebfed "  src="{{ asset('public/assets/images/no_image.jpg') }}">
                                           @php
                                         }
                                       @endphp
@@ -335,9 +339,11 @@
 
 										$hours_and_minutes = $hours.' '.$minutes;
 									@endphp
-                              <p style="margin-left:90px;"><b> Duration </b> : {{ $hours_and_minutes ? $hours_and_minutes : '' }} </p>
-                              <p style="margin-left:90px;"><b> Overview </b> : </p>
-                              <p style="margin-left:90px;">{!! $activity->overview !!}</p>
+                              <p class="inner-bullets" style="margin-left:90px;"><b> Duration </b> : {{ $hours_and_minutes ? $hours_and_minutes : '' }} </p>
+                              <p class="inner-bullets" style="margin-left:90px;"><b> Overview </b> : </p>
+							  <div class="inner-bullets">
+                             	 <p  >{!! $activity->overview !!}</p>
+							  </div>
                               @php
                                     //  dd($activity);
                                
@@ -353,11 +359,11 @@
                                         $excsomeArray = json_decode($exclusion, true);
                                     }
                                     @endphp
-                              <p ><b> Inclusions </b> : </p>
+                              <p class="inner-bullets"><b> Inclusions </b> : </p>
 							 
                               <ul style="list-style-type:disc;">
 							  @php
-								if(count($someArray) > 0)
+								if(!empty($someArray))
 								{
 									@endphp
 									@foreach($someArray as $values)		
@@ -368,10 +374,10 @@
 								@endphp
 							  </ul> 
 
-                              <p ><b> Exclusions </b> : </p>
+                              <p class="inner-bullets"><b> Exclusions </b> : </p>
                               <ul style="list-style-type:disc;">
 							  @php
-								if(count($someArray) > 0)
+								if(!empty($someArray))
 								{
 									@endphp
 									@foreach($excsomeArray as $values)
@@ -380,14 +386,15 @@
 									@php
 								} @endphp
 							  </ul> 
-                              <p><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
-                              <p ><b> Amount </b> : {{$booking_activity_cost ? $booking_activity_cost : ''}} </p>
+                              <p class="inner-bullets"><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
+                              <p class="inner-bullets"><b> Amount </b> : {{$booking_activity_cost ? $booking_activity_cost : ''}} </p>
 
                               @endforeach   
                 @endif 
-                @php $slno++; @endphp 
+                @php $slno++; @endphp
                 @endforeach   
-                <p ><b> Price Summary </b> </p>
+				<p style="color:#4A7885"><b> Total Package Cost </b>  : {{$booking_data->grand_total ? $booking_data->grand_total : '' }}   </p>
+                <!-- <p ><b> Price Summary </b> </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
 							  <td style="color:#4A7885"> Accommodation </td>
@@ -416,8 +423,8 @@
 							  <td style="color:#4A7885"> Total Amount </td>
 							  <td> {{$booking_data->total_amount ? $booking_data->total_amount : ''}} </td>
 						   </tr>
-					</table>
-                    <p ><b> Additional price </b> </p>
+					</table> -->
+                    <!-- <p ><b> Additional price </b> </p>
                         <p > [Including transport and additional Charges] </p>             
 							 <table width="100%" class="package_table">
                         
@@ -433,7 +440,7 @@
 							  <td style="color:#4A7885"> Infant per price </td>
 							  <td> {{$booking_data->infant_price ? $booking_data->infant_price : ''}} </td>
 						   </tr>	
-						</table>
+						</table> -->
                         <p>	<address style="text-align:center">
 					@php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
 					  $company_state_name = CommonHelper::getstateName($company_data->state_id);

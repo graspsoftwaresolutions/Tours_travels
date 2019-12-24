@@ -194,8 +194,11 @@ class CommonHelper
     }
     public static function getHotelImages($hotel_id)
     {
-        $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$hotel_id)->select('image_name')->take(3)->get();
+        $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$hotel_id)->select('image_name')->Orderby('id', 'asc')->limit(3)->get();
+       // dd($hotel_images);
+      
         return $hotel_images;
+       
     }
     public static function getPackageInfo($packageid)
     {
@@ -232,7 +235,8 @@ class CommonHelper
                 'roomtypes',
                 'hotelimages'
             ))->where('id','=',$hotel_data->hotel_id)->first();
-             $hotels['roomtype_id'] = $hotel_data->roomtype_id;
+           
+            $hotels['roomtype_id'] = $hotel_data->roomtype_id;
             $hotels['total_rooms'] = $hotel_data->total_rooms;
             $hotels['total_amount'] = $hotel_data->total_amount;
               //dd( $hotels);

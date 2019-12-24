@@ -213,39 +213,39 @@
                     <p > <b> {{$slno}} . {{ $place_state_name }} - {{ $place_city_name }} </b> </p>
 				    @if($sum_package_hotel!=null)
                         @php
-                        $hotelimages  = CommonHelper::getHotelImages($sum_package_hotel->hotel_id); 
-                        $hotelimages = $sum_package_hotel->hotelimages;
+                        $hotelimages  = CommonHelper::getHotelImages($sum_package_hotel->id); 
+                       // $hotelimages = $sum_package_hotel->hotelimages;
                         $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                         @endphp
-                        <p > <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
+                        <p class="inner-bullets"> <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
                        <br>
                         <p> @php
                         if(count($hotelimages) > 0)
                         {
                             @endphp
                             @foreach($hotelimages as $val)
-                        <img style="width:200px;height:180px;border-width:5px;border-style:solid;border-color:#8ebfed   ;" alt="{{ ucfirst($sum_package_hotel->hotel_name) }}" border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}"> 
+                        <img style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed   ;" alt="{{ ucfirst($sum_package_hotel->hotel_name) }}" border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}"> 
                             @endforeach
                         @php
                         }
                         else{ 
                         @endphp
-                        <img style="width:200px;height:200px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
+                        <img style="width:150px;height:150px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
                         @php
                         }
                     @endphp  
 			  </p> 
-                    <p><b> Amenities </b> : {{ $amenitystring  ? $amenitystring : ''}}</p>
-                    <div class="clearfix"/> 
-                        <p > <b> Overview : </b> </p>
+                    <p class="inner-bullets"><b> Amenities </b> : {{ $amenitystring  ? $amenitystring : ''}}</p>
+                    <div class="clearfix" /> 
+                        <p class="inner-bullets"> <b> Overview : </b> </p>
                         <div class="clearfix"/> 
-                        <div class="overview-section">
+                        <div class="overview-section inner-bullets">
                             {!! $sum_package_hotel->overview !!} 
                         </div>
                         <div class="clearfix"/> 
-                        <p> <b> Room Type : </b> {{$roomtypesstring ? $roomtypesstring : ''}} </p>
-                        <p> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
-                        <p> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
+                        <p class="inner-bullets"> <b> Room Type : </b> {{$roomtypesstring ? $roomtypesstring : ''}} </p>
+                        <p class="inner-bullets"> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
+                        <p class="inner-bullets"> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
 			    <br>
 					@endif
                     @foreach($sum_package_activities as $activity)
@@ -256,7 +256,7 @@
                             $package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
                             $activity_images  = CommonHelper::getActivityImages($activity->id);
                         @endphp
-                        <p ><b>  Activity Name : </b> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }}  </p>  <br>
+                        <p class="inner-bullets"><b>  Activity Name : </b> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }}  </p>  <br>
                               <p > 
                                       @php
                                         if(count($activity_images) > 0)
@@ -264,13 +264,13 @@
                                           @endphp
                                             @foreach($activity_images as $valu)
 										
-												<img style="width:200px;height:180px;border-width:5px;border-style:solid;border-color:#8ebfed " alt="{{ ucfirst($activity->title_name) }}" src="{{ asset('storage/app/activity/'.$valu->image_name) }}"> 
+												<img class="inner-bullets" style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed " alt="{{ ucfirst($activity->title_name) }}" src="{{ asset('storage/app/activity/'.$valu->image_name) }}"> 
 											@endforeach
 											@php
 											}
 											else{ 
 											@endphp
-											<img style="width:200px;height:200px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
+											<img class="inner-bullets" style="width:150px;height:150px;padding-top:30px " src="{{ asset('public/assets/images/no_image.jpg') }}">
 											@php
 											}
 										@endphp 
@@ -305,9 +305,11 @@
 										$hours_and_minutes = $hours.' '.$minutes;
 									@endphp
 
-                              <p style="margin-left:90px;"><b> Duration </b> : {{ $hours_and_minutes ? $hours_and_minutes : '' }} </p>
-                              <p style="margin-left:90px;"><b> Overview </b> : </p>
-                              <p style="margin-left:90px;">{!! $activity->overview !!}</p>
+                              <p class="inner-bullets" style="margin-left:90px;"><b> Duration </b> : {{ $hours_and_minutes ? $hours_and_minutes : '' }} </p>
+                              <p class="inner-bullets" style="margin-left:90px;"><b> Overview </b> : </p>
+							  <div class="inner-bullets">
+                             	 <p  >{!! $activity->overview !!}</p>
+							  </div>
                               @php
                                     //  dd($activity);
                                
@@ -323,11 +325,11 @@
                                         $excsomeArray = json_decode($exclusion, true);
                                     }
                                     @endphp
-                              <p ><b> Inclusions </b> : </p>
+                              <p class="inner-bullets"><b> Inclusions </b> : </p>
 							  <ul style="list-style-type:disc;">
 
                              @php
-								if(count($someArray) > 0)
+								if(!empty($someArray))
 								{
 									@endphp
 									@foreach($someArray as $values)		
@@ -338,10 +340,10 @@
 								@endphp
 							  </ul> 
 
-                              <p ><b> Exclusions </b> : </p>
+                              <p class="inner-bullets"><b> Exclusions </b> : </p>
 							  <ul style="list-style-type:disc;">
                               	@php
-								if(count($someArray) > 0)
+								if(!empty($someArray))
 								{
 									@endphp
 									@foreach($excsomeArray as $values)
@@ -351,8 +353,8 @@
 								}
 								  @endphp
 							  </ul> 
-                              <p><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
-                              <p ><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
+                              <p class="inner-bullets"><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
+                              <p class="inner-bullets"><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
 
                         @endforeach   
                 @endif 

@@ -42,7 +42,7 @@ class PdfController extends Controller
     public function BookingView($encid)
     {
         $bookingid = crypt::decrypt($encid);
-        $data['booking_data'] = DB::table('booking_master as bm')->select('bm.id','bm.package_id','bm.customer_id','bm.package_type','bm.adult_count','child_count','infant_count','adult_count','con.country_name','st.state_name','cit.city_name','total_package_value','tax_percentage','tax_amount','total_amount','adult_price_person','child_price_person','infant_price','total_accommodation','total_activities','discount_amount','transport_additional_charges','from_country_id','from_state_id','from_city_id','from_date','to_date')
+        $data['booking_data'] = DB::table('booking_master as bm')->select('bm.id','bm.package_id','bm.customer_id','bm.package_type','bm.adult_count','child_count','infant_count','adult_count','con.country_name','st.state_name','cit.city_name','total_package_value','tax_percentage','tax_amount','total_amount','adult_price_person','child_price_person','infant_price','total_accommodation','total_activities','discount_amount','transport_additional_charges','from_country_id','from_state_id','from_city_id','from_date','to_date','grand_total')
                             ->leftjoin('country as con','con.id','=','bm.to_country_id')
                             ->leftjoin('state as st','st.id','=','bm.to_state_id')
                             ->leftjoin('city as cit','cit.id','=','bm.to_city_id')
@@ -63,7 +63,7 @@ class PdfController extends Controller
         
          if($data!='')
          {
-          // return view('booking.pdf.booking_pdf')->with($data);
+         //  return view('booking.pdf.booking_pdf')->with($data);
             $pdf = PDF::loadView('booking.pdf.booking_pdf', $data);
             return  $pdf->stream();
            // return $pdf->download('booking_details.pdf');
