@@ -61,6 +61,10 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
+            request()->validate([
+                'hotel_images' => 'required',
+                'hotel_images.*' => 'mimes:png,jpg'
+              ]);
             $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
@@ -197,7 +201,10 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
-            
+            request()->validate([
+                'hotel_images' => 'required',
+                'hotel_images.*' => 'mimes:png,jpg'
+              ]);
             $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
@@ -410,5 +417,9 @@ class HotelController extends CommonController
             
         }
         echo json_encode($returndata);
+    }
+    public function imageValidation()
+    {
+        return view('booking.pdf.images');
     }
 }

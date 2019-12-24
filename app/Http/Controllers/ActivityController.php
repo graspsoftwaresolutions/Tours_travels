@@ -34,14 +34,10 @@ class ActivityController extends BaseController
     public function activitySave(Request $request)
     {
         $request->validate([
-            'title_name' => 'required',
-            
-           
-            
+            'title_name' => 'required',    
                 ], [
             'title_name.required' => 'please enter title name',
-            
-           
+
         ]);
         $data = $request->all();
         $hours = $request->hours * 60 ;
@@ -82,6 +78,10 @@ class ActivityController extends BaseController
             {
                 if($request->hasfile('image_name'))
                 { 
+                    request()->validate([
+                        'image_name' => 'required',
+                        'image_name.*' => 'mimes:png,jpg'
+                      ]);
                     $slno = 1;
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
@@ -170,17 +170,10 @@ class ActivityController extends BaseController
        // $files = $request->file('image_name');
         if($request->hasfile('image_name'))
         {
-            // $s1 = 0;
-            // foreach($request->file('image_name') as $file)
-            // {
-            //     $name = ($s1+1).'-'.time().'.'.$file->extension();  
-            //     $file->move('storage/app/hotels/rooms',$name); 
-            //     $file= new ActivityImages();
-            //     $file->activity_id =  $autoid;
-            //     $file->image_name= $name;
-            //     $file->save();
-            //     $s1++;
-            // }
+            request()->validate([
+                'image_name' => 'required',
+                'image_name.*' => 'mimes:png,jpg'
+              ]);
                 $slno = 1;
                 foreach ($request->file('image_name') as $file) {
                 $extension = $file->getClientOriginalExtension();
