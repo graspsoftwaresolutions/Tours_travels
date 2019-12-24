@@ -233,7 +233,14 @@
 					  $roomtypesstring = '';
 					  $type_count = $sum_package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
 
-					 
+					  if($sum_package_hotel!=null){
+						foreach($sum_package_hotel->roomtypes as $key => $roomtype){
+						  if($roomtype->pivot->roomtype_id==$sum_package_hotel->roomtype_id){
+							$roomtypesstring = $roomtype->room_type;
+							//dd($roomtypesstring);
+						  } 
+						}
+					  }				 
 					  $sum_booking_activities = CommonHelper::getBookingActivities($booking_data->id,$place->city_id);
                      
 				    @endphp
@@ -270,8 +277,9 @@
                             {!! $sum_package_hotel->overview !!} 
                         </div>
                         <div class="clearfix"/> 
-                        <p> No of Rooms : {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
-                        <p> Total Amount : {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
+						<p> <b> Room Type : </b> {{$roomtypesstring ? $roomtypesstring : ''}} </p>
+                        <p> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
+                        <p> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
                  @endif 
                  @foreach($sum_booking_activities as $activity)
                         @php
@@ -348,16 +356,29 @@
                               <p ><b> Inclusions </b> : </p>
 							 
                               <ul style="list-style-type:disc;">
-                              @foreach($someArray as $values)		
-									<li class="inner-bullets">{{$values ? $values : ''}}</li>
-                              @endforeach
+							  @php
+								if(count($someArray) > 0)
+								{
+									@endphp
+									@foreach($someArray as $values)		
+											<li class="inner-bullets">{{$values ? $values : ''}}</li>
+									@endforeach
+								  @php
+								}
+								@endphp
 							  </ul> 
 
                               <p ><b> Exclusions </b> : </p>
                               <ul style="list-style-type:disc;">
-                              @foreach($excsomeArray as $values)
-							 	 <li class="inner-bullets">{{$values ? $values : ''}}</li>
-                              @endforeach
+							  @php
+								if(count($someArray) > 0)
+								{
+									@endphp
+									@foreach($excsomeArray as $values)
+										<li class="inner-bullets">{{$values ? $values : ''}}</li>
+									@endforeach
+									@php
+								} @endphp
 							  </ul> 
                               <p><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
                               <p ><b> Amount </b> : {{$booking_activity_cost ? $booking_activity_cost : ''}} </p>
@@ -366,7 +387,7 @@
                 @endif 
                 @php $slno++; @endphp 
                 @endforeach   
-                <p style="color:#4A7885"><b> Price Summary </b> : </p>
+                <p ><b> Price Summary </b> </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
 							  <td style="color:#4A7885"> Accommodation </td>
