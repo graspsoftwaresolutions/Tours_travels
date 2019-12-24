@@ -142,7 +142,7 @@ Route::post('/customer_phoneexists', 'CommonController@customerPhoneExists');
 Route::get('package_place_details','PackageController@packagePlaceDetails')->name('package_place_details');
 
 //Booking
-
+Route::get('/image_validation', 'HotelController@imageValidation');
 
 Route::get('/new_booking', 'BookingController@index')->name('booking.new');
 Route::get('/new_autocomplete', 'BookingController@auto');
@@ -153,7 +153,6 @@ Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('pa
 Route::get('delete_package_activity','PackageController@DeleteActivity')->name('delete_package_activity');
 Route::post('/package_update', 'PackageController@packageUpdate')->name('package_update');
 //Route::get('packag-edit','PackageController@EditPackag');
-
 //Package TYpe
 Route::get('/packagetype_list', 'MasterController@packageTypeList')->name('packagetype.list');
 Route::post('packagetype_exists','AjaxController@checkpackageType_exists');

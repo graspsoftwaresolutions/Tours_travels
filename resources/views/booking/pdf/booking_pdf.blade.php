@@ -413,16 +413,17 @@
 							  <td> {{$booking_data->infant_price ? $booking_data->infant_price : ''}} </td>
 						   </tr>	
 						</table>
-                        <h2 style="color:#4A7885"><b>  Contact Info</b> </h2>
-                        <p ><b> Company Name </b> : {{$company_data->company_name ? $company_data->company_name : '' }}  </p>
-                        <p ><b> Company Website </b> : {{$company_data->company_website ? $company_data->company_website : '' }} </p>
-                        <p ><b> Company Email </b> : {{$company_data->company_email ? $company_data->company_email : '' }} </p>
-                        <p ><b> Company Phone </b> : {{$company_data->company_phone ? $company_data->company_phone : '' }} </p>
-                        @php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
-                            $company_state_name = CommonHelper::getstateName($company_data->state_id);
-                            $company_city_name = CommonHelper::getcityName($company_data->city_id);
-                        @endphp
-                    <p ><b> Company Address </b> : {{$company_data->company_address_one ? $company_data->company_address_one : '' }} , {{$company_data->company_address_two ? $company_data->company_address_two : '' }} , {{ $company_country_name }} , {{ $company_state_name }} , {{ $company_city_name }} {{ $company_data->zipcode }}  </p>
+                        <p>	<address style="text-align:center">
+					@php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
+					  $company_state_name = CommonHelper::getstateName($company_data->state_id);
+					  $company_city_name = CommonHelper::getcityName($company_data->city_id);
+				  @endphp
+					{{ $company_data->company_name ? ucfirst($company_data->company_name) : '' }}<br> 
+					{{$company_data->company_address_one ? ucfirst($company_data->company_address_one) : '' }} , {{$company_data->company_address_two ? ucfirst($company_data->company_address_two) : '' }} , <br> {{ $company_country_name }} , {{ $company_state_name }} , {{ $company_city_name }} {{ $company_data->zipcode }}<br>
+					Contact :  {{$company_data->company_phone ? $company_data->company_phone : '' }}<br>
+						Website : {{$company_data->company_website ? $company_data->company_website : '' }}  <br>
+						Email : {{$company_data->company_email ? $company_data->company_email : '' }}.
+					</address>
 	</div>
 </body>
 </html>
