@@ -15,7 +15,7 @@ class CreateBookingActivitiesTable extends Migration
     {
         Schema::create('booking_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('package_id');
+            $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('activity_id');
             $table->float('total_amount', 8, 2)->default(0);
