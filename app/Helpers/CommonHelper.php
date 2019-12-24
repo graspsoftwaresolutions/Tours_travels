@@ -217,7 +217,7 @@ class CommonHelper
     }
     public static function getActivityImages($activityid)
     {
-        $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->select('image_name')->take(3)->get();
+        $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->Orderby('id', 'asc')->limit(3)->get();
         return $activity_images;
     }
     public static function getBookingHotel($bookingid,$cityid){
