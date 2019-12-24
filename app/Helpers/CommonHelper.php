@@ -218,7 +218,7 @@ class CommonHelper
         return $activity_images;
     }
     public static function getBookingHotel($bookingid,$cityid){
-        $hotel_data = DB::table('booking_hotel as bh')->select('hotel_id','total_rooms','total_amount')
+        $hotel_data = DB::table('booking_hotel as bh')->select('hotel_id','total_rooms','total_amount','roomtype_id')
                     ->where('bh.booking_id','=',$bookingid)
                     ->where('bh.city_id','=',$cityid)->first();
       
@@ -232,7 +232,7 @@ class CommonHelper
                 'roomtypes',
                 'hotelimages'
             ))->where('id','=',$hotel_data->hotel_id)->first();
-            // $hotels['roomtype_id'] = $hotel_data->roomtype_id;
+             $hotels['roomtype_id'] = $hotel_data->roomtype_id;
             $hotels['total_rooms'] = $hotel_data->total_rooms;
             $hotels['total_amount'] = $hotel_data->total_amount;
               //dd( $hotels);

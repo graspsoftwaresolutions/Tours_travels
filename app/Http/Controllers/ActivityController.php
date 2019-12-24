@@ -78,10 +78,10 @@ class ActivityController extends BaseController
             {
                 if($request->hasfile('image_name'))
                 { 
-                    request()->validate([
-                        'image_name' => 'required',
-                        'image_name.*' => 'mimes:png,jpg'
-                      ]);
+                    // request()->validate([
+                    //     'image_name' => 'required',
+                    //     'image_name.*' => 'mimes:png,jpg'
+                    //   ]);
                     $slno = 1;
                     foreach ($request->file('image_name') as $file) {
                         $extension = $file->getClientOriginalExtension();
@@ -170,10 +170,10 @@ class ActivityController extends BaseController
        // $files = $request->file('image_name');
         if($request->hasfile('image_name'))
         {
-            request()->validate([
-                'image_name' => 'required',
-                'image_name.*' => 'mimes:png,jpg'
-              ]);
+            // request()->validate([
+            //     'image_name' => 'required',
+            //     'image_name.*' => 'mimes:png,jpg'
+            //   ]);
                 $slno = 1;
                 foreach ($request->file('image_name') as $file) {
                 $extension = $file->getClientOriginalExtension();

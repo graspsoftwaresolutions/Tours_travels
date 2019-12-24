@@ -142,7 +142,8 @@ Route::post('/customer_phoneexists', 'CommonController@customerPhoneExists');
 Route::get('package_place_details','PackageController@packagePlaceDetails')->name('package_place_details');
 
 //Booking
-Route::get('/image_validation', 'HotelController@imageValidation');
+Route::get('/image_validation', 'FileController@imageValidation');
+Route::post('filesave', 'FileController@save');  
 
 Route::get('/new_booking', 'BookingController@index')->name('booking.new');
 Route::get('/new_autocomplete', 'BookingController@auto');

@@ -276,7 +276,6 @@
 										@endphp 
 									  
                                </p>
-
 									@php 
 									$hours = floor($activity->duartion_hours / 60) ;
 									$minutes = floor($activity->duartion_hours % 60) ;
@@ -326,16 +325,31 @@
                                     @endphp
                               <p ><b> Inclusions </b> : </p>
 							  <ul style="list-style-type:disc;">
-                              @foreach($someArray as $values)		
-									<li class="inner-bullets">{{$values ? $values : ''}}</li>
-                              @endforeach
+
+                             @php
+								if(count($someArray) > 0)
+								{
+									@endphp
+									@foreach($someArray as $values)		
+											<li class="inner-bullets">{{$values ? $values : ''}}</li>
+									@endforeach
+								  @php
+								}
+								@endphp
 							  </ul> 
 
                               <p ><b> Exclusions </b> : </p>
 							  <ul style="list-style-type:disc;">
-                              @foreach($excsomeArray as $values)
-							 	 <li class="inner-bullets">{{$values ? $values : ''}}</li>
-                              @endforeach
+                              	@php
+								if(count($someArray) > 0)
+								{
+									@endphp
+									@foreach($excsomeArray as $values)
+										<li class="inner-bullets">{{$values ? $values : ''}}</li>
+									@endforeach
+									@php
+								}
+								  @endphp
 							  </ul> 
                               <p><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
                               <p ><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>

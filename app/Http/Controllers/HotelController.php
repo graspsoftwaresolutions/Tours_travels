@@ -14,6 +14,7 @@ use App\Model\Amenities;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use Redirect,Response,File;
 
 class HotelController extends CommonController
 {
@@ -61,10 +62,10 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
-            request()->validate([
-                'hotel_images' => 'required',
-                'hotel_images.*' => 'mimes:png,jpg'
-              ]);
+            // request()->validate([
+            //     'hotel_images' => 'required',
+            //     'hotel_images.*' => 'mimes:png,jpg'
+            //   ]);
             $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
@@ -201,10 +202,10 @@ class HotelController extends CommonController
         $files = $request->file('hotel_images');
         if($request->hasFile('hotel_images'))
         {
-            request()->validate([
-                'hotel_images' => 'required',
-                'hotel_images.*' => 'mimes:png,jpg'
-              ]);
+            // request()->validate([
+            //     'hotel_images' => 'required',
+            //     'hotel_images.*' => 'mimes:png,jpg'
+            //   ]);
             $slno = 1;
             foreach ($files as $file) {
                 $extension = $file->getClientOriginalExtension();
@@ -333,8 +334,8 @@ class HotelController extends CommonController
                     // }
                     // request()->validate([
 
-                    //     'image_name' => 'mimes:jpeg,png,jpg|max:2048|dimensions:max_width=1200,max_height=700',
-            
+                    //    // 'image_name' => 'mimes:jpeg,png,jpg|max:2048|dimensions:max_width=1200,max_height=700',
+                    //    'image_name' => 'image|mimes:jpg'
                     // ]);
 
                     $slno = 1;
@@ -418,8 +419,5 @@ class HotelController extends CommonController
         }
         echo json_encode($returndata);
     }
-    public function imageValidation()
-    {
-        return view('booking.pdf.images');
-    }
+    
 }

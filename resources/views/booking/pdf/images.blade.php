@@ -33,7 +33,7 @@
                 </div>
             @endif
  
-            <form action="/file" method="post" enctype="multipart/form-data">
+            <form action="{{url('filesave')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <input type="file" class="form-control-file" name="file[]" id="file" aria-describedby="fileHelp">

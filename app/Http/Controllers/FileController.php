@@ -8,9 +8,10 @@ Use App\Document;
  
 class FileController extends Controller
 {
- 
+  
     public function imageValidation()
     {
+      //  return 1;
         return view('booking.pdf.images');
     }
  
@@ -18,24 +19,36 @@ class FileController extends Controller
     {
        request()->validate([
          'file' => 'required',
-         'file.*' => 'mimes:doc,pdf,docx,txt,zip'
+         'file.*' => 'mimes:png,jpg'
        ]);
  
         if($request->hasfile('file'))
          {
- 
+            $autoid = 1;
             foreach($request->file('file') as $file)
             {
-                $filename=$file->getClientOriginalName();
-                $file->move(public_path().'/files/', $name);  
-                $insert['file'] = "$filename";
+                $extension = $file->getClientOriginalExtension();
+                $imageName = $autoid.'_'.date('Ymdhis').$slno.'.'.$extension;
+                $file->storeAs('hotels\room' , $imageName  ,'local');
+
+                DB::table('hotel_room_images')->insert(
+                    ['hotel_id' => $autoid, 'image_name' => $imageName]
+                );
+                $slno++;
             }
+
+            // if($request->hasfile('image_name'))
+            //     {
+            //         $s1 = 0;
+            //         $slno = 1;
+            //         foreach ($request->file('image_name') as $file) {
+                       
+            //         }
+            //     }
+                return redirect('/hotel_room')->with('message','Room Details Updated Successfully!!');
+
          }
-         
-        $check = Document::insertGetId($insert);
- 
-        return Redirect::to("file")
-        ->withSuccess('Great! files has been successfully uploaded.');
+        
  
     }
 }
