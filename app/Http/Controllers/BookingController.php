@@ -84,6 +84,7 @@ class BookingController extends Controller
          $SaveBooking->discount_amount = $request->discount_amt;
          $SaveBooking->from_date = $request->from_date;
          $SaveBooking->to_date = $request->to_date;
+         $SaveBooking->grand_total = $request->grand_total_amount;
 
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 

@@ -984,7 +984,7 @@ class AjaxController extends CommonController
             {  
                 $nestedData['id'] = $booking->id;
                 $nestedData['package_name'] = $booking->package_name;
-            
+                $nestedData['amount'] = $booking->city_name;
                 $nestedData['customer_name'] = $booking->name;
                 $nestedData['city_name'] = $booking->city_name;
                 $nestedData['state_name'] = $booking->state_name;
