@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use App\Helpers\CommonHelper;
-use App\Model\Country;
-use App\Model\State;
-use App\Model\City;
-use App\Model\Amenities;
-use App\Model\PackageType;
+use App\Model\Admin\Country;
+use App\Model\Admin\State;
+use App\Model\Admin\City;
+use App\Model\Admin\Amenities;
+use App\Model\Admin\PackageType;
 
-use App\Model\RoomType;
+use App\Model\Admin\RoomType;
 use App\User;
 use DB;
 use View;
@@ -105,7 +105,7 @@ class MasterController extends CommonController {
     public function stateList()
     {	
 		$data['country_view'] = Country::where('status','=','1')->get();
-        return view('master.state.state_list')->with('data',$data);
+        return view('admin.master.state.state_list')->with('data',$data);
     }
 	
 	
@@ -138,7 +138,7 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
-            return  redirect('/state')->with('error','State Already Exists'); 
+            return  redirect('admin/state')->with('error','State Already Exists'); 
         }
         else{
 
@@ -147,11 +147,11 @@ class MasterController extends CommonController {
             if ($saveState == true) {
                 if($auto_id!='')
                 {
-                    return redirect('/state')->with('message', 'State Name Updated Succesfully');
+                    return redirect('admin/state')->with('message', 'State Name Updated Succesfully');
                 }
                 else
                 {
-                    return redirect('/state')->with('message', 'State Name Added Succesfully');
+                    return redirect('admin/state')->with('message', 'State Name Added Succesfully');
                 }
             }
         }
@@ -168,15 +168,17 @@ class MasterController extends CommonController {
 
         $statecount=0;
 
-       
+    
         if($statecount > 0 )
         {
-            return redirect('/state')->with('error','You cannot delete the state');
+            return 1;   
+            return redirect('admin//state')->with('error','You cannot delete the state');
         }
         else{
             $State->where('id','=',$id)->update(['status'=>'0']);
+            return redirect('admin/state')->with('message','State Details Deleted Successfully!!');
         }
-        return redirect('/state')->with('message','State Details Deleted Successfully!!');
+        
 	}
 	
 		
@@ -186,7 +188,7 @@ class MasterController extends CommonController {
     {
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
-        return view('master.city.city_list',compact('data',$data));
+        return view('admin.master.city.city_list',compact('data',$data));
     }
 	
 	public function citySave(Request $request)
@@ -223,7 +225,7 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
-            return  redirect($defdaultLang.'/city')->with('error','User Email Already Exists'); 
+            return  redirect($defdaultLang.'admin/city')->with('error','User Email Already Exists'); 
         }
         else{
 
@@ -232,11 +234,11 @@ class MasterController extends CommonController {
             if ($saveCity == true) {
                 if($auto_id!='')
                 {
-                    return redirect($defdaultLang . '/city')->with('message', 'City Name Updated Succesfully');
+                    return redirect($defdaultLang . 'admin/city')->with('message', 'City Name Updated Succesfully');
                 }
                 else
                 {
-                    return redirect($defdaultLang . '/city')->with('message', 'City Name Added Succesfully');
+                    return redirect($defdaultLang . 'admin/city')->with('message', 'City Name Added Succesfully');
                 }
             }
         }
@@ -255,12 +257,12 @@ class MasterController extends CommonController {
         $defdaultLang = '';
         if($City_count > 0)
         {
-            return redirect($defdaultLang.'/city')->with('error','You cannot delete the City');
+            return redirect($defdaultLang.'\admin/city')->with('error','You cannot delete the City');
         }
         else{
             $city->where('id','=',$id)->update(['status'=>'0']);
         }
-        return redirect($defdaultLang.'/city')->with('message','City Details Deleted Successfully!!');
+        return redirect($defdaultLang.'admin/city')->with('message','City Details Deleted Successfully!!');
     }
     
     public function amenitiesSave(Request $request)
@@ -284,7 +286,7 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
-            return  redirect('/new_amenities')->with('error','Amenities Already Exists'); 
+            return  redirect('admin/new_amenities')->with('error','Amenities Already Exists'); 
         }
         else{
 
@@ -294,11 +296,11 @@ class MasterController extends CommonController {
 
                 if($request->input('masterid')!='')
                 {
-                    return redirect('/new_amenities')->with('message', 'Amenities Name Updated Succesfully');
+                    return redirect('admin/new_amenities')->with('message', 'Amenities Name Updated Succesfully');
                 }
                 else
                 {
-                    return redirect('/new_amenities')->with('message', 'Amenities Name Added Succesfully');
+                    return redirect('admin/new_amenities')->with('message', 'Amenities Name Added Succesfully');
                 } 
             }
         }
@@ -309,17 +311,17 @@ class MasterController extends CommonController {
         $amenities_count=0;
         if($amenities_count>0 )
         {
-            return redirect('new_amenities')->with('error','You cannot delete the Amenities!');
+            return redirect('admin/new_amenities')->with('error','You cannot delete the Amenities!');
         }
         else{
             $Amenities->where('id','=',$id)->update(['status'=>'0']);
         }  
-        return redirect('/new_amenities')->with('message','Amenities Details Deleted Successfully!!');
+        return redirect('admin/new_amenities')->with('message','Amenities Details Deleted Successfully!!');
     }
     public function newRoomType()
     {
         $data['room_type'] = RoomType::where('status','=','1')->get();
-        return view('master.roomtype.room_type',compact('data',$data));
+        return view('admin.master.roomtype.room_type',compact('data',$data));
     }
     public function roomTypeSave(Request $request)
     {
@@ -342,7 +344,7 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
-            return  redirect('/new_roomtype')->with('error','Room Type Already Exists'); 
+            return  redirect('admin/new_roomtype')->with('error','Room Type Already Exists'); 
         }
         else{
 
@@ -352,11 +354,11 @@ class MasterController extends CommonController {
 
                 if($request->input('masterid')!='')
                 {
-                    return redirect('/new_roomtype')->with('message', 'RoomType Name Updated Succesfully');
+                    return redirect('admin/new_roomtype')->with('message', 'RoomType Name Updated Succesfully');
                 }
                 else
                 {
-                    return redirect('/new_roomtype')->with('message', 'saveRoomType Name Added Succesfully');
+                    return redirect('admin/new_roomtype')->with('message', 'saveRoomType Name Added Succesfully');
                 } 
             }
         }
@@ -367,17 +369,17 @@ class MasterController extends CommonController {
         $roomtype_count=0;
         if($roomtype_count>0 )
         {
-            return redirect('new_roomtype')->with('error','You cannot delete the Room Type!');
+            return redirect('admin/new_roomtype')->with('error','You cannot delete the Room Type!');
         }
         else{
             $this->RoomType->where('id','=',$id)->update(['status'=>'0']);
         }
-        return redirect('/new_roomtype')->with('message','Room Type Details Deleted Successfully!!');
+        return redirect('admin/new_roomtype')->with('message','Room Type Details Deleted Successfully!!');
     }
     public function packageTypeList()
     {
         $data['packgetype_list'] = PackageType::where('status','=','1')->get();
-        return view('package.packagetype.list')->with('data', $data);
+        return view('admin.package.packagetype.list')->with('data', $data);
     }
     public function packageTypeSave(Request $request)
     {
@@ -400,7 +402,7 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
-            return  redirect('/packagetype_list')->with('error','package Type Already Exists'); 
+            return  redirect('admin/packagetype_list')->with('error','package Type Already Exists'); 
         }
         else{
 
@@ -408,11 +410,11 @@ class MasterController extends CommonController {
             if ($savePackageType == true) {
                 if($request->input('masterid')!='')
                 {
-                    return redirect('/packagetype_list')->with('message', 'Package Details Updated Succesfully');
+                    return redirect('admin/packagetype_list')->with('message', 'Package Details Updated Succesfully');
                 }
                 else
                 {
-                    return redirect('/packagetype_list')->with('message', 'Package Details Added Succesfully');
+                    return redirect('admin/packagetype_list')->with('message', 'Package Details Added Succesfully');
                 }
                 
             }
@@ -423,12 +425,12 @@ class MasterController extends CommonController {
         $packgetype_count=0;
         if($packgetype_count>0 )
         {
-            return redirect('packagetype_list')->with('error','You cannot delete the Packge Type!');
+            return redirect('admin.packagetype_list')->with('error','You cannot delete the Packge Type!');
         }
         else{
             
             $this->PackageType->where('id','=',$id)->update(['status'=>'0']);
         }
-        return redirect('/packagetype_list')->with('message','Package Type Details Deleted Successfully!!');
+        return redirect('admin/packagetype_list')->with('message','Package Type Details Deleted Successfully!!');
     }
 }

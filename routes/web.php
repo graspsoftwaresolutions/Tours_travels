@@ -18,115 +18,159 @@
 Auth::routes();
 Route::get('/', 'Auth\LoginController@custom_login');
 Route::get('/home', 'HomeController@index')->name('home');
-//Country Master Details 
-Route::post('ajax_countries_list','AjaxController@ajax_countries_list')->name('master.ajaxcountrieslist');
-Route::get('country','MasterController@countryList')->name('master.country');
-Route::post('country_save','MasterController@countrySave')->name('master.savecountry');
-Route::get('country-edit','MasterController@countryEdit')->name('master.editcountry');
-Route::delete('country_delete/{id}','MasterController@countrydestroy')->name('master.countrydestroy');
-Route::post('country_nameexists','AjaxController@checkCountryNameExists');
-Route::get('country_detail','CommonController@countryDetail');
-
-//State Details 
-Route::get('state','MasterController@stateList')->name('master.state');
-Route::post('ajax_state_list','AjaxController@ajax_state_list');
-Route::post('state_save','MasterController@stateSave')->name('master.savestate');
-Route::delete('state-delete/{id}','MasterController@statedestroy')->name('master.statedestroy');
-Route::post('state_nameexists','AjaxController@checkStateNameExists');
-Route::get('state_detail','CommonController@stateDetail');
 
 
-//City Details 
-Route::get('city','MasterController@cityList')->name('master.city');
-Route::post('ajax_city_list','AjaxController@ajax_city_list');
-Route::post('city_save','MasterController@citySave')->name('master.savecity');
-Route::post('city_nameexists','AjaxController@checkCityNameExists');
-Route::get('city_detail','CommonController@cityDetail');
-Route::delete('city-delete/{id}','MasterController@citydestroy')->name('master.citydestroy');
 
-//Amenities Details 
-Route::get('/new_amenities', 'HotelController@newAmnities')->name('amenities.new');
-Route::post('amenities_save','MasterController@amenitiesSave')->name('master.saveamenities');
-Route::post('amenities_nameexists','AjaxController@checkAmenities_exists');
-Route::get('amenities_detail','CommonController@amnenitiesDetail');
-Route::delete('amenities_delete/{id}','MasterController@amenitiesdestroy')->name('master.amenitiesdestroy');
+Route::group( [ 'prefix' => 'admin' ], function()
+{
+    //Country Master Details 
+    Route::get('/country','Admin\MasterController@countryList')->name('master.country');
+    Route::post('/country_save','Admin\MasterController@countrySave')->name('master.savecountry');
+    Route::get('country-edit','Admin\MasterController@countryEdit')->name('master.editcountry');
+    Route::delete('country_delete/{id}','Admin\MasterController@countrydestroy')->name('master.countrydestroy'); 
+    Route::post('/country_nameexists','Admin\AjaxController@checkCountryNameExists')->name('country_nameexists');
+    Route::get('country_detail','Admin\CommonController@countryDetail')->name('country_detail');
+    Route::post('ajax_countries_list','Admin\AjaxController@ajax_countries_list')->name('master.ajaxcountrieslist');
 
-//Room TYpe Details
-Route::get('/new_roomtype', 'MasterController@newRoomType')->name('roomtype.new');
-Route::post('/room_type_nameexists', 'AjaxController@roomtypeNameexists');
-Route::post('roomtype_save','MasterController@roomTypeSave')->name('master.saveroomtype');
-Route::get('/roomtype_detail', 'CommonController@roomtypeDetail');
-Route::delete('roomtype_delete/{id}','MasterController@roomtypeDestroy')->name('master.roomtypedestroy');
+    //State Details 
+    Route::get('/state','Admin\MasterController@stateList')->name('master.state');
+    Route::post('/ajax_state_list','Admin\AjaxController@ajax_state_list')->name('ajax_state_list');
+    Route::post('/state_save','Admin\MasterController@stateSave')->name('master.savestate');
+    Route::delete('state-delete/{id}','Admin\MasterController@statedestroy')->name('master.statedestroy');
+    Route::post('/state_nameexists','Admin\AjaxController@checkStateNameExists')->name('state_nameexists');
+    Route::get('/state_detail','Admin\CommonController@stateDetail')->name('state_detail');
 
-//Hotel Rooms
-Route::get('/hotel_room', 'HotelController@newHotelRoom')->name('hotel.rooms');
-Route::get('/hotel_add_room', 'HotelController@addHotelRoom')->name('hotel.addrooms');
-Route::post('hotelroom_save','HotelController@hotelroomSave')->name('save.hotelroom');
-Route::get('hotel_room_edit/{id}','HotelController@hotelroomEdit');
-Route::get('delete_hotel_room_image','HotelController@RoomimageDelete');
+    //City Details 
+    Route::get('/city','Admin\MasterController@cityList')->name('master.city');
+    Route::post('/ajax_city_list','Admin\AjaxController@ajax_city_list')->name('ajax_city_list');
+    Route::post('/city_save','Admin\MasterController@citySave')->name('master.savecity');
+    Route::post('/city_nameexists','Admin\AjaxController@checkCityNameExists')->name('city_nameexists');
+    Route::get('/city_detail','Admin\CommonController@cityDetail')->name('city_detail');
+    Route::delete('city-delete/{id}','Admin\MasterController@citydestroy')->name('master.citydestroy');
+
+    //Amenities Details 
+    Route::get('/new_amenities', 'Admin\HotelController@newAmnities')->name('amenities.new');
+    Route::post('amenities_save','Admin\MasterController@amenitiesSave')->name('master.saveamenities');
+    Route::post('amenities_nameexists','Admin\AjaxController@checkAmenities_exists')->name('amenities_nameexists');
+    Route::get('amenities_detail','Admin\CommonController@amnenitiesDetail')->name('amenities_detail');
+    Route::delete('amenities_delete/{id}','Admin\MasterController@amenitiesdestroy')->name('master.amenitiesdestroy');
+
+    //Room TYpe Details
+    Route::get('/new_roomtype', 'Admin\MasterController@newRoomType')->name('roomtype.new');
+    Route::post('/room_type_nameexists', 'Admin\AjaxController@roomtypeNameexists')->name('room_type_nameexists');
+    Route::post('roomtype_save','Admin\MasterController@roomTypeSave')->name('master.saveroomtype');
+    Route::get('/roomtype_detail', 'Admin\CommonController@roomtypeDetail')->name('roomtype_detail');
+    Route::delete('roomtype_delete/{id}','Admin\MasterController@roomtypeDestroy')->name('master.roomtypedestroy');
+
+    //Hotel Details
+    Route::get('/hotels','Admin\HotelController@hotelList')->name('master.hotel');
+    Route::post('/ajax_hotels_list','Admin\AjaxController@ajax_hotels_list')->name('ajax_hotels_list');
+    Route::get('/new_hotel', 'Admin\HotelController@index')->name('hotel.new');
+    Route::post('hotel_save','Admin\HotelController@hotelSave')->name('save.newhotel');
+    Route::get('hotels-edit/{parameter}','Admin\HotelController@EditHotel')->name('master.edithotel');
+    Route::post('hotel_update','Admin\HotelController@hotelUpdate')->name('save.edithotel');
+
+    //Hotel Rooms
+    Route::get('/hotel_room', 'Admin\HotelController@newHotelRoom')->name('hotel.rooms');
+    Route::get('/hotel_add_room', 'Admin\HotelController@addHotelRoom')->name('hotel.addrooms');
+    Route::post('hotelroom_save','Admin\HotelController@hotelroomSave')->name('save.hotelroom');
+    Route::get('/hotel_room_edit/{id}','Admin\HotelController@hotelroomEdit')->name('hotel_room_edit');
+    Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelrooms');
+    Route::get('delete_hotel_room_image','Admin\HotelController@RoomimageDelete');
+
+    //Actvity 
+    Route::get('activity','Admin\ActivityController@activityList')->name('master.activity');
+    Route::get('/new_activity', 'Admin\ActivityController@index')->name('activity.new');
+    Route::post('ajax_activity_list','Admin\AjaxController@ajax_activities_list')->name('ajax_activity_list');
+    Route::post('activity_save','Admin\ActivityController@activitySave')->name('activity.save');
+    Route::post('activity_edit','Admin\ActivityController@activityEdit')->name('activity.edit');
+    Route::get('activity-edit/{parameter}','Admin\ActivityController@EditActivity')->name('activity.editactivity');
+
+    //Package
+    Route::get('/new_package', 'Admin\PackageController@index')->name('package.new');
+    Route::post('/package_save', 'Admin\PackageController@packageSave')->name('package_save');
+    Route::post('package_autocomplete','Admin\CommonController@packageAutocomplete')->name('package_autocomplete');
+
+    Route::get('/packages', 'Admin\PackageController@List')->name('package.list');
+    Route::post('/ajax_package_list','Admin\PackageController@ajax_package_list')->name('ajax_package_list');
+    Route::get('/package-edit/{parameter}','Admin\PackageController@EditPackage')->name('package.edit');
+    Route::get('/delete_package_activity','Admin\PackageController@DeleteActivity')->name('delete_package_activity');
+    Route::post('/package_update', 'Admin\PackageController@packageUpdate')->name('package_update');
+    Route::get('package_pdf/{parameter}','Admin\PdfController@packageView')->name('package.pdf');
+
+    //Package TYpe
+    Route::get('/packagetype_list', 'Admin\MasterController@packageTypeList')->name('packagetype.list');
+    Route::post('packagetype_exists','Admin\AjaxController@checkpackageType_exists')->name('packagetype_exists');
+    Route::post('packagetype_save','Admin\MasterController@packageTypeSave')->name('master.savepackagetype');
+    Route::get('/packagetype_detail', 'Admin\CommonController@getPackageDetails')->name('packagetype_detail');
+    Route::delete('packagetype_delete/{id}','Admin\MasterController@packageTypeDestroy')->name('master.packageTypedestroy');
+
+    //Booking
+    Route::get('/bookings', 'Admin\BookingController@List')->name('booking.list');
+    Route::get('/new_booking', 'Admin\BookingController@index')->name('booking.new');
+    Route::post('/booking_save', 'Admin\BookingController@bookingSave')->name('booking_save');
+    Route::post('customer_autocomplete','Admin\CommonController@customerAutocomplete')->name('customer_autocomplete');
+    
+    Route::get('/booking_list', 'Admin\BookingController@bookingList')->name('bookings.list');
+    Route::post('ajax_booking_list','Admin\AjaxController@ajax_booking_list')->name('ajax_booking_list');
+    Route::get('booking_pdf/{parameter}','Admin\PdfController@BookingView')->name('booking.pdf');
+
+    //Customer
+    Route::get('customer','Admin\CustomerController@customerList')->name('customer.new');
+    Route::post('ajax_customer_list','Admin\AjaxController@ajax_customer_list')->name('ajax_customer_list');
+    Route::get('customer_new','Admin\CustomerController@customerNew')->name('customer.add');
+    Route::post('customer_save','Admin\CustomerController@customerSave')->name('customer_save');
+    Route::get('edit_customer/{parameter}','Admin\CustomerController@customerEdit')->name('customer.edit');
+
+    //Enquiry
+    Route::get('enquiry','Admin\ActivityController@enquiryList')->name('enquiry.new');
+    Route::post('ajax_enquiry_list','Admin\AjaxController@ajax_enquiry_list')->name('ajax_enquiry_list');
+    Route::get('new_enquiry','Admin\ActivityController@enquiryNew')->name('enquiry.add');
+    Route::get('edit_enquiry/{parameter}','Admin\ActivityController@enquiryEdit')->name('enquiry.edit');
+    Route::post('enquiry_save','Admin\ActivityController@enquirySave')->name('enquiry_save');
+
+    //Tax
+    Route::get('tax','Admin/CommonController@taxSettings')->name('tax.new');
+    Route::post('tax_save','Admin/CommonController@taxSave')->name('tax_save');
+
+    //Websie
+    Route::get('website','Admin/CommonController@websiteSettings')->name('website.new');
+    Route::post('website_save','Admin/CommonController@websiteSave')->name('website_save');
+});
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
 
-Route::get('/new_hotel', 'HotelController@index')->name('hotel.new');
 
-Route::post('hotel_save','HotelController@hotelSave')->name('save.newhotel');
-
-Route::get('hotels','HotelController@hotelList')->name('master.hotel');
-Route::post('ajax_hotels_list','AjaxController@ajax_hotels_list');
-Route::get('hotels-edit/{parameter}','HotelController@EditHotel')->name('master.edithotel');
 Route::get('delete_hotel_image','HotelController@imageDelete')->name('hotel.imagedelete');
-Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelroom');
+
 
 Route::get('delete-roomtype-data','HotelController@deleteRoomtype');
-Route::post('hotel_update','HotelController@hotelUpdate')->name('save.edithotel');
+
 
 Route::get('/changePassword','HomeController@showChangePasswordForm')->name('changepassword');
 Route::post('/changePassword','HomeController@ChangePassword')->name('changePassword');
 
-//Actvity 
-Route::get('activity','ActivityController@activityList')->name('master.activity');
-Route::get('/new_activity', 'ActivityController@index')->name('activity.new');
-Route::post('ajax_activity_list','AjaxController@ajax_activities_list');
-Route::post('activity_save','ActivityController@activitySave')->name('activity.save');
-Route::post('activity_edit','ActivityController@activityEdit')->name('activity.edit');
-Route::get('activity-edit/{parameter}','ActivityController@EditActivity')->name('activity.editactivity');
+
 
 Route::get('delete_inclusion','ActivityController@deleteInclusion');
 Route::get('delete_exclusion','ActivityController@deleteExclusion');
 
-//Enquiry
-Route::get('enquiry','ActivityController@enquiryList')->name('enquiry.new');
-Route::post('ajax_enquiry_list','AjaxController@ajax_enquiry_list');
-Route::get('new_enquiry','ActivityController@enquiryNew')->name('enquiry.add');
-Route::get('edit_enquiry/{parameter}','ActivityController@enquiryEdit')->name('enquiry.edit');
-Route::post('enquiry_save','ActivityController@enquirySave')->name('enquiry_save');
 
-//Tax
-Route::get('tax','HomeController@taxSettings')->name('tax.new');
-Route::post('tax_save','HomeController@taxSave')->name('tax_save');
 
-//Websie
-Route::get('website','HomeController@websiteSettings')->name('website.new');
-Route::post('website_save','HomeController@websiteSave')->name('website_save');
 
-//Customer
-Route::get('customer','CustomerController@customerList')->name('customer.new');
-Route::post('ajax_customer_list','AjaxController@ajax_customer_list');
-Route::get('customer_new','CustomerController@customerNew')->name('customer.add');
-Route::post('customer_save','CustomerController@customerSave')->name('customer_save');
-Route::get('edit_customer/{parameter}','CustomerController@customerEdit')->name('customer.edit');
 
-Route::post('customer_autocomplete','CommonController@customerAutocomplete')->name('customer_autocomplete');
+
+
+
 
 Route::get('delete_activity_image','ActivityController@ActivityimageDelete');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
-//Package
-Route::get('/new_package', 'PackageController@index')->name('package.new');
-Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
-Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
+
+
+
 
 // /Route::post('package_autocomplete','CommonController@packageAutocomplete')->name('package_autocomplete');
 //Route::post('/package_save', 'PackageController@packageSave')->name('package_save');
@@ -145,30 +189,14 @@ Route::get('package_place_details','PackageController@packagePlaceDetails')->nam
 Route::get('/image_validation', 'FileController@imageValidation');
 Route::post('filesave', 'FileController@save');  
 
-Route::get('/new_booking', 'BookingController@index')->name('booking.new');
+
 Route::get('/new_autocomplete', 'BookingController@auto');
 
-Route::get('/packages', 'PackageController@List')->name('package.list');
-Route::post('ajax_package_list','PackageController@ajax_package_list');
-Route::get('package-edit/{parameter}','PackageController@EditPackage')->name('package.edit');
-Route::get('delete_package_activity','PackageController@DeleteActivity')->name('delete_package_activity');
-Route::post('/package_update', 'PackageController@packageUpdate')->name('package_update');
+
 //Route::get('packag-edit','PackageController@EditPackag');
-//Package TYpe
-Route::get('/packagetype_list', 'MasterController@packageTypeList')->name('packagetype.list');
-Route::post('packagetype_exists','AjaxController@checkpackageType_exists');
-Route::post('packagetype_save','MasterController@packageTypeSave')->name('master.savepackagetype');
-Route::get('/packagetype_detail', 'CommonController@getPackageDetails');
-Route::delete('packagetype_delete/{id}','MasterController@packageTypeDestroy')->name('master.packageTypedestroy');
-Route::get('package_pdf/{parameter}','PdfController@packageView')->name('package.pdf');
+
+
 
 Route::get('/get-hotel-list', 'PackageController@PackageHotels')->name('package.hotels');
 Route::get('/get-activity-list', 'PackageController@PackageActivities')->name('package.activities');
 Route::get('/get-activity-cost', 'PackageController@ActivityCost')->name('activity.cost');
-Route::post('/booking_save', 'BookingController@bookingSave')->name('booking_save');
-Route::get('/bookings', 'BookingController@List')->name('booking.list');
-Route::get('/booking_list', 'BookingController@bookingList')->name('bookings.list');
-
-Route::post('ajax_booking_list','AjaxController@ajax_booking_list');
-
-Route::get('booking_pdf/{parameter}','PdfController@BookingView')->name('booking.pdf');

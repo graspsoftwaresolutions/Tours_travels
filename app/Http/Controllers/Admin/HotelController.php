@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Model\Country;
-use App\Model\State;
-use App\Model\City;
-use App\Model\Hotel;
-use App\Model\HotelRooms;
-use App\Model\HotelRoomsImages;
+use App\Model\Admin\Country;
+use App\Model\Admin\State;
+use App\Model\Admin\City;
+use App\Model\Admin\Hotel;
+use App\Model\Admin\HotelRooms;
+use App\Model\Admin\HotelRoomsImages;
 use DB;
-use App\Model\Amenities;
+use App\Model\Admin\Amenities;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -29,13 +29,13 @@ class HotelController extends CommonController
         $data['features_view'] = DB::table('amenities')->where('status','=','1')->get();
         $data['types_view'] = DB::table('room_type')->where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
-        return view('hotels.new',compact('data',$data));
+        return view('admin.hotels.new',compact('data',$data));
     }
 
     public function newAmnities()
     {
         $data['amenities_list'] = Amenities::where('status','=','1')->get(); 
-        return view('master.amenities.amenities',compact('data',$data));
+        return view('admin.master.amenities.amenities',compact('data',$data));
     }
 
     public function hotelSave(Request $request){
@@ -110,12 +110,12 @@ class HotelController extends CommonController
         //     $file = $request->file('hotel_images')->storeAs('hotels', $imageName  ,'local');
         // }
 
-        return redirect('/hotels')->with('message','Hotel Details Added Successfully!!');
+        return redirect('admin/hotels')->with('message','Hotel Details Added Successfully!!');
     }
 
     public function hotelList(){
         $data = [];
-        return view('hotels.list')->with('data',$data);
+        return view('admin.hotels.list')->with('data',$data);
     }
     public function EditHotel($encid){
         $autoid = Crypt::decrypt($encid);
@@ -131,7 +131,7 @@ class HotelController extends CommonController
                                         ->leftjoin('room_type as roomtype','room.roomtype_id','=','roomtype.id')
                                         ->where('hotel_id','=', $autoid)->get();
         $data['hotel_images'] = DB::table('hotel_images')->where('hotel_id','=', $autoid)->get();
-        return view('hotels.edit',compact('data',$data));
+        return view('admin.hotels.edit',compact('data',$data));
     }
 
     public function newHotelRoom()
@@ -142,14 +142,14 @@ class HotelController extends CommonController
                             ->leftjoin('state as s','h.state_id','=','s.id')
                             ->leftjoin('city as c','h.city_id','=','c.id')
                             ->get();
-        return view('hotels.rooms.rooms_list',compact('data',$data));
+        return view('admin.hotels.rooms.rooms_list',compact('data',$data));
     }
     
     public function addHotelRoom()
     {
         $data['hotel_view'] = DB::table('hotels')->where('status','=','1')->get();
         $data['roomtype_view'] = DB::table('room_type')->where('status','=','1')->get();
-        return view('hotels.rooms.add_room')->with('data',$data);
+        return view('admin.hotels.rooms.add_room')->with('data',$data);
     }
 
     public function imageDelete(Request $request){
@@ -286,11 +286,7 @@ class HotelController extends CommonController
                 }
             }
          }
-
-       
-        
-
-        return redirect('/hotels')->with('message','Hotel Details Updated Successfully!!');
+        return redirect('admin/hotels')->with('message','Hotel Details Updated Successfully!!');
     }
     public function hotelroomSave(Request $request)
     {
@@ -352,10 +348,11 @@ class HotelController extends CommonController
                 }
             }
         }
-        return redirect('/hotel_room')->with('message','Room Details Added Successfully!!');
+        return redirect('admin/hotel_room')->with('message','Room Details Added Successfully!!');
     }
     public function hotelroomEdit($id)
     {
+        //return 1;
          $id = Crypt::decrypt($id);
          $data['hotel_view'] = DB::table('hotels')->where('status','=','1')->get();
          $data['roomtype_view'] = DB::table('room_type')->where('status','=','1')->get();
@@ -364,7 +361,7 @@ class HotelController extends CommonController
          ->get();
         $data['images'] = DB::table('hotel_room_images')->where('hotel_id','=',$id)->get();
        // dd($data['images']);
-        return view('hotels.rooms.edit_room',compact('data',$data));
+        return view('admin.hotels.rooms.edit_room',compact('data',$data));
     }
     public function hotelRoomsEdit(Request $request)
     {
