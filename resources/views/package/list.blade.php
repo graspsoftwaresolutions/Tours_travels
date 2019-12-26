@@ -48,6 +48,7 @@
                             <thead>
                                 <tr>
                                     <th width="20%">{{__('Package Name')}}</th>
+                                    <th width="20%">{{__('Package Type')}}</th>
                                     <th width="20%">{{__('Adult Count')}} </th>
                                     <th width="20%">{{__('Amount')}} </th>
                                     <th width="20%">{{__('To State')}} </th>
@@ -112,6 +113,9 @@
         "columns": [
             {
                 "data": "package_name"
+            },
+            {
+                "data": "package_type"
             },
             {
                 "data": "adult_count"

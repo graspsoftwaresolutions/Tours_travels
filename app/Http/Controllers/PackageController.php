@@ -265,13 +265,15 @@ class PackageController extends Controller
     {
         $columns = array( 
             0 => 'package_name', 
-            1 => 'adult_count', 
-            2 => 'total_amount',
-            3 => 'to_state_id',
-            4 => 'to_city_id',
-            5 => 'id'
+            1 => 'package_type', 
+            2 => 'adult_count', 
+            3 => 'total_amount',
+            4 => 'to_state_id',
+            5 => 'to_city_id',
+            6 => 'id'
         );
-        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
+        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                    ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                     ->count();
@@ -287,14 +289,15 @@ class PackageController extends Controller
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){ 
-                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
-                ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->orderBy($order,$dir)
                 ->where('p.status','=','1')
                 ->get()->toArray();
             }else{
-                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
+                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                 ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                 ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->offset($start)
@@ -308,13 +311,14 @@ class PackageController extends Controller
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                        ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
                          ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
-                      //  ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                        ->orWhere('package_type', 'LIKE',"%{$search}%")
                        // ->orWhere('amount', 'LIKE',"%{$search}%")
                        ->orWhere('total_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
@@ -324,13 +328,14 @@ class PackageController extends Controller
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                        ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('package_name', 'LIKE',"%{$search}%")
-                        //    ->orWhere('duartion_hours', 'LIKE',"%{$search}%")
+                            ->orWhere('package_type', 'LIKE',"%{$search}%")
                             ->orWhere('total_amount', 'LIKE',"%{$search}%")
                             ->orWhere('city_name', 'LIKE',"%{$search}%")
                             ->orWhere('state_name', 'LIKE',"%{$search}%");
@@ -341,11 +346,13 @@ class PackageController extends Controller
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name')
+        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.id','LIKE',"%{$search}%")
                     ->orWhere('package_name', 'LIKE',"%{$search}%")
+                    ->orWhere('package_type', 'LIKE',"%{$search}%")
                     ->orWhere('total_amount', 'LIKE',"%{$search}%")
                     ->where('p.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
@@ -363,7 +370,7 @@ class PackageController extends Controller
            {  
                    $nestedData['id'] = $package->id;
                    $nestedData['package_name'] = $package->package_name;
-              
+                   $nestedData['package_type'] = $package->package_type;
                    $nestedData['adult_count'] = $package->adult_count;
                    $nestedData['amount'] = $package->total_amount;  
                    $nestedData['city_name'] = $package->city_name;
