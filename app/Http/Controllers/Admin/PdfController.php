@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use PDF;
 use DB;
 use Illuminate\Support\Facades\Crypt;
-use App\Model\Website;
+use App\Model\Admin\Website;
 
 class PdfController extends Controller
 {
