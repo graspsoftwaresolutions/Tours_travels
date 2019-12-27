@@ -31,7 +31,7 @@
 					<h4 class="text-headline text-center">Change Password</h4>
 
 					@include('includes.messages')
-					<form method="POST" id="FormChangePasswordValidate" action="{{ route('changePassword') }}">
+					<form method="POST" id="FormChangePasswordValidate" action="{{ route('admin_changePassword') }}">
 						@csrf
 					<div class="col-md-12">
 						<div class="input-field " style="">

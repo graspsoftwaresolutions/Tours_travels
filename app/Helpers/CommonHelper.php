@@ -3,16 +3,17 @@
 namespace App\Helpers;
 use DB;
 use Carbon\Carbon;
-use App\Model\Country;
-use App\Model\State;
-use App\Model\City;
-use App\Model\ActivityImages;
-use App\Model\Activity;
-use App\Model\Package;
-use App\Model\PackagePlace;
-use App\Model\PackageHotel;
-use App\Model\PackageActivities;
-use App\Model\Hotel;
+use App\Model\Admin\Country;
+use App\Model\Admin\State;
+use App\Model\Admin\City;
+use App\Model\Admin\ActivityImages;
+use App\Model\Admin\Activity;
+use App\Model\Admin\Package;
+use App\Model\Admin\PackagePlace;
+use App\Model\Admin\PackageHotel;
+use App\Model\Admin\PackageActivities;
+use App\Model\Admin\Hotel;
+use App\Model\Admin\Amenities;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;

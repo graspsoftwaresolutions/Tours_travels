@@ -12,6 +12,7 @@ use App\Model\Admin\Package;
 use App\Model\Admin\PackagePlace;
 use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
+use App\Model\Admin\Amenities;
 
 use App\Model\Admin\Hotel;
 use DB;

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 @section('headSection')
 <link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">

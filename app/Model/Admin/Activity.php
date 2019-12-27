@@ -3,7 +3,7 @@
 namespace App\Model\Admin;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Model\ActivityImages;
+use App\Model\Admin\ActivityImages;
 
 
 class Activity extends Model
@@ -14,6 +14,6 @@ class Activity extends Model
     public $timestamps = true;
 
     public function activity_images() {
-        return $this->hasMany('App\Model\ActivityImages','activity_id');
+        return $this->hasMany('App\Model\Admin\ActivityImages','activity_id');
     }
 }

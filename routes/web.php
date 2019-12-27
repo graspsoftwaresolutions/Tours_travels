@@ -23,6 +23,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group( [ 'prefix' => 'admin' ], function()
 {
+
+    //Password change
+    Route::get('/changePassword','Admin\HomeController@showChangePasswordForm')->name('changepassword');
+    Route::post('/changePassword','Admin\HomeController@ChangePassword')->name('admin_changePassword');
+
     //Country Master Details 
     Route::get('/country','Admin\MasterController@countryList')->name('master.country');
     Route::post('/country_save','Admin\MasterController@countrySave')->name('master.savecountry');
@@ -159,24 +164,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('website_save','Admin\SettingsController@websiteSave')->name('website_save');
 });
 
-   // Route::get('city_hotels','PackageController@HotelsList')->name('city.hotels');
-    // Route::get('city_activities','PackageController@ActivitiesList')->name('city.activities');
-    // Route::get('/city_hotels_details','PackageController@HotelDetails')->name('hotel.details');
-    //Route::get('/city_hotels_details','PackageController@HotelDetails');
-    
-    //Route::get('city_activity_details','Admin\PackageController@ActivityDetails')->name('activity.details');
-    //Route::get('package_place_details','Admin\PackageController@packagePlaceDetails')->name('package_place_details');
-
-    
-    
-    
-  
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
-
-Route::get('/changePassword','HomeController@showChangePasswordForm')->name('changepassword');
-Route::post('/changePassword','HomeController@ChangePassword')->name('changePassword');
 
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 

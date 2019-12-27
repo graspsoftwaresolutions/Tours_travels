@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.dashboard');
+        return view('admin.dashboard.dashboard');
     }
     public function logout(Request $request)
     {

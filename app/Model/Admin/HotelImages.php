@@ -11,6 +11,6 @@ class HotelImages extends Model
 
     public function hotels()
     {
-        return $this->belongsToMany('App\Model\Hotel','hotel_id');
+        return $this->belongsToMany('App\Model\Admin\Hotel','hotel_id');
     }
 }
