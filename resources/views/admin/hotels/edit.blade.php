@@ -578,7 +578,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "{{ URL::to('/delete-roomtype-data') }}?roomtype_id=" + roomtype_id,
+            url: "{{ route('delete-roomtype-data') }}?roomtype_id=" + roomtype_id,
             success: function(res) {
                 if (res) {
                     parrent.remove();
@@ -711,7 +711,7 @@
 });
   function DeleteImage(imageid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-        var url = "{{ ('/delete_hotel_image') }}" + '?image_id=' + imageid;
+        var url = "{{ route('delete_hotel_image') }}" + '?image_id=' + imageid;
           $.ajax({
               url: url,
               type: "GET",

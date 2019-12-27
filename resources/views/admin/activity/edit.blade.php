@@ -519,7 +519,7 @@ $('.deleteoptn').click(function()
   var actid = strsp[1]; //17
   var acttxt = strsp[0]; //hello,world
   if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-        var url = "{{ url('/delete_inclusion') }}" + '?id=' + actid + '&inclusionname=' + acttxt ;
+        var url = "{{ route('delete_inclusion') }}" + '?id=' + actid + '&inclusionname=' + acttxt ;
           $.ajax({
               url: url,
               type: "GET",
@@ -540,7 +540,7 @@ $('.deleteoptn').click(function()
    var actid = strsp[1]; //17
    var acttxt = strsp[0]; //hello,world
    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-         var url = "{{ url('/delete_exclusion') }}" + '?id=' + actid + '&exclusion_name=' + acttxt ;
+         var url = "{{ route('delete_exclusion') }}" + '?id=' + actid + '&exclusion_name=' + acttxt ;
             $.ajax({
                url: url,
                type: "GET",
@@ -775,7 +775,7 @@ $('.deleteoptn').click(function()
    });
    function DeleteImage(imageid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-        var url = "{{ url('/delete_activity_image') }}" + '?image_id=' + imageid;
+        var url = "{{ route('delete_activity_image') }}" + '?image_id=' + imageid;
           $.ajax({
               url: url,
               type: "GET",

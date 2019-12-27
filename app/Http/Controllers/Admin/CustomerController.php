@@ -70,4 +70,5 @@ class CustomerController extends BaseController
         $data['customer_view'] = CustomerDetails::where('id','=',$id)->get();
         return view('admin.customer.edit')->with('data',$data);
     }
+    
 }

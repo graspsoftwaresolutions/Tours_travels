@@ -750,7 +750,7 @@
    </div>
    <!-- /.container-fluid -->
    
-    @include('package.common-modal')
+    @include('admin.package.common-modal')
 </section>
 <!-- /.content-wrapper -->
 @endsection
@@ -975,5 +975,5 @@
 </script>
 @endsection
 @section('footerSecondSection')
-  @include('package.common-scripts')
+  @include('admin.package.common-scripts')
 @endsection

@@ -343,7 +343,7 @@
     });
     function DeleteImage(imageid){
       if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-        var url = "{{ url('/delete_hotel_room_image') }}" + '?image_id=' + imageid;
+        var url = "{{ route('delete_hotel_room_image') }}" + '?image_id=' + imageid;
           $.ajax({
               url: url,
               type: "GET",

@@ -219,7 +219,7 @@
 
       $("#listhotelsarea").empty();
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ url('/city_hotels') }}" + '?city_id=' + paramscity.cityid;
+      var url = "{{ route('city_hotels') }}" + '?city_id=' + paramscity.cityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -316,7 +316,7 @@
     //   }
       
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ url('/city_hotels_details') }}" + '?hotel_id=' + hotelid;
+      var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
       $.ajax({
           url: url,
           type: "GET",
@@ -422,7 +422,7 @@
 
     // /console.log(hotelid+'room type'+roomtyeid);
 
-    var url = "{{ url('/city_hotels_details') }}" + '?hotel_id=' + hotelid;
+    var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
     $.ajax({
         url: url,
         type: "GET",
@@ -488,7 +488,7 @@
 
       $("#listactivitiesarea").empty();
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ url('/city_activities') }}" + '?city_id=' + paramscity.cityid;
+      var url = "{{ route('city_activities') }}" + '?city_id=' + paramscity.cityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -530,7 +530,7 @@
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //console.log(paramscity);
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ url('/city_activity_details') }}" + '?activity_id=' + activityid;
+      var url = "{{ route('city_activity_details') }}" + '?activity_id=' + activityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -620,7 +620,7 @@
     var child_count = $("#child-count-val").val();
     var total_count = parseInt(adult_count)+parseInt(child_count);
 
-    var url = "{{ url('/city_activity_details') }}" + '?activity_id=' + activityid;
+    var url = "{{ route('city_activity_details') }}" + '?activity_id=' + activityid;
     $.ajax({
         url: url,
         type: "GET",

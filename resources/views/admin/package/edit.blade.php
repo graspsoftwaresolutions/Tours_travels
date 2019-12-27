@@ -900,7 +900,7 @@
                            <div data-cityid="{{ $place->city_id }}" id="place_night_{{ $place->city_id }}" class="col-xs-6 col-sm-6 col-md-4 mt20">
                               <img class="responsive-img z-depth-1" src="{{ $place_city_image }}" style="width:190px;height: 100px;" alt=""/>
                               <div id="place_night_remove_{{ $place->city_id }}" class="button-close">
-                                <button type="button" onclick="return DeleteNight(3)" class="btn btn-sm red waves-effect waves-circle waves-light">x</button>
+                                <button type="button" onclick="return DeleteNight({{ $place->city_id }})" class="btn btn-sm red waves-effect waves-circle waves-light">x</button>
                               </div>
                               <small class="night-place-name">{{ $place_city_name }}</small>
                               <div class="form-group">
