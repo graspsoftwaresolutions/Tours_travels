@@ -132,6 +132,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('booking_pdf/{parameter}','Admin\PdfController@BookingView')->name('booking.pdf');
 
     Route::get('package_place_details','Admin\PackageController@packagePlaceDetails')->name('package_place_details');
+    Route::get('/get-hotel-list', 'Admin\PackageController@PackageHotels')->name('get-hotel-list');
+    Route::get('/get-activity-list', 'Admin\PackageController@PackageActivities')->name('get-activity-list');
+    Route::get('/get-activity-cost', 'Admin\PackageController@ActivityCost')->name('get-activity-cost');
 
     //Customer
     Route::get('customer','Admin\CustomerController@customerList')->name('customer.new');
@@ -164,11 +167,10 @@ Route::group( [ 'prefix' => 'admin' ], function()
     //Route::get('city_activity_details','Admin\PackageController@ActivityDetails')->name('activity.details');
     //Route::get('package_place_details','Admin\PackageController@packagePlaceDetails')->name('package_place_details');
 
-    Route::get('/get-hotel-list', 'Admin\PackageController@PackageHotels')->name('package.hotels');
-    Route::get('/get-activity-list', 'Admin\PackageController@PackageActivities')->name('package.activities');
-    Route::get('/get-activity-cost', 'Admin\PackageController@ActivityCost')->name('activity.cost');
-
     
+    
+    
+  
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');

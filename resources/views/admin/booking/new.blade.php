@@ -1408,7 +1408,7 @@
     
                          $("#destination-night-area").append('<div data-cityid="'+value.cityid+'" id="place_night_'+value.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+cityimagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+value.cityid+'" class="button-close hide"> <button type="button" onclick="return DeleteNight('+value.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+value.city_name+'</small><br>'+value.nights_count+' Nights<input type="text" class="hide" id="place_night_count_'+value.cityid+'" name="place_night_count_'+value.cityid+'[]" value="'+value.nights_count+'" ></input></div></div>');  
 
-                          var night_url = "{{ url('get-hotel-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
+                          var night_url = "{{ route('get-hotel-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
                           $.get(night_url, function(package_hotel_data) {
                             if(package_hotel_data!=null && typeof(package_hotel_data)!='string'){
                               var amenitieslist = package_hotel_data.amenities;
@@ -1472,7 +1472,7 @@
                             
                           });
                         }
-                        var activity_url = "{{ url('get-activity-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
+                        var activity_url = "{{ route('get-activity-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
 
                         $.get(activity_url, function(package_activity_data) {
                           var place_activities_data = '<li data-cityid="'+value.cityid+'" id="picked-activityli-'+value.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+state_city_names+'</div><ul id="place-activitylist-'+value.cityid+'" style="list-style: none !important;" class="place-activitylist">';
@@ -1486,7 +1486,7 @@
                                  var act_image = image_url+'/activity/'+activityimages[0].image_name;
                               }
                               var total_cost_act = 0;
-                              var activity_cost_url = "{{ url('get-activity-cost') }}" + '?package_id=' + packageid + '&activity_id=' + valueact.id;
+                              var activity_cost_url = "{{ route('get-activity-cost') }}" + '?package_id=' + packageid + '&activity_id=' + valueact.id;
                               $.get(activity_cost_url, function(package_activity_cost) {
                                 var total_cost_act = package_activity_cost;
                                 var hiddenvalues_one = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+valueact.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+valueact.id+'" value="'+total_cost_act+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+valueact.id+'" value="'+valueact.amount+'" />';
