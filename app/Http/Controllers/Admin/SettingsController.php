@@ -50,10 +50,12 @@ class SettingsController extends Controller
          if(!empty($request->website_id))
          {
             if($request->company_logo) {
+
                 $file = $data['company_logo'];
-                $name = time().'.'.$file->getClientOriginalExtension();
-                $file->move('public/assets/images/website_logo',$name);
-                $data['company_logo'] = $name;
+                $extension = $file->getClientOriginalExtension();
+                $imageName = time().'.'.$file->getClientOriginalExtension();
+                $file->storeAs('website' , $imageName  ,'local');
+                $data['company_logo'] = $imageName;
             }
             $SaveWebsite= website::find($request->website_id)->update($data);
             return redirect('admin/website')->with('message','Website Details Updated Successfully!!');
@@ -61,8 +63,9 @@ class SettingsController extends Controller
          else{
             if($request->company_logo) {
                 $file = $data['company_logo'];
-                $name = time().'.'.$file->getClientOriginalExtension();
-                $file->move('public/assets/images/website_logo',$name);
+                $extension = $file->getClientOriginalExtension();
+                $imageName = time().'.'.$file->getClientOriginalExtension();
+                $file->storeAs('website' , $imageName  ,'local');
                 $data['company_logo'] = $name;
             }
             $SaveWebsite = website::create($data);

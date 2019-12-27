@@ -1,7 +1,6 @@
 @extends('admin.layouts.admin')
 @section('headSection')
 @endsection
-
 @section('main-content')	
 	<section class="content-wrapper">
 
