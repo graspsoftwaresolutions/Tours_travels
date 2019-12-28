@@ -38,17 +38,18 @@ class HomeController extends Controller
         Auth::logout();
         return view('auth.login');
     }
-
     public function menuSettings()
     {
         return view('ajax.menu-settings');
     }
 
     public function showChangePasswordForm(){
+
         return view('admin.change_password');
     }
 	
 	public function changePassword(Request $request){
+
         if (!(Hash::check($request->get('currentpassword'), Auth::user()->password))) {
             // The passwords matches
             return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
@@ -67,5 +68,4 @@ class HomeController extends Controller
         $user->save();
         return redirect()->back()->with("success","Password changed successfully !");
     }
-
 }
