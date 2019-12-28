@@ -11,13 +11,7 @@
 
     <!-- Scripts -->
 
-    <link class="rtl_switch_css" href="{{ asset('public/assets/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('public/assets/dist/css/mdicons.min.css') }}" rel="stylesheet" type="text/css">
-    <link class="rtl_switch_css" href="{{ asset('public/assets/dist/css/app.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('public/assets/dist/css/theme.min.css') }}" rel="stylesheet" type="text/css">
-
-    <!-- page css -->
-    <link href="{{ asset('public/assets/dist/css/pages/login-register.css') }}" rel="stylesheet" type="text/css">
+    
 
 </head>
 <body class="theme-mda no-loader lr-page">

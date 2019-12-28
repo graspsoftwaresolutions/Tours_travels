@@ -24,7 +24,7 @@ class MasterController extends CommonController {
 
     public function __construct() {
         ini_set('memory_limit', '-1');
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
         $this->Country = new Country;
         $this->state = new state;
         $this->City = new City;

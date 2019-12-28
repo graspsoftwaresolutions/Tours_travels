@@ -1,8 +1,30 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <style>
-    
+    body {
+        background-image: url({{ asset('public/assets/images/login.png') }});
+        //xbackground-size: 100% 100% !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .paper{
+        background: #174551;
+        outline: beige;
+        box-shadow: 2px 2px 10px 10px #143a45 inset;
+        border: 2px solid #a9b0b7;
+    }
+    .form-box .body {
+        min-height: 130px;
+        padding: 0px 20px;
+    }
+    #login-box{
+        margin-top: 140px;
+    }
+    .theme-mda .collapse-indicator:after, .theme-mda .input-field .prefix.active{
+       color: #74b1c3;
+    }
 </style>
  <div class="page-background lr-page">
       <div class="page-background lr-page">
@@ -12,7 +34,7 @@
 
         <div class="form-box paper" id="login-box">
             <div class="header text-theme" style="color: #fff;"><span>{{ __('Login') }}</span></div>
-            <form id="signInForm" action="{{ route('login') }}" method="post">
+            <form id="signInForm" action="{{ route('admin.login.submit') }}" method="post">
                  @csrf
                 <div class="body">
                   

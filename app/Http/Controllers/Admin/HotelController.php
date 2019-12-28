@@ -20,7 +20,7 @@ class HotelController extends CommonController
 {
     public function __construct()
 	{
-	    $this->middleware('auth');
+	    $this->middleware('auth:admin');
 	}
 
 	public function index()
