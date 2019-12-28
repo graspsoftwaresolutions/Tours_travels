@@ -1269,7 +1269,7 @@
   
   function RemoveActivityDB(packageid, activityid,cityid){
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {
-      var url = "{{ url('/delete_package_activity') }}" + '?activity_id=' + activityid+'&city_id='+cityid+'&package_id='+packageid;
+      var url = "{{ route('delete_package_activity') }}" + '?activity_id=' + activityid+'&city_id='+cityid+'&package_id='+packageid;
       $.ajax({
           url: url,
           type: "GET",

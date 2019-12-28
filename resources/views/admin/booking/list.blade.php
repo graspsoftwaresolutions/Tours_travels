@@ -49,6 +49,7 @@
                                 <tr>
                                     <th width="20%">{{__('Package Name')}}</th>
                                     <th width="20%">{{__('Customer Name')}} </th>
+                                    <th width="20%">{{__('Total Amount ')}} </th>
                                     <th width="20%">{{__('To State')}} </th>
                                     <th width="20%">{{__('To City')}} </th>
                                     <th> {{__('Action') }}</th>
@@ -114,6 +115,9 @@
             },
             {
                 "data": "customer_name"
+            },
+            {
+                "data": "grand_total"
             },
             {
                 "data": "state_name"

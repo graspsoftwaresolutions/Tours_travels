@@ -94,7 +94,7 @@
                           <label for=""><strong>Select Amenities:</strong></label>
                           <div class="row">
                               @foreach($data['features_view'] as $value)
-                              <div class="col-md-2">
+                              <div class="col-md-3" >
 
                                    <div class="form-group">     
                                      <label class="checkbox-filled" for="amenities_{{ $value->id }}">
@@ -102,13 +102,10 @@
                                       <i class="highlight"></i>
                                       {{ $value->amenities_name }}
                                     </label>
-                                  </div>
-                                  
-                                                        
+                                  </div>                       
                               </div>
                                @endforeach
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -435,10 +432,8 @@
           swal("Error!", "Please select room type and Enter price!", "error");
         }
         $('#price').val('');
-        //$('#description').val('');
-        //$("#description").val(null);
-        $('#description').code('');
-        // $('#room_type').prop('selectedIndex',0);
+        var emptyStr = '';
+        $('#description').summernote('code', emptyStr);
       });
   $(document).on('click', 'button.removebutton', function () {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {     

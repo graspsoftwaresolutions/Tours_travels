@@ -84,15 +84,16 @@ class MasterController extends CommonController {
     public function countrydestroy($id)
 	{
         $Country = new Country();
-        // $country_member =  DB::table('membership as m')->where('m.country_id','=',$id)->count();
-        // $country_guar =  DB::table('member_guardian as mg')->where('mg.country_id','=',$id)->count();
-        // $country_nominee =  DB::table('member_nominees as mn')->where('mn.country_id','=',$id)->count();
-        // $country_company =  DB::table('company_branch as cb')->where('cb.country_id','=',$id)->count();
-        // $country_state =  DB::table('state as s')->where('s.country_id','=',$id)->count();
-        // $country_union =  DB::table('union_branch as ub')->where('ub.country_id','=',$id)->count();
-        $country_count=0;
+        $country_booking =  DB::table('booking_master')->where('to_country_id','=',$id)->count();
+        $country_city =  DB::table('city')->where('country_id','=',$id)->count();
+        $country_hotels =  DB::table('hotels')->where('country_id','=',$id)->count();
+        $country_package =  DB::table('package_master')->where('to_country_id','=',$id)->count();
+        $country_state =  DB::table('state')->where('country_id','=',$id)->count();
+        $website_settings =  DB::table('website_settings')->where('country_id','=',$id)->count();
+        
+       // $country_count=0;
        // dd($country);
-        if($country_count>0 )
+        if($country_booking>0 || $country_city>0 || $country_hotels > 0 || $country_package > 0 || $country_state>0 || $website_settings > 0)
         {
             return redirect('admin/country')->with('error','You cannot delete the country!');
         }
@@ -159,20 +160,15 @@ class MasterController extends CommonController {
 	public function statedestroy($id)
 	{
         $State = new state();
-        //$State = state::find($id);
-        // $state_membership =  DB::table('membership as m')->where('m.state_id','=',$id)->count();
-        // $state_member_gua =  DB::table('member_guardian as mg')->where('mg.state_id','=',$id)->count();
-        // $state_member_nomi =  DB::table('member_nominees as mn')->where('mn.state_id','=',$id)->count();
-        // $state_company_bran =  DB::table('company_branch as cb')->where('cb.state_id','=',$id)->count();
-        // $state_union_bran =  DB::table('union_branch as ub')->where('ub.state_id','=',$id)->count();
-
-        $statecount=0;
-
-    
-        if($statecount > 0 )
+        $state_booking =  DB::table('booking_master')->where('to_state_id','=',$id)->count();
+        $state_city =  DB::table('city')->where('state_id','=',$id)->count();
+        $state_hotels =  DB::table('hotels')->where('state_id','=',$id)->count();
+        $state_package =  DB::table('package_master')->where('to_state_id','=',$id)->count();
+        $website_settings =  DB::table('website_settings')->where('state_id','=',$id)->count();
+        
+        if($state_booking > 0  || $state_city > 0 || $state_hotels > 0 || $state_package > 0 || $website_settings > 0)
         {
-            return 1;   
-            return redirect('admin//state')->with('error','You cannot delete the state');
+            return redirect('admin/state')->with('error','You cannot delete the state');
         }
         else{
             $State->where('id','=',$id)->update(['status'=>'0']);
@@ -246,18 +242,16 @@ class MasterController extends CommonController {
 	public function citydestroy($id)
 	{
         $city = new City();
-        $City = City::find($id);
-        // $City_membership =  DB::table('membership as m')->where('m.city_id','=',$id)->count();
-        // $City_member_gua =  DB::table('member_guardian as mg')->where('mg.city_id','=',$id)->count();
-        // $City_member_nomi =  DB::table('member_nominees as mn')->where('mn.city_id','=',$id)->count();
-        // $City_company_bran =  DB::table('company_branch as cb')->where('cb.city_id','=',$id)->count();
-        // $City_union_bran =  DB::table('union_branch as ub')->where('ub.city_id','=',$id)->count();
+        //$City = City::find($id);
+        $city_booking =  DB::table('booking_master')->where('to_city_id','=',$id)->count();
+        $city_hotels =  DB::table('hotels')->where('city_id','=',$id)->count();
+        $city_package =  DB::table('package_master')->where('to_city_id','=',$id)->count(); 
+        $website_settings =  DB::table('website_settings')->where('city_id','=',$id)->count();
 
-        $City_count = 0;
         $defdaultLang = '';
-        if($City_count > 0)
+        if($city_booking  > 0 || $city_hotels > 0 || $city_package > 0 || $website_settings > 0)
         {
-            return redirect($defdaultLang.'\admin/city')->with('error','You cannot delete the City');
+            return redirect($defdaultLang.'admin/city')->with('error','You cannot delete the City');
         }
         else{
             $city->where('id','=',$id)->update(['status'=>'0']);

@@ -319,7 +319,7 @@ class PackageController extends Controller
                         ->where('p.status','=','1')
                          ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
-                        ->orWhere('package_type', 'LIKE',"%{$search}%")
+                        ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
                        // ->orWhere('amount', 'LIKE',"%{$search}%")
                        ->orWhere('total_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
@@ -336,7 +336,7 @@ class PackageController extends Controller
                         ->where('p.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('package_name', 'LIKE',"%{$search}%")
-                            ->orWhere('package_type', 'LIKE',"%{$search}%")
+                            ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
                             ->orWhere('total_amount', 'LIKE',"%{$search}%")
                             ->orWhere('city_name', 'LIKE',"%{$search}%")
                             ->orWhere('state_name', 'LIKE',"%{$search}%");
@@ -353,7 +353,7 @@ class PackageController extends Controller
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                         ->where('p.id','LIKE',"%{$search}%")
                     ->orWhere('package_name', 'LIKE',"%{$search}%")
-                    ->orWhere('package_type', 'LIKE',"%{$search}%")
+                    ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
                     ->orWhere('total_amount', 'LIKE',"%{$search}%")
                     ->where('p.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")

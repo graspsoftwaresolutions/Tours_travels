@@ -99,25 +99,23 @@
                           <label for=""><strong>Select Amenities:</strong></label>
                           <div class="row">
                               @foreach($data['features_view'] as $value)
-                              <div class="col-md-2">
-
+                              <div class="col-md-3">
                                    <div class="form-group">     
-                                     <label class="checkbox-filled" for="amenities_{{ $value->id }}">
-                                      <input type="checkbox" class="filled" @if(in_array($value->id, $data['hotel_features'])) checked @endif name="amenities[]" id="amenities_{{ $value->id }}" value="{{ $value->id }}">
-                                      <i class="highlight"></i>
-                                      {{ $value->amenities_name }}
+                                      <label class="checkbox-filled" for="amenities_{{ $value->id }}">
+                                        <input type="checkbox" class="filled" @if(in_array($value->id, $data['hotel_features'])) checked @endif name="amenities[]" id="amenities_{{ $value->id }}" value="{{ $value->id }}">
+                                        <i class="highlight"></i>
+                                        {{ $value->amenities_name }}
                                     </label>
-                                  </div>
-                                  
-                                                        
+                                  </div>                       
                               </div>
+                             
                                @endforeach
+                               <div class="clearfix"></div>
                           </div>
-
                         </div>
                       </div>
                     </div>
-
+                    
                     <div class="row">
                       <div class="col-md-4">
                           <div class="form-group">
@@ -557,7 +555,8 @@
           swal("Error!", "Please select room type and Enter price!", "error");
         }
         $('#price').val('');
-        $('#editdescription').summernote('code', '');
+        var empty = '';
+        $('#description').summernote('code',empty);
        // $('#room_type').prop('selectedIndex',0);
       }); 
       $(document).on('click', 'button.removebutton', function () {
