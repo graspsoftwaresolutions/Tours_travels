@@ -12,7 +12,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'AdminTours',
+            'name' => 'User',
+            'email' => 'user@tours.com',
+            'password' => bcrypt('user@1234'),
+        ]);
+        DB::table('admins')->insert([
+            'name' => 'Admin',
             'email' => 'admin@tours.com',
             'password' => bcrypt('admin@1234'),
         ]);
