@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('web.welcome');
 });
 
 Auth::routes();
@@ -20,10 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-
 Route::group( [ 'prefix' => 'admin' ], function()
 {
-
     //Password change
     Route::get('/changePassword','Admin\HomeController@showChangePasswordForm')->name('changepassword');
     Route::post('/changePassword','Admin\HomeController@ChangePassword')->name('admin_changePassword');

@@ -307,8 +307,7 @@
                      </div><!-- /.row -->
                        </br> </br> </br> </br>
 					        </div><!-- /.col- -->
-					    </fieldset>
-					 
+					    </fieldset>	 
 					    <h3>Photo Gallery</h3>
 					    <fieldset>
 					    	<div class="col-sm-12">

@@ -3,17 +3,19 @@
 <head>
 	@include('layouts.head')
 </head>
-    <body class="theme-mda light-skin ev-page" >
-    	<div class="preloader-bg"></div>
-		<div class="preloader-overlay"></div>
-		<div class="main-wrapper side-menu">
-			@include('layouts.header')
-			@include('layouts.sidebar')
-			<div class="menu-toggler-hide pos-left"><i class="toggler-hide-icon"></i></div>
-			@section('main-content')
-				@show
-			 @include('layouts.footer')
+   
+	<body id="main-homepage">	
+		<!--========== COLOR-PANEL ==========-->
+        <div id="colorPanel" class="colorPanel">
+            <a id="cpToggle" href="{{asset('public/web-assets/css/') }}"></a>
+            <ul></ul>
 		</div>
+		<!-- end colorPanel -->
+		@include('layouts.header')
+		@include('layouts.sidebar')
+		@section('main-content')
+		@show
+		@include('layouts.footer')
 		@include('layouts.foot-script')
-    </body>
+	</body>
 </html>

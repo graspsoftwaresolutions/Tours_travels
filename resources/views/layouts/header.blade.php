@@ -1,0 +1,58 @@
+ <!--============= TOP-BAR ===========-->
+ <div id="top-bar" class="tb-text-white">
+            <div class="container">
+                <div class="row">          
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div id="info">
+                            <ul class="list-unstyled list-inline">
+                                <li><span><i class="fa fa-map-marker"></i></span>29 Land St, Lorem City, CA</li>
+                                <li><span><i class="fa fa-phone"></i></span>+00 123 4567</li>
+                            </ul>
+                        </div><!-- end info -->
+                    </div><!-- end columns -->
+                    
+                            <ul class="list-unstyled list-inline">
+                            @if (Route::has('login'))
+                            @auth
+                            <a href="{{ url('/home') }}">Profile</a>
+                            @else
+                                <li><a href="{{ route('login') }}"><span><i class="fa fa-lock"></i></span>Login</a></li>
+
+                                @if (Route::has('register'))
+                                <li><a href="{{ route('register') }}"><span><i class="fa fa-plus"></i></span>Sign Up</a></li>
+                                <li>
+                                @endif
+                            @endauth
+                            @endif
+                                	<form>
+                                    	<ul class="list-inline">
+                                        	<li>
+                                                <div class="form-group currency">
+                                                    <span><i class="fa fa-angle-down"></i></span>
+                                                    <select class="form-control">
+                                                        <option value="">$</option>
+                                                        <option value="">£</option>
+                                                    </select>
+                                                </div><!-- end form-group -->
+											</li>
+                                            
+                                            <li>
+                                                <div class="form-group language">
+                                                    <span><i class="fa fa-angle-down"></i></span>
+                                                    <select class="form-control">
+                                                        <option value="">EN</option>
+                                                        <option value="">UR</option>
+                                                        <option value="">FR</option>
+                                                        <option value="">IT</option>
+                                                    </select>
+                                                </div><!-- end form-group -->
+                                            </li>
+										</ul>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div><!-- end links -->
+                    </div><!-- end columns -->				
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end top-bar -->
