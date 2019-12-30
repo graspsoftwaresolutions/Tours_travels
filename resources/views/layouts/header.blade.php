@@ -14,12 +14,16 @@
                             <ul class="list-unstyled list-inline">
                             @if (Route::has('login'))
                             @auth
-                            <a href="{{ url('/home') }}">Profile</a>
+                            <a style="float:right;color:white;margin-left: 7px;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a style="float:right;color:white;" href="{{ url('/home') }}">Profile</a> 
                             @else
-                                <li><a href="{{ route('login') }}"><span><i class="fa fa-lock"></i></span>Login</a></li>
+                                <li><a href="{{ route('login') }}" style="color:white;"><span><i class="fa fa-lock"></i></span>Login</a></li>
 
                                 @if (Route::has('register'))
-                                <li><a href="{{ route('register') }}"><span><i class="fa fa-plus"></i></span>Sign Up</a></li>
+                                <li><a href="{{ route('register') }}" style="color:white;"><span><i class="fa fa-plus"></i></span>Sign Up</a></li>
                                 <li>
                                 @endif
                             @endauth
@@ -54,5 +58,3 @@
                         </div><!-- end links -->
                     </div><!-- end columns -->				
                 </div><!-- end row -->
-            </div><!-- end container -->
-        </div><!-- end top-bar -->

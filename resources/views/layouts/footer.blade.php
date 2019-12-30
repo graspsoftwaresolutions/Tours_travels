@@ -98,6 +98,5 @@
 					</div><!-- end columns -->
 				</div><!-- end row -->
 			</div><!-- end container -->
-		</div><!-- end footer-bottom -->
-		
+		</div><!-- end footer-bottom -->	
 	</section><!-- end footer -->
