@@ -7,9 +7,10 @@
                       <span class="icon-bar"></span>                        
                     </button>
                     <div class="header-search hidden-lg">
-                    	<a href="javascript:void(0)" class="search-button"><span><i class="fa fa-search"></i></span></a>
+                    @php $logo = CommonHelper::getlogo();  @endphp
+                    	<!-- <spna></span> -->
                     </div>
-                    <a href="#" class="navbar-brand"><span><i class="fa fa-plane"></i>TOURS </span>TRAVELS</a>
+                    <img class="pull-left" src="{{ asset('public/assets/images/website_logo/'.$logo)}}" style='height:50px;width:50px;'> &nbsp;&nbsp; <a href="#" class="navbar-brand">   <span>TOURS </span>TRAVELS </a>
                 </div><!-- end navbar-header -->
                 
                 <div class="collapse navbar-collapse" id="myNavbar1">
@@ -26,8 +27,6 @@
                 </div><!-- end navbar collapse -->
             </div><!-- end container -->
         </nav><!-- end navbar -->   
-
-
         <div class="sidenav-content">
             <div id="mySidenav" class="sidenav" >
                 <h2 id="web-name"><span><i class="fa fa-plane"></i></span>Star Travel</h2>

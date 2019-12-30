@@ -7,6 +7,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>{{ config('app.name', 'Tours and Travels') }}</title>
+
+
 <link rel="apple-touch-icon" href="{{ asset('public/assets/images/logo.png') }}">
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset('public/assets/images/logo.png') }}">
 <link href="{{ asset('public/assets/dist/css/plugins/jvectormap.css') }}" rel="stylesheet" type="text/css">

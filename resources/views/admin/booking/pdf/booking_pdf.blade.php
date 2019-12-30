@@ -83,7 +83,7 @@
 		<div width="100%">
 		<h5 style="text-align:right;">Invoice Details</h5>
 			<div style="text-align:center;">
-		  	<a style="padding:10px !important;" href="index.html"><img src="{{ asset('storage/app/website/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
+		  	<a style="padding:10px !important;" href="index.html"><img src="{{ asset('public/assets/images/website_logo/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
 				<h1 style="color:#4A7885">{{$company_data->company_name ? ucfirst($company_data->company_name) : ''}}</h1>
 				<h2 style=""><b> {{$package_data->package_name ? ucfirst($package_data->package_name) : ''}}</b> </h2>
 			</div>		
