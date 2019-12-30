@@ -138,9 +138,10 @@ class CommonController extends Controller
     */
     public function CommonAjaxReturn($result, $deletetype, $deleteRoute,$edittype,$table,$editRoute=false){
         $data = array();
-        $get_roles = Auth::user()->roles;
-		//$user_role = $get_roles[0]->slug;
-		$user_id = Auth::user()->id;
+        //$get_roles = Auth::user()->roles;
+        //$user_role = $get_roles[0]->slug;
+        //dd(Auth::guard('admin')->user());
+		$user_id = Auth::guard('admin')->user()->id;
         if(!empty($result))
         {
             //$memberscount = CommonHelper::mastersMembersCount($table,$autoid, $user_role, $user_id);

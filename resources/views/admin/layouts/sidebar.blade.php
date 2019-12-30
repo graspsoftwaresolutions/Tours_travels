@@ -83,7 +83,7 @@
                 </ul>
             </li>
             <li id="dashboard_sidebar_li_id" class="menubar-item">
-              <a class="menu-dropdown" href="{{ route('home') }}">
+              <a class="menu-dropdown" href="{{ route('admin.dashboard') }}">
                 <i class="icon mdi mdi-speedometer"></i>
                 <span class="text">{{ __('Dashboard') }}</span>
               </a>

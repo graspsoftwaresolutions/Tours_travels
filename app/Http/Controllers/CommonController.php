@@ -136,7 +136,7 @@ class CommonController extends Controller
     */
     public function CommonAjaxReturn($result, $deletetype, $deleteRoute,$edittype,$table,$editRoute=false){
         $data = array();
-        $get_roles = Auth::user()->roles;
+       // $get_roles = Auth::user()->roles;
 		//$user_role = $get_roles[0]->slug;
 		$user_id = Auth::user()->id;
         if(!empty($result))
