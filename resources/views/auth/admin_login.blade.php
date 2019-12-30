@@ -75,8 +75,7 @@
                     
                     <p class="form-type mt20">
                         <a class="btn-flat forgot-password waves-effect waves-theme text-blue-grey text-lighten-2" style="color: #9ac4d0;" href="#">Forgot password</a>
-                        
-    
+
                     </p>
                 </div>
             </form>

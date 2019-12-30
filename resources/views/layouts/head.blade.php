@@ -14,15 +14,12 @@
 
         <!-- Bootstrap Stylesheet -->	
         <link href="{{ asset('public/web-assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-       
-        
+           
         <!-- Font Awesome Stylesheet -->
         <link href="{{ asset('public/web-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
             
         <!-- Custom Stylesheets -->	
-        <link href="{{ asset('public/web-assets/css/style.css') }}" rel="stylesheet" type="text/css">
-        
-
+        <link href="{{ asset('public/web-assets/css/style.css') }}" rel="stylesheet" type="text/css">    
         <link href="{{ asset('public/web-assets/css/orange.css') }}" rel="stylesheet" id="cpswitch" type="text/css">
         
 
@@ -64,6 +61,8 @@
 				text-transform: uppercase;
 			}
 		</style>
+        @section('headSection')
+    @show
 
     
 

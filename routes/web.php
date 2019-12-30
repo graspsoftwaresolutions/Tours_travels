@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 //Route::get('/', 'Auth\LoginController@custom_login');
 Route::get('/home', 'HomeController@index')->name('home');
+//Hotel Booking frontend
+
+Route::get('/tour-booking', 'Web\TourBookingController@tourBooking')->name('tour_booking');
 
 
 Route::group( [ 'prefix' => 'admin' ], function()
