@@ -101,7 +101,7 @@
                                     </form>
                                     
                                     <div class="other-links">
-                                    	<p class="link-line">Already Have An Account ? <a href="#">Login Here</a></p>
+                                    	<p class="link-line">Already Have An Account ? <a href="{{ route('login') }}">Login Here</a></p>
                                     </div><!-- end other-links -->
                                 </div><!-- end custom-form -->
                                 

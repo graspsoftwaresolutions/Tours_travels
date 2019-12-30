@@ -14,6 +14,7 @@ use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Hotel;
 use App\Model\Admin\Amenities;
+use App\Model\Admin\Website;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,12 @@ class CommonHelper
 	public function __construct() {
         
     }
-	
+
+    public static function getlogo()
+    {
+        return $logo = DB::table('website_settings')->where('status','=','1')->pluck('company_logo')->first();
+
+    }
     public static function encryption(string $string)
     {
         return strtoupper($string);
@@ -48,9 +54,6 @@ class CommonHelper
 
         return $password;
     }
-
-   
-
      public static function convert_date_database($date){
         $date_array = explode("/",$date);           							
         $date_format = $date_array[2]."-".$date_array[1]."-".$date_array[0];

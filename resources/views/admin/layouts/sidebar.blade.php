@@ -16,8 +16,8 @@
               <img class="avatar circle" src="{{ asset('public/assets/images/admin.png') }}" alt="">
             </div>
             <div class="media-body">
-              <h5>Tours and Travels</h5>
-              <span class="media-subhead">{{ Auth::user()->email }}</span>
+              <h5>Tours and Travels</h5>  
+              <span class="media-subhead">{{ Auth::guard('admin')->user()->email }}</span>
             </div>                  
               </a>
                 <ul id="settings-dropdown" class="sidemenu-dropdown">

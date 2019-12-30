@@ -238,7 +238,7 @@
                      if(isset($row->id))
                      {
                         @endphp
-                        <img class="responsive-img z-depth-1"  width="100px" height="100px" src="{{ asset('storage/app/website/'.$row->company_logo) }}" alt="">
+                        <img class="responsive-img z-depth-1"  width="100px" height="100px" src="{{ asset('public/assets/images/website_logo/'.$row->company_logo) }}" alt="">
                         @php
                      }
                      else{

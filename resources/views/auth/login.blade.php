@@ -130,11 +130,11 @@
                                     </form>
                                     
                                     <div class="other-links">
-                                    	<p class="link-line">New Here ? <a href="#">Signup</a></p>
+                                    	
                                       
 									<!--	<a class="btn-flat simple-link forgot-password" href="#">Forgot password ?</a>-->
 										<p class="form-type mt20">
-                        <a class="btn-flat forgot-password waves-effect waves-theme text-blue-grey text-lighten-2" style="color: #9ac4d0;" href="#">Forgot password</a>
+                        <a class="btn-flat forgot-password" href="#">Forgot password ?</a>
 
                     </p>
                                     </div><!-- end other-links -->
@@ -146,26 +146,26 @@
 											<p class="text-center help-text pt40">Submit us your email address:</p>
 											<div class="form-group input-field label-float">
 												<i class="mdi mdi-email prefix"></i>
-												<input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+												<input id="email" placeholder="Enter Email Here.." type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 												@error('email')
 													<span class="invalid-feedback" role="alert">
 														<strong>{{ $message }}</strong>
 													</span>
 												@enderror
 											   
-												<label for="regEmail">Your Email:</label>
+												
 												<div class="input-highlight"></div>
 
 											</div>
 										</div><!-- /.body -->
-
+										
 										<div class="footer">                                          
-											<button type="submit" class="btn theme btn-block waves-effect waves-light">Submit</button>  
-											
+											<button type="submit" class="btn  btn-block btn-orange">Submit</button>  
+											<br>
 											<p class="form-type mt20">
-												<a class="btn-flat sign-in waves-effect waves-theme text-blue-grey text-lighten-2" href="#">Sign in</a>
+												<a href="{{ route('login') }}" style="font-size:16px" class="btn-flat  sign-in waves-effect waves-theme text-blue-grey text-lighten-2" href="#">Sign in</a>
 												
-												<a href="register.html" class="btn-flat waves-effect waves-theme text-blue-grey text-lighten-2 pull-right">Register</a>
+												<a style="font-size:16px" href="{{ route('register') }}" class="btn-flat  waves-effect waves-theme text-blue-grey text-lighten-2 pull-right">Register</a>
 											</p>
 										</div>
 									</form>
