@@ -118,7 +118,7 @@
 			   
 			<tr>   
                 <td style="color:#4A7885"> Persons   </td> 
-				<td> {{$booking_data->adult_count ? $booking_data->adult_count : 0 }} persons , {{$booking_data->child_count ? $booking_data->child_count : 0 }}  childerns and {{$booking_data->infant_count ? $booking_data->infant_count : 0 }} Infants </p> </td>
+				<td> {{$booking_data->adult_count ? $booking_data->adult_count : 0 }} persons , {{$booking_data->child_count ? $booking_data->child_count : 0 }}  children and {{$booking_data->infant_count ? $booking_data->infant_count : 0 }} Infants </p> </td>
 			</tr> 
                 @php
                 $package_type = CommonHelper::getPackagetypename($booking_data->package_type);

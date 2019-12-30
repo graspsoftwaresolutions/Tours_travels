@@ -117,7 +117,7 @@
 			   
 			<tr>   
                 <td style="color:#4A7885"> Persons   </td> 
-				<td> {{$package->adult_count ? $package->adult_count : 0 }} persons , {{$package->child_count ? $package->child_count : 0 }}  childerns and {{$package->infant_count ? $package->infant_count : 0 }} Infants </p> </td>
+				<td> {{$package->adult_count ? $package->adult_count : 0 }} persons , {{$package->child_count ? $package->child_count : 0 }}  children and {{$package->infant_count ? $package->infant_count : 0 }} Infants </p> </td>
 			</tr> 
                 @php
                 $package_type = CommonHelper::getPackagetypename($package->package_type);

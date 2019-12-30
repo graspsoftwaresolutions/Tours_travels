@@ -241,6 +241,19 @@
 </style>
 @endsection
 @section('main-content')	
+@php
+  $booking_info = $data['booking_info'];
+  $package_info = $data['package_info'];
+  $customer_info = $data['customer_info'];
+  //dd($package_info->package_type);
+  $booking_place = $data['booking_place'];
+  $package_place = $data['package_place'];
+ 
+  $citys_data = [];
+  foreach($data['booking_place'] as $place){
+    $citys_data[] = $place->city_id;
+  }
+ @endphp
 <section class="content-wrapper">
    <!-- =========================================================== -->
    <!-- Start page content  -->
@@ -268,39 +281,47 @@
                   <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group input-field label-float">
-                           <input autofocus type="date" class="datepicker" name="from_date" id="from_date"/>
+                           <input autofocus type="date" class="datepicker" name="from_date" id="from_date" value="{{ $booking_info->from_date }}" />
                            <label for="from_date" class="fixed-label">{{__('From Date') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                       <div class="col-sm-4">
                         <div class="form-group input-field label-float">
-                           <input type="date" name="to_date" id="to_date"/>
+                           <input type="date" name="to_date" id="to_date" value="{{ $booking_info->to_date }}" />
                            <label for="to_date" class="fixed-label">{{__('To Date') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                        <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
+                        <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>   
+                          @php
+                            $package_type_name = '';
+                          @endphp 
                            <!-- To validate the select add class "select-validate" -->     
-                           <select id="package_type" name="package_type" class="selectpicker select-validate" onchange="return ClearPackageInfo()" data-live-search="true" data-width="100%">
+                           <select id="package_type" name="package_type" class="selectpicker select-validate hide" onchange="return ClearPackageInfo()" data-live-search="true" data-width="100%">
                               <option selected value="">{{__('Select Package')}}</option>
                               
                               @foreach($data['package_type'] as $type)
-                                <option value="{{$type->id}}" >
+                              @php
+                                if($booking_info->package_type==$type->id){
+                                  $package_type_name = $type->package_type;
+                                }
+                              @endphp
+                                <option @if($booking_info->package_type==$type->id) selected @endif value="{{$type->id}}" >
                                  {{$type->package_type}}
                                 </option>
                               @endforeach
                            </select>
-                            
+                            <input type="text" readonly="" value="{{$package_type_name}}">
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                       <div class="col-sm-6">
                           <div class="form-group input-field label-float">
-                             <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
-                             <input type="hidden" name="packageid" id="packageid"> 
+                             <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" value="{{ $package_info->package_name }}" readonly="" autocomplete='off'>
+                             <input type="hidden" name="packageid" id="packageid" value="{{ $booking_info->package_id }}"> 
                              <!-- <span id="package_no_result"></span> -->
                              <label  for="" class="fixed-label">{{__('Search Package') }}<span style="color:red">*</span></label>
                              <div class="input-highlight"></div>
@@ -312,13 +333,13 @@
                         <div class="input-field label-float">
                            <label for="person" class="fixed-label">{{__('Persons') }}<span style="color:red">*</span></label>
                            <br>
-                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">2</span> Adults & <span class="child-count" id="child-count">0</span> Children & <span class="infant-count" id="infant-count">0</span> Infants</a></p>
-                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="2">
-                           <input type="text" name="child_count" id="child-count-val" class="hide" value="0">
-                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
-                           <input type="text" name="pack_adult_count" id="pack-adult-count-val" class="hide" value="2">
-                           <input type="text" name="pack_child_count" id="pack-child-count-val" class="hide" value="0">
-                           <input type="text" name="pack_infant_count" id="pack-infant-count-val" class="hide" value="0">
+                           <p><a class="modal-trigger" style="cursor: pointer" data-toggle="modal" data-target="#infantsModal"><span class="adult-count" id="adult-count">{{ $booking_info->adult_count }}</span> Adults & <span class="child-count" id="child-count">{{ $booking_info->child_count }}</span> Children & <span class="infant-count" id="infant-count">{{ $booking_info->infant_count }}</span> Infants</a></p>
+                           <input type="text" name="adult_count" id="adult-count-val" class="hide" value="{{ $booking_info->adult_count }}">
+                           <input type="text" name="child_count" id="child-count-val" class="hide" value="{{ $booking_info->child_count }}">
+                           <input type="text" name="infant_count" id="infant-count-val" class="hide" value="{{ $booking_info->infant_count }}">
+                           <input type="text" name="pack_adult_count" id="pack-adult-count-val" class="hide" value="{{ $package_info->adult_count }}">
+                           <input type="text" name="pack_child_count" id="pack-child-count-val" class="hide" value="{{ $package_info->child_count }}">
+                           <input type="text" name="pack_infant_count" id="pack-infant-count-val" class="hide" value="{{ $package_info->infant_count }}">
                            <div class="input-highlight"></div>
                         </div>
                         <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
@@ -336,7 +357,7 @@
                                           <small>Age 13 and above</small>
                                        </div>
                                        <div class="col-md-6">
-                                          <input type="text" name="adult-travellers" class="adult-travellers allow_decimal" value="2" />
+                                          <input type="text" name="adult-travellers" class="adult-travellers allow_decimal" value="{{ $booking_info->adult_count }}" />
 
                                        </div>  
                                        
@@ -350,7 +371,7 @@
                                        </div>
 
                                        <div class="col-md-6">
-                                           <input type="text" name="child-travellers" class="child-travellers allow_decimal" value="0" />
+                                           <input type="text" name="child-travellers" class="child-travellers allow_decimal" value="{{ $booking_info->child_count }}" />
                                           
                                        </div>  
                                        
@@ -364,7 +385,7 @@
                                        </div>
 
                                        <div class="col-md-6">
-                                          <input type="text" name="infant-travellers" class="infant-travellers allow_decimal" value="0" />
+                                          <input type="text" name="infant-travellers" class="infant-travellers allow_decimal" value="{{ $booking_info->infant_count }}" />
                                        </div>  
                                        
                                     </div>
@@ -393,8 +414,8 @@
                         <h4 class="text-headline text-center">Traveling From</h4>
                         <div class="select-row form-group">
                             <label for="travelling_from_country_name" class="block">{{__('Country Name') }}</label>             
-                            <input id="travelling_from_country_name"  name="travelling_from_country_name" readonly  type="text" placeholder="Country Name"  autocomplete='off'>
-                            <input id="travelling_from_country_id"  name="travelling_from_country_id"  type="hidden" placeholder="Country Id"  autocomplete='off'>
+                            <input id="travelling_from_country_name"  name="travelling_from_country_name" readonly  type="text" placeholder="Country Name" value="{{ CommonHelper::getCountryName($booking_info->from_country_id) }}"  autocomplete='off'>
+                            <input id="travelling_from_country_id"  name="travelling_from_country_id"  type="hidden" placeholder="Country Id" value="{{ $booking_info->from_country_id }}"  autocomplete='off'>
                           
                            <div class="input-highlight"></div>
                         </div>
@@ -402,15 +423,15 @@
                      
                         <div class="select-row form-group">
                             <label for="travelling_from_state_name" class="block">{{__('State Name') }}</label>                 
-                           <input id="travelling_from_state_name"  name="travelling_from_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
-                           <input id="travelling_from_state_id"  name="travelling_from_state_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
+                           <input id="travelling_from_state_name" value="{{ CommonHelper::getstateName($booking_info->from_state_id) }}"  name="travelling_from_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
+                           <input id="travelling_from_state_id" value="{{ $booking_info->from_state_id }}"  name="travelling_from_state_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
                            <div class="input-highlight"></div>
                         </div>
                         <div class="select-row form-group">
                              <label for="travelling_from_city_name" class="block">{{__('City Name') }}</label>                 
                              <!-- To validate the select add class "select-validate" -->     
-                             <input id="travelling_from_city_name"  name="travelling_from_city_name"  readonly type="text" placeholder="City Name"  autocomplete='off'>
-                             <input id="travelling_from_city_id"  name="travelling_from_city_id"  type="hidden" placeholder="City Id"  autocomplete='off'>
+                             <input id="travelling_from_city_name"  value="{{ CommonHelper::getcityName($booking_info->from_city_id) }}" name="travelling_from_city_name"  readonly type="text" placeholder="City Name"  autocomplete='off'>
+                             <input id="travelling_from_city_id"  value="{{ $booking_info->from_city_id }}" name="travelling_from_city_id"  type="hidden" placeholder="City Id"  autocomplete='off'>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
@@ -418,8 +439,8 @@
                         <h4 class="text-headline text-center">Traveling To</h4>
                         <div class="select-row form-group">
                             <label for="to_country_id" class="block">{{__('Country Name') }}</label>             
-                            <input id="travelling_to_country_name"  name="travelling_to_country_name" readonly  type="text" placeholder="Country Name"  autocomplete='off'>
-                            <input id="travelling_to_country_id"  name="travelling_to_country_id"  type="hidden" placeholder="Country Id"  autocomplete='off'>
+                            <input id="travelling_to_country_name"  name="travelling_to_country_name" value="{{ CommonHelper::getCountryName($booking_info->to_country_id) }}" readonly  type="text" placeholder="Country Name"  autocomplete='off'>
+                            <input id="travelling_to_country_id" value="{{ $booking_info->to_country_id }}" name="travelling_to_country_id"  type="hidden" placeholder="Country Id"  autocomplete='off'>
                           
                            <div class="input-highlight"></div>
                         </div>
@@ -427,15 +448,15 @@
                        
                         <div class="select-row form-group">
                            <label for="to_state_id" class="block">{{__('State Name') }}</label>                 
-                           <input id="travelling_to_state_name"  name="travelling_to_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
-                           <input id="travelling_to_state_id"  name="travelling_to_state_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
+                           <input id="travelling_to_state_name" value="{{ CommonHelper::getstateName($booking_info->to_state_id) }}"  name="travelling_to_state_name" readonly  type="text" placeholder="State Name"  autocomplete='off'>
+                           <input id="travelling_to_state_id" value="{{ $booking_info->to_state_id }}" name="travelling_to_state_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
                            <div class="input-highlight"></div>
                         </div>
                         <div class="select-row form-group">
                             <label for="to_city_id" class="block">{{__('City Name') }}</label>                 
                              <!-- To validate the select add class "select-validate" -->     
-                             <input id="travelling_to_city_name"  name="travelling_to_city_name"  readonly type="text" placeholder="City Name"  autocomplete='off'>
-                             <input id="travelling_to_city_id"  name="travelling_to_city_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
+                             <input id="travelling_to_city_name" value="{{ CommonHelper::getcityName($booking_info->to_city_id) }}" name="travelling_to_city_name"  readonly type="text" placeholder="City Name"  autocomplete='off'>
+                             <input id="travelling_to_city_id" value="{{ $booking_info->to_city_id }}" name="travelling_to_city_id"  type="hidden" placeholder="State Id"  autocomplete='off'>
                            
                            <div class="input-highlight"></div>
                         </div>
@@ -446,16 +467,16 @@
                             <div class="row">
                                  <div class="col-sm-6">
                                     <div class="form-group input-field label-float">
-                                       <label for="customer_name" class="block fixed-label">{{__('Search Customer Name') }}<span style="color:red">*</span></label>                 
+                                       <label for="customer_name" class="block fixed-label">{{__('Customer Name') }}<span style="color:red">*</span></label>                 
                                        
-                                       <input class="clearable" id="customer_name" name="customer_name"  type="text" placeholder="Search Customer" autocomplete='off'>
-                                       <input type="text" class="hide" name="customer_id" id="customer_id">
+                                       <input class="clearable" id="customer_name" name="customer_name" readonly="" value="{{ $customer_info->name }}" type="text" placeholder="Search Customer" autocomplete='off'>
+                                       <input type="text" class="hide" value="{{ $customer_info->id }}" name="customer_id" id="customer_id">
                                          
                                        <div class="input-highlight"></div>
                                     </div>
                                  </div>
                                  <div class="col-sm-6">
-                                    <div class="customer_add">
+                                    <div class="customer_add hide">
                                       <div class="form-group input-field label-float">
                                          <button type="button" class="btn theme modal-trigger" data-toggle="modal" data-target="#defaultModal">
                                          Add Customer
@@ -470,7 +491,7 @@
                                <!-- /.row -->
                                <div class="col-sm-6">
                                   <div class="form-group input-field label-float">
-                                     <input  id="cus_state" name="cus_state"  type="text" placeholder="Customer State"  autocomplete='off'>
+                                     <input  id="cus_state" name="cus_state" value="{{ CommonHelper::getstateName($customer_info->state_id) }}"  type="text" placeholder="Customer State" readonly=""  autocomplete='off'>
                                      <label  for="address_one" class="fixed-label">{{__('State') }}</label>
                                      <div class="input-highlight"></div>
                                   </div>
@@ -480,7 +501,7 @@
                                <!-- /.row -->  
                                <div class="col-sm-6">
                                   <div class="form-group input-field label-float">
-                                     <input id="cus_city" name="cus_city"  type="text" placeholder="Customer City"  autocomplete='off'>
+                                     <input id="cus_city" name="cus_city" value="{{ CommonHelper::getcityName($customer_info->city_id) }}" type="text" placeholder="Customer City" readonly="" autocomplete='off'>
                                      <label for="address_one" class="fixed-label">{{__('City') }}</label>
                                      <div class="input-highlight"></div>
                                   </div>
@@ -492,7 +513,7 @@
                                   <div class="select-row form-group">
                                      <label for="cus_email" class="block">{{__('Customer Email') }}<span style="color:red">*</span></label>                 
                                      <!-- To validate the select add class "select-validate" -->     
-                                     <input id="cus_email" name="cus_email"  type="text" placeholder="Customer Email"  autocomplete='off'>
+                                     <input id="cus_email" name="cus_email" value="{{ $customer_info->email }}" type="text" placeholder="Customer Email"  readonly="" autocomplete='off'>
                                      <div class="input-highlight"></div>
                                   </div>
                                </div>
@@ -500,7 +521,7 @@
                                <div class="col-sm-6">
                                   <div class="select-row form-group">
                                      <label for="cus_phone" class="block">{{__('Customer Phone') }}<span style="color:red">*</span></label>                 
-                                     <input id="cus_phone" name="cus_phone"  type="text" placeholder="Customer Phone"  autocomplete='off'>
+                                     <input id="cus_phone" name="cus_phone" value="{{ $customer_info->phone }}" type="text" placeholder="Customer Phone" readonly="" autocomplete='off'>
                                      <div class="input-highlight"></div>
                                   </div>
                                </div>
@@ -509,7 +530,7 @@
                                <div class="col-sm-6">
                                   <div class="form-group input-field label-float">
                                      <div class="input-field label-float">
-                                        <input id="cus_zipcode"  name="cus_zipcode"  type="text" placeholder="Customer Zipcode"  autocomplete='off'>
+                                        <input id="cus_zipcode"  name="cus_zipcode" value="{{ $customer_info->zipcode }}" readonly="" type="text" placeholder="Customer Zipcode"  autocomplete='off'>
                                         <label for="cus_zipcode"  class="fixed-label">{{__('Zipcode') }}</label>
                                         <div class="input-highlight"></div>
                                      </div>
@@ -521,7 +542,7 @@
                                <div class="col-sm-6">
                                   <div class="form-group input-field label-float">
                                      <div class="input-field label-float">
-                                        <input id="address_one"  name="address_one"  type="text" placeholder="Address One"  autocomplete='off'>
+                                        <input id="address_one"  name="address_one" value="{{ $customer_info->address_one }}" readonly="" type="text" placeholder="Address One"  autocomplete='off'>
                                         <label for="address_one" class="fixed-label">{{__('Address One') }}</label>
                                         <div class="input-highlight"></div>
                                      </div>
@@ -534,7 +555,7 @@
                                <div class="col-sm-6">
                                   <div class="form-group input-field label-float">
                                      <div class="input-field label-float">
-                                        <input id="address_two"  name="address_two"  type="text" placeholder="Address two"  autocomplete='off'>
+                                        <input id="address_two"  name="address_two" readonly="" value="{{ $customer_info->address_two }}" type="text" placeholder="Address two"  autocomplete='off'>
                                         <label for="address_two"  class="fixed-label">{{__('Address two') }}</label>
                                         <div class="input-highlight"></div>
                                      </div>
@@ -597,7 +618,106 @@
                   <h4 class="text-headline">Accommodation</h4>
                   <div class="row">
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
-                        
+                        @foreach($data['booking_place'] as $key => $place)
+
+                           @if($place->nights_count!=0)
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+
+                              //$place_city_name = CommonHelper::getcityName($place->city_id);
+                              $package_hotel = CommonHelper::getBookingHotel($package_info->id,$place->city_id);
+                              //dd($package_hotel->roomtype);
+                             
+
+                              $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
+
+                             // 
+                              $amenitystring = '';
+
+                              if($package_hotel!=null){
+                                foreach($package_hotel->amenities as $key => $amenity){
+                                  $amenitystring .= $amenity->amenities_name;
+                                  if($amenity_count-1 != $key){
+                                    $amenitystring .= ', ';
+                                  } 
+                                }
+                              }
+                              
+                              //dd($package_hotel);
+
+                              $roomtypesstring = '';
+                              $type_count = $package_hotel!=null ? count($package_hotel->roomtypes) : 0;
+                              $room_cost = 0;
+                              $cityhotelid = '';
+                              $cityhotelroomtype = '';
+                              $cityhotelroomnumbers = 0;
+                               
+                              if($package_hotel!=null){
+                                $room_cost = $package_hotel->total_amount;
+                                $cityhotelid = $package_hotel->id;
+                                $cityhotelroomtype = $package_hotel->roomtype_id;
+                                $cityhotelroomnumbers = $package_hotel->total_rooms;
+                                foreach($package_hotel->roomtypes as $key => $roomtype){
+
+                                  if($roomtype->pivot->roomtype_id==$package_hotel->roomtype_id){
+                                    $roomtypesstring = $roomtype->room_type.' - '.$package_hotel->total_rooms;
+
+                                    
+                                  }
+                                 
+                                }
+                              }
+                             
+                            @endphp
+
+                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
+                                <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
+                                <div class="card media-card-sm">
+                                  <div id="picked-hotelmedia-{{ $place->city_id }}" class="media">
+                                    @if($package_hotel!=null)
+                                    @php
+                                      $hotelimages = $package_hotel->hotelimages;
+                                      $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                    @endphp
+
+                                    <div class="media-left media-img">
+                                      <a href="#">
+                                        <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
+                                      <p>{{ $place_state_name }} - {{ $place_city_name }}</p>
+                                      <p class="sub-text mt10">{{ $amenitystring }}</p>
+                                      <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span> <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{$package_hotel->roomtype_id}},{{$package_hotel->total_rooms}})" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button>
+                                        <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
+                                      </p>
+                                      <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $cityhotelid }}"/>
+                                      <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
+                                      <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $room_cost }}"/>
+                                      <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $cityhotelroomnumbers }}"/>
+                                      <input type="text" class="hide hotel_room_type" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $place->city_id }}" value="{{ $cityhotelroomtype }}"/>
+                                    </div>
+                                    @else
+                                    <div class="media-left media-img">
+                                      <a>
+                                        <img class="responsive-img" src="{{ asset('public/assets/images/no_image.jpg') }}" alt="Hotel Image">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">Please choose hotel</h4> 
+                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
+                                    </div>
+                                    @endif
+                                  </div>
+                                </div>
+                              </li>
+
+                           @endif
+                        @endforeach
                     </ul>
                     <div id="dummy-hotels">
                       
@@ -671,7 +791,16 @@
                           <div class="card-block">
                              <div class="scroller ">
                                 <ul id="place-sortList" class="list-group placecitylist item-border">
-                                   
+                                   @foreach($data['booking_place'] as $place)
+                                    @php 
+                                      $place_state_name = CommonHelper::getstateName($place->state_id);
+                                      $place_city_name = CommonHelper::getcityName($place->city_id);
+                                    @endphp
+                                    <li data-cityid="{{ $place->city_id }}" id="picked-li-{{ $place->city_id }}" class="list-group-item cityplace sort-handle">. {{ $place_state_name }} - {{ $place_city_name }}<span class="callout-left blue-grey"></span>
+                                      <input type="text" name="picked_state[]" class="hide" id="picked-state-{{ $place->city_id }}" value="{{ $place->state_id }}">
+                                      <input type="text" name="picked_city[]" class="hide" id="picked-city-{{ $place->city_id }}" value="{{ $place->city_id }}">
+                                    </li>
+                                    @endforeach
                                 </ul>
                                 <div id="dummyList">
 
@@ -688,7 +817,33 @@
                       <div class="divider theme ml14 mr14"></div> 
                        
                       <div id="destination-night-area" class="destination-night-area">
-                           
+                           @foreach($data['booking_place'] as $place)
+                           @if($place->nights_count!=0)
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+                              $place_city_image = $place_city_image==null || $place_city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$place_city_image) ;
+                            @endphp
+                           <div data-cityid="{{ $place->city_id }}" id="place_night_{{ $place->city_id }}" class="col-xs-6 col-sm-6 col-md-4 mt20">
+                              <img class="responsive-img z-depth-1" src="{{ $place_city_image }}" style="width:190px;height: 100px;" alt=""/>
+                              <div id="place_night_remove_{{ $place->city_id }}" class="button-close hide">
+                                <button type="button" onclick="return DeleteNight({{ $place->city_id }})" class="btn btn-sm red waves-effect waves-circle waves-light">x</button>
+                              </div>
+                              <small class="night-place-name">{{ $place_city_name }}</small>
+                              <div class="form-group">
+                                <select id="place_night_select_{{ $place->city_id }}" name="place_night_select[]" class="form-control place-night-select hide">
+                                  @for($l=1;$l<=10;$l++)
+                                  <option value="{{ $l }}" @if($place->nights_count==$l) selected @endif >{{ $l }} @if($l==1)Night @else Nights @endif</option>
+                                  @endfor
+                              
+                                </select>
+                                <input type="text" class="hide" id="place_night_count_{{ $place->city_id }}" name="place_night_count_{{ $place->city_id }}[]" value="{{$place->nights_count}}">
+                              </div>
+                            </div> 
+                            @endif 
+                          @endforeach
                       </div>
                       <div id="dummyListNights">
 

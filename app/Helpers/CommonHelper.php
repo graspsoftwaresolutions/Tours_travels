@@ -270,4 +270,29 @@ class CommonHelper
                   // dd(  $activity_amount);
        return $activity_amount==null ? 0 : $activity_amount;
    }
+
+   // public static function getBookingHotel($bookingid,$cityid){
+   //      $hotel_data = DB::table('booking_hotel as ph')->select('hotel_id','roomtype_id','total_rooms','total_amount')
+   //                  ->where('ph.booking_hotel','=',$bookingid)
+   //                  ->where('ph.city_id','=',$cityid)->first();
+      
+   //      $hotels = null;
+   //      if(!empty($hotel_data)){
+   //          $hotels = Hotel::with(
+   //          array(
+   //              'amenities'=>function($query){
+   //                  $query->select('amenities_name');
+   //              },
+   //              'roomtypes',
+   //              'hotelimages'
+   //          ))->where('id','=',$hotel_data->hotel_id)->first();
+   //          $hotels['roomtype_id'] = $hotel_data->roomtype_id;
+   //          $hotels['total_rooms'] = $hotel_data->total_rooms;
+   //          $hotels['total_amount'] = $hotel_data->total_amount;
+   //            //dd( $hotels);
+   //          //return json_encode(['hotels' => $hotels, 'roomtype' => $hotel_data->roomtype_id]);
+   //      }
+   //      return $hotels;
+        
+   //  }
 }

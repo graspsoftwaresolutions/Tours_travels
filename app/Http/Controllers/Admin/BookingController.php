@@ -11,6 +11,12 @@ use App\Model\Admin\Booking;
 use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
+use App\Model\Admin\ActivityImages;
+use App\Model\Admin\Package;
+use App\Model\Admin\Activity;
+use Session;
+use Illuminate\Support\Facades\Crypt;
+use App\Model\Admin\CustomerDetails;
 
 class BookingController extends Controller
 {
@@ -102,34 +108,34 @@ class BookingController extends Controller
                     }
 				
 					
-                    $package_place = new BookingPlace() ;
-                    $package_place->booking_id = $booking_id;
-                    $package_place->state_id = $state_id;
-                    $package_place->city_id = $city_id;
-                    $package_place->nights_count = $nights_count;
-                    $package_place->save();
+                    $booking_place = new BookingPlace() ;
+                    $booking_place->booking_id = $booking_id;
+                    $booking_place->state_id = $state_id;
+                    $booking_place->city_id = $city_id;
+                    $booking_place->nights_count = $nights_count;
+                    $booking_place->save();
 
                     $hotel_id = $request->input('second_hotel_'.$city_id);
                    
                     if(isset($hotel_id)){
-                        $package_hotel = new BookingHotel() ;
-                        $package_hotel->booking_id = $booking_id;
-                        $package_hotel->city_id = $city_id;
-                        $package_hotel->hotel_id = $hotel_id[0];
+                        $booking_hotel = new BookingHotel() ;
+                        $booking_hotel->booking_id = $booking_id;
+                        $booking_hotel->city_id = $city_id;
+                        $booking_hotel->hotel_id = $hotel_id[0];
                         $hotel_nos = $request->input('hotel_number_count_'.$city_id);
                         $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
                         if(isset($hotel_room_type)){
-                            $package_hotel->roomtype_id = $hotel_room_type[0];
+                            $booking_hotel->roomtype_id = $hotel_room_type[0];
                         }
                         if(isset($hotel_nos)){
-                            $package_hotel->total_rooms = $hotel_nos[0];
+                            $booking_hotel->total_rooms = $hotel_nos[0];
                         }
                         $hotel_cost = $request->input('hotel_cost_'.$city_id);
                         if(isset($hotel_cost)){
-                            $package_hotel->total_amount = $hotel_cost[0];
+                            $booking_hotel->total_amount = $hotel_cost[0];
                         }
                         
-                        $package_hotel->save();
+                        $booking_hotel->save();
                     }
                     
                    
@@ -139,22 +145,22 @@ class BookingController extends Controller
                         $activity_count = count($activity_ids);
                         for($j =0; $j<$activity_count; $j++){
                             $activity_id = $request->input('second_activity_'.$city_id)[$j];
-                            $package_activities = new BookingActivities() ;
-                            $package_activities->booking_id = $booking_id;
-                            $package_activities->city_id = $city_id;
-                            $package_activities->activity_id = $activity_id;
+                            $booking_activities = new BookingActivities() ;
+                            $booking_activities->booking_id = $booking_id;
+                            $booking_activities->city_id = $city_id;
+                            $booking_activities->activity_id = $activity_id;
                             $activity_cost = $request->input('activity_cost_'.$city_id);
                             if(isset($activity_cost)){
-                                $package_activities->total_amount = $activity_cost[$j];
+                                $booking_activities->total_amount = $activity_cost[$j];
                             }
-                            $package_activities->save();
+                            $booking_activities->save();
                         }
                     }
                    // dd($hotel_id);
                     
 				}
             }
-        return redirect('admin/booking_list')->with('message','Package Added Successfully!!');
+        return redirect('admin/booking_list')->with('message','Booking Added Successfully!!');
         //return json_encode($package);
     }
     public function List(){
@@ -165,5 +171,20 @@ class BookingController extends Controller
     {
         $data = [];
         return view('admin.booking.list')->with('data',$data);
+    }
+    public function EditBooking($encid){
+        $bookingid = crypt::decrypt($encid);
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['booking_info'] = Booking::where('id','=',$bookingid)->first();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
+        $data['booking_place'] = BookingPlace::where('booking_id','=',$bookingid)->get();
+        $data['tax_data'] = DB::table('settings_tax')->where('status','=','1')->first();
+        $data['package_info'] = Package::where('id','=',$data['booking_info']->package_id)->first();
+        //$data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        $data['city_view'] = City::where('status','=','1')->get();
+        $data['package_place'] = $data['booking_place'];
+        $data['customer_info'] = CustomerDetails::where('id','=',$data['booking_info']->customer_id)->first();
+        return view('admin.booking.edit_booking',compact('data',$data));
     }
 }

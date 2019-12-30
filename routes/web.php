@@ -163,6 +163,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     //Website
     Route::get('website','Admin\SettingsController@websiteSettings')->name('website.new');
     Route::post('website_save','Admin\SettingsController@websiteSave')->name('website_save');
+    Route::get('/booking-edit/{parameter}','Admin\BookingController@EditBooking')->name('booking.edit');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');

@@ -116,8 +116,8 @@
                                 </div><!-- /.row -->    
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">
-                                <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                                <button id="saveMasterButton" class="btn-flat waves-effect waves-theme">Save</button>
+                                <button class="btn-flat deep-orange waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                <button id="saveMasterButton" class="btn-flat green waves-effect waves-theme">Save</button>
                             </div><!-- /.modal-footer -->
                         </form>
                     </div><!-- /.modal-content -->

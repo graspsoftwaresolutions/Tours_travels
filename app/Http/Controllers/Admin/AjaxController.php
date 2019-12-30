@@ -995,7 +995,7 @@ class AjaxController extends CommonController
                 $nestedData['city_name'] = $booking->city_name;
                 $nestedData['state_name'] = $booking->state_name;
                 $enc_id = Crypt::encrypt($booking->id);
-                $edit = route('package.edit',$enc_id);
+                $edit = route('booking.edit',$enc_id);
                 $pdf = route('booking.pdf',$enc_id);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
                 $nestedData['options'] = $actions;
