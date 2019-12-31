@@ -53,6 +53,7 @@
                                     <th width="20%">{{__('Amount')}} </th>
                                     <th width="20%">{{__('To State')}} </th>
                                     <th width="20%">{{__('To City')}} </th>
+                                    <th width="20%">{{__('Status')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
@@ -126,6 +127,9 @@
             },
             {
                 "data": "city_name"
+            },
+            {
+                "data": "status"
             },
             {
                 "data": "options"

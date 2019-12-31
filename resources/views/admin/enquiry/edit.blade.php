@@ -161,7 +161,32 @@
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
 							</div><!-- ./col- -->	
-					    </div><!-- /.row -->
+                   </div><!-- /.row -->
+
+                   
+
+                   @if($row->type=='package')
+                   <div class="row packages" >
+                      <div class="col-sm-12" >
+                        <div class="form-group">
+                          <label for=""><strong>Select Packages:</strong></label>
+                          <div class="row">  
+                              @foreach($data['packages_view'] as $value)
+                              <div class="col-md-3" >
+                                   <div class="form-group">    
+                                     <label class="checkbox-filled" for="package_{{ $value->id }}">
+                                      <input type="checkbox" class="filled" name="package[]" id="package_{{ $value->id }}" value="{{ $value->id }}"  @if(in_array($value->id, $data['enquiry_packages'] )) checked @endif >
+                                      <i class="highlight"></i>
+                                      {{ $value->package_name }}
+                                    </label>
+                                  </div>                       
+                              </div>
+                               @endforeach
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="form-group">
@@ -194,7 +219,7 @@
 					    </div><!-- /.row -->
                    <p><span style="color:red;"> Mandatory (*)</span></p>
 						<div class="form-group clearfix">
-							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Update</button>
+							<button type="submit" id="submittext" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Update</button>
 						</div><!-- /.form-group -->
                  
 					</form>
@@ -222,6 +247,23 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script>
 $(document).ready(function(){
+
+   //$('#submittext').text('enquiry');
+  // $('.packages').hide();
+
+   $('#type').change(function(){
+     var type =   $('#type').val();
+    
+      if(type == 'package')
+      {
+         $('.packages').show();
+         $('#submittext').text('Send quotation');
+      }
+      else{
+         $('.packages').hide();
+      }
+   });
+
    $("#enquiry-menu").addClass('active');
    $("#enquiries_sidebar_li_id").addClass('active');
    $("#formValidate").validate({

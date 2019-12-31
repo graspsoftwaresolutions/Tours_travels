@@ -97,7 +97,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for=""><strong>Select Amenities:</strong></label>
-                          <div class="row">
+                          <div class="row"> 
                               @foreach($data['features_view'] as $value)
                               <div class="col-md-3">
                                    <div class="form-group">     
@@ -136,7 +136,6 @@
                             </div>
                           </div>
                       </div>
-
                       <div class="col-md-4">
                           <div class="select-row form-group">
                               <label for="country_id" class="block">{{__('Country Name') }}</label>                 

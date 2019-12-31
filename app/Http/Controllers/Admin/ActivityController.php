@@ -10,6 +10,7 @@ use App\Model\Admin\City;
 use App\Model\Admin\ActivityImages;
 use App\Model\Admin\Activity;
 use App\Model\Admin\Enquiry;
+use App\Model\Admin\Package;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
@@ -192,12 +193,15 @@ class ActivityController extends BaseController
     public function enquiryList()
     {
         $data['enq_view'] = Enquiry::where('status','=','1')->get();
+        
+       
         return view('admin.enquiry.list',compact('data',$data));
     }
     public function enquiryNew()
     {
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
+        $data['packages_view'] = Package::where('status','=','1')->get();
         return view('admin.enquiry.new')->with('data',$data);
     }
     public function enquirySave(Request $request)
@@ -216,6 +220,13 @@ class ActivityController extends BaseController
         else{
             $SaveEnquiry = Enquiry::create($data);
             $enquiryid = $SaveEnquiry->id;
+            $package = $request->package;
+            foreach($package as $packageid)
+            {
+                DB::table('enquiry_packages')->insert(
+                    ['enquiry_id' => $enquiryid, 'package_id' => $packageid]
+                );
+            }
             Session::flash('message', 'Enquiry Details Added Succesfully');
             return $this->sendResponse($SaveEnquiry->toArray(), $enquiryid, 'Enquiry Details Saved Succesfully');
         }
@@ -226,6 +237,10 @@ class ActivityController extends BaseController
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['enq_view'] = Enquiry::where('id','=',$id)->get();
+        $data['packages_view'] = Package::where('status','=','1')->get();
+        $data['enquiry_packages'] = DB::table('enquiry_packages')->where('enquiry_id','=', $id)->pluck('package_id')->toArray();
+       
+        //dd($data['enquiry_packages']);
         return view('admin.enquiry.edit')->with('data',$data);
     }
     public function deleteInclusion(Request $request)

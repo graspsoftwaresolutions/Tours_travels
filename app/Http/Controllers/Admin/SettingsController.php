@@ -54,8 +54,8 @@ class SettingsController extends Controller
                 $file = $data['company_logo'];
                 $extension = $file->getClientOriginalExtension();
                 $imageName = time().'.'.$file->getClientOriginalExtension();
-                $file->move('public/assets/images/website_logo',$imageName);
-             //   $file->storeAs('website' , $imageName  ,'local');
+              //  $file->move('public/assets/images/website_logo',$imageName);
+              $file->storeAs('website' , $imageName  ,'local');
                 $data['company_logo'] = $imageName;
             }
             $SaveWebsite= website::find($request->website_id)->update($data);
@@ -66,7 +66,8 @@ class SettingsController extends Controller
                 $file = $data['company_logo'];
                 $extension = $file->getClientOriginalExtension();
                 $imageName = time().'.'.$file->getClientOriginalExtension();
-                $file->move('public/assets/images/website_logo',$imageName);
+                $file->storeAs('website' , $imageName  ,'local');
+               // $file->move('public/assets/images/website_logo',$imageName);
                 $data['company_logo'] = $name;
             }
             $SaveWebsite = website::create($data);
