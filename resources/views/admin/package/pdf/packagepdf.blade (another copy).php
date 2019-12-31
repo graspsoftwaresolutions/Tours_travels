@@ -171,7 +171,7 @@
 			<br>	
 			<br>
 			<br>
-			<br>
+			<br><br>	
 		</div>
 		<div class="clearfix"/>
 		@php
@@ -187,7 +187,7 @@
             
         @endphp   
 		<h4 style="color: #548594;font-weight: bold;">Package Information</h4>
-		<div class="first-page-sections" width="35%" style="float: left;width: 30%">
+		<div class="first-page-sections" width="30%" style="float: left;width: 30%">
 			<div class="heading" style="" width="100%">
 				Persons :
 			</div>
@@ -197,7 +197,7 @@
 			</div>
 			
 		</div>
-		<div width="65%" style="float: left;">
+		<div width="70%" style="float: left;">
 			&nbsp;
 		</div>
 		<div class="clearfix"/>
@@ -232,23 +232,18 @@
 		</div>
 		<div class="clearfix"/>
 		<br>
-		<div class="" width="30%" style="float: left;width: 30%;font-size: 15px;margin-right: 10px; padding: 5px;background: #c3986a;color: #fff; border-radius: 8px;">
-			<div class="content" style="" width="100%">
-				TamilNadu, Chennai 
-				<br> [ Day 1 - 2]
+		<div class="first-page-sections" width="30%" style="float: left;width: 30%">
+			<div class="heading" style="" width="100%">
+				Date :
 			</div>
 			<div class="clearfix"></div>
+			<div class="content" style="font-size: 14px;">
+				From : 12 persons, To: 555
+			</div>
 			
 		</div>
-		<div width="30%" class="content" style="float: left;background: #000;color: #fff;font-size: 15px;padding: 5px;margin-right: 10px;  border-radius: 8px;">
-			<div class="heading" style="" width="100%">
-				 TamilNadu, Chennai <br> [ Day 1 - 2]
-			</div>
-		</div>
-		<div width="30%" class="content" style="float: left;background: #c3986a;color: #fff;font-size: 15px;padding: 5px; border-radius: 8px;">
-			<div class="heading" style="" width="100%">
-				TamilNadu, Chennai <br> [ Day 1 - 2]
-			</div>
+		<div width="70%" style="float: left;">
+			&nbsp;
 		</div>
 		<div class="clearfix"/>
 		</div>

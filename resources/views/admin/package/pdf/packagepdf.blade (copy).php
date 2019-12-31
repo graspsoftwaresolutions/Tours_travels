@@ -14,7 +14,7 @@
 			font-size:15px;
 		}
 		.page{
-			padding:25px;
+			padding:30px;
 		}
 		.align-right{
 			text-align:right;
@@ -73,189 +73,108 @@
 			margin-left: 40px !important;
             
 		}
-		table.company_headings th, td,.company_headings{
-			border: none !important;
-		}
-		.tour-details{
-			margin-left: 20px;
-		}
-		.address-icons{
-			margin-right: 10px;
-		}
-		.first-page-sections th,td{
-			//border: 1px solid black !important;
-		   border-collapse: collapse;
-		}
-		.first-page-sections .heading{
-			background: #000;
-		    color: #fff;
-		    border-radius: 10px 10px 0 0;
-		    padding: 5px;
-		}
-		.first-page-sections .content{
-			background: #c3986a;
-		    color: #fff;
-		    padding: 5px;
-		}
+		
 		</style>
 </head>
 <body>
 	
 	<div class="page">
-		@php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
-		  $company_state_name = CommonHelper::getstateName($company_data->state_id);
-		  $company_city_name = CommonHelper::getcityName($company_data->city_id);
-	  @endphp
-	
-		<div class="first-page" style="background-image: url(http://localhost/Tours_travels/public/assets/images/boxes_only_3.png);background-repeat: no-repeat;background-position: right;">
-			<br>
-			<table class="company_headings" width="100%">
-				<tr>
-					<td colspan="2" align="center" style="color: #548594;font-weight: bold;">
-						{{$package->package_name ? ucfirst($package->package_name) : ''}}
-					</td> 
-					
-				</tr>
-				<tr>
-					<td width="50%">
-						<img src="{{ asset('storage/app/website/'.$company_data->company_logo) }}" style="width:70px;height:70px;"><br>
-						<div width="5%" style="float: left;">
-							<img class="address-icons" src="{{ asset('public/assets/images/map.png') }}" width="20px" > 
-						</div>
-						<div  style="float: left;">
-							{{$company_data->company_address_one!='' ? ucfirst($company_data->company_address_one) : '' }} {{$company_data->company_address_two!='' ? ','.ucfirst($company_data->company_address_two) : '' }}, <br>
-							{{ $company_state_name }} , {{ $company_city_name }} - {{ $company_data->zipcode }}<br>
-						</div>
-						<br style="clear: both;">
-						<div width="5%" style="float: left;">
-							<img class="address-icons" src="{{ asset('public/assets/images/phone-call.png') }}" width="20px" > 
-						</div>
-						<div >
-							{{$company_data->company_phone}}<br>
-						</div>
-						<br>
-						<div width="5%" style="float: left;">
-							<img class="address-icons" src="{{ asset('public/assets/images/mail.png') }}" width="20px" > 
-						</div>
-						<div >
-							{{$company_data->company_email}}<br>
-						</div>
-						<br>
-						<!--div width="5%" style="float: left;">
-							<img class="address-icons" src="{{ asset('public/assets/images/global.png') }}" width="20px" > 
-						</div>
-						<div >
-							{{$company_data->company_website}}<br>
-						</div-->
-						
-						 
-
-					</td>
-					<td width="50%" style="margin-left: 10px;vertical-align: top;">
-						<div class="tour-details">
-							<h4 style="color: #548594;">{{$company_data->company_name ? ucfirst($company_data->company_name) : ''}}</h4>
-							<h5 style="margin-left: 20px;">
-								@php
-									 $from_country_name = CommonHelper::getCountryName($package->from_country_id);
-								@endphp
-								From : {{ $from_country_name }} <br><br>
-								To : {{ $package->country_name }}
-							</h5>
-							
-						</div>
-						
-					</td>
-				</tr>
-			</table>
-		<div width="100%" style="height: 250px;">
-			<br>	
-			<br>
-			<br>
-			<br>
-		</div>
-		<div class="clearfix"/>
-		@php
-	        $package_type = CommonHelper::getPackagetypename($package->package_type);
-	        $summary_cities='';
-	        $night_count=0;
-
-            foreach($package_place_data as $key => $place){
-               $sum_city_name = CommonHelper::getcityName($place->city_id);
-               $summary_cities .= $sum_city_name.', ';
-               $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
-            }
-            
-        @endphp   
-		<h4 style="color: #548594;font-weight: bold;">Package Information</h4>
-		<div class="first-page-sections" width="35%" style="float: left;width: 30%">
-			<div class="heading" style="" width="100%">
-				Persons :
-			</div>
-			<div class="clearfix"></div>
-			<div class="content" style="font-size: 14px;">
-				{{$package->adult_count ? $package->adult_count : 0 }} persons , {{$package->child_count ? $package->child_count : 0 }}  children and {{$package->infant_count ? $package->infant_count : 0 }} Infant
-			</div>
-			
-		</div>
-		<div width="65%" style="float: left;">
-			&nbsp;
-		</div>
-		<div class="clearfix"/>
-		<br>
-		<div class="first-page-sections" width="30%" style="float: left;width: 30%">
-			<div class="heading" style="" width="100%">
-				Days & Nights :
-			</div>
-			<div class="clearfix"></div>
-			<div class="content" style="font-size: 14px;">
-				{{ $night_count }} nights and {{ $night_count+1 }} days
-			</div>
-			
-		</div>
-		<div width="70%" style="float: left;">
-			&nbsp;
-		</div>
-		<div class="clearfix"/>
-		<br>
-		<div class="first-page-sections" width="30%" style="float: left;width: 30%">
-			<div class="heading" style="" width="100%">
-				Package Type :
-			</div>
-			<div class="clearfix"></div>
-			<div class="content" style="font-size: 14px;">
-				{{ $package_type ? ucfirst($package_type) : ''}}
-			</div>
-			
-		</div>
-		<div width="70%" style="float: left;">
-			&nbsp;
-		</div>
-		<div class="clearfix"/>
-		<br>
-		<div class="" width="30%" style="float: left;width: 30%;font-size: 15px;margin-right: 10px; padding: 5px;background: #c3986a;color: #fff; border-radius: 8px;">
-			<div class="content" style="" width="100%">
-				TamilNadu, Chennai 
-				<br> [ Day 1 - 2]
-			</div>
-			<div class="clearfix"></div>
-			
-		</div>
-		<div width="30%" class="content" style="float: left;background: #000;color: #fff;font-size: 15px;padding: 5px;margin-right: 10px;  border-radius: 8px;">
-			<div class="heading" style="" width="100%">
-				 TamilNadu, Chennai <br> [ Day 1 - 2]
-			</div>
-		</div>
-		<div width="30%" class="content" style="float: left;background: #c3986a;color: #fff;font-size: 15px;padding: 5px; border-radius: 8px;">
-			<div class="heading" style="" width="100%">
-				TamilNadu, Chennai <br> [ Day 1 - 2]
-			</div>
-		</div>
-		<div class="clearfix"/>
-		</div>
-		<div class="clearfix"/> <br><br>
-		@php  $sno = 0; $slno = 1; $start = 0;
-				$days = 1; @endphp
+		<div class="first-page" style="background-image: url(http://localhost/Tours_travels/public/assets/images/boxes.png);background-repeat: no-repeat;height: 3508 px;">
+		<div width="100%">
 		
+			<div style="text-align:center;">
+		  	<a style="padding:10px !important;" href="#"><img src="{{ asset('storage/app/website/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
+				<h1 style="color:#4A7885"> {{$company_data->company_name ? ucfirst($company_data->company_name) : ''}}</h1>
+				<h2 style=""><b> {{$package->package_name ? ucfirst($package->package_name) : ''}}</b> </h2>
+			</div>			
+		</div>
+		<div class="clearfix"/>
+		<table width="100%">
+			<thead>
+			<tr >
+				<th width="20%" style="color:#4A7885">From Place</th>
+				<th width="20%" style="color:#4A7885">To Place </th>
+			</tr> </thead>    
+			<tr> 
+				@php $from_country_name = CommonHelper::getCountryName($package->from_country_id);
+					$from_state_name = CommonHelper::getstateName($package->from_state_id);
+					$from_city_name = CommonHelper::getcityName($package->from_city_id);
+			 	@endphp
+			<td >
+			<p >Country Name : {{$from_country_name ? $from_country_name : ''}} </p>
+			<p >State name : {{$from_state_name ? $from_state_name : ''}} </p>
+			<p >City Name : {{$from_city_name ? $from_city_name : ''}} </p>
+			</td>
+			<td >
+			<p >Country Name : {{$package->country_name ? $package->country_name : ''}}</p>
+			<p >State name : {{$package->state_name ? $package->state_name : ''}}</p>
+			<p >City Name : {{$package->city_name ? $package->city_name : ''}}</p> </td>
+			</tr>            
+		</table>
+		<div class="clearfix"/>
+		<br>
+		<h2 style="color:#4A7885"><b> Package Information</b> </h2>	
+		<table width="100%" class="package_table">
+			   
+			<tr>   
+                <td style="color:#4A7885"> Persons   </td> 
+				<td> {{$package->adult_count ? $package->adult_count : 0 }} persons , {{$package->child_count ? $package->child_count : 0 }}  children and {{$package->infant_count ? $package->infant_count : 0 }} Infants </p> </td>
+			</tr> 
+                @php
+                $package_type = CommonHelper::getPackagetypename($package->package_type);
+                $summary_cities='';
+                    $night_count=0;
+
+                    foreach($package_place_data as $key => $place){
+                       $sum_city_name = CommonHelper::getcityName($place->city_id);
+                       $summary_cities .= $sum_city_name.', ';
+                       $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
+                    }
+                    
+                 @endphp   
+                <tr> 
+					<td style="color:#4A7885"> Days and Nights </td>
+					<td> {{ $night_count }} nights and {{ $night_count+1 }} days </td>
+				</tr>
+				<tr> 
+					<td style="color:#4A7885"> Package Type  </td>
+					<td>  {{ $package_type ? ucfirst($package_type) : ''}} </td>
+				</tr>
+		</table>
+		<div class="clearfix"/> <br>
+        @php  $sno = 0; $slno = 1; $start = 0;
+				$days = 1; @endphp
+		 @foreach($package_place_data as $place) 
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+							  $nightcount = $place->nights_count ;
+
+				if($nightcount > 1 )
+                {
+                    $days_val = 'Day 1 - '.($nightcount) ;
+                }
+                else{
+                    $days_val = 'Day '.$nightcount;
+                }
+                if($nightcount <= 1)
+                {
+                    $nights =  $nightcount.' Night';
+                }
+                else{
+                    $nights =  $nightcount.' Nights';
+                }
+            @endphp
+			
+			<p > {{$sno+1}} . {{ $place_state_name }}, {{ $place_city_name }} </p>
+			<div class="inner-bullets" > * {{$days_val}} [ {{$nights }} ] </div>
+			@php $sno++; @endphp
+		
+		@endforeach
+		<div class="clearfix"/> <br>
+		</div>
 		<h2 style="color:#4A7885"><b>Detailed Summary</b> </h2>
 		@foreach($package_place_data as $place) 
 			@php 
@@ -496,6 +415,16 @@
 						   </tr>	
 						</table>
 
-					
+					<p>	<address style="text-align:center">
+					@php $company_country_name = CommonHelper::getCountryName($company_data->country_id);
+					  $company_state_name = CommonHelper::getstateName($company_data->state_id);
+					  $company_city_name = CommonHelper::getcityName($company_data->city_id);
+				  @endphp
+					{{ $company_data->company_name ? ucfirst($company_data->company_name) : '' }}<br> 
+					{{$company_data->company_address_one ? ucfirst($company_data->company_address_one) : '' }} , {{$company_data->company_address_two ? ucfirst($company_data->company_address_two) : '' }} , <br> {{ $company_country_name }} , {{ $company_state_name }} , {{ $company_city_name }} {{ $company_data->zipcode }}<br>
+					Contact :  {{$company_data->company_phone ? $company_data->company_phone : '' }}<br>
+						Website : {{$company_data->company_website ? $company_data->company_website : '' }}  <br>
+						Email : {{$company_data->company_email ? $company_data->company_email : '' }}.
+					</address>
 </body>
 </html>

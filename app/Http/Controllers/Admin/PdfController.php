@@ -33,9 +33,9 @@ class PdfController extends Controller
         //dd($data);
         if($data!='')
         {
-          //return view('package.pdf.packagepdf')->with($data);
+            //return view('admin.package.pdf.packagepdf')->with($data);
           $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
-           return  $pdf->stream();
+           //return  $pdf->stream();
            return $pdf->download('package_details.pdf');
         }
     }
