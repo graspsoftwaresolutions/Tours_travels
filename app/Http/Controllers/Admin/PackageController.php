@@ -271,9 +271,10 @@ class PackageController extends Controller
             3 => 'total_amount',
             4 => 'to_state_id',
             5 => 'to_city_id',
-            6 => 'id'
+            5 => 'status',
+            7 => 'id'
         );
-        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                     ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
@@ -290,14 +291,14 @@ class PackageController extends Controller
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){ 
-                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                 ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->orderBy($order,$dir)
                 ->where('p.status','=','1')
                 ->get()->toArray();
             }else{
-                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                 ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                 ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                 ->leftjoin('state as st','st.id','=','p.to_state_id')
@@ -312,7 +313,7 @@ class PackageController extends Controller
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
@@ -329,7 +330,7 @@ class PackageController extends Controller
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
@@ -347,7 +348,7 @@ class PackageController extends Controller
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','pm.package_type')
+        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
                 ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
@@ -376,6 +377,15 @@ class PackageController extends Controller
                    $nestedData['amount'] = $package->total_amount;  
                    $nestedData['city_name'] = $package->city_name;
                    $nestedData['state_name'] = $package->state_name;
+                   if($package->package_status == 1)
+                   {
+                    $nestedData['status'] = 'Active';
+                   }
+                   else
+                   {
+                    $nestedData['status'] = 'Inactive';
+                   }
+                   //$nestedData['status'] = $package->package_status;
                    $enc_id = Crypt::encrypt($package->id);
                    $edit = route('package.edit',$enc_id);
                    $pdf = route('package.pdf',$enc_id);

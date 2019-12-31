@@ -55,7 +55,8 @@
 				<!-- <div class="col-sm-10 col-sm-offset-1"> -->
             @include('includes.messages')
 					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
-						<h1 class="text-display-1">Enquiry Information</h1>
+               @csrf   
+               <h1 class="text-display-1">Enquiry Information</h1>
                   <input type="hidden" name="enquiry_id">
 						   <div class="row">
 							<div class="col-sm-6">
@@ -139,7 +140,7 @@
 								<div class="form-group input-field label-float">
                         <div class="input-field label-float">
                            <label for="type" class="fixed-label">{{__('Type') }}<span style="color:red">*</span></label>
-                           <select id="type" name="type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                           <select id="type"  name="type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select Type') }}</option>
                               <option value="general">General</option>
                               <option value="package">Package</option>
@@ -149,7 +150,9 @@
                            </div>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->
-							</div><!-- ./col- -->
+                     </div><!-- ./col- -->
+                     
+                    
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
@@ -158,7 +161,27 @@
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
 							</div><!-- ./col- -->	
-					    </div><!-- /.row -->
+                   </div><!-- /.row --> 
+                   <div class="row packages" >
+                      <div class="col-sm-12" >
+                        <div class="form-group">
+                          <label for=""><strong>Select Packages:</strong></label>
+                          <div class="row"> 
+                              @foreach($data['packages_view'] as $value)
+                              <div class="col-md-3" >
+                                   <div class="form-group">     
+                                     <label class="checkbox-filled" for="package_{{ $value->id }}">
+                                      <input type="checkbox" class="filled" name="package[]" id="package_{{ $value->id }}" value="{{ $value->id }}">
+                                      <i class="highlight"></i>
+                                      {{ $value->package_name }}
+                                    </label>
+                                  </div>                       
+                              </div>
+                               @endforeach
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="form-group">
@@ -168,10 +191,11 @@
                         </div>
                      </div><!-- ./col- -->	
                     
-					    </div><!-- /.row -->
+                   </div><!-- /.row -->
+                   
                    <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
 						<div class="form-group clearfix">
-							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+							<button id="submittext" type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
 						</div><!-- /.form-group -->
                   
 					</form>
@@ -199,7 +223,21 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script>
 $(document).ready(function(){
-   
+
+   $('#submittext').text('enquiry');
+   $('.packages').hide();
+   $('#type').change(function(){
+     var type =   $('#type').val();
+      if(type == 'package')
+      {
+         $('.packages').show();
+         $('#submittext').text('Get quotation');
+      }
+      else{
+         $('.packages').hide();
+      }
+   });
+
    $("#formValidate").validate({
 			rules: {
 				"name": {

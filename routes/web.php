@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Hotel Booking frontend
 
 Route::get('/tour-booking', 'Web\TourBookingController@tourBooking')->name('tour_booking');
-
+Route::get('/enquiry', 'Web\MenuController@enquiryView')->name('enquiry');
 
 Route::group( [ 'prefix' => 'admin' ], function()
 {
