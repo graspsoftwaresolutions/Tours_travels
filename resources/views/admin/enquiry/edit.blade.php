@@ -54,7 +54,8 @@
 			<div class="page-content clearfix">
 				<!-- <div class="col-sm-10 col-sm-offset-1"> -->
             @include('includes.messages')
-					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
+					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" enctype="multipart/form-data" data-toggle="validator">
+                  @csrf
 						<h1 class="text-display-1">Edit Enquiry Information</h1>
                   <input type="hidden" name="enquiry_id" value="{{$row->id}}">
 						   <div class="row">
@@ -122,7 +123,7 @@
                               <option value="" selected="">{{__('Select City') }}
                               </option>
                               @foreach ($citylist as $city)
-                                  <option value="{{ $city->id }}" @if($row->city_id==$city->id) selected @endif>{{ $city->city_name }}</option>
+                                  <option value="{{ $city->id }}" @if($row->city_id == $city->id) selected @endif>{{ $city->city_name }}</option>
                                   @endforeach
                            </select>
                            <div class="input-highlight"></div>
@@ -196,7 +197,7 @@
                         </div>
                      </div><!-- ./col- -->	
                      <div class="col-sm-6">
-                     <div class="form-group">
+                        <div class="form-group">
                            <label for="remarks" class="fixed-label">{{__('Remarks') }}</label>
                            <textarea class="textarea-auto-resize"  placeholder="Enter Remarks" name="remarks" id="remarks">{{$row->remarks}}</textarea>
                            <p class="no-margin em"></p>
@@ -205,7 +206,7 @@
 					    </div><!-- /.row -->
                    <div class="row">
 							<div class="col-sm-6">
-                     <div class="form-group">
+                         <div class="form-group">
                            <label for="message" class="fixed-label">{{__('Status') }}</label>
                               <select name="enquiry_status" id="enquiry_status" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select Status') }}</option>
@@ -215,10 +216,32 @@
                               </select>
                            <p class="no-margin em"></p>
                         </div>
-                     </div><!-- ./col- -->		
-					    </div><!-- /.row -->
+                     </div><!-- ./col- -->		  
+                     <!-- <div class="col-sm-6">
+                     <div class="form-group">
+                     <label for="message" class="fixed-label">{{__('Status') }}</label>
+                     <button type="submit" id="submittext" class="btn theme-accent waves-effect waves-light pull-right">Send Quotation</button> &nbsp;&nbsp;&nbsp;
+                           <p class="no-margin em"></p>
+                        </div>
+                     </div> -->
+                     <!-- ./col- -->
+                     <div class="col-sm-6">
+                        <div class="form-group">
+                        
+                          
+                           <button type="submit" style="margin-top:22px;" id="send_quotation" class="btn waves-effect waves-light theme-accent clearable">Send Quotation</button> &nbsp;&nbsp;&nbsp;  
+                           <p class="no-margin em"></p>
+                        </div>
+                     </div><!-- ./col- -->	
+                  
+                  
+                  
+                  </div><!-- /.row -->
                    <p><span style="color:red;"> Mandatory (*)</span></p>
-						<div class="form-group clearfix">
+                  
+                  <div class="clearfix"></div> <br>
+                   <div class="form-group clearfix">
+                
 							<button type="submit" id="submittext" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Update</button>
 						</div><!-- /.form-group -->
                  
@@ -248,8 +271,75 @@
 <script>
 $(document).ready(function(){
 
-   //$('#submittext').text('enquiry');
-  // $('.packages').hide();
+   // $('#send_quotation').click(function(){
+   //    //alert('hii');
+   //    $("#formValidate").validate({
+	// 		rules: {
+	// 			"name": {
+	// 				required: true,
+	// 			},
+   //          "email": {
+	// 				required: true,
+   //             email : true,
+	// 			},
+   //          "country_id" : {
+   //             required: true,
+   //          },
+   //          "state_id" : {
+   //             required: true,
+   //          },
+   //          "city_id" : {
+   //             required: true,
+   //          },
+   //          "type" : {
+   //             required: true,
+   //          },
+   //          "phone" : {
+   //             required: true,
+   //             digits : true,
+   //          },	
+	// 		},
+	// 		messages: {
+	// 			"name": {
+	// 				required: "Please, enter Name",
+	// 			},
+   //          "email": {
+	// 				required: "Please, enter Email",
+   //             email : "Please enter valid email",
+	// 			},
+   //          "country_id" : {
+   //             required: "Please, choose country",
+   //          },
+   //          "state_id" : {
+   //             required: "Please, choose state",
+   //          },
+   //          "city_id" : {
+   //             required: "Please, choose city",
+   //          },
+   //          "type" : {
+   //             required: "Please, choose type",
+   //          },
+   //          "phone" : {
+   //             required: "Please, enter Phone Number",
+   //             digits : "Numbers only",
+   //          },
+	// 		},
+	// 		submitHandler: function (form) {
+	// 			$.ajax({
+	// 				type: 'post',
+	// 				url: "{{ route('enquiry_save') }}",
+	// 				data: $('form').serialize(),
+	// 				success: function(response){
+	// 					if(response)
+	// 					{
+	// 						//window.location.href = "{{route('enquiry.new')}}";
+	// 					}
+	// 				}
+	// 		});
+   //       }
+	// 	});
+
+   // });
 
    $('#type').change(function(){
      var type =   $('#type').val();
@@ -257,7 +347,7 @@ $(document).ready(function(){
       if(type == 'package')
       {
          $('.packages').show();
-         $('#submittext').text('Send quotation');
+        
       }
       else{
          $('.packages').hide();

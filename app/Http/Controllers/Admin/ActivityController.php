@@ -11,6 +11,9 @@ use App\Model\Admin\ActivityImages;
 use App\Model\Admin\Activity;
 use App\Model\Admin\Enquiry;
 use App\Model\Admin\Package;
+use PDF;
+
+use App\Model\Admin\EnquiryPackages;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
@@ -206,14 +209,66 @@ class ActivityController extends BaseController
     }
     public function enquirySave(Request $request)
     {
-        $data = $request->all();
+          $data = $request->all();
         $data['id'] = $request->enquiry_id;
         
         if(!empty($data['id']))
         {
-            $SaveEnquiry = Enquiry::find($data['id'])->update($data);
-            $enquiryid = $data['id'];
-            $data =  Enquiry::find($data['id']);
+             $data = $request->all();
+            $enquiryid = $request->enquiry_id;
+            $enquiry = Enquiry::find($enquiryid);
+            $enquiry->name = $request->input('name');
+            $enquiry->email = $request->input('email');
+            $enquiry->phone = $request->input('phone');
+            $enquiry->country_id = $request->input('country_id');
+            $enquiry->state_id = $request->input('state_id');
+            $enquiry->city_id = $request->input('city_id');
+            $enquiry->address = $request->input('address');
+            $enquiry->type = $request->input('type');
+            $enquiry->enquiry_status = $request->input('enquiry_status');
+            $enquiry->message = $request->input('message');
+            $enquiry->remarks = $request->input('remarks');
+            $enquiry->status = 1;
+            $enquiry->save();
+            $package = $request->package;
+
+            $enquiry->enquirypackages()->sync($package);
+
+            // $details = [
+            // 'title' => 'Mail from ItSolutionStuff.com',
+            // 'body' => 'This is for testing email using smtp'
+            // ];
+
+            // $pack_id = package::find(1);
+
+            // $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
+            //                 ->leftjoin('country as con','con.id','=','pm.to_country_id')
+            //                 ->leftjoin('state as st','st.id','=','pm.to_state_id')
+            //                 ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
+            //                 ->where('pm.id','=',$pack_id)->get();   
+
+            // $info = ['info'=>$data['package_data']];
+
+            // Mail::send(['text'=>'mail'], $info, function($message) use ($pack){
+
+            //     $pdf = PDF::loadView('admin.packages.pdf.packagepdf', $pack);
+
+
+            //     $message->to('mounika.bizsoft@gmail.com','John Doe')->subject('Quotation');
+
+            //     $message->from('mounikacodes@gmail.com','The Sender');
+
+            //     $message->attachData($pdf->output(), 'filename.pdf');
+
+            // });
+            // echo 'Email was sent!';
+
+            // $to_email =  $request->input('email');
+            // $cc_email = 'mounikacodes@gmail.com';
+
+            // \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($details));
+
+            $data =  Enquiry::find($enquiryid);
             Session::flash('message', 'Enquiry Detail Updated Succesfully');
             return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
         }
