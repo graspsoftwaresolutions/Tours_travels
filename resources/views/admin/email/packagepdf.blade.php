@@ -4,8 +4,8 @@
     <title>ItsolutionStuff.com</title>
 </head>
 <body>
-    <h1>{{ $details['title'] }}</h1>
-    <p>{{ $details['body'] }}</p>
+    <h1>hello</h1>
+    <p>welcome</p>
    
     <p>Thank you</p>
 </body>

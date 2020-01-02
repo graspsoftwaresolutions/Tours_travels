@@ -12,6 +12,7 @@ use App\Model\Admin\Activity;
 use App\Model\Admin\Enquiry;
 use App\Model\Admin\Package;
 use PDF;
+use App\Model\Admin\Website;
 
 use App\Model\Admin\EnquiryPackages;
 use DB;
@@ -209,8 +210,9 @@ class ActivityController extends BaseController
     }
     public function enquirySave(Request $request)
     {
-          $data = $request->all();
+        $data = $request->all();
         $data['id'] = $request->enquiry_id;
+        $send_quotation_value = $request->send_quotation_value;
         
         if(!empty($data['id']))
         {
@@ -234,40 +236,63 @@ class ActivityController extends BaseController
 
             $enquiry->enquirypackages()->sync($package);
 
-            // $details = [
-            // 'title' => 'Mail from ItSolutionStuff.com',
-            // 'body' => 'This is for testing email using smtp'
-            // ];
+            
+            if(!empty($send_quotation_value))
+            {   
+                foreach($package as $key=> $values)
+                { 
+                    $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
+                    ->leftjoin('country as con','con.id','=','pm.to_country_id')
+                    ->leftjoin('state as st','st.id','=','pm.to_state_id')
+                    ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
+                    ->where('pm.id','=',$values)->get();                        
+                    $data['package_activities'] = DB::table('package_activities as pa')
+                                            ->leftjoin('package_master as pm','pm.id','=','pa.package_id')
+                                            ->where('pm.id','=',$values)->get();
+                    $data['package_hotel'] = DB::table('package_hotel as ph')
+                                                ->leftjoin('package_master as pm','pm.id','=','ph.package_id')
+                                                ->where('pm.id','=',$values)->get();       
+                    $data['package_place'] = DB::table('package_place as pp')
+                                                ->leftjoin('package_master as pm','pm.id','=','pp.package_id')
+                                                ->where('pm.id','=',$values)->get();
 
-            // $pack_id = package::find(1);
+                    $data['website_data'] = Website::where('status','=','1')->get();
 
-            // $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
-            //                 ->leftjoin('country as con','con.id','=','pm.to_country_id')
-            //                 ->leftjoin('state as st','st.id','=','pm.to_state_id')
-            //                 ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
-            //                 ->where('pm.id','=',$pack_id)->get();   
+                    if($data!='')
+                    {
+                        $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
+                        $pdf->save(storage_path('app/pdf/'.$values.'_package_details.pdf'));
+                    }
+                    $pdf_file = $values.'_package_details.pdf';
+                    $enquiryid = $request->enquiry_id;
+                    DB::table('enquiry_packages')->where('package_id','=',$values)->where('enquiry_id','=',$enquiryid)
+                                                                ->update(['pdf_file' => $pdf_file]);
+                }
+                     $pathv = DB::table("enquiry_packages")->whereIn('package_id',$package)
+                                                ->where('enquiry_id','=',$enquiryid)
+                                                ->select('pdf_file')
+                                                ->get(); 
 
-            // $info = ['info'=>$data['package_data']];
+                    
 
-            // Mail::send(['text'=>'mail'], $info, function($message) use ($pack){
+                    // foreach ($pathv as $key => $value) {
+                    //   return  $pathv[$key] = 'storage/app/pdf' . $value;
+                    // }
+                    
+                    $details = $pathv;
+                    
+                    
 
-            //     $pdf = PDF::loadView('admin.packages.pdf.packagepdf', $pack);
+                    // $msg = "test message here";
+                    $to_email =  $request->input('email');
+                    $cc_email = 'mounikacodes@gmail.com';
 
+                    \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($details));
+        
 
-            //     $message->to('mounika.bizsoft@gmail.com','John Doe')->subject('Quotation');
+            }
 
-            //     $message->from('mounikacodes@gmail.com','The Sender');
-
-            //     $message->attachData($pdf->output(), 'filename.pdf');
-
-            // });
-            // echo 'Email was sent!';
-
-            // $to_email =  $request->input('email');
-            // $cc_email = 'mounikacodes@gmail.com';
-
-            // \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($details));
-
+           
             $data =  Enquiry::find($enquiryid);
             Session::flash('message', 'Enquiry Detail Updated Succesfully');
             return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
