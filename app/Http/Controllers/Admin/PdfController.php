@@ -35,7 +35,7 @@ class PdfController extends Controller
         {
             //return view('admin.package.pdf.packagepdf')->with($data);
             $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
-            $pdf->save(storage_path('app/pdf/'.$packageid.'_package_details.pdf'));
+            //$pdf->save(storage_path('app/pdf/'.$packageid.'_package_details.pdf'));
             return $pdf->download($packageid.'_package_details.pdf');
         }
     }
