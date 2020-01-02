@@ -225,6 +225,8 @@
                         </div>
                      </div> -->
                      <!-- ./col- -->
+                     <input type="hidden" name="send_quotation_value" id="send_quotation_value">
+                     
                      <div class="col-sm-6">
                         <div class="form-group">
                         
@@ -271,75 +273,76 @@
 <script>
 $(document).ready(function(){
 
-   // $('#send_quotation').click(function(){
-   //    //alert('hii');
-   //    $("#formValidate").validate({
-	// 		rules: {
-	// 			"name": {
-	// 				required: true,
-	// 			},
-   //          "email": {
-	// 				required: true,
-   //             email : true,
-	// 			},
-   //          "country_id" : {
-   //             required: true,
-   //          },
-   //          "state_id" : {
-   //             required: true,
-   //          },
-   //          "city_id" : {
-   //             required: true,
-   //          },
-   //          "type" : {
-   //             required: true,
-   //          },
-   //          "phone" : {
-   //             required: true,
-   //             digits : true,
-   //          },	
-	// 		},
-	// 		messages: {
-	// 			"name": {
-	// 				required: "Please, enter Name",
-	// 			},
-   //          "email": {
-	// 				required: "Please, enter Email",
-   //             email : "Please enter valid email",
-	// 			},
-   //          "country_id" : {
-   //             required: "Please, choose country",
-   //          },
-   //          "state_id" : {
-   //             required: "Please, choose state",
-   //          },
-   //          "city_id" : {
-   //             required: "Please, choose city",
-   //          },
-   //          "type" : {
-   //             required: "Please, choose type",
-   //          },
-   //          "phone" : {
-   //             required: "Please, enter Phone Number",
-   //             digits : "Numbers only",
-   //          },
-	// 		},
-	// 		submitHandler: function (form) {
-	// 			$.ajax({
-	// 				type: 'post',
-	// 				url: "{{ route('enquiry_save') }}",
-	// 				data: $('form').serialize(),
-	// 				success: function(response){
-	// 					if(response)
-	// 					{
-	// 						//window.location.href = "{{route('enquiry.new')}}";
-	// 					}
-	// 				}
-	// 		});
-   //       }
-	// 	});
+   $('#send_quotation').click(function(){
+      var sen_quotation_value = 'yes';
+      $('#send_quotation_value').val(sen_quotation_value);
+      $("#formValidate").validate({
+			rules: {
+				"name": {
+					required: true,
+				},
+            "email": {
+					required: true,
+               email : true,
+				},
+            "country_id" : {
+               required: true,
+            },
+            "state_id" : {
+               required: true,
+            },
+            "city_id" : {
+               required: true,
+            },
+            "type" : {
+               required: true,
+            },
+            "phone" : {
+               required: true,
+               digits : true,
+            },	
+			},
+			messages: {
+				"name": {
+					required: "Please, enter Name",
+				},
+            "email": {
+					required: "Please, enter Email",
+               email : "Please enter valid email",
+				},
+            "country_id" : {
+               required: "Please, choose country",
+            },
+            "state_id" : {
+               required: "Please, choose state",
+            },
+            "city_id" : {
+               required: "Please, choose city",
+            },
+            "type" : {
+               required: "Please, choose type",
+            },
+            "phone" : {
+               required: "Please, enter Phone Number",
+               digits : "Numbers only",
+            },
+			},
+			submitHandler: function (form) {
+				$.ajax({
+					type: 'post',
+					url: "{{ route('enquiry_save') }}",
+					data: $('form').serialize(),
+					success: function(response){
+						if(response)
+						{
+							window.location.href = "{{route('enquiry.new')}}";
+						}
+					}
+			});
+         }
+		});
 
-   // });
+   });
 
    $('#type').change(function(){
      var type =   $('#type').val();

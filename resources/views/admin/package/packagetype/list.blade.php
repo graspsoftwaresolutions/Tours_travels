@@ -24,7 +24,6 @@
                     <li>{{__('Package Type List') }}</li>
                 </ul>
             </div>          
-
             <div class="page-content">
                  @include('includes.messages')
                 <div class="paper toolbar-parent mt10">

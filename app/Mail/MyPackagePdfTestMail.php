@@ -28,7 +28,21 @@ class MyPackagePdfTestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from ItSolutionStuff.com')
-                    ->view('admin.email.packagepdf');
+    //     return $this->subject('Mail from ItSolutionStuff.com')
+    //                 ->view('admin.email.packagepdf');
+
+    //    return $details;
+
+        return $this->view('admin.email.packagepdf')
+                    ->attach('storage/app/pdf/1_package_details.pdf', [
+                        'as' => 'name.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
+        // $message = 'test';   
+        // $files = ['storage/app/pdf/1_package_details.pdf','storage/app/pdf/2_package_details.pdf','storage/app/pdf/6_package_details.pdf'];
+
+        // foreach ($files as $file) { 
+        //     $message->attach($file); // attach each file
+        // }
     }
 }
