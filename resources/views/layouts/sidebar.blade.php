@@ -26,7 +26,7 @@
                         @endauth
                         @endif
                         <li style="padding-top:18px"><a href="{{route('enquiry')}}">Enquiry</a>	 </li>
-                		<!-- <li><a href="javascript:void(0)" class="search-button"><span><i class="fa fa-search"></i></span></a></li> -->
+                		<li><a href="#" class="search-button"><span><i class="fa fa-search"></i></span></a></li>
                     </ul>
                 </div><!-- end navbar collapse -->
             </div><!-- end container -->

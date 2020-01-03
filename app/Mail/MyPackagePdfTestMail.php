@@ -10,15 +10,16 @@ use Illuminate\Queue\SerializesModels;
 class MyPackagePdfTestMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $details;
+    public $package;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($package)
     {
-        $this->details = $details;
+      // dd($package);
+        $this->package = $package;
     }
 
     /**
@@ -28,21 +29,18 @@ class MyPackagePdfTestMail extends Mailable
      */
     public function build()
     {
-    //     return $this->subject('Mail from ItSolutionStuff.com')
-    //                 ->view('admin.email.packagepdf');
+            //Multiple Attachemnt
+            foreach($this->package as $key => $values)
+            {
+               // print_r($values); die;
+                $files = ['storage/app/pdf/'.$values.'_package_details.pdf'];
 
-    //    return $details;
-
-        return $this->view('admin.email.packagepdf')
-                    ->attach('storage/app/pdf/1_package_details.pdf', [
-                        'as' => 'name.pdf',
-                        'mime' => 'application/pdf',
-                    ]);
-        // $message = 'test';   
-        // $files = ['storage/app/pdf/1_package_details.pdf','storage/app/pdf/2_package_details.pdf','storage/app/pdf/6_package_details.pdf'];
-
-        // foreach ($files as $file) { 
-        //     $message->attach($file); // attach each file
-        // }
-    }
+                $message = $this->markdown('admin.email.packagepdf');    
+            
+                foreach ($files as $file) { 
+                    $message->attach($file); // attach each file
+                } 
+            }          
+                return $message; //Send mail
+            }
 }

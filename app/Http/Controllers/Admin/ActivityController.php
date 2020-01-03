@@ -268,31 +268,18 @@ class ActivityController extends BaseController
                     DB::table('enquiry_packages')->where('package_id','=',$values)->where('enquiry_id','=',$enquiryid)
                                                                 ->update(['pdf_file' => $pdf_file]);
                 }
-                     $pathv = DB::table("enquiry_packages")->whereIn('package_id',$package)
+                     $details = DB::table("enquiry_packages")->whereIn('package_id',$package)
                                                 ->where('enquiry_id','=',$enquiryid)
-                                                ->select('pdf_file')
-                                                ->get(); 
-
-                    
-
-                    // foreach ($pathv as $key => $value) {
-                    //   return  $pathv[$key] = 'storage/app/pdf' . $value;
-                    // }
-                    
-                    $details = $pathv;
-                    
-                    
-
-                    // $msg = "test message here";
+                                                ->select('pdf_file','package_id')
+                                                ->get();
                     $to_email =  $request->input('email');
                     $cc_email = 'mounikacodes@gmail.com';
 
-                    \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($details));
-        
+                    \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($package));
 
-            }
+                    return json_encode($details);
 
-           
+            }  
             $data =  Enquiry::find($enquiryid);
             Session::flash('message', 'Enquiry Detail Updated Succesfully');
             return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');

@@ -9,6 +9,6 @@ class MenuController extends Controller
 {
     public function enquiryView()
     {
-        
+        return view('web.enquiry');
     }
 }
