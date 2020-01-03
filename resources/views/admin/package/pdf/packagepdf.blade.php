@@ -70,7 +70,7 @@
 		}
 		.inner-bullets
 		{
-			margin-left: 40px !important;
+			margin-left: 20px !important;
             
 		}
 		table.company_headings th, td,.company_headings{
@@ -97,6 +97,22 @@
 		    color: #fff;
 		    padding: 5px;
 		}
+		.ameneties-list-container a {
+		    //display: block;
+		    ///float: left;
+		    margin: 10px;
+		    border: 1px solid #c39869;
+		    color: #579dc5;
+		    padding: 9px 17px;
+		    border-radius: 30px;
+		    background-color: #fbf6f9;
+		   // width: 30%;
+		    //float: left;
+		}
+		.width100{
+			width:100% !important;
+			float: none !important;
+		}
 		</style>
 </head>
 <body>
@@ -107,7 +123,7 @@
 		  $company_city_name = CommonHelper::getcityName($company_data->city_id);
 	  @endphp
 	
-		<div class="first-page" style="background-image: url(http://localhost/Tours_travels/public/assets/images/boxes_only_3.png);background-repeat: no-repeat;background-position: right;">
+		<div class="first-page" style="background-image: url({{ asset('/public/assets/images/boxes_only_3.png') }});background-repeat: no-repeat;background-position: right;">
 			<br>
 			<table class="company_headings" width="100%">
 				<tr>
@@ -232,7 +248,51 @@
 		</div>
 		<div class="clearfix"/>
 		<br>
-		<div class="" width="30%" style="float: left;width: 30%;font-size: 15px;margin-right: 10px; padding: 5px;background: #c3986a;color: #fff; border-radius: 8px;">
+		@php
+			$total_nights =0 ;
+			$startday = 1;
+		@endphp
+		@foreach($package_place_data as $place) 
+                            @php 
+                              $place_state_name = CommonHelper::getstateName($place->state_id);
+                              $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                              $place_city_name = $place_city_data->city_name;
+                              $place_city_image = $place_city_data->city_image;
+							  $nightcount = $place->nights_count ;
+				
+
+				if($nightcount == 1 )
+                {
+                    $days_val = 'Day '.$startday ;
+                }
+                else{
+                	$days_val = 'Day '.$startday.' - '.($startday+$nightcount-1) ;
+                	//dd($days_val);
+                }
+
+                if($nightcount <= 1)
+                {
+                    $nights =  $nightcount.' Night';
+                }
+                else{
+                    $nights =  $nightcount.' Nights';
+                }
+                $startday = $startday+$nightcount;
+                $total_nights = $nightcount+$total_nights;
+                
+            @endphp
+			<div class="" width="30%" style="float: left;width: 30%;font-size: 15px;margin-right: 10px; padding: 5px;background: #c3986a;color: #fff; border-radius: 8px;">
+			<div class="content" style="" width="100%">
+				{{ $place_state_name }}, {{ $place_city_name }}
+				<br> [ {{$days_val}} ]
+			</div>
+			<div class="clearfix"></div>
+			
+		</div>
+			
+		@endforeach
+		</div>
+		<!--div class="" width="30%" style="float: left;width: 30%;font-size: 15px;margin-right: 10px; padding: 5px;background: #c3986a;color: #fff; border-radius: 8px;">
 			<div class="content" style="" width="100%">
 				TamilNadu, Chennai 
 				<br> [ Day 1 - 2]
@@ -251,10 +311,12 @@
 			</div>
 		</div>
 		<div class="clearfix"/>
-		</div>
+		</div-->
 		<div class="clearfix"/> <br><br>
 		@php  $sno = 0; $slno = 1; $start = 0;
-				$days = 1; @endphp
+				$days = 1;
+				//dd(2);
+		@endphp
 		
 		<h2 style="color:#4A7885"><b>Detailed Summary</b> </h2>
 		@foreach($package_place_data as $place) 
@@ -293,21 +355,33 @@
 					  $sum_package_activities = CommonHelper::getPackageActivities($package->packageautoid,$place->city_id);
                      
 				    @endphp
-                    <p > <b> {{$slno}} . {{ $place_state_name }} - {{ $place_city_name }} </b> </p>
+				     <div class="" style="float: left;width: 100%;font-size: 16px;margin-right: 10px; padding: 10px;background: #c3986a;color: #fff; ">
+                   		 <b> {{$slno}} . {{ $place_state_name }} - {{ $place_city_name }} </b> 
+               		 </div>
+               		 <div class="clearfix"></div> 
 				    @if($sum_package_hotel!=null)
                         @php
                         $hotelimages  = CommonHelper::getHotelImages($sum_package_hotel->id); 
                        // $hotelimages = $sum_package_hotel->hotelimages;
                         $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                         @endphp
-                        <p class="inner-bullets"> <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
-                       <br>
+                        <div class="clearfix"></div> 
+                        <br>
+                        <div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
+	                        <p class="inner-bullets" style="margin: 5px;"> <b> Hotel Name </p>
+	                    </div>
+	                     <div class="" style="float: left;width: 74%;font-size: 16px;margin-right: 10px; padding: 0px; ">
+	                        <p class="inner-bullets" style="margin: 5px;"> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
+	                    </div>
+                        <div class="clearfix"></div>
+                         <br>
+                          <br> 
                         <p> @php
                         if(count($hotelimages) > 0)
                         {
                             @endphp
                             @foreach($hotelimages as $val)
-                        <img style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed   ;" alt="{{ ucfirst($sum_package_hotel->hotel_name) }}" border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}"> 
+                        <img style="width:150px;height:150px;border-width:3px;border-style:solid;border-color:#c39869;  margin-right: 10px ;" alt="{{ ucfirst($sum_package_hotel->hotel_name) }}" border="5" src="{{ asset('storage/app/hotels/'.$val->image_name) }}"> 
                             @endforeach
                         @php
                         }
@@ -318,7 +392,18 @@
                         }
                     @endphp  
 			  </p> 
-                    <p class="inner-bullets"><b> Amenities </b> : {{ $amenitystring  ? $amenitystring : ''}}</p>
+			  		<div class="inner-bullets ">
+			  			<h2 class="">Amenities</h2>
+			  			<div class="ameneties-list-container">
+			  				@if($sum_package_hotel!=null)
+							  @foreach($sum_package_hotel->amenities as $key => $amenity)
+			  					<p style="padding: 5px;border: 1px solid #c39869;color: #579dc5;padding: 9px 17px; border-radius: 5px;">{{$amenity->amenities_name}}</a>
+			  				  @endforeach
+			  				@endif
+			  			</div>
+			  			
+			  		</div>
+                    
                     <div class="clearfix" /> 
                         <p class="inner-bullets"> <b> Overview : </b> </p>
                         <div class="clearfix"/> 
@@ -330,6 +415,7 @@
                         <p class="inner-bullets"> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
                         <p class="inner-bullets"> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
 			    <br>
+				<hr style="margin : 0px 0 20px 10px">
 					@endif
                     @foreach($sum_package_activities as $activity)
                         @php
@@ -339,15 +425,23 @@
                             $package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
                             $activity_images  = CommonHelper::getActivityImages($activity->id);
                         @endphp
-                        <p class="inner-bullets"><b>  Activity Name : </b> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }}  </p>  <br>
-                              <p > 
+                          <div class="clearfix"></div>
+                        <div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
+	                        <p class="inner-bullets" style="margin: 5px;"> <b> Activity Name <br> </p>
+	                    </div>
+	                     <div class="" style="float: left;width: 74%;font-size: 16px;margin-right: 10px; padding: 0px; ">
+	                        <p class="inner-bullets" style="margin: 5px;"> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }} </p>
+	                    </div>
+                        <div class="clearfix"></div>
+                         <br><br>
+                              <p style="margin-left: 0px !important;"> 
                                       @php
                                         if(count($activity_images) > 0)
                                         {
                                           @endphp
                                             @foreach($activity_images as $valu)
 										
-												<img class="inner-bullets" style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#8ebfed " alt="{{ ucfirst($activity->title_name) }}" src="{{ asset('storage/app/activity/'.$valu->image_name) }}"> 
+												<img class="inner-bullets" style="width:150px;height:150px;border-width:5px;border-style:solid;border-color:#c39869 " alt="{{ ucfirst($activity->title_name) }}" src="{{ asset('storage/app/activity/'.$valu->image_name) }}"> 
 											@endforeach
 											@php
 											}
@@ -444,7 +538,9 @@
                 @php $slno++; @endphp  
 
 		@endforeach
-        <p><b> Price Summary </b>  </p>
+		<hr style="margin : 0px 0 20px 10px">
+        <p style="width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 10px; background: #b39371;
+    color: #fff;"><b> Price Summary </b>  </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
 							  <td style="color:#4A7885"> Accommodation </td>
