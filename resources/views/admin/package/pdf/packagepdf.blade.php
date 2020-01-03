@@ -109,6 +109,10 @@
 		   // width: 30%;
 		    //float: left;
 		}
+		.width100{
+			width:100% !important;
+			float: none !important;
+		}
 		</style>
 </head>
 <body>
@@ -119,7 +123,7 @@
 		  $company_city_name = CommonHelper::getcityName($company_data->city_id);
 	  @endphp
 	
-		<div class="first-page" style="background-image: url(http://localhost/Tours_travels/public/assets/images/boxes_only_3.png);background-repeat: no-repeat;background-position: right;">
+		<div class="first-page" style="background-image: url({{ asset('/public/assets/images/boxes_only_3.png') }});background-repeat: no-repeat;background-position: right;">
 			<br>
 			<table class="company_headings" width="100%">
 				<tr>
@@ -411,6 +415,7 @@
                         <p class="inner-bullets"> <b> No of Rooms : </b> {{ $sum_package_hotel->total_rooms ? $sum_package_hotel->total_rooms : '' }} </p>
                         <p class="inner-bullets"> <b> Total Amount : </b> {{ $sum_package_hotel->total_amount ? $sum_package_hotel->total_amount : '' }} </p>
 			    <br>
+				<hr style="margin : 0px 0 20px 10px">
 					@endif
                     @foreach($sum_package_activities as $activity)
                         @php
@@ -428,7 +433,7 @@
 	                        <p class="inner-bullets" style="margin: 5px;"> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }} </p>
 	                    </div>
                         <div class="clearfix"></div>
-                         <br>
+                         <br><br>
                               <p style="margin-left: 0px !important;"> 
                                       @php
                                         if(count($activity_images) > 0)
@@ -533,7 +538,9 @@
                 @php $slno++; @endphp  
 
 		@endforeach
-        <p><b> Price Summary </b>  </p>
+		<hr style="margin : 0px 0 20px 10px">
+        <p style="width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 10px; background: #b39371;
+    color: #fff;"><b> Price Summary </b>  </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
 							  <td style="color:#4A7885"> Accommodation </td>
