@@ -50,7 +50,7 @@ class ActivityController extends BaseController
         if(!empty($data))
         {
             $Activitysavedata = new Activity();
-            $Activitysavedata['title_name'] = $request->title_name;
+            $Activitysavedata['title_name'] = ucfirst($request->title_name);
             $Activitysavedata['duartion_hours'] = $hours + $minutes ;
             $Activitysavedata['amount'] = $request->amount;
             $Activitysavedata['country_id'] = $request->country_id;
@@ -143,7 +143,7 @@ class ActivityController extends BaseController
         $hours = $request->hours * 60 ;
         $minutes = $request->minutes;
 
-        $Activitysavedata['title_name'] = $request->title_name;
+        $Activitysavedata['title_name'] = ucfirst($request->title_name);
         $Activitysavedata['duartion_hours'] = $hours+$minutes;
         $Activitysavedata['amount'] = $request->amount;
         $Activitysavedata['country_id'] = $request->country_id;

@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('web.welcome');
-});
+// Route::get('/', function () {
+//     return view('web.welcome');
+// });
 
 Auth::routes();
-//Route::get('/', 'Auth\LoginController@custom_login');
+Route::get('/', 'PageController@homePage');
 Route::get('/home', 'HomeController@index')->name('home');
 //Hotel Booking frontend
 
@@ -191,5 +191,8 @@ Route::prefix('admin')->group(function() {
    Route::get('/home', 'Auth\AdminController@index')->name('admin.dashboard');
    Route::get('/', 'Auth\AdminLoginController@showLoginForm');
  }) ;
+
+Route::get('/package-details/{parameter}','Web\PackageController@ViewPackage')->name('package.details');
+Route::get('/packages','Web\PackageController@PackagesList')->name('packages');
 
 

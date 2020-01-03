@@ -46,7 +46,7 @@ class HotelController extends CommonController
         ]);
         $hotel = new Hotel();
 
-        $hotel->hotel_name = $request->input('hotel_name');
+        $hotel->hotel_name = ucfirst($request->input('hotel_name'));
         $hotel->contact_name = $request->input('contact_name');
         $hotel->contact_email = $request->input('contact_email');
         $hotel->country_id = $request->input('country_id');
@@ -186,7 +186,7 @@ class HotelController extends CommonController
         $autoid = $request->input('autoid');
         $hotel = Hotel::find($autoid);
 
-        $hotel->hotel_name = $request->input('hotel_name');
+        $hotel->hotel_name = ucfirst($request->input('hotel_name'));
         $hotel->contact_name = $request->input('contact_name');
         $hotel->contact_email = $request->input('contact_email');
         $hotel->country_id = $request->input('country_id');

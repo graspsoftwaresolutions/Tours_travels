@@ -6,7 +6,7 @@
    
 	<body id="main-homepage">	
 		<!--========== COLOR-PANEL ==========-->
-        <div id="colorPanel" class="colorPanel">
+        <div id="colorPanel" class="colorPanel hide">
             <a id="cpToggle" href="{{asset('public/web-assets/css/') }}"></a>
             <ul></ul>
 		</div>

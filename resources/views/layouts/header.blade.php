@@ -18,7 +18,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                            <a style="float:right;color:white;" href="{{ url('/home') }}">Profile</a> 
+                            <a style="float:right;color:white;" href="{{ url('/home') }}">Dashboard</a> 
                             @else
                                 <li><a href="{{ route('login') }}" style="color:white;"><span><i class="fa fa-lock"></i></span>Login</a></li>
 

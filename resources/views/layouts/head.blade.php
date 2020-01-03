@@ -47,6 +47,12 @@
         
         <!-- Color Panel -->
         <link href="{{ asset('public/web-assets/css/jquery.colorpanel.css') }}" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            .main-navbar .navbar-header {
+                position: relative;
+                margin: 10px;
+            }
+        </style>
     @section('headSection')
     @show
     <style>

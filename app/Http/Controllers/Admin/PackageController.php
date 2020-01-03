@@ -61,7 +61,7 @@ class PackageController extends Controller
             'adult_price.required' => 'please enter adult cost',
         ]);
          $SavePackage = new Package();
-         $SavePackage->package_name = $request->package_name;
+         $SavePackage->package_name = ucfirst($request->package_name);
          $SavePackage->adult_count = $request->adult_count;
          $SavePackage->child_count = $request->child_count;
          $SavePackage->infant_count = $request->infant_count;
@@ -450,7 +450,7 @@ class PackageController extends Controller
         ]);
         $auto_id = $request->input('auto_id');
          $SavePackage = Package::find($auto_id);
-         $SavePackage->package_name = $request->package_name;
+         $SavePackage->package_name = ucfirst($request->package_name);
          $SavePackage->adult_count = $request->adult_count;
          $SavePackage->child_count = $request->child_count;
          $SavePackage->infant_count = $request->infant_count;
