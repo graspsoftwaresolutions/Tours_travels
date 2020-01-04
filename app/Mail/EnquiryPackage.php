@@ -37,7 +37,8 @@ class EnquiryPackage extends Mailable
                // print_r($values); die;
                 $files = ['storage/app/pdf/'.$values.'_package_details.pdf'];
 
-                $message = $this->markdown('admin.email.packagepdf');    
+                $message = $this->subject('Tours Package Info')
+                            ->markdown('admin.email.packagepdf');    
             
                 foreach ($files as $file) { 
                     $message->attach($file); // attach each file

@@ -293,8 +293,9 @@
                     <tr>
                       <td>
                         <p>Hi there,</p>
-                        <p>Customer Information</p>
                         <p>Enquiry from customer</p>
+                        <p>Customer Information</p>
+                        
                        <p style='margin-left:10px'> Name :  {{ $details['name'] ? $details['name'] : '' }} </p>
                        <p style='margin-left:10px'>Email :  {{ $details['email']  ? $details['email'] : ''}} </p>
                        <p style='margin-left:10px'> Type :  {{ $details['type'] ? $details['type']  : '' }} </p>
@@ -335,7 +336,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="http://demo.graspsoftwaresolutions.com/tours/admin/new_enquiry" target="_blank">Email Call To Action</a> </td>
+                                      <!-- <td> <a href="http://demo.graspsoftwaresolutions.com/tours/admin/new_enquiry" target="_blank">Email Call To Action</a> </td> -->
                                     </tr>
                                   </tbody>
                                 </table>

@@ -33,20 +33,17 @@
         <h1 style='text-align:center'>Thank You!</h1>
         <h4 style='text-align:center'>Your Enquiry Has Been Submitted!</h4>
         <p style='text-align:center'>We will get in touch with you soon.</p>
-        <p style='text-align:center'>  Normally it took 8-16 hours to respond to any enquiry.</p><p>You'll be notify by E-mail when we answer to your enquiry. Please register with us to serve you better.<br></p><p><br></p><p>Thank You<br></p>      </div>
+        <p style='text-align:center'>  Normally it took 8-16 hours to respond to any enquiry.</p>
+        <p style='text-align:center'>You'll be notify by E-mail when we answer to your enquiry. Please register with us to serve you better.<br></p><p><br></p><p>Thank You<br></p>      </div>
       </div>
     </div>
 </div>
 <footer>
   <div class="container">
-  
-	<a href="http://demo.graspsoftwaresolutions.com/tours/" class="btn btn-primary" style="color: #000;
-	font-weight: 600;">
-     
-	Website Link
+  <p> Website URL : http://demo.graspsoftwaresolutions.com/tours/ </p>
+
 	</a>
 	</h4>
-<p align="center"> All Rights Reserved.</p></p>
   </div>
 </footer>
 </body></html>

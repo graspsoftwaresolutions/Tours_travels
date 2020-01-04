@@ -34,6 +34,5 @@ class EnquiryMail extends Mailable
       
         return $this->subject('Mail from Tours and Travels')
                     ->view('web.email.enquiryAdminEmail');
-      //  return $this->view('web.email.enquiryAdminEmail');
     }
 }
