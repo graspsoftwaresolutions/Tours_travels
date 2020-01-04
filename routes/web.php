@@ -197,4 +197,5 @@ Route::prefix('admin')->group(function() {
 Route::get('/package-details/{parameter}','Web\PackageController@ViewPackage')->name('package.details');
 Route::get('/packages','Web\PackageController@PackagesList')->name('packages');
 
-
+Route::post('/direct_booking','Web\TourBookingController@bookingSave')->name('direct_booking');
+Route::get('/add_package','Web\PackageController@AddPackage')->name('add_package');

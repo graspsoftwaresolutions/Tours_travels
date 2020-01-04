@@ -10,4 +10,9 @@ class TourBookingController extends Controller
     {
         return view('web.tour.tour_booking');
     }
+
+    public function bookingSave(Request $request){
+    	//return $request->all();
+    	return redirect()->back();
+    }
 }

@@ -403,6 +403,8 @@ height:100%;">
         	<div class="container">
         		<div class="row">
         			<div class="col-sm-12">
+                        <center><a href="{{ route('add_package') }}" class="btn btn-orange">Create your own package</a></center>
+                        <br>
                     	<div class="page-heading">
                         	<h2>Packages</h2>
                             <hr class="heading-line" />
