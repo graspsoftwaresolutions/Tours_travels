@@ -293,7 +293,7 @@
                     <tr>
                       <td>
                         <p>Hello {{ $enquiry->name }},</p>
-                        <p>we have sent you the package details. We have included amazing activities and sightseeing in the package.Please go through it and let us know if anything needs to customized.</p>
+                        <p>As we have sent you the package details, with amazing activities and sightseeing.Please go through it and let us know if anything needs to customized.</p>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>

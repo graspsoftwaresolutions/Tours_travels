@@ -78,7 +78,7 @@
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red;"> *</span></label>                 
+                           <label for="country_id" class="block">{{__('Country Name') }}</label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="country_id" name="country_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="">{{__('Select country')}}</option>
@@ -98,7 +98,7 @@
                      @endphp
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="state_id" class="block">{{__('State Name') }}<span style="color:red;"> *</span></label>                 
+                           <label for="state_id" class="block">{{__('State Name') }}</label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="state_id" name="state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select State') }}
@@ -117,7 +117,7 @@
                    <div class="row">
 							<div class="col-sm-6">
                      <div class="select-row form-group">
-                           <label for="city_id" class="block">{{__('City Name') }}<span style="color:red;"> *</span></label>                 
+                           <label for="city_id" class="block">{{__('City Name') }}</label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="city_id" name="city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -321,6 +321,7 @@ $(document).ready(function(){
 						if(response)
 						{
                      alert('Quotation send sucessfully!!');
+                     $("#email_notification").addClass('hide');
 							//window.location.href = "{{route('enquiry.new')}}";
 						}
 					}
@@ -351,15 +352,15 @@ $(document).ready(function(){
 					required: true,
                email : true,
 				},
-            "country_id" : {
-               required: true,
-            },
-            "state_id" : {
-               required: true,
-            },
-            "city_id" : {
-               required: true,
-            },
+            // "country_id" : {
+            //    required: true,
+            // },
+            // "state_id" : {
+            //    required: true,
+            // },
+            // "city_id" : {
+            //    required: true,
+            // },
             "type" : {
                required: true,
             },
@@ -376,15 +377,15 @@ $(document).ready(function(){
 					required: "Please, enter Email",
                email : "Please enter valid email",
 				},
-            "country_id" : {
-               required: "Please, choose country",
-            },
-            "state_id" : {
-               required: "Please, choose state",
-            },
-            "city_id" : {
-               required: "Please, choose city",
-            },
+            // "country_id" : {
+            //    required: "Please, choose country",
+            // },
+            // "state_id" : {
+            //    required: "Please, choose state",
+            // },
+            // "city_id" : {
+            //    required: "Please, choose city",
+            // },
             "type" : {
                required: "Please, choose type",
             },

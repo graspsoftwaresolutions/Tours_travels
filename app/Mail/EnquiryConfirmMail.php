@@ -29,25 +29,10 @@ class EnquiryConfirmMail extends Mailable
      */
     public function build()
     {
-        if($this->details['package']!='')
-        {
-            foreach($this->details['package'] as $key => $values)
-            {
-               // print_r($values); die;
-                $files = ['storage/app/pdf/'.$values.'_package_details.pdf'];
-
-                $message = $this->markdown('web.email.enquiryConfirmEmail');    
-            
-                foreach ($files as $file) { 
-                    $message->attach($file); // attach each file
-                } 
-            }          
-                return $message;
-        }
-        else{
-            return $this->subject('Mail from Tours and Travels')
-                    ->view('web.email.enquiryConfirmEmail');
-        }
+        
+        return $this->subject('Enquiry')
+                ->view('web.email.enquiryConfirmEmail');
+        
        
     }
 }

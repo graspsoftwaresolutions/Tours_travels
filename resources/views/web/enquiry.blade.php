@@ -62,13 +62,13 @@
                   <!-- <div class="row packages" > -->
                       <div class="col-sm-12 packages" >
                         <div class="form-group">
-                          <label for=""><strong>Select Packages:</strong></label>
+                          <label for="" style='padding: 10px 0px;'><strong>Select Packages:</strong></label>
                           <div class="row"> 
                               @foreach($data['packages_view'] as $value)
                               <div class="col-md-3" >
                                    <div class="form-group">     
                                      <label class="checkbox-filled" for="package_{{ $value->id }}">
-                                      <input type="checkbox" class="filled" name="package[]" id="package_{{ $value->id }}" value="{{ $value->id }}">
+                                      <input type="checkbox" class="filled" style='height: auto;' name="package[]" id="package_{{ $value->id }}" value="{{ $value->id }}">
                                       <i class="highlight"></i>
                                       {{ $value->package_name }}
                                     </label>
