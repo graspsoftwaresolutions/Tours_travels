@@ -2,7 +2,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header theme">
-                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                     <h1 class="modal-title" style="padding-left: 10px;">Choose your hotel</h1>
                 </div><!-- /.modal-header -->
                 
@@ -80,7 +80,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header theme-accent">
-                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                     <h1 class="modal-title">Hotel details</h1>
                 </div><!-- /.modal-header -->
                 
@@ -148,7 +148,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header theme">
-                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                     <h1 class="modal-title" style="padding-left: 10px;">Choose your activity</h1>
                 </div><!-- /.modal-header -->
                 
@@ -227,7 +227,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header theme-accent">
-                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                     <h1 class="modal-title">Activity details</h1>
                 </div><!-- /.modal-header -->
                 

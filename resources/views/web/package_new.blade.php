@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('headSection')
 <link href="{{ asset('public/web-assets/css/steps.css') }}" rel="stylesheet" type="text/css">
+<!--link href="http://localhost/Tours_travels/public/assets/dist/css/app.min.css" rel="stylesheet" type="text/css"-->
+<link href="{{ asset('public/web-assets/css/timeline.css') }}" rel="stylesheet" type="text/css">
 <style>
     body{
         font-family: sans-serif !important;
@@ -41,7 +43,58 @@
     .state-cities .text-headline{
         margin-top: 20px;
     }
-
+     .placecitylist {
+        counter-reset: my-place-counter;
+      }
+      .placecitylist li:before {
+        content: counter(my-place-counter);
+        counter-increment: my-place-counter;
+      }
+       .button-close{
+   z-index: 99;
+   position: absolute;
+   top: -21px;
+    left: 57px;
+   /* opacity: 0; */
+   font-size: 13px;
+   min-width: 100%;
+   max-width: 100%;
+   padding: 10px;
+   text-align: center;
+   color: rgba(0, 0, 0, 0.9);
+   line-height: 150%;
+   }
+   .mt20{
+        margin-top: 10px;
+   }
+   #place-hotels,#place-activities,#overall-summary{
+       list-style: none !important;
+   }
+   #place-hotels li{
+        /*border-left: 1px solid #ccc;
+        padding-left: 10px;*/
+   }
+  .timeline>li:after, .timeline>li:before {
+      content: " ";
+      display: initial !important;
+  }
+  .timeline-icon.ti-text {
+    width: 110px;
+    right: -36px;
+    left: auto;
+    font-size: 10px;
+    line-height: 2.3;
+    text-transform: uppercase;
+}
+.timeline.timeline-single {
+      max-width: 800px;
+      overflow-x: hidden;
+      padding-left: 40px;
+      padding-right: 10px;
+  }
+   .timeline-icon.ti-text {
+      width: auto !important;
+  }
 
 </style>
 @endsection
@@ -111,22 +164,23 @@
                                <input type="text" name="infant_count" id="infant-count-val" class="hide" value="0">
                                <div class="input-highlight"></div>
                             </div>
-                            <div id="infantsModal" class="modal" tabindex="-1" role="dialog" style="display: none; opacity: 1;">
-                               <div class="modal-dialog modal-sm" role="document" style="transform: scaleX(0.7); top: 40%; opacity: 0;">
-                                  <div class="modal-content">
-                                     <div class="modal-header">
-                                        <button type="button" class="btn-close modal-close" style="margin: 1rem;" data-dismiss="modal" aria-label="Close"></button>
-                                        <h2 class="text-headline">Travellers Details</h2>
-                                     </div><!-- /.modal-header -->
-                                     <div class="modal-body">
-                                        <div class="row">
+                            <!-- Modal -->
+                          <div class="modal fade in" id="infantsModal" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Travellers Details</h4>
+                                </div>
+                                <div class="modal-body">
+                                         <div class="row">
                                            <div class="col-md-6">
                                               <label class="fixed-label">{{__('Adult:') }}</label>
                                               <br>
                                               <small>Age 13 and above</small>
                                            </div>
                                            <div class="col-md-6">
-                                              <input type="text" name="adult-travellers" class="adult-travellers allow_decimal" value="2" />
+                                              <input type="text" name="adult-travellers" class="form-control adult-travellers allow_decimal" value="2" />
 
                                            </div>  
                                            
@@ -140,7 +194,7 @@
                                            </div>
 
                                            <div class="col-md-6">
-                                               <input type="text" name="child-travellers" class="child-travellers allow_decimal" value="0" />
+                                               <input type="text" name="child-travellers" class="form-control child-travellers allow_decimal" value="0" />
                                               
                                            </div>  
                                            
@@ -154,20 +208,19 @@
                                            </div>
 
                                            <div class="col-md-6">
-                                              <input type="text" name="infant-travellers" class="infant-travellers allow_decimal" value="0" />
+                                              <input type="text" name="infant-travellers" class="form-control infant-travellers allow_decimal" value="0" />
                                            </div>  
                                            
                                         </div>
-
-                                     </div><!-- /.modal-body -->
-                                     <div class="modal-footer">
-                                        Total travellers : <span id="total-travellers">2</span>
-                                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
-                                        <button class="btn-flat waves-effect waves-theme hide">Save changes</button>
-                                     </div><!-- /.modal-footer -->
-                                  </div><!-- /.modal-content -->
-                               </div><!-- /.modal-dialog -->
+                                </div>
+                                <div class="modal-footer">
+                                    Total travellers : <span id="total-travellers">2</span>
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
                             </div>
+                          </div>
+                            
                          </div>
                       </div>
                       <div class="clearfix"></div>
@@ -399,21 +452,18 @@
         <div id="travel-section" class="">
                <div id="destination-chart" class="destinations-division">
                     <div class="sortable">
-                       <div class="card">
-                          <div class="p8 blue-grey">
-                             <div class="card-title">Places (State-City)</div>
-                          </div>
-                          <div class="card-block">
-                             <div class="scroller ">
-                                <ul id="place-sortList" class="list-group placecitylist item-border">
-                                   
-                                </ul>
-                                <div id="dummyList">
+                        <div class="panel panel-warning">
+                          <div class="panel-heading">Places (State-City)</div>
+                          <div class="panel-body">
+                            <ul id="place-sortList" class="list-group placecitylist item-border">
+                               
+                            </ul>
+                            <div id="dummyList">
 
-                                </div>
-                             </div>
-                          </div><!-- /.card-block -->
-                       </div><!-- /.card -->
+                            </div>
+                          </div>
+                        </div>
+                      
                     </div>
                    
                  </div>
