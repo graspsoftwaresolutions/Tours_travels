@@ -154,7 +154,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('ajax_enquiry_list','Admin\AjaxController@ajax_enquiry_list')->name('ajax_enquiry_list');
     Route::get('new_enquiry','Admin\ActivityController@enquiryNew')->name('enquiry.add');
     Route::get('edit_enquiry/{parameter}','Admin\ActivityController@enquiryEdit')->name('enquiry.edit');
-    Route::post('enquiry_save','Admin\ActivityController@enquienquiryrySave')->name('enquiry_save');
+    Route::post('enquiry_save','Admin\ActivityController@enquirySave')->name('enquiry_save');
+    
+    Route::post('enquiry_send_quotation','Admin\ActivityController@enquiryQuotation')->name('enquiry_send_quotation');
 
     //Tax
     Route::get('/tax','Admin\SettingsController@taxSettings')->name('tax.new');
