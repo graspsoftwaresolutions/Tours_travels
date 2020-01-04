@@ -318,9 +318,9 @@ class ActivityController extends BaseController
                                                 ->select('pdf_file','package_id')
                                                 ->get();
                     $to_email =  $request->input('email');
-                    $cc_email = 'mounikacodes@gmail.com';
+                    $cc_email = 'shyni.bizsoft@gmail.com';
 
-                    \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($package));
+                    \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\EnquiryPackage($package,$enquiry));
 
                     return json_encode($details);
             } 

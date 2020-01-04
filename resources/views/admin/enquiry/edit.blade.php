@@ -253,6 +253,7 @@
                           
                            <button type="button" style="margin-top:22px;" id="send_quotation" class="btn waves-effect waves-light theme-accent clearable">Send Quotation</button> &nbsp;&nbsp;&nbsp;  
                            <p class="no-margin em"></p>
+                           <p id="email_notification" class="error hide">Please wait, We are sending email......</p>
                         </div>
                      </div><!-- ./col- -->	
                   
@@ -308,9 +309,10 @@ $(document).ready(function(){
 
 
    $('#send_quotation').click(function(){
-     alert('hii');
+     //alert('hii');
       var sen_quotation_value = 'yes';
       $('#send_quotation_value').val(sen_quotation_value);
+      $("#email_notification").removeClass('hide');
       $.ajax({
 					type: 'post',
 					url: "{{ route('enquiry_send_quotation') }}",

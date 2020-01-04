@@ -7,19 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MyPackagePdfTestMail extends Mailable
+class EnquiryPackage extends Mailable
 {
     use Queueable, SerializesModels;
     public $package;
+    public $enquiry;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($package)
+    public function __construct($package,$enquiry)
     {
       // dd($package);
         $this->package = $package;
+        $this->enquiry = $enquiry;
     }
 
     /**
