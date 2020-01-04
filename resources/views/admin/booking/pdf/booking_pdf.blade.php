@@ -83,9 +83,9 @@
 		<div width="100%">
 		<h5 style="text-align:right;">Invoice Details</h5>
 			<div style="text-align:center;">
-		  	<a style="padding:10px !important;" href="index.html"><img src="{{ asset('storage/app/website/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
-				<h1 style="color:#4A7885">{{$company_data->company_name ? ucfirst($company_data->company_name) : ''}}</h1>
-				<h2 style=""><b> {{$package_data->package_name ? ucfirst($package_data->package_name) : ''}}</b> </h2>
+		  	<a style="padding:0 !important;" ><img src="{{ asset('storage/app/website/'.$company_data->company_logo) }}" style="width:70px;height:70px;"></a>
+				<h1 style="color:#4A7885;margin: 0 0 10px 0;">{{$company_data->company_name ? ucfirst($company_data->company_name) : ''}}</h1>
+				<h2 style="margin: 10px;"><b> {{$package_data->package_name ? ucfirst($package_data->package_name) : ''}}</b> </h2>
 			</div>		
 		</div>
         <div class="clearfix"/>
@@ -255,7 +255,7 @@
                        // $hotelimages = $sum_package_hotel->hotelimages;
                         $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
 					    @endphp
-                        <p class="inner-bullets"> <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
+                        <p class="inner-bullets" style="text-decoration: underline;"> <b> Hotel Name : </b> {{ $sum_package_hotel->hotel_name ? ucfirst($sum_package_hotel->hotel_name) : '' }} </p>
                        <br>
                         <p> @php
                         if(count($hotelimages) > 0)
@@ -293,7 +293,7 @@
                             $booking_activity_cost= CommonHelper::getBookingActivityCost($booking_data->id,$activity->id);
                             $activity_images  = CommonHelper::getActivityImages($activity->id);
                         @endphp
-                        <p class="inner-bullets"><b>  Activity Name : </b> {{ $activity->title_name ? $activity->title_name : '' }}  </p>  <br>
+                        <p class="inner-bullets" style="text-decoration: underline;"><b>  Activity Name : </b> {{ $activity->title_name ? $activity->title_name : '' }}  </p>  <br>
                               <p > 
                                       @php
                                         if(count($activity_images) > 0)
@@ -386,14 +386,19 @@
 									@php
 								} @endphp
 							  </ul> 
-                              <p class="inner-bullets"><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
+							  <p class="inner-bullets"><b> Additional Info </b> :  </p>
+							  <div class="inner-bullets">
+							  	{!! $activity->additional_info !!}
+							  </div>
+                             
                               <p class="inner-bullets"><b> Amount </b> : {{$booking_activity_cost ? $booking_activity_cost : ''}} </p>
 
                               @endforeach   
                 @endif 
                 @php $slno++; @endphp
                 @endforeach   
-				<p style="color:#4A7885"><b> Total Package Cost </b>  : {{$booking_data->grand_total ? $booking_data->grand_total : '' }}   </p>
+				<p style="color:#4A7885;"><label style="margin-left:10px; font-size:15px !important; padding: 10px; background: #b39371;
+    color: #fff;width:50%"><b> Total Cost </b>  : {{$booking_data->grand_total ? $booking_data->grand_total : '' }} </label>  </p>
                 <!-- <p ><b> Price Summary </b> </p>
                         <table width="100%" class="package_table"> 
 							<tr> 

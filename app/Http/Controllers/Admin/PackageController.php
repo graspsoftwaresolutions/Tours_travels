@@ -295,7 +295,7 @@ class PackageController extends Controller
                 ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->orderBy($order,$dir)
-                ->where('p.status','=','1')
+                //->where('p.status','=','1')
                 ->get()->toArray();
             }else{
                 $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
@@ -305,7 +305,7 @@ class PackageController extends Controller
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
-                ->where('p.status','=','1')
+                //->where('p.status','=','1')
                 ->get()->toArray();
             }
             //$Activity->dump();
@@ -317,7 +317,7 @@ class PackageController extends Controller
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
-                        ->where('p.status','=','1')
+                        //->where('p.status','=','1')
                          ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
                         ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
@@ -334,7 +334,7 @@ class PackageController extends Controller
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
-                        ->where('p.status','=','1')
+                        //->where('p.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('package_name', 'LIKE',"%{$search}%")
                             ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
@@ -356,7 +356,7 @@ class PackageController extends Controller
                     ->orWhere('package_name', 'LIKE',"%{$search}%")
                     ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
                     ->orWhere('total_amount', 'LIKE',"%{$search}%")
-                    ->where('p.status','=','1')
+                    //->where('p.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%")
                    // ->orWhere('zip_code', 'LIKE',"%{$search}%")
@@ -426,7 +426,8 @@ class PackageController extends Controller
     }
 
     public function packageUpdate(Request $request){
-       // return $request->all();
+    //    return $request->package_status;
+    // /return $request->all();
         $request->validate([
             'package_name' => 'required',
             'to_city_id' => 'required',
@@ -472,6 +473,7 @@ class PackageController extends Controller
          $SavePackage->package_type = $request->package_type;
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
+         $SavePackage->status = $request->package_status_val;
 
          $SavePackage->save();
          $package_id = $SavePackage->id; 

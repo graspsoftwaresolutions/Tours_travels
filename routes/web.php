@@ -76,7 +76,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('hotel_save','Admin\HotelController@hotelSave')->name('save.newhotel');
     Route::get('hotels-edit/{parameter}','Admin\HotelController@EditHotel')->name('master.edithotel');
     Route::post('hotel_update','Admin\HotelController@hotelUpdate')->name('save.edithotel');
-    Route::get('/delete_hotel_image','HotelController@imageDelete')->name('delete_hotel_image');
+    Route::get('/delete_hotel_image','Admin\HotelController@imageDelete')->name('delete_hotel_image');
     Route::get('delete-roomtype-data','Admin\HotelController@deleteRoomtype')->name('delete-roomtype-data');
     //Route::get('/delete_hotel_image','HotelController@imageDelete')->name('hotel.imagedelete');
 
@@ -85,7 +85,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/hotel_add_room', 'Admin\HotelController@addHotelRoom')->name('hotel.addrooms');
     Route::post('hotelroom_save','Admin\HotelController@hotelroomSave')->name('save.hotelroom');
     Route::get('/hotel_room_edit/{id}','Admin\HotelController@hotelroomEdit')->name('hotel_room_edit');
-    Route::post('hotel_room_edit','HotelController@hotelRoomsEdit')->name('edit.hotelrooms');
+    Route::post('hotel_room_edit','Admin\HotelController@hotelRoomsEdit')->name('edit.hotelrooms');
     Route::get('delete_hotel_room_image','Admin\HotelController@RoomimageDelete')->name('delete_hotel_room_image');
 
     //Actvity 
@@ -95,9 +95,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('activity_save','Admin\ActivityController@activitySave')->name('activity.save');
     Route::post('activity_edit','Admin\ActivityController@activityEdit')->name('activity.edit');
     Route::get('activity-edit/{parameter}','Admin\ActivityController@EditActivity')->name('activity.editactivity');
-    Route::get('delete_inclusion','ActivityController@deleteInclusion')->name('delete_inclusion');
-    Route::get('delete_exclusion','ActivityController@deleteExclusion')->name('delete_exclusion');
-    Route::get('delete_activity_image','ActivityController@ActivityimageDelete')->name('delete_activity_image');
+    Route::get('delete_inclusion','Admin\ActivityController@deleteInclusion')->name('delete_inclusion');
+    Route::get('delete_exclusion','Admin\ActivityController@deleteExclusion')->name('delete_exclusion');
+    Route::get('delete_activity_image','Admin\ActivityController@ActivityimageDelete')->name('delete_activity_image');
 
 
     //Package
@@ -181,7 +181,7 @@ Route::post('/customer_phoneexists', 'CommonController@customerPhoneExists');
 //testing
 Route::get('/image_validation', 'FileController@imageValidation');
 Route::post('filesave', 'FileController@save');  
-Route::get('/new_autocomplete', 'BookingController@auto');
+Route::get('/new_autocomplete', 'Admin\BookingController@auto');
 
 
 Route::prefix('admin')->group(function() {

@@ -542,37 +542,53 @@
         <p style="width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 10px; background: #b39371;
     color: #fff;"><b> Price Summary </b>  </p>
                         <table width="100%" class="package_table"> 
-							<tr> 
-							  <td style="color:#4A7885"> Accommodation </td>
-							  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> Activities </td>
-							  <td> {{$package->total_activities ? $package->total_activities : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> Transport Charges </td>
-							  <td> {{$package->transport_charges ? $package->transport_charges : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> Additional Charges </td>
-							  <td> {{$package->additional_charges ? $package->additional_charges : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> Total package value </td>
-							  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
-						   </tr>
-						   <tr> 
-							  <td style="color:#4A7885"> GST </td>
-							  <td> {{$package->tax_percentage ? $package->tax_percentage : ''}} % </td>
-						   </tr>
-						    <tr> 
-							  <td style="color:#4A7885"> Tax Amount </td>
-							  <td> {{$package->tax_amount ? $package->tax_amount : ''}} </td>
-						   </tr> <tr> 
-							  <td style="color:#4A7885"> Total Amount </td>
-							  <td> {{$package->total_amount ? $package->total_amount : ''}} </td>
-						   </tr>
+                        	<thead>
+                        		<tr>
+                        			<th style="font-weight: bold;">
+                        				Particulars
+                        			</th>	
+                        			<th style="font-weight: bold;">
+                        				Cost
+                        			</th>	
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+                        		<tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Accommodation </td>
+								  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
+							   </tr>
+							   <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Activities </td>
+								  <td> {{$package->total_activities ? $package->total_activities : ''}} </td>
+							   </tr>
+							   <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Transport Charges </td>
+								  <td> {{$package->transport_charges ? $package->transport_charges : ''}} </td>
+							   </tr>
+							   <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Additional Charges </td>
+								  <td> {{$package->additional_charges ? $package->additional_charges : ''}} </td>
+							   </tr>
+							   <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Total package value </td>
+								  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
+							   </tr>
+							   <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> GST </td>
+								  <td> {{$package->tax_percentage ? $package->tax_percentage : ''}} % </td>
+							   </tr>
+							    <tr> 
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Tax Amount </td>
+								  <td> {{$package->tax_amount ? $package->tax_amount : ''}} </td>
+							   </tr> 
+                        	</tbody>
+                        	<tfoot>
+                        		<tr> 
+								  <td style="color:#4A7885;border: 1px solid #000 !important;"> Total Amount </td>
+								  <td style="border: 1px solid #000 !important;"> {{$package->total_amount ? $package->total_amount : ''}} </td>
+							   </tr>
+                        	</tfoot>
+							
 					</table>
 			<p ><b> Additional price </b> </p>
                         <p > [Including transport and additional Charges] </p>             
