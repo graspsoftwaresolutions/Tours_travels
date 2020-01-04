@@ -218,6 +218,7 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('footerSection')
+
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>

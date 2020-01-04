@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('headSection')
+<link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/plugins/steps.css') }}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ asset('public/assets/dist/css/plugins/summernote.css') }}">
 <style>
    #cover-contact-us {
    background: url('{{ asset("public/web-assets/images/cover-contact-us.jpg") }}') 50% 20%;
@@ -36,17 +38,18 @@
          <div class="row">
             <div class="custom-form contact-form">
                <h3>Enquiry</h3>
-               <form>
+               <form method='post' id='formValidate' >
+               @csrf
                   <div class="form-group col-md-6">
-                     <input type="text" class="form-control" placeholder="Name"  required/>
+                     <input type="text" name='name' id='name' class="form-control" placeholder="Name"  />
                   </div>
                   <div class="form-group col-md-6">
-                     <input type="email" class="form-control" placeholder="Email"  required/>
+                     <input type="email" name='email' id='email' class="form-control" placeholder="Email"  />
                      <span><i class="fa fa-envelope"></i></span>
                   </div>
                   <div class="clearfix"></div>
                   <div class="form-group col-md-6">
-                     <input type="text" class="form-control" placeholder="phone"  required/>
+                     <input type="text" name='phone' id='phone' class="form-control" placeholder="phone" />
                   </div>
                   <div class="form-group col-md-6">
                      <select name='type' id='type' class="form-control">
@@ -57,7 +60,7 @@
                   </div>
                   <div class="clearfix"></div>
                   <!-- <div class="row packages" > -->
-                      <div class="col-sm-12 packages" style='background-color:red;'>
+                      <div class="col-sm-12 packages" >
                         <div class="form-group">
                           <label for=""><strong>Select Packages:</strong></label>
                           <div class="row"> 
@@ -78,12 +81,13 @@
                     <!-- </div> -->
                     <div class="clearfix"></div>
                   <div class="form-group col-md-6">
-                     <textarea class="form-control" placeholder="Message" required></textarea>
+                     <textarea class="form-control" id='message' name='message' placeholder="Message" ></textarea>
                   </div>
                   <div class="form-group col-md-6">
-                     <textarea class="form-control" placeholder="Address" required></textarea>
+                     <textarea class="form-control" id='address' name='address' placeholder="Address" ></textarea>
                   </div>
                   <div class="clearfix"></div>
+                  <input type='submit' value='submit' class='pull-right btn btn-orange'>
                </form>
             </div>
          </div>
@@ -165,6 +169,8 @@
 <!-- end newsletter-1 -->
 @endsection
 @section('footerSection')
+<script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script>
 $(document).ready(function(){ 
     $('.packages').hide();
@@ -179,8 +185,60 @@ $(document).ready(function(){
          $('.packages').hide();
       }
    });
+   $("#formValidate").validate({
+			rules: {
+				"name": {
+					required: true,
+				},
+            "email": {
+					required: true,
+               email : true,
+				},
+            "type" : {
+               required: true,
+            },
+            "phone" : {
+               required: true,
+               digits : true,
+            },	
+			},
+			messages: {
+				"name": {
+					required: "Please, enter Name",
+				},
+            "email": {
+					required: "Please, enter Email",
+               email : "Please enter valid email",
+				},
+            "type" : {
+               required: "Please, choose type",
+            },
+            "phone" : {
+               required: "Please, enter Phone Number",
+               digits : "Numbers only",
+            },
+			},
+			submitHandler: function (form) {
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+                });
+				$.ajax({
+					type: 'post',
+					url: "{{ route('enquiry_email') }}",
+					data: $('form').serialize(),
+					success: function(response){
+						if(response)
+						{ 
+                            alert('Enquiry form submitted succesfully');
+                            window.location.reload();
+                             
+						}
+					}
+			});
+         }
+		});
 });
- 
-
 </script>
 @endsection

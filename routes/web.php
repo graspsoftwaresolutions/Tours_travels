@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/tour-booking', 'Web\TourBookingController@tourBooking')->name('tour_booking');
 Route::get('/enquiry', 'Web\MenuController@enquiryView')->name('enquiry');
+Route::post('/Enquiry_details', 'Web\MenuController@enquiryEmail')->name('enquiry_email');
 
 Route::group( [ 'prefix' => 'admin' ], function()
 {

@@ -27,7 +27,14 @@ class CommonHelper
 	public function __construct() {
         
     }
-
+    public static function getPackageName($package)
+    {
+        $details = DB::table("package_master")->whereIn('id',$package)
+                                                ->select('package_name')
+                                                ->get();
+        return $details;
+    }
+    
     public static function getlogo()
     {
         return $logo = DB::table('website_settings')->where('status','=','1')->pluck('company_logo')->first();
