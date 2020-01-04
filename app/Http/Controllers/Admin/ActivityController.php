@@ -236,7 +236,52 @@ class ActivityController extends BaseController
 
             $enquiry->enquirypackages()->sync($package);
 
-            
+            $data =  Enquiry::find($enquiryid);
+            Session::flash('message', 'Enquiry Detail Updated Succesfully');
+            return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
+        }
+        else{
+            $SaveEnquiry = Enquiry::create($data);
+            $enquiryid = $SaveEnquiry->id;
+            $package = $request->package;
+            if($package!='')
+            {
+                foreach($package as $packageid)
+                {
+                    DB::table('enquiry_packages')->insert(
+                        ['enquiry_id' => $enquiryid, 'package_id' => $packageid]
+                    );
+                }
+            }
+            Session::flash('message', 'Enquiry Details Added Succesfully');
+            return $this->sendResponse($SaveEnquiry->toArray(), $enquiryid, 'Enquiry Details Saved Succesfully');
+        }
+    }
+    public function enquiryQuotation(Request $request)
+    {
+        $data['id'] = $request->enquiry_id;
+        $send_quotation_value = $request->send_quotation_value;
+
+        $data = $request->all();
+            $enquiryid = $request->enquiry_id;
+            $enquiry = Enquiry::find($enquiryid);
+            $enquiry->name = $request->input('name');
+            $enquiry->email = $request->input('email');
+            $enquiry->phone = $request->input('phone');
+            $enquiry->country_id = $request->input('country_id');
+            $enquiry->state_id = $request->input('state_id');
+            $enquiry->city_id = $request->input('city_id');
+            $enquiry->address = $request->input('address');
+            $enquiry->type = $request->input('type');
+            $enquiry->enquiry_status = $request->input('enquiry_status');
+            $enquiry->message = $request->input('message');
+            $enquiry->remarks = $request->input('remarks');
+            $enquiry->status = 1;
+            $enquiry->save();
+            $package = $request->package;
+
+            $enquiry->enquirypackages()->sync($package);
+
             if(!empty($send_quotation_value))
             {   
                 foreach($package as $key=> $values)
@@ -278,25 +323,7 @@ class ActivityController extends BaseController
                     \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\MyPackagePdfTestMail($package));
 
                     return json_encode($details);
-
-            }  
-            $data =  Enquiry::find($enquiryid);
-            Session::flash('message', 'Enquiry Detail Updated Succesfully');
-            return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
-        }
-        else{
-            $SaveEnquiry = Enquiry::create($data);
-            $enquiryid = $SaveEnquiry->id;
-            $package = $request->package;
-            foreach($package as $packageid)
-            {
-                DB::table('enquiry_packages')->insert(
-                    ['enquiry_id' => $enquiryid, 'package_id' => $packageid]
-                );
-            }
-            Session::flash('message', 'Enquiry Details Added Succesfully');
-            return $this->sendResponse($SaveEnquiry->toArray(), $enquiryid, 'Enquiry Details Saved Succesfully');
-        }
+            } 
     }
     public function enquiryEdit($id)
     {
