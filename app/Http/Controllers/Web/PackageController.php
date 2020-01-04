@@ -19,6 +19,7 @@ use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Helpers\CommonHelper;
+use Auth;
 
 class PackageController extends Controller
 {
@@ -43,5 +44,19 @@ class PackageController extends Controller
             ))->where('status','=',1)->limit(50)->get();
         $data['packages'] = $packages;
      	return view('web.all_packages',compact('data',$data));
+    }
+
+    public function AddPackage(Request $request){
+        if(Auth::check()){
+            $data['country_view'] = Country::where('status','=','1')->get();
+            $data['state_view'] = State::where('status','=','1')->get();
+            $data['city_view'] = State::where('status','=','1')->get();
+            $data['tax_data'] = DB::table('settings_tax')->where('status','=','1')->first();
+            $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
+
+            return view('web.package_new',compact('data',$data));
+        }else{
+            return redirect(route('login'));
+        }
     }
 }

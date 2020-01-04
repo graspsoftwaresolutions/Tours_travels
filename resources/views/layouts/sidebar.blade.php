@@ -18,7 +18,7 @@
                     <ul class="nav navbar-nav navbar-right navbar-search-link">
                         
                         <li id="home_menu_id" class="active"><a href="{{URL('/')}}">Home</a> </li>
-                        <li id="package_menu_id"><a href="{{route('packages')}}">Packages</a>  </li>
+                        <li id="package_menu_id"><a href="{{route('packages')}}">Itinerary</a>  </li>
                         @auth
                         <!--li><a href="{{route('tour_booking')}}">Booking</a>  </li-->
                         @endauth

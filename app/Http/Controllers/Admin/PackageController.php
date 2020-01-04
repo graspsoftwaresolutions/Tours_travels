@@ -576,5 +576,7 @@ class PackageController extends Controller
         $ActivityCost = CommonHelper::getPackageActivityCost($package_id,$activity_id);
         return $ActivityCost;
     }
+
+    
    
 }

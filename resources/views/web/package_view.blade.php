@@ -381,11 +381,33 @@
                                 </select>
                                
                             </div-->
-                            <button class="btn btn-orange">BOOK NOW</button>
+                            <form id="dir_booking" class="" method="post" enctype="multipart/form-data"  action="{{ route('direct_booking') }}">
+                                @csrf
+                                 <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group left-icon">
+                                             <input type="text" id="package_id" name="package_id" readonly required="" class="form-control hide" value="{{ $package_info->id }}" placeholder="Package id" >
+                                            <input type="text" id="form_date" name="form_date" readonly required="" class="form-control dpd1" placeholder="Check In" >
+                                        </div>
+                                    </div><!-- end columns -->
+                                    
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="form-group left-icon">
+                                            <input type="text" id="to_date" name="to_date" readonly="" required="" class="form-control dpd2" placeholder="Check Out" >
+                                        </div>
+                                    </div><!-- end columns -->
+
+                                </div><!-- end row -->  
+                                <button type="submit" class="btn btn-orange">BOOK NOW</button>
+                            </form>
                             <br>
                             <br>
-                            <a href="{{route('tour_booking')}}" class="btn btn-default">CUSTOMIZE AND BOOK </a>
+                            <a href="#" class="btn btn-default">CUSTOMIZE AND BOOK </a>
+                            <!--a href="{{route('tour_booking')}}" class="btn btn-default">CUSTOMIZE AND BOOK </a-->
                             @endauth
+                            @guest
+                                <a class="btn btn-orange" href="{{ route('login') }}" style="color:white;">Login to Book</a>
+                            @endguest
                         </div>
                         
                     </div><!-- end row -->
