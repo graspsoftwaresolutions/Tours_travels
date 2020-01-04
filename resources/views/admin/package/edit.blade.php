@@ -1033,6 +1033,22 @@
                               </div>
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
+                        <br>
+                        <div class="col-md-12">
+                          <div class="select-row form-group">
+                             <label for="package_status" class="block">{{__('Status') }}<span style="color:red">*</span></label>                 
+                             <!-- To validate the select add class "select-validate" -->     
+                             <select id="package_status" name="package_status" class="form-control select-validate" onchange="return ChangeStatus(this.value)">
+                                <option @if($package_info->status==1) selected @endif value="1">{{__('Active')}}</option>
+                                <option @if($package_info->status==0) selected @endif value="0">{{__('Inactive')}}</option>
+                              
+                             </select>
+                             <input type="text" class="hide" name="package_status_val" id="package_status_val" value="{{$package_info->status}}"/>
+                             <div class="input-highlight"></div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        
                     </div>
                     
                </div>
@@ -1286,6 +1302,9 @@
     }
 
    
+  }
+  function ChangeStatus(status){
+    $("#package_status_val").val(status);
   }
  
 </script>

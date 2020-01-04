@@ -63,7 +63,7 @@ class PdfController extends Controller
         
          if($data!='')
          {
-         //  return view('booking.pdf.booking_pdf')->with($data);
+           //return view('admin.booking.pdf.booking_pdf')->with($data);
             $pdf = PDF::loadView('admin.booking.pdf.booking_pdf', $data);
            // return  $pdf->stream();
             return $pdf->download('booking_details.pdf');
