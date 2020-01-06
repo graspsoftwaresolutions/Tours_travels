@@ -10,6 +10,7 @@ use App\Model\Admin\State;
 use App\Model\Admin\City;
 use App\Model\Admin\Amenities;
 use App\Model\Admin\PackageType;
+use App\Model\Admin\TransportationCharges;
 
 use App\Model\Admin\RoomType;
 use App\User;
@@ -426,5 +427,50 @@ class MasterController extends CommonController {
             $this->PackageType->where('id','=',$id)->update(['status'=>'0']);
         }
         return redirect('admin/packagetype_list')->with('message','Package Type Details Deleted Successfully!!');
+    }
+    public function transporationChargesList()
+    {
+        return view('admin.master.transportation.list');
+    }
+    public function addTransportation()
+    {
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        $data['city_view'] = State::where('status','=','1')->get();
+        return view('admin.master.transportation.new')->with('data',$data);
+    }
+    public function SaveTransportation(Request $request)
+    {
+         $data = $request->all();
+         if($data!='')
+         {
+            $SaveTransportation = TransportationCharges::create($data);
+         }
+         if($SaveTransportation == true)
+         {
+           return redirect()->route('master.transporation_charges')->with('message','New Transportation added Successfully!!');
+         }
+    }
+    public function EditTransportation($id)
+    {
+        $id = crypt::decrypt($id);
+        $data['transport_view'] = DB::table('transportation_charges')->get();
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        $data['city_view'] = State::where('status','=','1')->get();
+        return view('admin.master.transportation.edit')->with('data',$data);
+    }
+    public function updateTransportation(Request $request)
+    {
+        $data = $request->all();
+        $id = $request->transportation_id;
+        if($id)
+        {
+            $SaveTransportation = TransportationCharges::find($id)->update($data);
+            if($SaveTransportation == true)
+            {
+              return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
+            }
+        }
     }
 }
