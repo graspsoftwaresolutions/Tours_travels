@@ -378,20 +378,25 @@ class PackageController extends Controller
                    $nestedData['city_name'] = $package->city_name;
                    $nestedData['state_name'] = $package->state_name;
                    if($package->package_status == 1)
-                   {
-                        $enc_id = Crypt::encrypt($package->id);
-                        $edit = route('package.change_status',$enc_id);
-                        $actions ="<a id='$edit' onClick='showeditForm($autoid);'  href='$edit' class='btn btn-sm green waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                   {    
+                        $status = $package->package_status = 1;
+                        $enc_id = $package->id;
+                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm green waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
                         $nestedData['status'] = 'Active'.' '.$actions;
                    }
                    else
                    {
-                        $nestedData['status'] = 'Inactive';
+                        $status = $package->package_status = 0;
+                        $enc_id = $package->id;
+
+                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm red waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                        $nestedData['status'] = 'Inactive'.' '.$actions;
                    }
                    //$nestedData['status'] = $package->package_status;
                    $enc_id = Crypt::encrypt($package->id);
                    $edit = route('package.edit',$enc_id);
                    $pdf = route('package.pdf',$enc_id);
+                   
                    
                    $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
                    $nestedData['options'] = $actions;
@@ -579,7 +584,16 @@ class PackageController extends Controller
         $ActivityCost = CommonHelper::getPackageActivityCost($package_id,$activity_id);
         return $ActivityCost;
     }
+    public function changeStatus(Request $request)
+    {
+      //  $data = $request->all();
+          $changeStatus = $request->changeStatus;
+          $packageid = $request->packageid;
 
-    
-   
+          $result = Package::where('id','=',$packageid)->update([ 'status'=>$changeStatus ]);
+          if($result == true)
+          {
+            return json_encode($result);
+          }
+    }
 }

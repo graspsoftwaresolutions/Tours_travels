@@ -305,7 +305,7 @@
                                  <div class="modal-body">
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Adult:') }}</label>
+                                          <label class="fixed-label">{{__('No of Adults:') }}</label>
                                           <br>
                                           <small>Age 13 and above</small>
                                        </div>
@@ -318,7 +318,7 @@
                                      <br>
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Children:') }}</label>
+                                          <label class="fixed-label">{{__('No of Childrens:') }}</label>
                                           <br>
                                           <small>Age 3 to 12</small>
                                        </div>
@@ -332,7 +332,7 @@
                                     <br>
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Infant:') }}</label>
+                                          <label class="fixed-label">{{__('No of Infants:') }}</label>
                                           <br>
                                           <small>Age 0 - 2</small>
                                        </div>
