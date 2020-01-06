@@ -4473,7 +4473,7 @@ a.list-group-item:focus {
   padding: 0 20px;
 }
 
-.list-group-animation>.divider,.list-group-animation>.list-group-divider,.list-group-animation>.list-group-item {
+/*.list-group-animation>.divider,.list-group-animation>.list-group-divider,.list-group-animation>.list-group-item {
   opacity: 0;
   -webkit-transform: translate(0,100%);
   -ms-transform: translate(0,100%);
@@ -4486,7 +4486,7 @@ a.list-group-item:focus {
   -o-transition-property: opacity,-o-transform;
   transition-property: opacity,transform;
   transition-property: opacity,transform,-webkit-transform,-o-transform;
-}
+}*/
 
 .list-group-animation.isinview>.divider,.list-group-animation.isinview>.list-group-divider,.list-group-animation.isinview>.list-group-item {
   opacity: 1;
@@ -8846,4 +8846,13 @@ img.zoom-img {
 
 [dir=rtl] .scrtabs-js-tab-scroll-arrow-right:before {
   content: "";
+}
+
+.modal-lg {
+    width: 1100px;
+}
+
+.card.media-card-sm img {
+    width: 130px;
+    height: 130px;
 }

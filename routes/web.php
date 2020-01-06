@@ -210,3 +210,9 @@ Route::get('/packages','Web\PackageController@PackagesList')->name('packages');
 
 Route::post('/direct_booking','Web\TourBookingController@bookingSave')->name('direct_booking');
 Route::get('/add_package','Web\PackageController@AddPackage')->name('add_package');
+
+Route::get('/city_hotels','Web\PackageController@HotelsList')->name('web.city_hotels');
+Route::get('city_activities','Web\PackageController@ActivitiesList')->name('web.city_activities');
+Route::get('/city_hotels_details','Web\PackageController@HotelDetails')->name('web.city_hotels_details');
+Route::get('city_activity_details','Web\PackageController@ActivityDetails')->name('web.city_activity_details');
+Route::post('/package_save', 'Web\PackageController@packageSave')->name('web.package_save');

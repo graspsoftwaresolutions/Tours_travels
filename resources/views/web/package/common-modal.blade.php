@@ -67,7 +67,7 @@
                         </div><!-- /.row -->    
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         
                     </div><!-- /.modal-footer -->
               
@@ -135,7 +135,7 @@
                         </div><!-- /.row -->    
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->
@@ -213,7 +213,7 @@
                         </div><!-- /.row -->    
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         
                     </div><!-- /.modal-footer -->
               
@@ -259,7 +259,7 @@
                               </div>
                             </div>
                             <div id="hotel-rightpanel" class="col-md-6">
-                              <h2 id="activity_duration"> <span id="view_activity_duration"> Room Types </span>  <a id="activity_price" class="pull-right">1500</a></h2>
+                              <h2 id="activity_duration" style="font-size: 16px;"> <span style="font-weight: bold;"> Minimum Approx. </span> <span id="view_activity_duration"> Room Types </span>  <a class="hide" id="activity_price" class="pull-right">1500</a></h2>
                               <div id="view-hotel-roomtypes" class="room-type-header">
 
                               </div>
@@ -291,7 +291,7 @@
                         </div><!-- /.row -->    
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->

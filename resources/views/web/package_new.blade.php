@@ -96,6 +96,132 @@
       width: auto !important;
   }
 
+   #listhotelsarea .card.media-card-sm {
+         margin: 0px !important; 
+    }
+    #listhotelsarea .media-img {
+      width: 12%;
+      height: inherit;
+  }
+  .ameneties-list-container a {
+      display: block;
+      float: left;
+      margin: 0 10px 10px 0;
+      border: 1px solid #ffbce4;
+      color: #ec008c;
+      padding: 9px 17px;
+      border-radius: 30px;
+      background-color: #fbf6f9;
+  }
+  .timeline.timeline-single {
+      max-width: 800px;
+      overflow-x: hidden;
+      padding-left: 40px;
+      padding-right: 10px;
+  }
+  #place-activities .list-group-item.item-avatar {
+      padding-left: 72px !important;
+      position: relative;
+      min-height: 59px;
+  }
+  .msg-row .msg-wrapper {
+      padding: 15px 15px;
+  }
+  #place-activities .list-group-item.item-avatar .avatar {
+      position: absolute;
+      display: inline-block;
+      left: 16px;
+      width: 64px;
+      height: 64px;
+      font-size: 22px;
+      line-height: 42px;
+      font-style: normal;
+      text-align: center;
+      overflow: hidden;
+      vertical-align: middle;
+      border-radius: 5px;
+  }
+  #listactivitiesarea .card.media-card-sm {
+         margin: 0px !important; 
+    }
+    #listactivitiesarea .media-img {
+      width: 12%;
+      height: inherit;
+  }
+
+  #listactivitiesarea .form-control {
+      display: block;
+      width: 100%;
+      height: 27px;
+      padding: 3px 8px;
+  }
+
+  #listactivitiesarea .media{
+     height: 110px;
+  }
+  .list-group-item.item-avatar .overall-place-activitylist {
+    padding-left: 120px !important;
+    position: relative;
+    min-height: 59px;
+}
+ .overall-place-activitylist img {
+      position: absolute;
+      display: inline-block;
+      left: 16px;
+      width: 100px !important;
+      height: 100px !important;
+      font-size: 22px;
+      line-height: 42px;
+      font-style: normal;
+      text-align: center;
+      overflow: hidden;
+      vertical-align: middle;
+      border-radius: 5px;
+  }
+
+  .activities-summary{
+    padding-top: 40px;
+  }
+
+  .timeline-icon.ti-text {
+      width: auto !important;
+  }
+  #place-activities,#overall-summary, .place-activitylist {
+    list-style: none !important;
+  }
+  .summary-day-title{
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+
+  .sub-summary-activity{
+    margin: 0 20px;
+  }
+
+  .price-section label{
+    font-size: 14px;
+    font-weight: normal;
+  }
+  #dayHotelScroll,#hotel-leftpanel,#hotel-rightpanel,#dayactivityScroll{
+    height: 430px;
+    overflow-y: scroll;
+  }
+  .wizard > .content > .body {
+        float: left;
+        position: relative;
+        width: 100%;
+        height: 95%;
+        padding: 2.5%;
+    }
+    .theme-accent:not(.disabled) {
+        background-color: #313447!important;
+        color: rgba(255,255,255,.9)!important;
+    }
+    .state-cities button {
+        border-radius: 15px;
+        margin: 5px;
+    }
+
 </style>
 @endsection
 
@@ -123,18 +249,19 @@
       <div class="col-md-8">
       <div class="row">
          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form id="wizard1" action="#" class="paper">
+            <form id="wizard1" class="paper"  method="post" enctype="multipart/form-data"  action="{{ route('web.package_save') }}">
+                 @csrf
                <h3>Travel Data</h3>
                <fieldset>
                   <div class="col-sm-12">
-                     <h4 class="text-headline">Package Information</h4>
+                     <h4 class="text-headline">Itinerary Information</h4>
                      <br>
                       <div class="row">
                          <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{__('Package Name') }}<span style="color:red">*</span></label>
                                
-                                <input placeholder="Package Name" class="form-control" required id="package_name" name="package_name" autofocus type="text">
+                                <input placeholder="Package Name" class="form-control required" required id="package_name" name="package_name" autofocus type="text">
                             </div>
                            
                          </div>
@@ -142,7 +269,7 @@
                             <div class="form-group">
                                <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="package_type" name="package_type" class="form-control select-validate">
+                               <select id="package_type" name="package_type" required class="form-control select-validate">
                                   <option selected value="">{{__('Select Package')}}</option>
                                   
                                   @foreach($data['package_type'] as $type)
@@ -175,7 +302,7 @@
                                 <div class="modal-body">
                                          <div class="row">
                                            <div class="col-md-6">
-                                              <label class="fixed-label">{{__('Adult:') }}</label>
+                                              <label class="fixed-label">{{__('No of Adult:') }}</label>
                                               <br>
                                               <small>Age 13 and above</small>
                                            </div>
@@ -188,7 +315,7 @@
                                          <br>
                                         <div class="row">
                                            <div class="col-md-6">
-                                              <label class="fixed-label">{{__('Children:') }}</label>
+                                              <label class="fixed-label">{{__('No of Children:') }}</label>
                                               <br>
                                               <small>Age 3 to 12</small>
                                            </div>
@@ -202,7 +329,7 @@
                                         <br>
                                         <div class="row">
                                            <div class="col-md-6">
-                                              <label class="fixed-label">{{__('Infant:') }}</label>
+                                              <label class="fixed-label">{{__('No of Infant:') }}</label>
                                               <br>
                                               <small>Age 0 - 2</small>
                                            </div>
@@ -237,7 +364,7 @@
                             <div class="form-group">
                                <label for="from_country_id" class="">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="from_country_id" name="from_country_id" onchange="ChangeStates(this.value,0)" class="form-control" >
+                               <select id="from_country_id" name="from_country_id" required onchange="ChangeStates(this.value,0)" class="form-control" >
                                   <option value="">{{__('Select country')}}</option>
                                   @php
                                   $defcountry = CommonHelper::DefaultCountry();
@@ -256,7 +383,7 @@
                             <div class="select-row form-group">
                                <label for="from_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="from_state_id" name="from_state_id"  onchange="ChangeCities(this.value,0)" class="form-control" data-live-search="true" data-width="100%">
+                               <select id="from_state_id" name="from_state_id" required onchange="ChangeCities(this.value,0)" class="form-control" data-live-search="true" data-width="100%">
                                   <option value="" selected="">{{__('Select State') }}
                                   </option>
                                   @foreach ($statelist as $state)
@@ -268,7 +395,7 @@
                             <div class="select-row form-group">
                                <label for="from_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="from_city_id" name="from_city_id" class="form-control" data-live-search="true" data-width="100%">
+                               <select id="from_city_id" name="from_city_id" class="form-control" required data-live-search="true" data-width="100%">
                                   <option value="" selected="">{{__('Select City') }}
                                   </option>
                                   <!--  @foreach ($data['state_view'] as $state)
@@ -283,7 +410,7 @@
                             <div class="select-row form-group">
                                <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="form-control" data-live-search="true" data-width="100%">
+                               <select id="to_country_id" name="to_country_id" required onchange="ChangeStates(this.value,1)" class="form-control" data-live-search="true" data-width="100%">
                                   <option value="">{{__('Select country')}}</option>
                                   @php
                                   $defcountry = CommonHelper::DefaultCountry();
@@ -302,7 +429,7 @@
                             <div class="select-row form-group">
                                <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="to_state_id" name="to_state_id" onchange="ChangeCities(this.value,1)" class="form-control" data-live-search="true" data-width="100%">
+                               <select id="to_state_id" name="to_state_id" required onchange="ChangeCities(this.value,1)" class="form-control" data-live-search="true" data-width="100%">
                                   <option value="" selected="">{{__('Select State') }}
                                   </option>
                                  <!--  @foreach ($statelist as $state)
@@ -314,7 +441,7 @@
                             <div class="select-row form-group">
                                <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
                                <!-- To validate the select add class "select-validate" -->     
-                               <select id="to_city_id" name="to_city_id" class="form-control" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
+                               <select id="to_city_id" name="to_city_id" required class="form-control" onchange="ChangeCityvalues(this.id)" data-live-search="true" data-width="100%">
                                   <option value="" selected="">{{__('Select City') }}
                                   </option>
                                   <!--  @foreach ($data['state_view'] as $state)
@@ -413,23 +540,25 @@
                   <h4 class="text-headline">Summary</h4>
                   <div class="row sortable">
                     <div class="card">
-                      <div class="card-image">
-                          <img id="summary-banner" src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" style="height: 250px;" alt="">
-                          <div class="row">
-                            <div class="card-title">
-                                <div class="col-md-4"> 
-                                  <span id="summary-state">Bridges</span><br><span id="summary-cities" class="text-small"></span>
-                                </div>
-                                <div class="col-md-4"> 
-                                  <p id="summary-nights"><span class="night-count"></span> nights</p><span id="summary-days" class="text-small"><span class="days-count"></span> days</span>
-                                </div>
-                                 <div class="col-md-4"> 
-                                  <p id="summary-family"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span>
-                                </div>
-                            </div>
-                          </div>
-                          
-                      </div>
+                        <div class="detail-slider">
+                            <div class="feature-slider">
+                                <div><img id="summary-banner" src="{{ asset('public/assets/demo/images/demo-9.jpg') }}" class="img-responsive" alt="feature-img"></div>
+                            </div><!-- end feature-slider -->
+                            
+                            <ul class="list-unstyled features tour-features">
+                                <li><div class="f-icon"><i class="fa fa-map-marker"></i></div><div class="f-text"><p id="summary-state" class="f-heading">Sarawak</p><p class="f-data"><span id="summary-cities" class="text-small"></span> </p></div></li>
+                                <li><div class="f-icon"><i class="fa fa-user"></i></div><div class="f-text"><p class="f-heading">Persons</p><p id="summary-family" class="f-data"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span></p></div></li>
+                                <li>
+                                    <div class="f-icon"><i class="fa fa-calendar"></i></div>
+                                    <div class="f-text">
+                                        <p class="f-heading">Duration</p>
+                                        <p id="summary-nights" class="f-data"><span class="night-count"></span> nights<span id="summary-days" class="text-small"> &amp; <span class="days-count"></span> days</span> </p>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                      
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
                           
                        </ul>
@@ -452,7 +581,7 @@
         <div id="travel-section" class="">
                <div id="destination-chart" class="destinations-division">
                     <div class="sortable">
-                        <div class="panel panel-warning">
+                        <div class="panel panel-default">
                           <div class="panel-heading">Places (State-City)</div>
                           <div class="panel-body">
                             <ul id="place-sortList" class="list-group placecitylist item-border">
@@ -484,7 +613,22 @@
                  </div>
                </div>
                <div class="price-section hide">
-                  <div class="form-horizontal paper p20 ">   
+                    <div class="form-horizontal paper p20">   
+                        <h4 class="text-headline">Price</h4>   
+                        <small style="font-size: 15px;">[without transportation and additional charges]</small>
+                        <br>
+                      <div class="form-group">
+                        
+                        <div class="col-sm-8">     
+                          <div class="input-field">
+                            <br>
+                           <input type="text" style="font-size: 20px;" id="total_cost" readonly="true" name="total_cost" class="allow_decimal form-control" placeholder="">    
+                            <div class="input-highlight"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="form-horizontal paper p20 hide">   
                         <h4 class="text-headline">Price Summary</h4>   
                         <br>
                           <div class="form-group">
@@ -619,6 +763,7 @@
 <script src="{{ asset('public/web-assets/js/jquery.steps.js') }}"></script>
 <script src="{{ asset('public/web-assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('public/web-assets/js/jquery.dragsort.js') }}"></script>
+<!--script src="http://localhost/Tours_travels/public/assets/dist/js/plugins/smoothscroll/smooth-scroll.js"></script-->
 <script type="text/javascript">
             var form = $("#wizard1").show();
              
@@ -628,15 +773,45 @@
                 transitionEffect: "slideLeft",
                 onStepChanging: function (event, currentIndex, newIndex)
                 {
+                    $("#travel-section").removeClass('hide');
+                    $(".price-section").addClass('hide');
                     // Allways allow previous action even if the current form is not valid!
                     if (currentIndex > newIndex)
                     {
                         return true;
                     }
                     // Forbid next action on "Warning" step if the user is to young
-                    if (newIndex === 3 && Number($("#age-2").val()) < 18)
+                    if (newIndex === 1 )
                     {
-                        return false;
+                       var formsubmit =true; 
+
+                       if($('#place-sortList li').length==0 && formsubmit==true){
+                          alert("Please pick any place");
+                          formsubmit =false; 
+                           return formsubmit;
+                       }
+                        
+                      
+                    }
+                    
+                    if(newIndex===3){
+                      $("#travel-section").addClass('hide');
+                      $(".price-section").removeClass('hide');
+                      var total_hotel_cost = 0;
+                       $(".hotel_cost").each(function() {
+                         var hotel_cost = parseFloat($(this).val());
+                         total_hotel_cost = parseFloat(total_hotel_cost)+parseFloat(hotel_cost);
+                      });
+                      $("#total_accommodation").val(total_hotel_cost);
+                     var total_activity_cost = 0;
+                     $(".activity_cost").each(function() {
+                         var activity_cost = parseFloat($(this).val());
+                         total_activity_cost = parseFloat(total_activity_cost)+parseFloat(activity_cost);
+                      });
+                     $("#total_activities").val(total_activity_cost);
+                    // var total_pack_cost = parseFloat(total_hotel_cost)+parseFloat(total_activity_cost);
+                      //$("#total_package_value").val(total_pack_cost);
+                      $("#transport_charges").trigger('keyup');
                     }
                     // Needed in some cases if the user went back (clean up)
                     if (currentIndex < newIndex)
@@ -648,19 +823,7 @@
                     form.validate().settings.ignore = ":disabled,:hidden";
                     return form.valid();
                 },
-                onStepChanged: function (event, currentIndex, priorIndex)
-                {
-                    // Used to skip the "Warning" step if the user is old enough.
-                    if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
-                    {
-                        form.steps("next");
-                    }
-                    // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
-                    if (currentIndex === 2 && priorIndex === 3)
-                    {
-                        form.steps("previous");
-                    }
-                },
+               
                 onFinishing: function (event, currentIndex)
                 {
                     form.validate().settings.ignore = ":disabled";
@@ -668,22 +831,34 @@
                 },
                 onFinished: function (event, currentIndex)
                 {
-                    alert("Submitted!");
+                    var total_package_value = $("#total_package_value").val();
+                      var adult_price = $("#adult_price").val();
+                      if(total_package_value!=""){
+                        $("#dummyRightList").empty();
+                        $("#dummyRightList").append($("#right-section-packagearea").clone());
+                        $("#dummyRightList").addClass('hide');
+                        $("#wizard1").trigger('submit');
+                         return true;
+
+                      }else{
+                        $("#dummyRightList").empty();
+                        alert('Please enter price details');
+                      }
                 }
             }).validate({
                 errorPlacement: function errorPlacement(error, element) { element.after(error); },
                 rules: {
-                    confirm: {
-                        equalTo: "#password-2"
-                    }
+                  "package_name": {
+                        required: true,
+                    },
                 }
             });
-            $("#overall-summary").dragsort({
-                dragEnd: saveOrder,
-            });
-             function saveOrder() {
-                alert('ok');
-             }
+            // $("#overall-summary").dragsort({
+            //     dragEnd: saveOrder,
+            // });
+            //  function saveOrder() {
+            //     alert('ok');
+            //  }
         </script>
         @include('web.package.common-scripts')
 @endsection

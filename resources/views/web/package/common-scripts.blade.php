@@ -85,7 +85,7 @@
                         $.each(citydata, function(citykey, cityvalue) {
                           //console.log(cityvalue.city_image);
                            var paramscity = "{  cityid: "+cityvalue.id+",  stateid: "+value.id+", cityname: '"+cityvalue.city_name+"', statename: '"+value.state_name+"' , cityimage: '"+cityvalue.city_image+"' }";
-                           cities_sec += '<button id="place_button_'+cityvalue.id+'" type="button" onClick="PickPlace('+paramscity+')" class="btn theme-accent waves-effect waves-light "><i class="mdi mdi-plus left"></i>'+cityvalue.city_name+'</button>';
+                           cities_sec += '<button id="place_button_'+cityvalue.id+'" type="button" onClick="PickPlace('+paramscity+')" class="btn theme-accent waves-effect waves-light "><i class="fa fa-plus "></i> '+cityvalue.city_name+'</button>';
                         });
                         if(cities_sec!=""){
                            $("#destination-city-"+value.id).append(cities_sec);
@@ -206,7 +206,7 @@
 
       $("#listhotelsarea").empty();
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ route('city_hotels') }}" + '?city_id=' + paramscity.cityid;
+      var url = "{{ route('web.city_hotels') }}" + '?city_id=' + paramscity.cityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -273,7 +273,11 @@
 
   $(document).ready(function() {
 
-
+    // $("#dayHotelScroll,#hotel-leftpanel,#hotel-rightpanel,#dayactivityScroll").mCustomScrollbar({
+    //       theme:"dark",
+    //       autoHideScrollbar: true,
+    //       setHeight: 480,
+    //   });
     
 
     });
@@ -293,7 +297,7 @@
     //   }
       
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
+      var url = "{{ route('web.city_hotels_details') }}" + '?hotel_id=' + hotelid;
       $.ajax({
           url: url,
           type: "GET",
@@ -337,7 +341,7 @@
               var desc = valuea.pivot.description==null ? '' : valuea.pivot.description;
               if(roomtyeid!=false && valuea.id==roomtyeid){
                 var btncolor = 'blue';
-                var selectedtype = '<i class="icon mdi mdi-check"></i>';
+                var selectedtype = '<i class="fa fa-check"></i>';
                 var room_count = room_nos;
                  var hotel_rooms_option = '';
                   var i;
@@ -399,7 +403,7 @@
 
     // /console.log(hotelid+'room type'+roomtyeid);
 
-    var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
+    var url = "{{ route('web.city_hotels_details') }}" + '?hotel_id=' + hotelid;
     $.ajax({
         url: url,
         type: "GET",
@@ -465,7 +469,7 @@
 
       $("#listactivitiesarea").empty();
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ route('city_activities') }}" + '?city_id=' + paramscity.cityid;
+      var url = "{{ route('web.city_activities') }}" + '?city_id=' + paramscity.cityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -486,7 +490,7 @@
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="Activity Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listactivitiesarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 125px;" alt="Activity Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.title_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+activityduration+'</p></div><div class="col-md-2"> <p class="hide" style="margin-bottom: 10px;">at '+value.amount+'</p><button type="button" id="viewactivityid" onclick="return ViewActivityDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button  id="activitylistconfirm" type="button" onclick="return ConfirmActivity('+value.id+','+paramscity.cityid+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 });
               // $('#masterid').val(result.id);
               // $('#masterid').attr('data-autoid', result.id);
@@ -507,7 +511,7 @@
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //console.log(paramscity);
       var place_area = paramscity.statename+' - '+paramscity.cityname;
-      var url = "{{ route('city_activity_details') }}" + '?activity_id=' + activityid;
+      var url = "{{ route('web.city_activity_details') }}" + '?activity_id=' + activityid;
       $.ajax({
           url: url,
           type: "GET",
@@ -597,7 +601,7 @@
     var child_count = $("#child-count-val").val();
     var total_count = parseInt(adult_count)+parseInt(child_count);
 
-    var url = "{{ route('city_activity_details') }}" + '?activity_id=' + activityid;
+    var url = "{{ route('web.city_activity_details') }}" + '?activity_id=' + activityid;
     $.ajax({
         url: url,
         type: "GET",
@@ -615,11 +619,11 @@
             var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+resultdata.id+'" value="'+total_act_cost+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+resultdata.id+'" value="'+resultdata.amount+'" />';
 
             if(!$('#city_activity_id_'+resultdata.id).length){
-              $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a><p>'+hiddenvalues+'<a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
+              $("#place-activitylist-"+cityid).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from"><i class="fa fa-inr hide"></i> <span class="hide" id="total_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a><p>'+hiddenvalues+'<a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
               var act_overview  = resultdata.overview != null ? resultdata.overview : '';
                var activityduration = (resultdata.duartion_hours/60).toFixed(0)+' hour '+(resultdata.duartion_hours%60)+' minutes';
-              $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> <span id="summary_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
-             $("#pick-actitity-link-"+cityid).css('top','-20px');
+              $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+resultdata.id+'" class=""><h3 style="text-decoration: underline;">'+resultdata.title_name+' <a class="pull-right hide"><i class="fa fa-inr hide"></i> <span id="summary_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
+             $("#pick-actitity-link-"+cityid).css('margin-bottom','10px');
             }else{
               alert("Activity already choosed");
             }
@@ -747,7 +751,7 @@
      gst_per = gst_per=='' ? 0 : parseFloat(gst_per);
      var tax_amount = ((parseFloat(total_package_value)*gst_per)/100).toFixed(2);
      $("#gst_amount").val(tax_amount);
-     $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
+     $("#total_amount,#total_cost").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
    });
 
   function EditHotel(paramscity,hotelid,roomtyeid,room_nos){
