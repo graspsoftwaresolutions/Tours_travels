@@ -47,6 +47,17 @@ class PackageController extends Controller
     }
 
     public function AddPackage(Request $request){
+        // $to_email =  Auth::user()->email;
+        // $user_data = Auth::user();
+        // $cc_email = 'shyni.bizsoft@gmail.com';
+    
+      
+        // $SavePackage = Package::find(23);
+        // $packplace = PackagePlace::where('package_id','=',23)->get();
+        // \Mail::to($to_email)
+        
+        // ->send(new \App\Mail\WebPackageQuotation($SavePackage,$packplace,$user_data));
+
         if(Auth::check()){
             $data['country_view'] = Country::where('status','=','1')->get();
             $data['state_view'] = State::where('status','=','1')->get();
@@ -180,6 +191,16 @@ class PackageController extends Controller
                     
                 }
             }
+
+        $to_email =  Auth::user()->email;
+        $user_data = Auth::user();
+        $cc_email = 'shyni.bizsoft@gmail.com';
+        $packplace = PackagePlace::where('package_id','=',$SavePackage->id)->get();
+
+        \Mail::to($to_email)
+        // /->cc($cc_email)
+        ->send(new \App\Mail\WebPackageQuotation($SavePackage,$packplace,$user_data));
+
         return redirect('home')->with('message','Package Added Successfully!!');
         //return json_encode($package);
     }
