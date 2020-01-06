@@ -442,11 +442,24 @@ class MasterController extends CommonController {
     public function SaveTransportation(Request $request)
     {
          $data = $request->all();
-         if($data!='')
-         {
-            $SaveTransportation = TransportationCharges::create($data);
-         }
-         if($SaveTransportation == true)
+         
+         $saveTransportation = new TransportationCharges();
+         $saveTransportation->from_country_id = $request->from_country_id;
+         $saveTransportation->from_state_id = $request->from_state_id;
+         $saveTransportation->from_city_id = $request->from_city_id;
+         $saveTransportation->to_city_id = $request->to_city_id; 
+         $saveTransportation->to_country_id = $request->from_country_id;
+         $saveTransportation->to_state_id = $request->from_state_id;
+         $saveTransportation->distance = $request->distance;
+         $saveTransportation->amount_per_km = $request->amount_per_km;
+         $saveTransportation->total_distance_amount = $request->total_distance_amount;
+         $saveTransportation->save();
+
+        //  if($data!='')
+        //  {
+        //     $SaveTransportation = TransportationCharges::create($data);
+        //  }
+         if($saveTransportation == true)
          {
            return redirect()->route('master.transporation_charges')->with('message','New Transportation added Successfully!!');
          }
@@ -466,11 +479,28 @@ class MasterController extends CommonController {
         $id = $request->transportation_id;
         if($id)
         {
-            $SaveTransportation = TransportationCharges::find($id)->update($data);
-            if($SaveTransportation == true)
-            {
-              return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
-            }
+            $saveTransportation = TransportationCharges::find($id);
+
+            $saveTransportation->from_country_id = $request->from_country_id;
+            $saveTransportation->from_state_id = $request->from_state_id;
+            $saveTransportation->from_city_id = $request->from_city_id;
+            $saveTransportation->to_city_id = $request->to_city_id; 
+            $saveTransportation->to_country_id = $request->from_country_id;
+            $saveTransportation->to_state_id = $request->from_state_id;
+            $saveTransportation->distance = $request->distance;
+            $saveTransportation->amount_per_km = $request->amount_per_km;
+            $saveTransportation->total_distance_amount = $request->total_distance_amount;
+            $saveTransportation->save();
+
+            return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
+
+
+
+            // $SaveTransportation = TransportationCharges::find($id)->update($data);
+            // if($SaveTransportation == true)
+            // {
+            //   return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
+            // }
         }
     }
 }

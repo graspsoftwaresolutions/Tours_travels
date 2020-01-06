@@ -54,8 +54,8 @@
 			<div class="page-header">
 				<h1>Tansportation Information</h1>
 				<ul class="breadcrumbs">
-					<li>Tansportation Charges</li>
-					<li>Edit Tansportation Charge</li>
+					<li>Tansportation </li>
+					<li>Edit Tansportation </li>
 				</ul>
 			</div>			
 @php $row = $data['transport_view'][0]; @endphp
@@ -64,11 +64,10 @@
             @include('includes.messages')
 					<form id="formValidate" autocomplete='off' action="{{route('update_transportation_charges')}}" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
                @csrf   
-               <h1 class="text-display-1">Tansportation Charges Information</h1>
+               <h1 class="text-display-1">Tansportation  Information</h1>
                             <input type='hidden' name='transportation_id' value='{{$row->id}}'>
 						   <div class="row">
 							<div class="col-sm-6">
-                            <h4 class="text-headline text-center"> From City</h4>
                                 <div class="select-row form-group">
                                 <label for="from_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                                 <!-- To validate the select add class "select-validate" -->     
@@ -114,10 +113,25 @@
                            </select>
                            <div class="input-highlight"></div>
                         </div>
+						@php
+                          $tocitylist = CommonHelper::getCityList($row->from_state_id);
+                          //dd($data['package_place']);
+                        @endphp
+						 <div class="select-row form-group">
+                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value="" selected="">{{__('Select City') }}
+                              </option>
+                              @foreach ($tocitylist as $city)
+                              <option @if($row->to_city_id==$city->id) selected @endif value="{{ $city->id }}">{{ $city->city_name }}</option>
+                              @endforeach
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
 							</div>
                             <div class="col-md-6">
-                        <h4 class="text-headline text-center"> To City</h4>
-                        <div class="select-row form-group">
+                        <div class="select-row form-group hide">
                            <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
@@ -133,7 +147,7 @@
                         @php
                         $tostatelist = CommonHelper::getStateList($row->to_country_id);
                         @endphp
-                        <div class="select-row form-group">
+                        <div class="select-row form-group hide">
                            <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_state_id" name="to_state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
@@ -145,22 +159,8 @@
                            </select>
                            <div class="input-highlight"></div>
                         </div>
-                        @php
-                          $tocitylist = CommonHelper::getCityList($row->to_state_id);
-                          //dd($data['package_place']);
-                        @endphp
-                        <div class="select-row form-group">
-                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
-                           <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                              <option value="" selected="">{{__('Select City') }}
-                              </option>
-                              @foreach ($tocitylist as $city)
-                              <option @if($row->to_city_id==$city->id) selected @endif value="{{ $city->id }}">{{ $city->city_name }}</option>
-                              @endforeach
-                           </select>
-                           <div class="input-highlight"></div>
-                        </div>
+                        
+                       
                         <div class="select-row form-group">
                            <label for="to_city_id" >{{__('Distance(KM)') }}<span style="color:red">*</span></label>                 
                          
@@ -348,46 +348,70 @@ function calculate(e)
                $("#from_city_id").selectpicker("refresh");
           });
       });
-
-      $('select[name=to_country_id]').change(function() {
-         // alert('ok');
-          var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
-   
-          $.get(url, function(data) {
-              $('#to_state_id').empty('');
-              $("#to_state_id").append("<option value=''>Select</option>");
-              $("#to_state_id").selectpicker("refresh");
-              //var select = $('form select[name=state_id]');
-   
-             // select.empty();
-              //$("#state_id").append("<option value=''>Select</option>");
-              $.each(data, function(key, value) {
-                  $("#to_state_id").append('<option value=' + value.id + '>' + value.state_name +
-                      '</option>');
-              });
-               $("#to_state_id").selectpicker("refresh");
-          });
-      });
-   
-      $('select[name=to_state_id]').change(function() {
+      $('select[name=from_state_id]').change(function() {
          // alert('ok');
           var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
    
           $.get(url, function(data) {
               $('#to_city_id').empty('');
               $("#to_city_id").append("<option value=''>Select</option>");
+             
               $("#to_city_id").selectpicker("refresh");
+
               //var select = $('form select[name=state_id]');
    
              // select.empty();
               //$("#state_id").append("<option value=''>Select</option>");
-              $.each(data, function(key, value) {
+            
+
+               $.each(data, function(key, value) {
                   $("#to_city_id").append('<option value=' + value.id + '>' + value.city_name +
                       '</option>');
               });
-               $("#to_city_id").selectpicker("refresh");
+              $("#to_city_id").selectpicker("refresh");
+
           });
       });
+
+    //   $('select[name=to_country_id]').change(function() {
+    //      // alert('ok');
+    //       var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+   
+    //       $.get(url, function(data) {
+    //           $('#to_state_id').empty('');
+    //           $("#to_state_id").append("<option value=''>Select</option>");
+    //           $("#to_state_id").selectpicker("refresh");
+    //           //var select = $('form select[name=state_id]');
+   
+    //          // select.empty();
+    //           //$("#state_id").append("<option value=''>Select</option>");
+    //           $.each(data, function(key, value) {
+    //               $("#to_state_id").append('<option value=' + value.id + '>' + value.state_name +
+    //                   '</option>');
+    //           });
+    //            $("#to_state_id").selectpicker("refresh");
+    //       });
+    //   });
+   
+    //   $('select[name=to_state_id]').change(function() {
+    //      // alert('ok');
+    //       var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
+   
+    //       $.get(url, function(data) {
+    //           $('#to_city_id').empty('');
+    //           $("#to_city_id").append("<option value=''>Select</option>");
+    //           $("#to_city_id").selectpicker("refresh");
+    //           //var select = $('form select[name=state_id]');
+   
+    //          // select.empty();
+    //           //$("#state_id").append("<option value=''>Select</option>");
+    //           $.each(data, function(key, value) {
+    //               $("#to_city_id").append('<option value=' + value.id + '>' + value.city_name +
+    //                   '</option>');
+    //           });
+    //            $("#to_city_id").selectpicker("refresh");
+    //       });
+    //   });
    });
 </script>
 @endsection
