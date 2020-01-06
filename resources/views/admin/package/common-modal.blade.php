@@ -259,7 +259,7 @@
                               </div>
                             </div>
                             <div id="hotel-rightpanel" class="col-md-6">
-                              <h2 id="activity_duration"> <span id="view_activity_duration"> Room Types </span>  <a id="activity_price" class="pull-right">1500</a></h2>
+                              <h2 id="activity_duration" style="font-size: 16px;"> <span style="font-weight: bold;"> Minimum Approx. </span>  <span id="view_activity_duration"> Room Types </span>  <a id="activity_price" class="pull-right hide">1500</a></h2>
                               <div id="view-hotel-roomtypes" class="room-type-header">
 
                               </div>
