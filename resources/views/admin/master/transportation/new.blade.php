@@ -64,11 +64,9 @@
             @include('includes.messages')
 					<form id="formValidate" autocomplete='off' action="{{route('add_transportation_charges')}}" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
                @csrf   
-               <h1 class="text-display-1">Tansportation Charges Information</h1>
-                  
+               <h2 class="text-display-1">Tansportation Information</h2>
 						   <div class="row">
 							<div class="col-sm-6">
-                            <h4 class="text-headline text-center"> From City</h4>
                                 <div class="select-row form-group">
                                 <label for="from_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                                 <!-- To validate the select add class "select-validate" -->     
@@ -101,7 +99,7 @@
                            <div class="input-highlight"></div>
                         </div>
                         <div class="select-row form-group">
-                           <label for="from_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
+                           <label for="from_city_id" class="block">{{__('From City Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="from_city_id" name="from_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value="" selected="">{{__('Select City') }}
@@ -112,10 +110,22 @@
                            </select>
                            <div class="input-highlight"></div>
                         </div>
+						 <div class="select-row form-group">
+                           <label for="to_city_id" class="block">{{__(' To City Name') }}<span style="color:red">*</span></label>                 
+                           <!-- To validate the select add class "select-validate" -->     
+                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value="" selected="">{{__('Select City') }}
+                              </option>
+                              <!--  @foreach ($data['state_view'] as $state)
+                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+                                 @endforeach -->
+                           </select>
+                           <div class="input-highlight"></div>
+                        </div>
 							</div>
                             <div class="col-md-6">
-                        <h4 class="text-headline text-center">Traveling To</h4>
-                        <div class="select-row form-group">
+                        <h4 class="text-headline text-center"></h4>
+                        <div class="select-row form-group hide">
                            <label for="to_country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_country_id" name="to_country_id" onchange="ChangeStates(this.value,1)" class="selectpicker select-validate" data-live-search="true" data-width="100%">
@@ -134,7 +144,7 @@
                          @php
                         $statelist = CommonHelper::getStateList($defcountry);
                         @endphp
-                        <div class="select-row form-group">
+                        <div class="select-row form-group hide">
                            <label for="to_state_id" class="block">{{__('State Name') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="to_state_id" name="to_state_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
@@ -146,18 +156,7 @@
                            </select>
                            <div class="input-highlight"></div>
                         </div>
-                        <div class="select-row form-group">
-                           <label for="to_city_id" class="block">{{__('City Name') }}<span style="color:red">*</span></label>                 
-                           <!-- To validate the select add class "select-validate" -->     
-                           <select id="to_city_id" name="to_city_id" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                              <option value="" selected="">{{__('Select City') }}
-                              </option>
-                              <!--  @foreach ($data['state_view'] as $state)
-                                 <option value="{{ $state->id }}">{{ $state->state_name }}</option>
-                                 @endforeach -->
-                           </select>
-                           <div class="input-highlight"></div>
-                        </div>
+
                         <div class=" form-group">
                            <label for="to_city_id" >{{__('Distance(KM)') }}<span style="color:red">*</span></label>                 
                          
@@ -244,12 +243,6 @@ $("#formValidate").validate({
         from_city_id: {
             required: true,
         },
-        to_country_id: {
-            required: true,
-        },
-        to_state_id: {
-            required: true,
-        },
         to_city_id: {
             required: true,
         },
@@ -272,12 +265,6 @@ $("#formValidate").validate({
         },
         from_city_id: {
             required: '{{__("Please Choose City Name") }}',
-        },
-        to_country_id: {
-            required: '{{__("Please Choose Country Name") }}',
-        },
-        to_state_id: {
-            required: '{{__("Please Choose State Name") }}',
         },
         to_city_id: {
             required: '{{__("Please Choose City Name") }}',
@@ -331,6 +318,11 @@ function calculate(e)
                       '</option>');
               });
                $("#from_state_id").selectpicker("refresh");
+               $.each(data, function(key, value) {
+                  $("#to_state_id").append('<option value=' + value.id + '>' + value.state_name +
+                      '</option>');
+              });
+               $("#to_state_id").selectpicker("refresh");
           });
       });
    
@@ -342,6 +334,8 @@ function calculate(e)
               $('#from_city_id').empty('');
               $("#from_city_id").append("<option value=''>Select</option>");
               $("#from_city_id").selectpicker("refresh");
+              $("#to_city_id").selectpicker("refresh");
+
               //var select = $('form select[name=state_id]');
    
              // select.empty();
@@ -351,48 +345,79 @@ function calculate(e)
                       '</option>');
               });
                $("#from_city_id").selectpicker("refresh");
-          });
-      });
 
-      $('select[name=to_country_id]').change(function() {
-         // alert('ok');
-          var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
-   
-          $.get(url, function(data) {
-              $('#to_state_id').empty('');
-              $("#to_state_id").append("<option value=''>Select</option>");
-              $("#to_state_id").selectpicker("refresh");
-              //var select = $('form select[name=state_id]');
-   
-             // select.empty();
-              //$("#state_id").append("<option value=''>Select</option>");
-              $.each(data, function(key, value) {
-                  $("#to_state_id").append('<option value=' + value.id + '>' + value.state_name +
-                      '</option>');
-              });
-               $("#to_state_id").selectpicker("refresh");
+            //    $.each(data, function(key, value) {
+            //       $("#to_city_id").append('<option value=' + value.id + '>' + value.city_name +
+            //           '</option>');
+            //   });
+            //   $("#to_city_id").selectpicker("refresh");
+
           });
       });
-   
-      $('select[name=to_state_id]').change(function() {
+      $('select[name=from_state_id]').change(function() {
          // alert('ok');
           var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
    
           $.get(url, function(data) {
               $('#to_city_id').empty('');
               $("#to_city_id").append("<option value=''>Select</option>");
+             
               $("#to_city_id").selectpicker("refresh");
+
               //var select = $('form select[name=state_id]');
    
              // select.empty();
               //$("#state_id").append("<option value=''>Select</option>");
-              $.each(data, function(key, value) {
+            
+
+               $.each(data, function(key, value) {
                   $("#to_city_id").append('<option value=' + value.id + '>' + value.city_name +
                       '</option>');
               });
-               $("#to_city_id").selectpicker("refresh");
+              $("#to_city_id").selectpicker("refresh");
+
           });
       });
+
+    //   $('select[name=to_country_id]').change(function() {
+    //      // alert('ok');
+    //       var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+   
+    //       $.get(url, function(data) {
+    //           $('#to_state_id').empty('');
+    //           $("#to_state_id").append("<option value=''>Select</option>");
+    //           $("#to_state_id").selectpicker("refresh");
+    //           //var select = $('form select[name=state_id]');
+   
+    //          // select.empty();
+    //           //$("#state_id").append("<option value=''>Select</option>");
+    //           $.each(data, function(key, value) {
+    //               $("#to_state_id").append('<option value=' + value.id + '>' + value.state_name +
+    //                   '</option>');
+    //           });
+    //            $("#to_state_id").selectpicker("refresh");
+    //       });
+    //   });
+   
+    //   $('select[name=to_state_id]').change(function() {
+    //      // alert('ok');
+    //       var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
+   
+    //       $.get(url, function(data) {
+    //           $('#to_city_id').empty('');
+    //           $("#to_city_id").append("<option value=''>Select</option>");
+    //           $("#to_city_id").selectpicker("refresh");
+    //           //var select = $('form select[name=state_id]');
+   
+    //          // select.empty();
+    //           //$("#state_id").append("<option value=''>Select</option>");
+    //           $.each(data, function(key, value) {
+    //               $("#to_city_id").append('<option value=' + value.id + '>' + value.city_name +
+    //                   '</option>');
+    //           });
+    //            $("#to_city_id").selectpicker("refresh");
+    //       });
+    //   });
    });
 </script>
 @endsection
