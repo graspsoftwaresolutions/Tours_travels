@@ -142,7 +142,7 @@
                      <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
                   
                      <!-- <span id="package_no_result"></span> -->
-                     <label  for="" class="fixed-label">{{__('Package') }}<span style="color:red">*</span></label>
+                     <label  for="" class="fixed-label">{{__('Itinerary') }}<span style="color:red">*</span></label>
                      <div class="input-highlight"></div>
                   </div>
                   <!-- /.form-group -->			

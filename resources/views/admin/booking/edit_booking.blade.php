@@ -264,7 +264,7 @@
       <h1>Tours and Travels</h1>
       <ul class="breadcrumbs">
          <li>Masters</li>
-         <li>{{__('Add Package') }}</li>
+         <li>{{__('Edit Booking') }}</li>
       </ul>
    </div>
    <div class="page-content">
@@ -296,7 +296,7 @@
                      </div>
                        <div class="col-md-4">
                         <div class="select-row form-group">
-                        <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>   
+                        <label for="package_type" class="block">{{__('Itinerary Type') }}<span style="color:red">*</span></label>   
                           @php
                             $package_type_name = '';
                           @endphp 
@@ -324,7 +324,7 @@
                              <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" value="{{ $package_info->package_name }}" readonly="" autocomplete='off'>
                              <input type="hidden" name="packageid" id="packageid" value="{{ $booking_info->package_id }}"> 
                              <!-- <span id="package_no_result"></span> -->
-                             <label  for="" class="fixed-label">{{__('Search Package') }}<span style="color:red">*</span></label>
+                             <label  for="" class="fixed-label">{{__('Search Itinerary') }}<span style="color:red">*</span></label>
                              <div class="input-highlight"></div>
                           </div>
                           <!-- /.form-group -->     
@@ -353,7 +353,7 @@
                                  <div class="modal-body">
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Adult:') }}</label>
+                                          <label class="fixed-label">{{__('No of Adults:') }}</label>
                                           <br>
                                           <small>Age 13 and above</small>
                                        </div>
@@ -366,7 +366,7 @@
                                      <br>
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Children:') }}</label>
+                                          <label class="fixed-label">{{__('No of Childrens:') }}</label>
                                           <br>
                                           <small>Age 3 to 12</small>
                                        </div>
@@ -380,7 +380,7 @@
                                     <br>
                                     <div class="row">
                                        <div class="col-md-6">
-                                          <label class="fixed-label">{{__('Infant:') }}</label>
+                                          <label class="fixed-label">{{__('No of Infants:') }}</label>
                                           <br>
                                           <small>Age 0 - 2</small>
                                        </div>

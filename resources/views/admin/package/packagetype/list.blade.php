@@ -21,7 +21,7 @@
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
                     <li>Masters</li>
-                    <li>{{__('Package Type List') }}</li>
+                    <li>{{__('Itinerary Type List') }}</li>
                 </ul>
             </div>          
             <div class="page-content">
@@ -36,7 +36,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Package Type List') }}</h3>
+                            <h3 class="title medium">{{__('Itinerary Type List') }}</h3>
                         </div>
 
                     </div>
@@ -46,7 +46,7 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="80%">{{__('Package Name') }}</th>
+                                    <th width="80%">{{__('Itinerary Name') }}</th>
 
                                     <th> {{__('Action') }}</th>
                                 </tr>
@@ -92,7 +92,7 @@
                     <div class="modal-content">
                         <div class="modal-header theme">
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                            <h1 class="modal-title">Package Type Details</h1>
+                            <h1 class="modal-title">Itinerary Type Details</h1>
                         </div><!-- /.modal-header -->
                         <form class="formValidate" id="packageformValidate" method="post" action="{{ route('master.savepackagetype') }}">
                             @csrf
@@ -102,8 +102,8 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="input-field label-float">
-                                                <input placeholder="Package Type" class="clearable" id="package_type" name="package_type" autofocus type="text">
-                                                <label for="package_type" class="fixed-label">{{__('Package Type') }}<span style="color:red;">*</span></label>
+                                                <input placeholder="Itinerary Type" class="clearable" id="package_type" name="package_type" autofocus type="text">
+                                                <label for="package_type" class="fixed-label">{{__('Itinerary Type') }}<span style="color:red;">*</span></label>
                                                 <div class="input-highlight"></div>
                                             </div>
                                         </div><!-- ./col- -->

@@ -146,17 +146,17 @@
             <li id="packages-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-package"></i>
-                <span class="text">{{ __('Packages') }}</span>
+                <span class="text">{{ __('Itinerary') }}</span>
               </a>
               <ul class="submenu lvl-1">
                 <li id="packages_sidebar_li_id" class="submenu-item">
-                  <a id="packages_sidebar_a_id" href="{{ route('package.list') }}" class="submenu-target">{{ __('All Packages') }}</a>
+                  <a id="packages_sidebar_a_id" href="{{ route('package.list') }}" class="submenu-target">{{ __('All Itineraries') }}</a>
                 </li>
                 <li id="package_add_sidebar_li_id" class="submenu-item">
-                  <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Package') }}</a>
+                  <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Itinerary') }}</a>
                 </li>
                 <li id="package_add_sidebar_li_id" class="submenu-item">
-                  <a id="packagetype_add_sidebar_a_id" href="{{route('packagetype.list')}}" class="submenu-target">{{ __('Package Type') }}</a>
+                  <a id="packagetype_add_sidebar_a_id" href="{{route('packagetype.list')}}" class="submenu-target">{{ __('Itinerary Type') }}</a>
                 </li>
               </ul>
             </li> 

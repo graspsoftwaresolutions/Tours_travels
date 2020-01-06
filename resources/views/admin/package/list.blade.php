@@ -20,8 +20,8 @@
             <div class="page-header">
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
-                    <li>Packages</li>
-                    <li>{{__('Packages List')}}</li>
+                    <li>Itinerary</li>
+                    <li>{{__('Itineraries List')}}</li>
                 </ul>
             </div>          
 
@@ -37,7 +37,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Packages List')}}</h3>
+                            <h3 class="title medium">{{__('Itineraries List')}}</h3>
                         </div>
 
                     </div>
@@ -47,14 +47,14 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="20%">{{__('Package Name')}}</th>
-                                    <th width="20%">{{__('Package Type')}}</th>
-                                    <th width="20%">{{__('Adult Count')}} </th>
-                                    <th width="20%">{{__('Amount')}} </th>
+                                    <th width="20%">{{__('Itinerary Name')}}</th>
+                                    <th width="15%">{{__('Itinerary Type')}}</th>
+                                    <th width="15%">{{__('Adult Count')}} </th>
+                                    <th width="15%">{{__('Amount')}} </th>
                                     <th width="20%">{{__('To State')}} </th>
-                                    <th width="20%">{{__('To City')}} </th>
-                                    <th width="20%">{{__('Status')}} </th>
-                                    <th> {{__('Action') }}</th>
+                                    <th width="15%">{{__('To City')}} </th>
+                                    <th width="25%">{{__('Status')}} </th>
+                                    <th width="25%"> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
                         </table>
@@ -68,6 +68,43 @@
     <!-- =========================================================== -->
     <!-- End page content  -->
     <!-- =========================================================== -->
+     <!-- Default Modal -->
+     <div id="masterModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header theme">
+                            <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title">{{__('Change Status')}}</h1>
+                        </div><!-- /.modal-header -->
+                        <form class="formValidate" id="ChageStatusformValidate" method="post">
+                            @csrf
+                            <div class="modal-body">
+                               <div class="col-sm-12">
+                                     <input class="hide" id="packageid" name="packageid" type="text">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-field label-float">
+                                                <select class="selectpicker select-validate" name='changeStatus' id='changeStatus'>
+                                                    <option value='1'> Active </option>
+                                                    <option value='0'> Inactive </option>
+                                                </select>
+                                                <label for="state_name" class="fixed-label">{{__('Select Status')}}<span style="color:red;">*</span></label>
+                                                <div class="input-highlight"></div>
+                                            </div>
+                                        </div><!-- ./col- -->
+                                    </div>
+                                </div><!-- /.row -->
+                            </div><!-- /.modal-body -->
+                            <div class="modal-footer">
+                                <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                                <button type='submit' id="saveStatusButton" class="btn-flat waves-effect waves-theme">Save</button>
+                            </div><!-- /.modal-footer -->
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
     </section> <!-- /.content-wrapper -->
 @endsection
 @section('footerSection')
@@ -133,7 +170,7 @@
             },
             {
                 "data": "options"
-            }
+            },
         ]
   });
    // $('#datatable-master').dataTable();
@@ -240,12 +277,36 @@ function ConfirmDeletion() {
     }
 }
 
-
-
+function showeditForm(packageid,$status) {
+     $("#masterModal").modal();
+     $('#packageid').val(packageid);
+     if($status ==1)
+     {
+        $('#changeStatus').selectpicker('val', $status);
+     }
+     else{
+        $('#changeStatus').selectpicker('val', $status);
+     }
+       // alert(packageid);
+}
 //Model
 $(document).ready(function() {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-   // $('.modal').modal();
+    $('#saveStatusButton').click(function(e){
+    e.preventDefault();
+    $.ajax({
+             type: "post",
+            url: "{{ route('package.ChangeStatus') }}",
+            data: $('#ChageStatusformValidate').serialize(),
+            success: function(response){
+                if(response)
+                {
+                    alert('Status Chaned sucessfully!!');
+                    $('#masterModal').modal('toggle');
+                    window.location.reload();
+                }
+            }
+			});
+});
 });
 
 $("#master-menu").addClass('active');
