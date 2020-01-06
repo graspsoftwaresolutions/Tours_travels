@@ -281,6 +281,21 @@ class CommonHelper
        return $activity_amount==null ? 0 : $activity_amount;
    }
 
+   public static function newPackageNumber(){
+       $last_no = DB::table('package_master')->orderBy('package_number', 'desc')->limit(1)->pluck('package_number');
+       
+        if(count($last_no)>0){
+            $last_no =  $last_no[0];
+            return is_numeric($last_no) ? $last_no+1 : 1000;
+        }
+        return 1000;
+   }
+
+    public static function newReferenceNumber(){
+       $random = time() . rand(10*45, 100*98);
+       return $random;
+    }
+
    // public static function getBookingHotel($bookingid,$cityid){
    //      $hotel_data = DB::table('booking_hotel as ph')->select('hotel_id','roomtype_id','total_rooms','total_amount')
    //                  ->where('ph.booking_hotel','=',$bookingid)

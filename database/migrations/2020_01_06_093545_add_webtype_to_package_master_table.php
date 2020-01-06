@@ -14,7 +14,13 @@ class AddWebtypeToPackageMasterTable extends Migration
     public function up()
     {
         Schema::table('package_master', function (Blueprint $table) {
-            $table->string('user_package')->default(0);
+            $table->integer('user_package')->default(0);
+            $table->bigInteger('reference_number')->nullable();
+            
+            $table->integer('created_by')->nullable(); 
+            $table->integer('updated_by')->nullable(); 
+            $table->bigInteger('package_number')->nullable(); 
+            $table->string('user_id')->nullable(); 
         });
     }
 
@@ -26,7 +32,7 @@ class AddWebtypeToPackageMasterTable extends Migration
     public function down()
     {
         Schema::table('package_master', function (Blueprint $table) {
-            $table->string('user_package');
+            $table->integer('user_package');
         });
     }
 }

@@ -41,7 +41,8 @@
                         	<h2>Packages</h2>
                             <hr class="heading-line" />
                         </div><!-- end page-heading -->
-                        
+                        <center><a href="{{ route('add_package') }}" class="btn btn-orange">Create your own package</a></center>
+                        <br>
                         <div class="row">
                                 @foreach($packages as $package)
                                 @php
