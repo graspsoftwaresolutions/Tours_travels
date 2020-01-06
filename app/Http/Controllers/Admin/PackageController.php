@@ -19,6 +19,7 @@ use DB;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Helpers\CommonHelper;
+use Auth;
 
 class PackageController extends Controller
 {
@@ -83,6 +84,8 @@ class PackageController extends Controller
          $SavePackage->package_type = $request->package_type;
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
+         $SavePackage->created_by = Auth::guard('admin')->user()->id;
+         $SavePackage->package_number = CommonHelper::newPackageNumber();
 
          $SavePackage->save();
          $package_id = $SavePackage->id; 
@@ -278,6 +281,7 @@ class PackageController extends Controller
                     ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
+                    ->where('p.user_package','!=',1)
                     ->count();
 
         $totalFiltered = $totalData; 
@@ -295,6 +299,7 @@ class PackageController extends Controller
                 ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->orderBy($order,$dir)
+                ->where('p.user_package','!=',1)
                 //->where('p.status','=','1')
                 ->get()->toArray();
             }else{
@@ -305,6 +310,7 @@ class PackageController extends Controller
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
+                ->where('p.user_package','!=',1)
                 //->where('p.status','=','1')
                 ->get()->toArray();
             }
@@ -317,6 +323,7 @@ class PackageController extends Controller
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.user_package','!=',1)
                         //->where('p.status','=','1')
                          ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
@@ -334,6 +341,7 @@ class PackageController extends Controller
                         ->leftjoin('package_type as pm','pm.id','=','p.package_type')
                         ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                         ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.user_package','!=',1)
                         //->where('p.status','=','1')
                         ->where(function($query) use ($search){
                             $query->orWhere('package_name', 'LIKE',"%{$search}%")
@@ -356,6 +364,7 @@ class PackageController extends Controller
                     ->orWhere('package_name', 'LIKE',"%{$search}%")
                     ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
                     ->orWhere('total_amount', 'LIKE',"%{$search}%")
+                    ->where('p.user_package','!=',1)
                     //->where('p.status','=','1')
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%")
@@ -482,6 +491,7 @@ class PackageController extends Controller
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
          $SavePackage->status = $request->package_status_val;
+         $SavePackage->updated_by = Auth::guard('admin')->user()->id;
 
          $SavePackage->save();
          $package_id = $SavePackage->id; 
@@ -551,7 +561,12 @@ class PackageController extends Controller
                     
 				}
             }
-        return redirect('admin/packages')->with('message','Package Updated Successfully!!');
+        if($SavePackage->user_package==1){
+            return redirect('admin/packages_customized')->with('message','Package Updated Successfully!!');
+        }else{
+            return redirect('admin/packages')->with('message','Package Updated Successfully!!');
+        }
+       
     }
     // public function EditPackag(Request $req){
     //     $packageid = crypt::decrypt($req->id);
@@ -595,5 +610,169 @@ class PackageController extends Controller
           {
             return json_encode($result);
           }
+    }
+
+    public function CustomizedList(){
+        $data = [];
+        return view('admin.package.customized_list')->with('data',$data);
+    }
+
+    public function ajax_cust_package_list(Request $request)
+    {
+        $columns = array( 
+            0 => 'package_name', 
+            1 => 'package_type', 
+            2 => 'adult_count', 
+            3 => 'total_amount',
+            4 => 'to_state_id',
+            5 => 'to_city_id',
+            5 => 'status',
+            7 => 'id'
+        );
+        $totalData = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                    ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                    ->where('p.user_package','=',1)
+                    ->count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){ 
+                $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                ->orderBy($order,$dir)
+                ->where('p.user_package','=',1)
+                //->where('p.status','=','1')
+                ->get()->toArray();
+            }else{
+                $packages =  DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                ->leftjoin('state as st','st.id','=','p.to_state_id')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('p.user_package','=',1)
+                //->where('p.status','=','1')
+                ->get()->toArray();
+            }
+            //$Activity->dump();
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                        ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                        ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                        ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.user_package','=',1)
+                        //->where('p.status','=','1')
+                         ->where(function($query) use ($search){
+                        $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                        ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
+                       // ->orWhere('amount', 'LIKE',"%{$search}%")
+                       ->orWhere('total_amount', 'LIKE',"%{$search}%")
+                        ->orWhere('city_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                       // ->orWhere('zip_code', 'LIKE',"%{$search}%") 
+                    })
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+            $packages = DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                        ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                        ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                        ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.user_package','=',1)
+                        //->where('p.status','=','1')
+                        ->where(function($query) use ($search){
+                            $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                            ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
+                            ->orWhere('total_amount', 'LIKE',"%{$search}%")
+                            ->orWhere('city_name', 'LIKE',"%{$search}%")
+                            ->orWhere('state_name', 'LIKE',"%{$search}%");
+                             //->orWhere('zip_code', 'LIKE',"%{$search}%")
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered =DB::table('package_master as p')->select('p.id','p.package_name','p.adult_count','p.total_amount','p.status as package_status','cit.city_name','st.state_name','pm.package_type')
+                ->leftjoin('package_type as pm','pm.id','=','p.package_type')
+                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
+                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->where('p.id','LIKE',"%{$search}%")
+                    ->orWhere('package_name', 'LIKE',"%{$search}%")
+                    ->orWhere('pm.package_type', 'LIKE',"%{$search}%")
+                    ->orWhere('total_amount', 'LIKE',"%{$search}%")
+                    ->where('p.user_package','=',1)
+                    //->where('p.status','=','1')
+                    ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                   // ->orWhere('zip_code', 'LIKE',"%{$search}%")
+                    ->count();
+        }
+       // $table ="activities";
+       //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+    //   dd($Activity);
+       $data = array();
+       if(!empty($packages))
+       {
+           foreach ($packages as $package)
+           {  
+                   $nestedData['id'] = $package->id;
+                   $nestedData['package_name'] = $package->package_name;
+                   $nestedData['package_type'] = $package->package_type;
+                   $nestedData['adult_count'] = $package->adult_count;
+                   $nestedData['amount'] = $package->total_amount;  
+                   $nestedData['city_name'] = $package->city_name;
+                   $nestedData['state_name'] = $package->state_name;
+                   if($package->package_status == 1)
+                   {    
+                        $status = $package->package_status = 1;
+                        $enc_id = $package->id;
+                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm green waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                        $nestedData['status'] = 'Active';
+                   }
+                   else
+                   {
+                        $status = $package->package_status = 0;
+                        $enc_id = $package->id;
+
+                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm red waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                        $nestedData['status'] = 'Inactive';
+                   }
+                   //$nestedData['status'] = $package->package_status;
+                   $enc_id = Crypt::encrypt($package->id);
+                   $edit = route('package.edit',$enc_id);
+                   $pdf = route('package.pdf',$enc_id);
+                   
+                   
+                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
+                   $nestedData['options'] = $actions;
+                 
+                   $data[] = $nestedData;             
+           }
+       }
+   //dd($totalFiltered);
+      
+       $json_data = array(
+           "draw"            => intval($request->input('draw')),  
+           "recordsTotal"    => intval($totalData),  
+           "recordsFiltered" => intval($totalFiltered), 
+           "data"            => $data   
+           );
+       echo json_encode($json_data); 
     }
 }
