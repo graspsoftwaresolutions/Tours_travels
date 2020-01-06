@@ -641,7 +641,7 @@ height:100%;">
                             </div><!-- end item -->
                             
                         </div><!-- end owl-tour-offers -->
-                        
+                        <div class="clearfix"></div>
                         <div class="view-all text-center">
                         	<a href="#" class="btn btn-orange">View All</a>
                         </div><!-- end view-all -->

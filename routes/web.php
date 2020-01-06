@@ -180,6 +180,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
 
     Route::get('/delete_booking_activity','Admin\BookingController@DeleteActivity')->name('delete_booking_activity');
     Route::post('/booking_update', 'Admin\BookingController@bookingUpdate')->name('booking_update');
+    Route::get('/packages_customized', 'Admin\PackageController@CustomizedList')->name('package.customized');
+    Route::post('/ajax_cust_package_list','Admin\PackageController@ajax_cust_package_list')->name('ajax_cust_package_list');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');

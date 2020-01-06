@@ -35,7 +35,7 @@ class PageController extends Controller
                 //     $query->select('amenities_name');
                 // },
                 'places'
-            ))->where('status','=',1)->limit(12)->get();
+            ))->where('status','=',1)->where('user_package','!=',1)->limit(12)->get();
         $data['packages'] = $packages;
      	return view('web.welcome',compact('data',$data));
     }

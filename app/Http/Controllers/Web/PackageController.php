@@ -41,7 +41,7 @@ class PackageController extends Controller
                 //     $query->select('amenities_name');
                 // },
                 'places'
-            ))->where('status','=',1)->limit(50)->get();
+            ))->where('status','=',1)->where('user_package','!=',1)->limit(50)->get();
         $data['packages'] = $packages;
      	return view('web.all_packages',compact('data',$data));
     }
@@ -107,6 +107,10 @@ class PackageController extends Controller
          $SavePackage->child_price_person = $request->child_price==null ? 0 : $request->child_price;
          $SavePackage->infant_price = $request->infant_price==null ? 0 : $request->infant_price;
          $SavePackage->user_package = 1;
+         $SavePackage->user_id = Auth::user()->id;
+         $SavePackage->reference_number = CommonHelper::newReferenceNumber();
+
+                
 
          $SavePackage->save();
          $package_id = $SavePackage->id; 
@@ -176,7 +180,7 @@ class PackageController extends Controller
                     
                 }
             }
-        return redirect('admin/packages')->with('message','Package Added Successfully!!');
+        return redirect('home')->with('message','Package Added Successfully!!');
         //return json_encode($package);
     }
 

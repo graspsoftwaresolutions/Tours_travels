@@ -155,6 +155,9 @@
                 <li id="packages_sidebar_li_id" class="submenu-item">
                   <a id="packages_sidebar_a_id" href="{{ route('package.list') }}" class="submenu-target">{{ __('All Itineraries') }}</a>
                 </li>
+                <li id="cust_packages_sidebar_li_id" class="submenu-item">
+                  <a id="cust_packages_sidebar_a_id" href="{{ route('package.customized') }}" class="submenu-target">{{ __('Customized Itineraries') }}</a>
+                </li>
                 <li id="package_add_sidebar_li_id" class="submenu-item">
                   <a id="package_add_sidebar_a_id" href="{{route('package.new')}}" class="submenu-target">{{ __('Add Itinerary') }}</a>
                 </li>
