@@ -120,6 +120,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
 
     Route::get('city_activity_details','Admin\PackageController@ActivityDetails')->name('city_activity_details');
     
+    Route::get('package_change_status','Admin\PackageController@changeStatus')->name('package.change_status');
+    
 
     //Package TYpe
     Route::get('/packagetype_list', 'Admin\MasterController@packageTypeList')->name('packagetype.list');

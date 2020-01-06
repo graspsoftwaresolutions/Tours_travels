@@ -20,8 +20,8 @@
             <div class="page-header">
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
-                    <li>Packages</li>
-                    <li>{{__('Packages List')}}</li>
+                    <li>Itinerary</li>
+                    <li>{{__('Itineraries List')}}</li>
                 </ul>
             </div>          
 
@@ -37,7 +37,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Packages List')}}</h3>
+                            <h3 class="title medium">{{__('Itineraries List')}}</h3>
                         </div>
 
                     </div>
@@ -47,14 +47,14 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="20%">{{__('Package Name')}}</th>
-                                    <th width="20%">{{__('Package Type')}}</th>
-                                    <th width="20%">{{__('Adult Count')}} </th>
-                                    <th width="20%">{{__('Amount')}} </th>
+                                    <th width="20%">{{__('Itinerary Name')}}</th>
+                                    <th width="15%">{{__('Itinerary Type')}}</th>
+                                    <th width="15%">{{__('Adult Count')}} </th>
+                                    <th width="15%">{{__('Amount')}} </th>
                                     <th width="20%">{{__('To State')}} </th>
-                                    <th width="20%">{{__('To City')}} </th>
-                                    <th width="20%">{{__('Status')}} </th>
-                                    <th> {{__('Action') }}</th>
+                                    <th width="15%">{{__('To City')}} </th>
+                                    <th width="25%">{{__('Status')}} </th>
+                                    <th width="25%"> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
                         </table>
@@ -133,7 +133,7 @@
             },
             {
                 "data": "options"
-            }
+            },
         ]
   });
    // $('#datatable-master').dataTable();

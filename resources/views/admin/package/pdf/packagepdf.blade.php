@@ -202,7 +202,7 @@
             }
             
         @endphp   
-		<h4 style="color: #548594;font-weight: bold;">Package Information</h4>
+		<h4 style="color: #548594;font-weight: bold;">Itinerary Information</h4>
 		<div class="first-page-sections" width="35%" style="float: left;width: 30%">
 			<div class="heading" style="" width="100%">
 				Persons :
@@ -235,7 +235,7 @@
 		<br>
 		<div class="first-page-sections" width="30%" style="float: left;width: 30%">
 			<div class="heading" style="" width="100%">
-				Package Type :
+			Itinerary Type :
 			</div>
 			<div class="clearfix"></div>
 			<div class="content" style="font-size: 14px;">
@@ -570,7 +570,7 @@
 								  <td> {{$package->additional_charges ? $package->additional_charges : ''}} </td>
 							   </tr>
 							   <tr> 
-								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Total package value </td>
+								  <td style="color:#4A7885;font-style: italic;border-right: 1px solid #000 !important;"> Total Itinerary value </td>
 								  <td> {{$package->total_accommodation ? $package->total_accommodation : ''}} </td>
 							   </tr>
 							   <tr> 

@@ -113,7 +113,7 @@
 		</table>
 		<div class="clearfix"/>
 		<br>
-		<h2 style="color:#4A7885"><b> Package Information</b> </h2>	
+		<h2 style="color:#4A7885"><b> Itinerary Information</b> </h2>	
 		<table width="100%" class="package_table">
 			   
 			<tr>   
@@ -138,7 +138,7 @@
 					<td> {{ $night_count }} nights and {{ $night_count+1 }} days </td>
 				</tr>
 				<tr> 
-					<td style="color:#4A7885"> Package Type  </td>
+					<td style="color:#4A7885"> Itinerary Type  </td>
 					<td>  {{ $package_type ? ucfirst($package_type) : ''}} </td>
 				</tr>
                 <tr>

@@ -282,7 +282,7 @@
                      </div>
                        <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
+                           <label for="package_type" class="block">{{__('Itinerary Type') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="package_type" name="package_type" class="selectpicker select-validate" onchange="return ClearPackageInfo()" data-live-search="true" data-width="100%">
                               <option selected value="">{{__('Select Package')}}</option>
@@ -299,10 +299,10 @@
                      </div>
                       <div class="col-sm-6">
                           <div class="form-group input-field label-float">
-                             <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Package" autocomplete='off'>
+                             <input class="typeahead" id="package_name" name="package_name"  type="text" placeholder="Type for a Itinerary" autocomplete='off'>
                              <input type="hidden" name="packageid" id="packageid"> 
                              <!-- <span id="package_no_result"></span> -->
-                             <label  for="" class="fixed-label">{{__('Search Package') }}<span style="color:red">*</span></label>
+                             <label  for="" class="fixed-label">{{__('Search Itinerary') }}<span style="color:red">*</span></label>
                              <div class="input-highlight"></div>
                           </div>
                           <!-- /.form-group -->     

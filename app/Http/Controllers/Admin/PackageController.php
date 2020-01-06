@@ -379,11 +379,14 @@ class PackageController extends Controller
                    $nestedData['state_name'] = $package->state_name;
                    if($package->package_status == 1)
                    {
-                    $nestedData['status'] = 'Active';
+                        $enc_id = Crypt::encrypt($package->id);
+                        $edit = route('package.change_status',$enc_id);
+                        $actions ="<a id='$edit' onClick='showeditForm($autoid);'  href='$edit' class='btn btn-sm green waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                        $nestedData['status'] = 'Active'.' '.$actions;
                    }
                    else
                    {
-                    $nestedData['status'] = 'Inactive';
+                        $nestedData['status'] = 'Inactive';
                    }
                    //$nestedData['status'] = $package->package_status;
                    $enc_id = Crypt::encrypt($package->id);

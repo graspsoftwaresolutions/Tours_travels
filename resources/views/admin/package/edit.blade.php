@@ -247,7 +247,7 @@
       <h1>Tours and Travels</h1>
       <ul class="breadcrumbs">
          <li>Masters</li>
-         <li>{{__('Edit Package') }}</li>
+         <li>{{__('Edit Itinerary') }}</li>
       </ul>
    </div>
    @php
@@ -269,22 +269,22 @@
             <h3>Travel Data</h3>
             <fieldset>
                <div class="col-sm-12">
-                  <h4 class="text-headline">Package Information</h4>
+                  <h4 class="text-headline">Itinerary Information</h4>
                   <!-- <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p> -->
                   <div class="row">
                      <div class="col-md-4">
                         <div class="input-field label-float">
                            <input placeholder="Package Name" class="clearable" id="package_name" name="package_name" value="{{ $package_info->package_name }}" autofocus type="text">
-                           <label for="package_name" class="fixed-label">{{__('Package Name') }}<span style="color:red">*</span></label>
+                           <label for="package_name" class="fixed-label">{{__('Itinerary Name') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                      </div>
                      <div class="col-md-4">
                         <div class="select-row form-group">
-                           <label for="package_type" class="block">{{__('Package Type') }}<span style="color:red">*</span></label>                 
+                           <label for="package_type" class="block">{{__('Itinerary Type') }}<span style="color:red">*</span></label>                 
                            <!-- To validate the select add class "select-validate" -->     
                            <select id="package_type" name="package_type" class="selectpicker select-validate" data-live-search="true" data-width="100%">
-                              <option value="">{{__('Select Package')}}</option>
+                              <option value="">{{__('Select Itinerary')}}</option>
                               
                               @foreach($data['package_type'] as $type)
                                 <option @if($package_info->package_type==$type->id) selected @endif value="{{$type->id}}" >
