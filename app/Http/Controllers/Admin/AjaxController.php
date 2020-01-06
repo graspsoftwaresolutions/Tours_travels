@@ -16,6 +16,7 @@ use App\Model\Admin\Activity;
 use App\Model\Admin\Enquiry;
 use App\Model\Admin\CustomerDetails;
 use App\Model\Admin\PackageType;
+use App\Model\Admin\TransportationCharges;
 use App\User;
 use DB;
 use View;
@@ -1011,6 +1012,118 @@ class AjaxController extends CommonController
         "recordsFiltered" => intval($totalFiltered), 
         "data"            => $data   
         );
+        echo json_encode($json_data); 
+    }
+    public function ajax_tarnsportation_list(Request $request)
+    {
+      //  echo 'hii' ; die;
+        $columns = array( 
+
+            0 => 'to_city_name', 
+            // 1 => 'from_city_name', 
+            2 => 'distance',
+            3 => 'amount_per_km',
+            4 => 'total_distance_amount',
+            5 => 'id',
+        );
+
+        $totalData = TransportationCharges::where('status','=','1')
+					->count();
+
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+        
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+            if( $limit == -1){
+				
+				$transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+                ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                ->orderBy($order,$dir)
+                ->where('tc.status','=','1')
+				->get()->toArray();
+            }else{
+                $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+                ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+				->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('tc.status','=','1')
+                ->get()->toArray();
+            }
+        
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+			$transportationCharges =  DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+            ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+					->where('tc.id','LIKE',"%{$search}%")
+                    ->orWhere('cit.city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('tc.amount_per_km', 'LIKE',"%{$search}%")
+                    ->orWhere('tc.distance', 'LIKE',"%{$search}%")
+                    ->orWhere('tc.total_distance_amount', 'LIKE',"%{$search}%")
+                    ->where('tc.status','=','1')
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }else{
+           $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+                    ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                    ->where('tc.id','LIKE',"%{$search}%")
+                    ->orWhere('cit.city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('tc.amount_per_km', 'LIKE',"%{$search}%")
+                    ->orWhere('tc.distance', 'LIKE',"%{$search}%")
+                     ->orWhere('tc.total_distance_amount', 'LIKE',"%{$search}%")
+                        ->offset($start)
+                        ->limit($limit)
+                        ->where('tc.status','=','1')
+                        ->orderBy($order,$dir)
+                        ->get()->toArray();
+        }
+        $totalFiltered = DB::table('transportation_charges')->where('id','LIKE',"%{$search}%")
+                    ->orWhere('amount_per_km', 'LIKE',"%{$search}%")
+                    ->orWhere('distance', 'LIKE',"%{$search}%")
+                    ->orWhere('total_distance_amount', 'LIKE',"%{$search}%")
+                    ->where('status','=','1')
+                    ->count();
+        }
+        
+      //  dd($transportationCharges);
+        //$table ="transportation_charges";
+       // $data = $this->CommonAjaxReturn($state, 0, 'master.statedestroy', 0,$table); 
+
+       $data = array();
+        if(!empty($transportationCharges))
+        {
+            foreach ($transportationCharges as $transportationCharges)
+            {  
+                $nestedData['id'] = $transportationCharges->id;
+                // $nestedData['from_city_name'] = $transportationCharges->to_city_name;
+                $nestedData['to_city_name'] = $transportationCharges->to_city_name;
+                $nestedData['distance'] = $transportationCharges->distance;
+                $nestedData['amount_per_km'] = $transportationCharges->amount_per_km;
+                $nestedData['total_distance_amount'] = $transportationCharges->total_distance_amount;
+                $enc_id = Crypt::encrypt($transportationCharges->id);
+                $edit = route('transportCharges.edit',$enc_id);
+                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;</i></a>";
+                $nestedData['options'] = $actions;
+                
+                $data[] = $nestedData;
+            }
+        }
+       
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+            );
+
         echo json_encode($json_data); 
     }     
    

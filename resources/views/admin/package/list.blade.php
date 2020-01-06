@@ -300,7 +300,7 @@ $(document).ready(function() {
             success: function(response){
                 if(response)
                 {
-                    alert('Status Chaned sucessfully!!');
+                    alert('Status Changed sucessfully!!');
                     $('#masterModal').modal('toggle');
                     window.location.reload();
                 }
