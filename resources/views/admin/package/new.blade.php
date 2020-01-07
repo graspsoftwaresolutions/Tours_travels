@@ -233,6 +233,13 @@
   input[readonly] {
       background-color: #e9ecef;
   }
+  .media-img {
+    width: 20%;
+    height: inherit;
+}
+.rating{
+  margin-bottom: 5px;
+}
 
 </style>
 @endsection

@@ -117,6 +117,24 @@
                               </div>
                             </div>
                             <div id="hotel-rightpanel" class="col-md-6">
+                              <div class="row"> 
+                                <div class="col-md-2">
+                                  <h3>
+                                  Rating</h3>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="rating" style="color: #faa61a;">
+                                    <span><i id="viewrating-1" class="viewrating icon mdi mdi-star"></i></span>
+                                    <span><i id="viewrating-2" class="viewrating icon mdi mdi-star"></i></span>
+                                    <span><i id="viewrating-3" class="viewrating icon mdi mdi-star"></i></span>
+                                    <span><i id="viewrating-4" class="viewrating icon mdi mdi-star"></i></span>
+                                    <span><i id="viewrating-5" class="viewrating icon mdi mdi-star-outline"></i></span>
+                                  </div>
+                                </div>
+                              </div>
+                              <br>
+                               
+                               
                               <h2>Room Types</h2>
                               <div id="view-hotel-roomtypes" class="room-type-header">
 
@@ -126,7 +144,7 @@
 
                               </div>
                               <br><br>
-                              
+                             
                             </div>
                           </div>
                            
