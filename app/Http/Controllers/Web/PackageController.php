@@ -13,10 +13,12 @@ use App\Model\Admin\PackagePlace;
 use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Amenities;
+use App\Model\Admin\Website;
 
 use App\Model\Admin\Hotel;
 use DB;
 use Session;
+use PDF;
 use Illuminate\Support\Facades\Crypt;
 use App\Helpers\CommonHelper;
 use Auth;
@@ -191,18 +193,60 @@ class PackageController extends Controller
                     
                 }
             }
+        
+        
 
         $to_email =  Auth::user()->email;
         $user_data = Auth::user();
         $cc_email = 'shyni.bizsoft@gmail.com';
         $packplace = PackagePlace::where('package_id','=',$SavePackage->id)->get();
 
+        
+        $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
+                            ->leftjoin('country as con','con.id','=','pm.to_country_id')
+                            ->leftjoin('state as st','st.id','=','pm.to_state_id')
+                            ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
+                            ->where('pm.id','=',$SavePackage->id)->get();                        
+         $data['package_activities'] = DB::table('package_activities as pa')
+                                 ->leftjoin('package_master as pm','pm.id','=','pa.package_id')
+                                 ->where('pm.id','=',$SavePackage->id)->get();
+        $data['package_hotel'] = DB::table('package_hotel as ph')
+                                    ->leftjoin('package_master as pm','pm.id','=','ph.package_id')
+                                    ->where('pm.id','=',$SavePackage->id)->get();       
+        $data['package_place'] = DB::table('package_place as pp')
+                                    ->leftjoin('package_master as pm','pm.id','=','pp.package_id')
+                                    ->where('pm.id','=',$SavePackage->id)->get();
+       
+        $data['website_data'] = Website::where('status','=','1')->get();
+        
+        
+        $data['customized_data'] = 'yes';
+        //dd($data);
+        if($data!='')
+        {
+           // return view('admin.package.pdf.packagepdf')->with('data',$data); 
+             $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);       
+             $pdf->save(storage_path('app/pdf/'.$SavePackage->id.'_customized_package_details.pdf'));
+        }
+
+        $websiteEmail = Website::where('status','=','1')->pluck('company_email')->first();
+        $website_data = Website::where('status','=','1')->first();
+
         \Mail::to($to_email)
-        // /->cc($cc_email)
+         ->cc($cc_email)
         ->send(new \App\Mail\WebPackageQuotation($SavePackage,$packplace,$user_data));
 
+        $admin_to_mail = $websiteEmail;
+        $admin_cc_email =  'shyni.bizsoft@gmail.com';
+
+        if($admin_to_mail && $admin_cc_email)
+        {
+            \Mail::to($admin_to_mail)
+          //  ->cc($admin_cc_email)
+            ->send(new \App\Mail\WebPackageAdminQuotation($SavePackage,$packplace,$user_data));
+        }
         return redirect('home')->with('message','Package Added Successfully!!');
-        //return json_encode($package);
+        return json_encode($package);
     }
 
     public function HotelsList(Request $request){
@@ -304,6 +348,10 @@ class PackageController extends Controller
                 ->where('pp.package_id','=',$package_id)->get();
         $data['package_id'] = Crypt::encrypt($package_id);
         return json_encode($data);
+    }
+    public function createdItineray()
+    {
+        return view('web.package.created_itineries');
     }
 
 }

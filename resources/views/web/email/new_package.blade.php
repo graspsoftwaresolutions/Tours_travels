@@ -42,15 +42,17 @@
                                                                 @php
                                                                     $night_count=0;
                                                                 @endphp
-                                                                <span>Your 
-                                                                    @foreach($package_places as $key => $place)
+                                                                <span>Your {{ $package_data->package_name }}
+
+                                                                    <!-- @foreach($package_places as $key => $place)
                                                                         @php
                                                                          $sum_city_name = CommonHelper::getcityName($place->city_id);
                                                                          $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
                                                                         @endphp
                                                                         {{ $sum_city_name }}, 
                                                                     @endforeach
-                                                                 Package</span>
+                                                                 Package -->
+                                                                 </span> 
                                                             </p>
                                                         </div>
                                                     </td>
@@ -97,12 +99,29 @@
                                                                                 <tr>
                                                                                     <td>No of nights</td>
                                                                                     <td>: {{ $night_count }}</td>
+                                                                                    
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>No of persons</td>
                                                                                     <td>: {{ $package_data->adult_count }} adults, {{ $package_data->child_count }} children, {{ $package_data->infant_count }} infants</td>
                                                                                 </tr>
-
+                                                                                <tr>
+                                                                                    <td>Place </td>
+                                                                                    <td>: 
+                                                                                    @php
+                                                                                        $night_count=0;
+                                                                                    @endphp
+                                                                                    <span>
+                                                                                        @foreach($package_places as $key => $place)
+                                                                                            @php
+                                                                                            $sum_city_name = CommonHelper::getcityName($place->city_id);
+                                                                                            $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
+                                                                                            @endphp
+                                                                                            {{ $sum_city_name }}, 
+                                                                                        @endforeach
+                                                                                    Package </span>
+                                                                                </td>
+                                                                                </tr>
                                                                             </tbody></table>
                                                                         </div>
                                                                     </td>
@@ -117,9 +136,12 @@
                                                                 <tr>
                                                                     <td width="580">
                                                                         <div>
-                                                                            
-                                                                            <p style="color:#3e2e29;font-size:12px;font-weight:bold;margin-bottom:40px">Ipoh addreess one ,Ipoh addreess two, 
-                                                                                <br> Perak , Ipoh - 635204
+                                                                        @php $website_dat = CommonHelper::getWebsiteDetails();
+                                                                           
+                                                                         @endphp
+                                                                            <p style="color:#3e2e29;font-size:12px;font-weight:bold;margin-bottom:40px"> {{ $website_dat->company_address_one ? $website_dat->company_address_one : '' }},{{ $website_dat->company_address_two ? $website_dat->company_address_two : '' }}
+                                                                                <br>  
+                                                                                {{ $website_dat->company_website ? $website_dat->company_website : '' }},{{ $website_dat->company_email ? $website_dat->company_email : '' }},{{ $website_dat->company_phone ? $website_dat->company_phone : '' }},
                                                                             </p>                                                                                                                                                       <a href="http://www.lastminute.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://www.lastminute.com/&amp;source=gmail&amp;ust=1578391881259000&amp;usg=AFQjCNFBFGVlS1YVG2-1E0NKXDaWbdW12Q">
                                                                                 Tours and Travels
                                                                             </a>

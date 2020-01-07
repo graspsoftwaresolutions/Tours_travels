@@ -320,4 +320,9 @@ class CommonHelper
    //      return $hotels;
         
    //  }
+   public static function getWebsiteDetails()
+   {
+       $result = DB::table('website_settings')->where('status','=','1')->first();
+       return $result;
+   }
 }

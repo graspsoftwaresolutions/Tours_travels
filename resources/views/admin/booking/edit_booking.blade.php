@@ -565,17 +565,18 @@
                                   <!-- /.form-group -->
                                </div>
                                <!-- ./col- -->
+                               
                                <div class="clearfix"></div>
                          
                             </div>
                          </div>
                         <div class="col-md-12">
                            <div id="destination-division" class="destinations-division">
-                             
+                                
                            </div>
                         </div>
                         <div class="col-md-4">
-                          <!--  <div id="destination-chart" class="destinations-division">
+                          <!--<div id="destination-chart" class="destinations-division">
                               <div class="sortable">
                                  <div class="card">
                                     <div class="p14 pl20 blue-grey">
@@ -609,7 +610,6 @@
 
                   </div>
                   <div class="clearfix"></div>
-                
                </div>
                <!-- /.col- -->
             </fieldset>

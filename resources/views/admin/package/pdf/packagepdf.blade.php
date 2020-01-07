@@ -1,10 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-@php $company_data = $website_data[0]; 
+@php 	//$company_data = $data['website_data'][0]; 
+   		//$package = $data['package_data'][0];
+       // $package_place_data = $data['package_place'][0];
+       // $package_hotel_data = $data['package_hotel'][0];
+
+		$company_data = $website_data[0]; 
    		$package = $package_data[0];
-        $package_place_data = $package_place;
+      	$package_place_data = $package_place;
         $package_hotel_data = $package_hotel;
+		$custom_data  = $customized_data;
+		
    @endphp
 	<title>{{$package->package_name ? ucfirst($package->package_name) : ''}}</title>
 	<style>
@@ -194,9 +201,11 @@
 	        $package_type = CommonHelper::getPackagetypename($package->package_type);
 	        $summary_cities='';
 	        $night_count=0;
-
+			
             foreach($package_place_data as $key => $place){
+				//dd($place->city_id);
                $sum_city_name = CommonHelper::getcityName($place->city_id);
+			   
                $summary_cities .= $sum_city_name.', ';
                $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
             }
@@ -531,7 +540,9 @@
 								  @endphp
 							  </ul> 
                               <p class="inner-bullets"><b> Additional Info </b> : {!! $activity->additional_info !!} </p>
-                              <p class="inner-bullets"><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
+								@if($custom_data=='no')
+									<p class="inner-bullets"><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
+							  @endif
 
                         @endforeach   
                 @endif 
@@ -541,6 +552,7 @@
 		<hr style="margin : 0px 0 20px 10px">
         <p style="width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 10px; background: #b39371;
     color: #fff;"><b> Price Summary </b>  </p>
+	@if($custom_data=='no')
                         <table width="100%" class="package_table"> 
                         	<thead>
                         		<tr>
@@ -590,6 +602,7 @@
                         	</tfoot>
 							
 					</table>
+					
 			<p ><b> Additional price </b> </p>
                         <p > [Including transport and additional Charges] </p>             
 							 <table width="100%" class="package_table">
@@ -607,6 +620,10 @@
 							  <td> {{$package->infant_price ? $package->infant_price : ''}} </td>
 						   </tr>	
 						</table>
+			@else
+				<p style='margin-left:1px'>	<b>Total Package Cost : </b> {{$package->total_amount ? $package->total_amount : ''}} </p>
+			
+			@endif
 
 					
 </body>

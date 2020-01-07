@@ -302,6 +302,7 @@ class ActivityController extends BaseController
                                                 ->where('pm.id','=',$values)->get();
 
                     $data['website_data'] = Website::where('status','=','1')->get();
+                    $data['customized_data'] = 'no';
 
                     if($data!='')
                     {

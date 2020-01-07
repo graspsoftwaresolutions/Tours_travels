@@ -29,6 +29,7 @@ class PdfController extends Controller
                                     ->where('pm.id','=',$packageid)->get();
        
         $data['website_data'] = Website::where('status','=','1')->get();
+        $data['customized_data'] = 'no';
         
         //dd($data);
         if($data!='')

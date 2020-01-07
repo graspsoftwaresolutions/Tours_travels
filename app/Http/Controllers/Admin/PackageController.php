@@ -20,6 +20,7 @@ use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Helpers\CommonHelper;
 use Auth;
+use PDF;
 
 class PackageController extends Controller
 {
@@ -738,28 +739,26 @@ class PackageController extends Controller
                    $nestedData['amount'] = $package->total_amount;  
                    $nestedData['city_name'] = $package->city_name;
                    $nestedData['state_name'] = $package->state_name;
+                   $enc_id = Crypt::encrypt($package->id);
+                   $edit = route('package.edit',$enc_id);
+                   $pdf = route('package.pdf',$enc_id);
+                   $send_quotation = route('custom.package.pdf',$enc_id);
+
                    if($package->package_status == 1)
                    {    
-                        $status = $package->package_status = 1;
-                        $enc_id = $package->id;
-                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm green waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                    $actions ="<a title='edit' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm orange waves-effect waves-circle waves-light' title='Send Quotation' href='$pdf'><i class='mdi mdi-email-outline'></i></a>";
                         $nestedData['status'] = 'Active';
                    }
                    else
                    {
-                        $status = $package->package_status = 0;
-                        $enc_id = $package->id;
-
-                        $actions ="<a id='$enc_id' onClick='showeditForm($enc_id,$status);' class='btn btn-sm red waves-effect waves-circle waves-light'><i class='mdi mdi-autorenew'></i></a>";
+                    $actions ="<a title='edit' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
                         $nestedData['status'] = 'Inactive';
                    }
                    //$nestedData['status'] = $package->package_status;
-                   $enc_id = Crypt::encrypt($package->id);
-                   $edit = route('package.edit',$enc_id);
-                   $pdf = route('package.pdf',$enc_id);
                    
                    
-                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
+                   
+                  
                    $nestedData['options'] = $actions;
                  
                    $data[] = $nestedData;             
@@ -774,5 +773,41 @@ class PackageController extends Controller
            "data"            => $data   
            );
        echo json_encode($json_data); 
+    }
+    public function customPdf($packageid)
+    {
+        $packageid = crypt::decrypt($encid);
+        $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
+        ->leftjoin('country as con','con.id','=','pm.to_country_id')
+        ->leftjoin('state as st','st.id','=','pm.to_state_id')
+        ->leftjoin('city as cit','cit.id','=','pm.to_city_id')
+        ->where('pm.id','=',$packageid)->get();                        
+        $data['package_activities'] = DB::table('package_activities as pa')
+                                ->leftjoin('package_master as pm','pm.id','=','pa.package_id')
+                                ->where('pm.id','=',$packageid)->get();
+        $data['package_hotel'] = DB::table('package_hotel as ph')
+                                    ->leftjoin('package_master as pm','pm.id','=','ph.package_id')
+                                    ->where('pm.id','=',$packageid)->get();       
+        $data['package_place'] = DB::table('package_place as pp')
+                                    ->leftjoin('package_master as pm','pm.id','=','pp.package_id')
+                                    ->where('pm.id','=',$packageid)->get();
+
+        $data['website_data'] = Website::where('status','=','1')->get();
+        $data['customized_data'] = 'no';
+
+        $package_user_id = DB::table('package_master')->where('id','=',$packageid)->pluck('user_id')->first();
+        return  $package_user_id;
+
+        if($data!='')
+        {
+            $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
+            $pdf->save(storage_path('app/pdf/'.$packageid.'customer_package_details.pdf'));
+        }
+
+        $to_email =  $request->input('email');
+        $cc_email = 'shyni.bizsoft@gmail.com';
+
+        \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\EnquiryPackage($package,$enquiry));
+        
     }
 }

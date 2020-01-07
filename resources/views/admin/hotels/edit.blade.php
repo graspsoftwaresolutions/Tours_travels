@@ -210,7 +210,21 @@
                             </div>
                           </div>
                       </div>
-
+                      <div class="col-md-4">
+                      <div class="select-row form-group">
+                              <label for="state_id" class="block">{{__('No of Ratings') }}</label>  
+                             
+                              <select name="ratings" id='ratings' class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value='0'>Select Rating</option>
+                                          <option value='1'>1</option>
+                                          <option value='2'>2</option>
+                                          <option value='3'>3</option>
+                                          <option value='4'>4</option>
+                                          <option value='5'>5</option>
+                                        </select>
+                                        <div class="input-highlight"></div>            
+                          </div><!-- /.form-group -->
+                      </div>
                     </div>
 
 

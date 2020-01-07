@@ -121,6 +121,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/delete_package_activity','Admin\PackageController@DeleteActivity')->name('delete_package_activity');
     Route::post('/package_update', 'Admin\PackageController@packageUpdate')->name('package_update');
     Route::get('package_pdf/{parameter}','Admin\PdfController@packageView')->name('package.pdf');
+    Route::get('custom_package_pdf/{parameter}','Admin\PackageController@customPdf')->name('custom.package.pdf');
 
     
     Route::get('/city_hotels','Admin\PackageController@HotelsList')->name('city_hotels');
@@ -180,7 +181,6 @@ Route::group( [ 'prefix' => 'admin' ], function()
 
     //Currency 
     Route::get('/currency','Admin\SettingsController@currencySettings')->name('currency.new');
-    
     Route::post('/currency_save','Admin\SettingsController@currencySave')->name('currency_save');
 
     Route::get('/delete_booking_activity','Admin\BookingController@DeleteActivity')->name('delete_booking_activity');
@@ -210,10 +210,13 @@ Route::prefix('admin')->group(function() {
    Route::get('logout/', 'Auth\AdminLoginController@logout')->name('admin.logout');
    Route::get('/home', 'Auth\AdminController@index')->name('admin.dashboard');
    Route::get('/', 'Auth\AdminLoginController@showLoginForm');
- }) ;
+ });
 
 Route::get('/package-details/{parameter}','Web\PackageController@ViewPackage')->name('package.details');
 Route::get('/packages','Web\PackageController@PackagesList')->name('packages');
+
+//
+Route::get('/created_itineray','Web\PackageController@createdItineray')->name('itineray_created');
 
 Route::post('/direct_booking','Web\TourBookingController@bookingSave')->name('direct_booking');
 Route::get('/add_package','Web\PackageController@AddPackage')->name('add_package');
