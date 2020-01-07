@@ -8,6 +8,7 @@ use App\Model\Admin\Website;
 use App\Model\Admin\Country;
 use App\Model\Admin\State;
 use App\Model\Admin\City;
+use App\Model\Admin\Currency;
 use DB;
 use View;
 use Session;
@@ -73,5 +74,26 @@ class SettingsController extends Controller
             $SaveWebsite = website::create($data);
             return redirect('admin/website')->with('message','Website Details Saved Successfully!!');
          }
+    }
+    public function currencySettings()
+    {
+        $data = Currency::first();
+        return view('admin.settings.currency')->with('data',$data);
+    }
+    public function currencySave(Request $request)
+    {
+        
+        $data = $request->all(); 
+
+        if(!empty($request->currency_id))
+        {
+           $SaveCurrency= Currency::find($request->currency_id)->update($data);
+           return redirect('admin/currency')->with('message','Currency Details Updated Successfully!!');
+        }
+        else{
+            $SaveCurrency = Currency::create($data);
+            return redirect('admin/currency')->with('message','Currency Details Saved Successfully!!');
+         }
+
     }
 }
