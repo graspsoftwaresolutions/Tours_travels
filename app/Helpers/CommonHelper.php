@@ -325,4 +325,12 @@ class CommonHelper
        $result = DB::table('website_settings')->where('status','=','1')->first();
        return $result;
    }
+   public static function getPackageData($id)
+   {
+        $result = DB::table('package_master')->where('id','=',$id)
+                
+                        ->first();
+                        //dd($result);
+    return $result;
+   }
 }

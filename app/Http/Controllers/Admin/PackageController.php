@@ -13,6 +13,8 @@ use App\Model\Admin\PackagePlace;
 use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Amenities;
+use App\Model\Admin\Website;
+
 
 use App\Model\Admin\Hotel;
 use DB;
@@ -746,7 +748,7 @@ class PackageController extends Controller
 
                    if($package->package_status == 1)
                    {    
-                    $actions ="<a title='edit' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm orange waves-effect waves-circle waves-light' title='Send Quotation' href='$pdf'><i class='mdi mdi-email-outline'></i></a>";
+                    $actions ="<a title='edit' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm orange waves-effect waves-circle waves-light' title='Send Quotation' href='$send_quotation'><i class='mdi mdi-email-outline'></i></a>";
                         $nestedData['status'] = 'Active';
                    }
                    else
@@ -776,7 +778,7 @@ class PackageController extends Controller
     }
     public function customPdf($packageid)
     {
-        $packageid = crypt::decrypt($encid);
+        $packageid = crypt::decrypt($packageid);
         $data['package_data'] = DB::table('package_master as pm')->select('pm.id as packageautoid','pm.package_name','pm.from_country_id','pm.from_state_id','pm.from_city_id','pm.adult_count','pm.child_count','pm.infant_count','pm.transport_charges','pm.additional_charges','total_package_value','pm.total_accommodation','pm.total_activities','pm.total_amount','con.country_name','st.state_name','cit.city_name','adult_price_person','child_price_person','infant_price' ,'pm.tax_percentage','pm.tax_amount','pm.package_type','pm.to_city_id')
         ->leftjoin('country as con','con.id','=','pm.to_country_id')
         ->leftjoin('state as st','st.id','=','pm.to_state_id')
@@ -796,18 +798,20 @@ class PackageController extends Controller
         $data['customized_data'] = 'no';
 
         $package_user_id = DB::table('package_master')->where('id','=',$packageid)->pluck('user_id')->first();
-        return  $package_user_id;
-
+        
+        $customer_data = DB::table('users')->where('id','=',$package_user_id)->select('name','email')->first();
         if($data!='')
         {
             $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
-            $pdf->save(storage_path('app/pdf/'.$packageid.'customer_package_details.pdf'));
+            $pdf->save(storage_path('app/pdf/'.$packageid.'_admin_customer_package_details.pdf'));
         }
-
-        $to_email =  $request->input('email');
+        $to_email =  $customer_data->email;
         $cc_email = 'shyni.bizsoft@gmail.com';
 
-        \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\EnquiryPackage($package,$enquiry));
+       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\CustomedSendQuotationMail($packageid,$customer_data));
+
+      
+        return redirect()->route('package.customized')->with('message','Quotation Sent Successfully!!');
         
     }
 }
