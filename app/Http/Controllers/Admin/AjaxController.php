@@ -1018,13 +1018,15 @@ class AjaxController extends CommonController
     {
       //  echo 'hii' ; die;
         $columns = array( 
-
-            0 => 'to_city_name', 
-            // 1 => 'from_city_name', 
-            2 => 'distance',
-            3 => 'amount_per_km',
-            4 => 'total_distance_amount',
-            5 => 'id',
+           
+            0 => 'state_name', 
+            1 => 'from_city_name', 
+            2 => 'to_city_name', 
+            3 => 'from_city_name', 
+            4 => 'distance',
+            5 => 'amount_per_km',
+            6 => 'total_distance_amount',
+            7 => 'id',
         );
 
         $totalData = TransportationCharges::where('status','=','1')
@@ -1042,14 +1044,18 @@ class AjaxController extends CommonController
         {            
             if( $limit == -1){
 				
-				$transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+				$transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name','st.state_name','fromcity.city_name as from_city_name')
                 ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                ->leftjoin('state as st','st.id','=','tc.to_state_id')
+                ->leftjoin('city as fromcity','fromcity.id','=','tc.from_city_id')
                 ->orderBy($order,$dir)
                 ->where('tc.status','=','1')
 				->get()->toArray();
             }else{
-                $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
+                $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name','st.state_name','fromcity.city_name as from_city_name')
                 ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                ->leftjoin('state as st','st.id','=','tc.to_state_id')
+                ->leftjoin('city as fromcity','fromcity.id','=','tc.from_city_id')
 				->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
@@ -1061,9 +1067,13 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-			$transportationCharges =  DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
-            ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
-					->where('tc.id','LIKE',"%{$search}%")
+			$transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name','st.state_name','fromcity.city_name as from_city_name')
+                ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                ->leftjoin('state as st','st.id','=','tc.to_state_id')
+                ->leftjoin('city as fromcity','fromcity.id','=','tc.from_city_id')
+                    ->where('tc.id','LIKE',"%{$search}%")
+                    ->orWhere('st.state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('fromcity.city_name', 'LIKE',"%{$search}%")
                     ->orWhere('cit.city_name', 'LIKE',"%{$search}%")
                     ->orWhere('tc.amount_per_km', 'LIKE',"%{$search}%")
                     ->orWhere('tc.distance', 'LIKE',"%{$search}%")
@@ -1072,9 +1082,13 @@ class AjaxController extends CommonController
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-           $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name')
-                    ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+            $transportationCharges = DB::table('transportation_charges as tc')->select('tc.id','tc.distance','tc.amount_per_km','tc.total_distance_amount','cit.city_name as to_city_name','st.state_name','fromcity.city_name as from_city_name')
+                ->leftjoin('city as cit','cit.id','=','tc.to_city_id')
+                ->leftjoin('state as st','st.id','=','tc.to_state_id')
+                ->leftjoin('city as fromcity','fromcity.id','=','tc.from_city_id')
                     ->where('tc.id','LIKE',"%{$search}%")
+                    ->orWhere('st.state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('fromcity.city_name', 'LIKE',"%{$search}%")
                     ->orWhere('cit.city_name', 'LIKE',"%{$search}%")
                     ->orWhere('tc.amount_per_km', 'LIKE',"%{$search}%")
                     ->orWhere('tc.distance', 'LIKE',"%{$search}%")
@@ -1086,6 +1100,8 @@ class AjaxController extends CommonController
                         ->get()->toArray();
         }
         $totalFiltered = DB::table('transportation_charges')->where('id','LIKE',"%{$search}%")
+                    ->orWhere('st.state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('fromcity.city_name', 'LIKE',"%{$search}%")
                     ->orWhere('amount_per_km', 'LIKE',"%{$search}%")
                     ->orWhere('distance', 'LIKE',"%{$search}%")
                     ->orWhere('total_distance_amount', 'LIKE',"%{$search}%")
@@ -1103,7 +1119,8 @@ class AjaxController extends CommonController
             foreach ($transportationCharges as $transportationCharges)
             {  
                 $nestedData['id'] = $transportationCharges->id;
-                // $nestedData['from_city_name'] = $transportationCharges->to_city_name;
+                $nestedData['state_name'] = $transportationCharges->state_name;
+                $nestedData['from_city_name'] = $transportationCharges->from_city_name;
                 $nestedData['to_city_name'] = $transportationCharges->to_city_name;
                 $nestedData['distance'] = $transportationCharges->distance;
                 $nestedData['amount_per_km'] = $transportationCharges->amount_per_km;
@@ -1125,6 +1142,5 @@ class AjaxController extends CommonController
             );
 
         echo json_encode($json_data); 
-    }     
-   
+    }
 }
