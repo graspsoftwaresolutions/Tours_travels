@@ -30,14 +30,6 @@
    .dropdown-menu li {
    padding: 0 20px !important;
    }
-   .errmsg
-    {
-    color: red;
-    }
-    .errmsgg
-    {
-        color: red;  
-    }
 </style>
 @endsection
 @section('main-content')	
@@ -213,22 +205,23 @@
 <script src="{{ asset('public/assets/dist/js/plugins/summernote/summernote.min.js') }}"></script>
 <script>
 $(document).ready(function(){
-    $("#distance").keypress(function (e) {
-     //if the letter is not digit then display error and don't type anything
-     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        //display error message
-        $(".errmsg").html("Digits Only").show().fadeOut("slow");
-               return false;
-    }
-   });
-   $("#amount_per_km").keypress(function (e) {
-     //if the letter is not digit then display error and don't type anything
-     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        //display error message
-        $(".errmsgg").html("Digits Only").show().fadeOut("slow");
-               return false;
-    }
-   });
+
+    const regex = /[^\d.]|\.(?=.*\.)/g;
+    const subst=``;
+
+    $('#distance').keyup(function(){
+    const str=this.value;
+    const result = str.replace(regex, subst);
+    this.value=result;
+
+    });
+
+    $('#amount_per_km').keyup(function(){
+    const str=this.value;
+    const result = str.replace(regex, subst);
+    this.value=result;
+
+    });
 
     $('#distance').keyup(calculate);
     $('#amount_per_km').keyup(calculate);
@@ -255,11 +248,11 @@ $("#formValidate").validate({
         },
         distance: {
             required: true,
-            digits: true,
+           
         },
         amount_per_km: {
             required: true,
-            digits: true,
+           
         },
     },
     //For custom messages
@@ -284,18 +277,19 @@ $("#formValidate").validate({
         },
         distance: {
             required: '{{__("Please Enter Distance") }}',
-            digits: '{{__("Numbers only") }}',
+            // digits: '{{__("Numbers only") }}',
         },
         amount_per_km: {
             required: '{{__("Please Enter Amount") }}',
-            digits: '{{__("Numbers only") }}',
+            // digits: '{{__("Numbers only") }}',
         },
     },
 });
 });
 function calculate(e)
 {
-    $('#total_distance_amount').val($('#distance').val() * $('#amount_per_km').val());
+    var amount = $('#distance').val() * $('#amount_per_km').val();
+    $('#total_distance_amount').val(amount.toFixed(2));
 }
 
 

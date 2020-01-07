@@ -220,7 +220,10 @@
                 </li>
                 <li id="website_sidebar_li_id" class="submenu-item">
                   <a id="website_sidebar_a_id" href="{{route('website.new')}}" class="submenu-target">{{ __('Website') }}</a>
-                </li>        
+                </li>   
+                <li id="currency_sidebar_li_id" class="submenu-item">
+                  <a id="currency_sidebar_a_id" href="{{route('currency.new')}}" class="submenu-target">{{ __('Currency') }}</a>
+                </li>
               </ul>
             </li>
       </ul><!-- /.menubar -->

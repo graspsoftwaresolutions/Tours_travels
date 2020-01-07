@@ -45,6 +45,8 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
+                                <th width="20%">{{__('State')}} </th>
+                                <th width="20%">{{__('From City')}} </th>
                                     <th width="20%">{{__('To City')}} </th>
                                     <th width="20%">{{__('Distance')}} </th>
                                     <th width="20%">{{__('Amount per Km')}} </th>
@@ -116,9 +118,12 @@
             },
         },
         "columns": [
-            // {
-            //     "data": "from_city_name"
-            // },
+            {
+                "data": "state_name"
+            },
+            {
+                "data": "from_city_name"
+            },
             {
                 "data": "to_city_name"
             },
