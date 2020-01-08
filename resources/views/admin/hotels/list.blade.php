@@ -51,6 +51,7 @@
                                     <th width="20%">{{__('State')}}</th>
                                     <th width="20%">{{__('City')}} </th>
                                     <th width="20%">{{__('Contact Name')}} </th>
+                                    <th width="20%">{{__('Rating')}} </th>
 
                                     <th> {{__('Action') }}</th>
                                 </tr>
@@ -220,6 +221,9 @@
             },
             {
                 "data": "contact_name"
+            },
+            {
+                "data": "ratings"
             },
             {
                 "data": "options"

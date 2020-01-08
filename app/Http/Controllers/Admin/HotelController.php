@@ -54,6 +54,7 @@ class HotelController extends CommonController
         $hotel->city_id = $request->input('city_id');
         $hotel->address_one = $request->input('address_one');
         $hotel->address_two = $request->input('address_two');
+        $hotel->ratings = $request->input('ratings');
         $hotel->overview = $request->input('overview');
         $hotel->listing_descriptions = $request->input('listing_descriptions');
         $hotel->status = 1;

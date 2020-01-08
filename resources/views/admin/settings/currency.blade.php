@@ -51,12 +51,12 @@
          @include('includes.messages')
          <form id="formValidate" class="wrapper-boxed paper p30 mt30" action="{{route('currency_save')}}" method="post" data-toggle="validator">
             @csrf
-            <h6 class="text-display-1">Currency Information</h6>
-            <input type="hidden" name="currency_id" value="{{$row->id ? $row->id : ''}}">
+            <h6 class="text-display-1">Currency Information</h6> 
+            <input type="hidden" name="currency_id" value="{{isset($row->id) ? $row->id : ''}}">
             <div class="row">
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
-                     <input placeholder="Currency Name" class="clearable"  value="{{$row->currency_name ? $row->currency_name : ''}}"   id="currency_name" name="currency_name" autofocus type="text">
+                     <input placeholder="Currency Name" class="clearable"  value="{{isset($row->currency_name) ? $row->currency_name : ''}}"   id="currency_name" name="currency_name" autofocus type="text">
                      <label for="currency_name" class="fixed-label">{{__('Name') }}<span style="color:red">*</span></label>
                      <div class="input-highlight"></div>
                   </div>
@@ -67,7 +67,7 @@
             <div class="row">
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
-                     <input placeholder="Currency Code" class="clearable" value="{{$row->currency_code ? $row->currency_code : ''}}"  id="currency_code" name="currency_code" autofocus  type="text">
+                     <input placeholder="Currency Code" class="clearable" value="{{isset($row->currency_code) ? $row->currency_code : ''}}"  id="currency_code" name="currency_code" autofocus  type="text">
                      <label for="currency_code" class="fixed-label">{{__('Code') }}<span style="color:red">*</span></label>
                      <div class="input-highlight"></div>
                   </div>
@@ -78,7 +78,7 @@
 			  <div class="row">
                <div class="col-sm-6">
                   <div class="form-group input-field label-float">
-                     <input placeholder="Currency Symbol" class="clearable" value="{{$row->company_symbol ? $row->company_symbol : ''}}" id="company_symbol" name="company_symbol"   autofocus  type="text">
+                     <input placeholder="Currency Symbol" class="clearable" value="{{isset($row->company_symbol) ? $row->company_symbol : ''}}" id="company_symbol" name="company_symbol"   autofocus  type="text">
                      <label for="company_symbol" class="fixed-label">{{__('Symbol') }}<span style="color:red">*</span></label>
                      <div class="input-highlight"></div>
                   </div>
@@ -91,9 +91,15 @@
                   <div class="form-group input-field label-float">
                   <label for="currency_status" class="fixed-label">{{__('Status') }}<span style="color:red">*</span></label>
                     <select name="currency_status" id="currency_status" class="selectpicker form-control">
-                       
-                        <option value='1' @php if($row->currency_status == 1) echo 'selected'  @endphp>Active</option>
-                        <option value='0' @php if($row->currency_status == 0) echo 'selected'  @endphp>Inactive</option>
+                       <option value='0'>Select Status</option>
+
+                       @if(isset($row->currency_status)!='')
+                         <option value='1' @if($row->currency_status==1) selected @endif > Active </option>
+                        <option value='2' @if($row->currency_status==2) selected @endif > Inactive </option>
+                        @else
+                        <option value='1'  > Active </option>
+                        <option value='2' > Inactive </option>
+                        @endif
                     </select>
                    
                      <div class="input-highlight"></div>
