@@ -461,7 +461,9 @@ height:100%;">
                                     </div><!-- end t-grid-block -->
                                 </div><!-- end columns -->
                                 @endforeach
-                                <center><a href="{{route('packages')}}" class="btn btn-orange">View All Packages</a></center>
+								<div class="col-md-12">
+									<center><a href="{{route('packages')}}" class="btn btn-orange">View All Packages</a></center>
+								</div>
                             </div><!-- end row -->
                        
                     </div><!-- end columns -->
