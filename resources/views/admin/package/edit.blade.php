@@ -568,13 +568,17 @@
 
                              // 
                               $amenitystring = '';
+                              $a_count = 0;
 
                               if($package_hotel!=null){
                                 foreach($package_hotel->amenities as $key => $amenity){
-                                  $amenitystring .= $amenity->amenities_name;
-                                  if($amenity_count-1 != $key){
-                                    $amenitystring .= ', ';
-                                  } 
+                                  if($a_count<4){
+                                    $amenitystring .= $amenity->amenities_name;
+                                    if($amenity_count-1 != $key){
+                                      $amenitystring .= ', ';
+                                    } 
+                                  }
+                                  $a_count++;
                                 }
                               }
                               
@@ -602,6 +606,15 @@
                                  
                                 }
                               }
+
+                              $rating_string = '';
+                              if($package_hotel!=null){
+                                $ratings = $package_hotel->ratings;
+                               
+                                if($ratings!=null){
+                                  $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
+                                }
+                              }
                              
                             @endphp
 
@@ -622,7 +635,7 @@
                                     </div>
                                     <div class="media-body p10">
                                       <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
-                                      <p>{{ $place_state_name }} - {{ $place_city_name }}</p>
+                                      <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
                                       <p class="sub-text mt10">{{ $amenitystring }}</p>
                                       <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span> <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{$package_hotel->roomtype_id}},{{$package_hotel->total_rooms}})" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button>
                                         <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
@@ -690,7 +703,7 @@
                                 @endphp
                               <li>
                                 <div id="city_activity_id_{{ $activity->id }}" class="msg-wrapper">
-                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
+                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from hide"><i class="fa fa-inr hide"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
                                   <p>
                                     <input type="text" class="hide" name="second_activity_{{$place->city_id}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
                                     <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
@@ -823,7 +836,7 @@
                                      $package_activity_cost= CommonHelper::getPackageActivityCost($package_info->id,$activity->id);
                                   @endphp
                                   <div id="summary_city_activity_id_{{ $activity->id }}" class="">
-                                    <h3 style="text-decoration: underline;">{{ $activity->title_name }} <a class="pull-right"><i class="fa fa-inr"></i> {{ $package_activity_cost }}</a></h3>
+                                    <h3 style="text-decoration: underline;">{{ $activity->title_name }} <a class="pull-right hide"><i class="fa fa-inr"></i> {{ $package_activity_cost }}</a></h3>
                                     <div class="sub-summary-activity">
                                       <h5>Overview</h5>
                                       <div id="activity-summary-overview" class="activity-description">

@@ -221,6 +221,9 @@
         border-radius: 15px;
         margin: 5px;
     }
+    .rating{
+          margin-bottom: 5px;
+    }
 
 </style>
 @endsection
