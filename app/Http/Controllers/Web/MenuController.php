@@ -15,7 +15,7 @@ class MenuController extends Controller
 {
     public function enquiryView()
     {
-        $data['packages_view'] = Package::all();
+        $data['packages_view'] = Package::where('user_package','=','0')->get();
         return view('web.enquiry')->with('data',$data);
     }
     public function enquiryEmail(Request $request)

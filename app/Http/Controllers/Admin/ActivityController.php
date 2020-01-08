@@ -205,7 +205,7 @@ class ActivityController extends BaseController
     {
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
-        $data['packages_view'] = Package::where('status','=','1')->get();
+        $data['packages_view'] = Package::where('user_package','=','0')->get();
         return view('admin.enquiry.new')->with('data',$data);
     }
     public function enquirySave(Request $request)
@@ -332,7 +332,7 @@ class ActivityController extends BaseController
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['enq_view'] = Enquiry::where('id','=',$id)->get();
-        $data['packages_view'] = Package::where('status','=','1')->get();
+        $data['packages_view'] = Package::where('user_package','=','0')->get();
         $data['enquiry_packages'] = DB::table('enquiry_packages')->where('enquiry_id','=', $id)->pluck('package_id')->toArray();
        
         //dd($data['enquiry_packages']);
