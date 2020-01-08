@@ -292,6 +292,7 @@
         onFinished: function (event, currentIndex)
         {
            $('#wizard1').trigger('submit');
+           $("#wizard1").css('pointer-events','none');
            return true;
         }
     }).validate({

@@ -10,6 +10,10 @@
    .clearfix{
        clear:both;
    }
+   .custom-form .form-group input {
+      height: 45px;
+      /* padding-left: 40px; */
+   }
 </style>
 @endsection
 @section('main-content')
@@ -42,10 +46,11 @@
                @csrf
                   <div class="form-group col-md-6">
                      <input type="text" name='name' id='name' class="form-control" placeholder="Name"  />
+                     
                   </div>
                   <div class="form-group col-md-6">
                      <input type="email" name='email' id='email' class="form-control" placeholder="Email"  />
-                     <span><i class="fa fa-envelope"></i></span>
+                     <!-- <span><i class=" fa fa-address-card"></i></span> -->
                   </div>
                   <div class="clearfix"></div>
                   <div class="form-group col-md-6">
