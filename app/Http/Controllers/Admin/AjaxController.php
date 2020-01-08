@@ -432,14 +432,14 @@ class AjaxController extends CommonController
         {            
             if( $limit == -1){
                 
-                $hotels = DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                $hotels = DB::table('hotels as hot')->select('hot.id',DB::raw("concat(hot.ratings,' *') AS ratings"),'hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
                 ->join('state as s','s.id','=','hot.state_id')
                 ->join('city as c','c.id','=','hot.city_id')
                 ->orderBy($order,$dir)
                 ->where('hot.status','=','1')
                 ->get()->toArray();
             }else{
-                $hotels =  DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                $hotels =  DB::table('hotels as hot')->select('hot.id',DB::raw("concat(hot.ratings,' *') AS ratings"),'hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
                 ->join('state as s','s.id','=','hot.state_id')
                 ->join('city as c','c.id','=','hot.city_id')
                 ->offset($start)
@@ -452,7 +452,7 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $hotels =DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+            $hotels =DB::table('hotels as hot')->select('hot.id',DB::raw("concat(hot.ratings,' *') AS ratings"),'hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
             ->join('state as s','s.id','=','hot.state_id')
             ->join('city as c','c.id','=','hot.city_id')
                     ->where('hot.status','=','1')
@@ -465,7 +465,7 @@ class AjaxController extends CommonController
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $hotels = DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+            $hotels = DB::table('hotels as hot')->select('hot.id',DB::raw("concat(hot.ratings,' *') AS ratings"),'hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
                     ->join('state as s','s.id','=','hot.state_id')
                     ->join('city as c','c.id','=','hot.city_id')
                         ->where('hot.status','=','1')
@@ -480,7 +480,7 @@ class AjaxController extends CommonController
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered = DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+        $totalFiltered = DB::table('hotels as hot')->select('hot.id',DB::raw("concat(hot.ratings,' *') AS ratings"),'hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
                     ->join('state as s','s.id','=','hot.state_id')
                     ->join('city as c','c.id','=','hot.city_id')
                     ->orWhere('hotel_name', 'LIKE',"%{$search}%")
