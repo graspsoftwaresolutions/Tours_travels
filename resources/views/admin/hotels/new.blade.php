@@ -93,6 +93,7 @@
                         <div class="form-group">
                           <label for=""><strong>Select Amenities:</strong></label>
                           <div class="row">
+                         
                               @foreach($data['features_view'] as $value)
                               <div class="col-md-3" >
 
@@ -346,7 +347,9 @@
                                               <select id="room_type" name="room_type[]" class="selectpicker select-validate" data-live-search="true" data-width="100%">
                                                   <option value="" disabled="true">{{__('Select Room Type') }}
                                                   </option>
+                                                  
                                                     @foreach ($data['types_view'] as $type)
+
                                                     <option value="{{ $type->id }}">{{ $type->room_type }}</option>
                                                     @endforeach
                                               </select>     
@@ -396,8 +399,6 @@
             </a>                
         </div><!-- /.container-fluid -->
 
-      
-       
     </section> <!-- /.content-wrapper -->
 @endsection
 		
@@ -410,7 +411,7 @@
 <script>
 	$("#dashboard_sidebar_li_id").addClass('active');
   var form = $("#wizard1").show();
-  $(document).ready(function() {
+  $(document).ready(function() {   
       $('#price_add').click(function(){
 
         var room_type_id  =  $("#room_type").val(); 
@@ -480,6 +481,7 @@
 //   $('#room_type').on('change', function (e) {
 //     alert('hii');
 // });
+  //$(document).find('input[type="submit"').prop('disabled', 'disabled');
 });
  
   form.steps({
@@ -553,7 +555,9 @@
       },
       onFinished: function (event, currentIndex)
       {
+       
          $('#wizard1').trigger('submit');
+         $("#wizard1").css('pointer-events','none');
          return true;
       }
   }).validate({
@@ -585,6 +589,7 @@
               required:  'Please select City.'
             },
         },
+       
         errorElement: 'div',
        errorPlacement: function (error, element) {
       var placement = $(element).data('error');
@@ -594,7 +599,12 @@
         error.insertAfter(element);
       }
     },
+   
   });
+
+  // $(document).on('submit','form#countryformValidate',function(){
+  //       $("#saveMasterButton").prop('disabled',true);
+  //   });
 	// $("#wizard1").steps({
 	//     headerTag: "h3",
 	//     bodyTag: "fieldset"
@@ -653,5 +663,6 @@
         });
     });
 });
+
 </script>
 @endsection
