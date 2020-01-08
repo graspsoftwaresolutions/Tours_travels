@@ -270,10 +270,26 @@
                   if(hotelimages.length>0){
                      var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
                   }
+
+                  var rating_no = value.ratings;
+                  var rating_string = '';
+                  var empty_rating = 5;
+                  if(rating_no!=null){
+                    for (r = 1; r <= rating_no; r++) {
+                      rating_string += '<span><i id="listviewrating-'+r+'" class="listviewrating mdi mdi-star"></i></span>';
+                    }
+                    empty_rating = 5-rating_no;
+                  }else{
+                    rating_no = 0;
+                  }
+                  for (e = 1; e <= empty_rating; e++) {
+                    rating_string += '<span><i id="listviewrating-'+parseInt(e)+parseInt(rating_no)+'" class="listviewrating mdi mdi-star-outline"></i></span>';
+                  }
+
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> '+room_cost+' more</p><div class="rating" style="color: #faa61a;"><span><i id="listviewrating-1" class="listviewrating mdi mdi-star"></i></span> <span><i id="listviewrating-2" class="listviewrating mdi mdi-star"></i></span><span><i id="listviewrating-3" class="listviewrating mdi mdi-star"></i></span><span><i id="listviewrating-4" class="listviewrating mdi mdi-star"></i></span><span><i id="listviewrating-5" class="listviewrating mdi mdi-star-outline"></i></span></div><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_'+value.id+'_'+roomtype_id+'" type="button" onclick="'+confirm_btn+'" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> '+room_cost+' more</p><div class="rating" style="color: #faa61a;"> '+rating_string+'</div><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_'+value.id+'_'+roomtype_id+'" type="button" onclick="'+confirm_btn+'" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
                 
                 });
               // $('#masterid').val(result.id);
@@ -484,11 +500,17 @@
               // }
             }); 
 
+            var ratings = resultdata.ratings;
+            var rating_string = '';
+            if(ratings!=null){
+              rating_string = ratings+' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
+            }
+
             var total_roomcost = room_cost*hotel_room_nos;
 
             var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_roomcost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+hotel_room_nos+'" /><input type="text" class="hide hotel_room_type" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+cityid+'" value="'+roomtyeid+'" />';
 
-            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right"><div class="" style="color: #faa61a;"><span><i id="pickviewrating-1" class="pickviewrating icon mdi mdi-star"></i></span> <span><i id="pickviewrating-2" class="pickviewrating icon mdi mdi-star"></i></span><span><i id="pickviewrating-3" class="pickviewrating icon mdi mdi-star"></i></span><span><i id="pickviewrating-4" class="pickviewrating icon mdi mdi-star"></i></span><span><i id="pickviewrating-5" class="pickviewrating icon mdi mdi-star-outline"></i></span></div></span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_'+cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+resultdata.id+','+roomtyeid+','+hotel_room_nos+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
+            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_'+cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+resultdata.id+','+roomtyeid+','+hotel_room_nos+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
               $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
               $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
