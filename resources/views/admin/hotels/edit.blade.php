@@ -216,18 +216,16 @@
                              
                               <select name="ratings" id='ratings' class="selectpicker select-validate" data-live-search="true" data-width="100%">
                               <option value='0'>Select Rating</option>
-                                          <option value='1'>1</option>
-                                          <option value='2'>2</option>
-                                          <option value='3'>3</option>
-                                          <option value='4'>4</option>
-                                          <option value='5'>5</option>
+                                          <option value='1' @if($hotel_data->ratings==1) selected @endif>1</option>
+                                          <option value='2' @if($hotel_data->ratings==2) selected @endif>2</option>
+                                          <option value='3' @if($hotel_data->ratings==3) selected @endif>3</option>
+                                          <option value='4' @if($hotel_data->ratings==4) selected @endif>4</option>
+                                          <option value='5' @if($hotel_data->ratings==5) selected @endif>5</option>
                                         </select>
                                         <div class="input-highlight"></div>            
                           </div><!-- /.form-group -->
                       </div>
                     </div>
-
-
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">

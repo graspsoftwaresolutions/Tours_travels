@@ -194,7 +194,7 @@
                             </div>
                           </div>
                       </div>
-                      <div class="clearfix"></div>       
+                      <div class="clearfix"></div>   
                        <div class="col-md-4">
                          <div class="form-group">
                               <div class="input-field label-float">
@@ -204,6 +204,19 @@
                             </div>
                           </div>
                       </div>
+                      <div class="select-row form-group col-md-4">
+                              <label for="state_id" class="block">{{__('No of Rating') }} <span style="color:red">*</span></label>  
+                             
+                              <select name="ratings" id='ratings' class="selectpicker select-validate" data-live-search="true" data-width="100%">
+                              <option value='0'>Select Rating</option>
+                                          <option value='1' >1</option>
+                                          <option value='2' >2</option>
+                                          <option value='3'>3</option>
+                                          <option value='4' >4</option>
+                                          <option value='5' >5</option>
+                                        </select>
+                                        <div class="input-highlight"></div>            
+                          </div><!-- /.form-group -->
 
                     </div>
                     <div class="clearfix"></div>
@@ -507,6 +520,12 @@
                   $( '<div id="contact_name-error" class="error contact_name-error custom-error">Please Enter Contact Name.</div>' ).insertAfter( '#contact_name' );
                   formsubmit =false; 
                }
+              //  if($("#ratings").val()==''){
+              //     $('.ratings-error').remove();
+              //     $( '<div id="ratings-error" class="error ratings-error custom-error">Please chhose Rating.</div>' ).insertAfter( '#contact_name' );
+              //     formsubmit =false; 
+              //  }
+               
                
               return formsubmit;
             }
