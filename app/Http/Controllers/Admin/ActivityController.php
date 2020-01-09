@@ -219,13 +219,8 @@ class ActivityController extends BaseController
              $data = $request->all();
             $enquiryid = $request->enquiry_id;
             $enquiry = Enquiry::find($enquiryid);
-            $enquiry->name = $request->input('name');
-            $enquiry->email = $request->input('email');
-            $enquiry->phone = $request->input('phone');
-            $enquiry->country_id = $request->input('country_id');
-            $enquiry->state_id = $request->input('state_id');
-            $enquiry->city_id = $request->input('city_id');
-            $enquiry->address = $request->input('address');
+            $enquiry->customer_id = $request->input('customer_id');
+           
             $enquiry->type = $request->input('type');
             $enquiry->enquiry_status = $request->input('enquiry_status');
             $enquiry->message = $request->input('message');
@@ -241,6 +236,7 @@ class ActivityController extends BaseController
             return $this->sendResponse($data->toArray(), $enquiryid, 'Enquiry Details Updated Succesfully');
         }
         else{
+           // $SaveEnquiry = new Enquiry();
             $SaveEnquiry = Enquiry::create($data);
             $enquiryid = $SaveEnquiry->id;
             $package = $request->package;
@@ -262,22 +258,20 @@ class ActivityController extends BaseController
         $data['id'] = $request->enquiry_id;
         $send_quotation_value = $request->send_quotation_value;
 
-        $data = $request->all();
+            $data = $request->all();
             $enquiryid = $request->enquiry_id;
+            $customer_id = $request->input('customer_id');
             $enquiry = Enquiry::find($enquiryid);
-            $enquiry->name = $request->input('name');
-            $enquiry->email = $request->input('email');
-            $enquiry->phone = $request->input('phone');
-            $enquiry->country_id = $request->input('country_id');
-            $enquiry->state_id = $request->input('state_id');
-            $enquiry->city_id = $request->input('city_id');
-            $enquiry->address = $request->input('address');
+           
+            $enquiry->customer_id = $request->input('customer_id');
             $enquiry->type = $request->input('type');
             $enquiry->enquiry_status = $request->input('enquiry_status');
             $enquiry->message = $request->input('message');
             $enquiry->remarks = $request->input('remarks');
             $enquiry->status = 1;
             $enquiry->save();
+               
+
             $package = $request->package;
 
             $enquiry->enquirypackages()->sync($package);

@@ -331,7 +331,12 @@ class CommonHelper
                 
                         ->first();
                         //dd($result);
-    return $result;
+        return $result;
+   }
+   public static function getCustomerDetails($customerid)
+   {
+        $result = DB::table('customer_details')->where('id','=',$customerid)->first();
+        return $result;
    }
 
-    }
+}

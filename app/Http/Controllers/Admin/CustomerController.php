@@ -84,7 +84,6 @@ class CustomerController extends BaseController
 
                 \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\CustomerPasswordEmail($details));
             
-
            Session::flash('message', 'Customer Details Added Succesfully');
            return $this->sendResponse($CustomerDetails->toArray(), $customerid, 'Customer Details Saved Succesfully');
         }
