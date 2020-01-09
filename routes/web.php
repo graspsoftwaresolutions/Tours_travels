@@ -193,6 +193,7 @@ Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
 Route::get('get-state-list','CommonController@getStateList');
 Route::get('get-cities-list','CommonController@getCitiesList');
 
+Route::post('customer_emailexists','CommonController@getCustomeremailexists');
 Route::get('/ajax/menu-settings.html','HomeController@menuSettings');
 
 Route::get('/hotel_detail', 'CommonController@hotelDetail')->name('hotel_detail');

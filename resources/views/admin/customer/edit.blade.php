@@ -55,6 +55,7 @@
 				<!-- <div class="col-sm-10 col-sm-offset-1"> -->
             @include('includes.messages')
 					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
+               @csrf
 						<h1 class="text-display-1">Customer Information</h1>
                        <input type="hidden" name="customer_id" value="{{$row->id}}">
 						   <div class="row">
@@ -68,7 +69,7 @@
 
 							<div class="col-sm-6">
 								<div class="form-group input-field label-float">   
-                              <input placeholder="Email" class="clearable" value="{{$row->email ? $row->email : ''}}" id="email" name="email" type="email">
+                              <input placeholder="Email" readonly class="clearable" value="{{$row->email ? $row->email : ''}}" id="email" name="email" type="email">
                               <label for="" class="fixed-label">{{__('Email') }}<span style="color:red">*</span></label>
 								    <div class="input-highlight"></div>
 								</div><!-- /.form-group -->			
@@ -255,6 +256,11 @@ $(document).ready(function(){
             },
 			},
 			submitHandler: function (form) {
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+               }
+            });
 				$.ajax({
 					type: 'post',
 					url: "{{ route('customer_save') }}",

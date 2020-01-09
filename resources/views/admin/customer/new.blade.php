@@ -55,7 +55,8 @@
 				<!-- <div class="col-sm-10 col-sm-offset-1"> -->
             @include('includes.messages')
 					<form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" data-toggle="validator">
-						<h1 class="text-display-1">Customer Information</h1>
+						@csrf
+                  <h1 class="text-display-1">Customer Information</h1>
                        <input type="hidden" name="customer_id">
 						   <div class="row">
 							<div class="col-sm-6">
@@ -205,6 +206,17 @@ $(document).ready(function(){
             "email": {
 					required: true,
                email : true,
+               remote: {
+                url: "{{ url('/customer_emailexists')}}",
+                type: "post",
+                data: {
+                     email: function() {
+                        return $("#email").val();
+                    },
+                    _token: "{{csrf_token()}}",
+                    email: $(this).data('email')
+                },  
+            },
 				},
             "country_id" : {
                required: true,
@@ -222,6 +234,17 @@ $(document).ready(function(){
             "phone" : {
                required: true,
                digits : true,
+               remote: {
+                url: "{{ url('/customer_phoneexists')}}",
+                type: "post",
+                data: {
+                    phone: function() {
+                        return $("#phone").val();
+                    },
+                    _token: "{{csrf_token()}}",
+                    phone: $(this).data('phone')
+                },  
+            },
             },	
 			},
 			messages: {
@@ -231,6 +254,7 @@ $(document).ready(function(){
             "email": {
 					required: "Please, enter Email",
                email : "Please enter valid email",
+               remote: "Email Already Exists",
 				},
             "country_id" : {
                required: "Please, choose country",
@@ -248,9 +272,15 @@ $(document).ready(function(){
             "phone" : {
                required: "Please, enter Phone Number",
                digits : "Numbers only",
+               remote: "Phone Number Already Exists",
             },
 			},
 			submitHandler: function (form) {
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+               }
+            });
 				$.ajax({
 					type: 'post',
 					url: "{{ route('customer_save') }}",

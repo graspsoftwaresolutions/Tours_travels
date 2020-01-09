@@ -352,8 +352,12 @@ class CommonController extends Controller
                 ['phone','=',$phone],
                 ['status','=','1'],     
                 ])->count(); 
+
+            $user_phone_exists = DB::table('users')->where([
+                ['phone','=',$phone],    
+                ])->count(); 
           
-          if($phone_exists > 0)
+          if($phone_exists > 0 && $user_phone_exists > 0)
           {
               return "false";
           }
@@ -366,5 +370,26 @@ class CommonController extends Controller
         $id = $request->package_id;
         $data = PackageType::find($id);
         return $data;
+    }
+    public  function getCustomeremailexists(Request $request)
+    {
+        $email =  $request->input('email');
+       
+        $customer_email_exists = DB::table('customer_details')->where([
+            ['email','=',$email],
+            ['status','=','1'],     
+            ])->count(); 
+         
+        $user_email_exists = DB::table('users')->where([
+            ['email','=',$email],    
+            ])->count(); 
+
+        if($customer_email_exists > 0 && $user_email_exists > 0 )
+        {
+            return "false";
+        }
+        else{
+            return "true";
+        }
     }
 }
