@@ -21,6 +21,8 @@ use App\Helpers\CommonHelper;
 use URL;
 use Auth;
 
+use App\Model\Admin\InterestTaxRate;
+
 use Carbon\Carbon;
 
 class CommonController extends Controller
@@ -370,5 +372,12 @@ class CommonController extends Controller
         $data = PackageType::find($id);
         return $data;
     }
-
+    public function interestTax_detail(Request $request)
+    {
+        $id = $request->taxid;
+        $tax = new InterestTaxRate();
+        $data = InterestTaxRate::find($id);
+        //dd($data);
+        return $data;
+    }
 }

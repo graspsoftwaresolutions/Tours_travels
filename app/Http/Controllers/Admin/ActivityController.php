@@ -129,13 +129,10 @@ class ActivityController extends BaseController
        // dd($data);
 
         $request->validate([
-            'title_name' => 'required',
-            
-            
+            'title_name' => 'required', 
                 ], [
             'title_name.required' => 'please enter title name',
-            
-            
+   
         ]);
         $autoid = $request->input('autoid');
         $Activitysavedata = Activity::find($autoid);

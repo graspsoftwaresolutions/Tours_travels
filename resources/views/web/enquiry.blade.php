@@ -14,6 +14,10 @@
       height: 45px;
       /* padding-left: 40px; */
    }
+   .read
+   {
+      pointer-events: none;
+   }
 </style>
 @endsection
 @section('main-content')
@@ -42,19 +46,22 @@
          <div class="row">
             <div class="custom-form contact-form">
                <h3>Enquiry</h3>
+               @include('includes.messages')
                <form method='post' id='formValidate' >
                @csrf
                   <div class="form-group col-md-6">
-                     <input type="text" name='name' id='name' class="form-control" placeholder="Name"  />
+                     {{old('name')}}
+                     <input type="hidden" value="{{ Auth::check() ? Auth::user()->id : '' }}" name='auth_id' id='auth_id' class="form-control" placeholder="Name"  />
+                     <input type="text" value="{{ Auth::check() ? Auth::user()->name : old('name') }}" name='name' id='name' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="Name"  />
                      
                   </div>
                   <div class="form-group col-md-6">
-                     <input type="email" name='email' id='email' class="form-control" placeholder="Email"  />
-                     <!-- <span><i class=" fa fa-address-card"></i></span> -->
+                     <input type="email" name='email' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}"  value="{{ Auth::check() ? Auth::user()->email : '' }}" id='email'  placeholder="Email"  />
+                     
                   </div>
                   <div class="clearfix"></div>
                   <div class="form-group col-md-6">
-                     <input type="text" name='phone' id='phone' class="form-control" placeholder="phone" />
+                     <input type="text" name='phone' value="{{ Auth::check() ? Auth::user()->phone : '' }}" id='phone' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="phone" />
                   </div>
                   <div class="form-group col-md-6">
                      <select name='type' id='type' class="form-control">
@@ -62,7 +69,7 @@
                         <option value='general'>General</option>
                         <option value='package'>Package</option>
                      </select>
-                  </div>
+                  </div> 
                   <div class="clearfix"></div>
                   <!-- <div class="row packages" > -->
                       <div class="col-sm-12 packages" >
@@ -92,7 +99,7 @@
                      <textarea class="form-control" id='address' name='address' placeholder="Address" ></textarea>
                   </div>
                   <div class="clearfix"></div>
-                  <input type='submit' value='submit' class='pull-right btn btn-orange'>
+                  <input type='submit' id="SaveEnquiryButton" value='submit' class='pull-right btn btn-orange'>
                </form>
             </div>
          </div>
@@ -206,6 +213,9 @@ $(document).ready(function(){
                required: true,
                digits : true,
             },	
+            "message" : {
+               required: true,
+            },
 			},
 			messages: {
 				"name": {
@@ -222,6 +232,9 @@ $(document).ready(function(){
                required: "Please, enter Phone Number",
                digits : "Numbers only",
             },
+            "message" : {
+               required: "Please, enter message",
+            },
 			},
 			submitHandler: function (form) {
                 $.ajaxSetup({
@@ -233,17 +246,25 @@ $(document).ready(function(){
 					type: 'post',
 					url: "{{ route('enquiry_email') }}",
 					data: $('form').serialize(),
+               dataType: "json",
 					success: function(response){
-						if(response)
-						{ 
-                            alert('Enquiry form submitted succesfully');
-                            window.location.reload();
-                             
-						}
+                  console.log(response);
+                     if(response.status == 0)
+                     {
+                        alert(response.message);
+                        //window.location.reload();
+                     }
+                     else{
+                        alert('Enquiry form submitted succesfully');
+                        window.location.reload();
+                     } 
 					}
 			});
          }
 		});
+});
+$(document).on('submit','form#formValidate',function(){
+      $("#SaveEnquiryButton").prop('disabled',true);
 });
 </script>
 @endsection

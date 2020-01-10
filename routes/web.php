@@ -21,8 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Hotel Booking frontend
 
 Route::get('/tour-booking', 'Web\TourBookingController@tourBooking')->name('tour_booking');
-Route::get('/enquiry', 'Web\MenuController@enquiryView')->name('enquiry');
-Route::post('/Enquiry_details', 'Web\MenuController@enquiryEmail')->name('enquiry_email');
+Route::get('/enquiry', 'Web\EnquiryController@enquiryView')->name('enquiry');
+Route::post('/Enquiry_details', 'Web\EnquiryController@enquiryEmail')->name('enquiry_email');
 
 Route::group( [ 'prefix' => 'admin' ], function()
 {
@@ -55,13 +55,23 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/city_detail','Admin\CommonController@cityDetail')->name('city_detail');
     Route::delete('city-delete/{id}','Admin\MasterController@citydestroy')->name('master.citydestroy');
 
-    //Transportation charges
+    //Old Transportation charges
     Route::get('/transporation_charges','Admin\MasterController@transporationChargesList')->name('master.transporation_charges');
     Route::get('/Add_Transportation','Admin\MasterController@addTransportation')->name('master.addTransportation');
     Route::post('/save_Transportation','Admin\MasterController@SaveTransportation')->name('add_transportation_charges');
     Route::post('/ajax_tarnsportation_list','Admin\AjaxController@ajax_tarnsportation_list')->name('ajax_tarnsportation_list');
     Route::get('/edit_Transportation/{parameter}','Admin\MasterController@EditTransportation')->name('transportCharges.edit');
     Route::post('/update_transportation_charges','Admin\MasterController@updateTransportation')->name('update_transportation_charges');
+
+    //Transportation 
+    Route::get('/transporation','Admin\MasterController@transporationList')->name('master.transportation');
+
+    //Interest Tax
+    Route::get('/interest_tax','Admin\MasterController@interestTaxList')->name('master.interest_tax'); 
+    Route::post('/save_interest_tax','Admin\MasterController@saveInterestTax')->name('master.save_interest_tax');
+    
+
+    Route::get('/interestTax_detail','Admin\CommonController@interestTax_detail')->name('interestTax_detail');
 
 
     //Amenities Details 

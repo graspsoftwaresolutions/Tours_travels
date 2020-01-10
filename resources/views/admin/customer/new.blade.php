@@ -169,7 +169,7 @@
 					    </div><!-- /.row -->
                    <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
 						<div class="form-group clearfix">
-							<button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+							<button id="savebutton" type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
 						</div><!-- /.form-group -->
                   
 					</form>
@@ -276,6 +276,8 @@ $(document).ready(function(){
             },
 			},
 			submitHandler: function (form) {
+
+         
             $.ajaxSetup({
                headers: {
                   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -294,8 +296,10 @@ $(document).ready(function(){
 			});
          }
 		});
-
+     
 });
+
+
     $('#overview').summernote({
       height: 200,   //set editable area's height
       placeholder: 'Write here...'

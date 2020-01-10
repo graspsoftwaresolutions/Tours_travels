@@ -12,6 +12,8 @@ use App\Model\Admin\Amenities;
 use App\Model\Admin\PackageType;
 use App\Model\Admin\TransportationCharges;
 
+use App\Model\Admin\InterestTaxRate;
+
 use App\Model\Admin\RoomType;
 use App\User;
 use DB;
@@ -33,6 +35,7 @@ class MasterController extends CommonController {
         $this->Amenities = new Amenities;
         $this->RoomType = new RoomType;
         $this->PackageType = new PackageType;
+        $this->InterestTaxRate = new InterestTaxRate;
     }
 
     public function countryList() {
@@ -501,6 +504,71 @@ class MasterController extends CommonController {
             // {
             //   return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
             // }
+        }
+    }
+    public function transporationList()
+    {
+        return view('admin.master.transportation.list');
+    }
+    public function interestTaxList()
+    {
+        $data['tax_view'] = DB::table('interest_tax_rate as int')->select('c.country_name','s.state_name','int.tax','int.id as taxid')
+                            ->join('country as c','c.id','=','int.country_id')
+                            ->join('state as s','s.id','=','int.state_id')
+                            ->get();
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+       
+        return view('admin.master.taxinterest.list',compact('data',$data));
+    }
+    public function saveInterestTax(Request $request)
+    {
+        $auto_id = $request->input('masterid');
+        $request->validate([
+            'country_id' => 'required',
+			'state_id' => 'required',
+            'tax' => 'required',
+                ], [
+            'country_id.required' => 'please enter Country name',
+			'state_id.required' => 'please enter State name',
+            'tax.required' => 'please enter Tax amount',
+        ]);
+        $data = $request->all();   
+        $defdaultLang = '';
+
+        if($auto_id!=''){
+            $data_exists = InterestTaxRate::where([
+                ['tax','=',$request->input('tax')],
+                ['state_id','=',$request->input('state_id')],
+                ['id','!=',$auto_id],
+                ['status','=','1']
+                ])->count();
+        }else{
+            $data_exists = InterestTaxRate::where([
+                        ['tax','=',$request->input('tax')],
+                        ['country_id','=',$request->input('country_id')],
+                        ['state_id','=',$request->input('state_id')],
+                        ['status','=','1'],     
+                        ])->count(); 
+        }
+        if($data_exists>0)
+        {
+            return  redirect($defdaultLang.'admin/interest_tax')->with('error',' Already Exists'); 
+        }
+        else{
+
+            $saveInterest = $this->InterestTaxRate->SaveInterestTaxRate($data);
+
+            if ($saveInterest == true) {
+                if($auto_id!='')
+                {
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Updated Succesfully');
+                }
+                else
+                {
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Added Succesfully');
+                }
+            }
         }
     }
 }

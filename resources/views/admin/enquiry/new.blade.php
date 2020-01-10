@@ -362,7 +362,7 @@
                   <div class="modal-footer">
                      <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
                      <!-- <button class="btn-flat waves-effect waves-theme">Save changes</button> -->
-                     <button type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+                     <button type="submit" id="saveCustomerButton" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
                   </div>
                   <!-- /.modal-footer -->
                </form>
@@ -570,7 +570,7 @@ $(document).ready(function(){
               data: $('form').serialize(),
               success: function(response){
                 if(response)
-                { 
+                {
                      swal("Success!", "Customer Added succesfully!", "success");
                      $('#defaultModal').modal('toggle');
                      $('#name').val('');
@@ -584,7 +584,6 @@ $(document).ready(function(){
                      $('#city_id').selectpicker('val', '');
                      $('#customer_id').val(response.userid);
                      $('#customer_name').val(response.data.name);
-
                 }
               }
            });
@@ -592,6 +591,9 @@ $(document).ready(function(){
     });
 
 });
+// $(document).on('submit','form#customerformValidate',function(){
+//         $("#saveCustomerButton").prop('disabled',true);
+//     });
  
    $("#dashboard_sidebar_li_id").addClass('active');
     $('#overview').summernote({
@@ -704,5 +706,6 @@ $(document).ready(function(){
          $("#customer_id").val(ui.item.customer_id);
       },
    });
+  
 </script>
 @endsection
