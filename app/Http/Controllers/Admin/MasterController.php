@@ -11,6 +11,8 @@ use App\Model\Admin\City;
 use App\Model\Admin\Amenities;
 use App\Model\Admin\PackageType;
 use App\Model\Admin\TransportationCharges;
+use App\Model\Admin\InterestTaxRate;
+use App\Model\Admin\Transportation;
 
 use App\Model\Admin\RoomType;
 use App\User;
@@ -19,6 +21,7 @@ use View;
 use Mail;
 use URL;
 use Response;
+use Auth;
 
 
 class MasterController extends CommonController {
@@ -33,6 +36,7 @@ class MasterController extends CommonController {
         $this->Amenities = new Amenities;
         $this->RoomType = new RoomType;
         $this->PackageType = new PackageType;
+        $this->InterestTaxRate = new InterestTaxRate;
     }
 
     public function countryList() {
@@ -502,5 +506,148 @@ class MasterController extends CommonController {
             //   return redirect()->route('master.transporation_charges')->with('message',' Transportation Charges Updated Successfully!!');
             // }
         }
+    }
+    public function transporationList()
+    {
+        $data['tans_view'] = DB::table('new_transportation as nt')->select('c.country_name','s.state_name','nt.id as tasportation_id','nt.type','nt.pack_name','nt.transport_pack_amount','nt.unpack_amount_per_km','nt.unpack_amount_per_hr')
+        ->join('country as c','c.id','=','nt.country_id')
+        ->join('state as s','s.id','=','nt.state_id')
+        ->where('nt.status','=','1')
+        ->get();
+        return view('admin.master.new_transportation.list')->with('data',$data);
+    }
+    public function Newtransporation()
+    {
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+       
+        return view('admin.master.new_transportation.new')->with('data',$data);
+    }
+    public function SaveNewTransportation(request $request)
+    {
+        $data = $request->all();
+        $SaveTransportation = new Transportation();
+        $SaveTransportation->country_id = $request->country_id;
+        $SaveTransportation->state_id = $request->state_id;
+        $SaveTransportation->type = $request->type;
+        if($request->type == 'Pack')
+        {   
+            $SaveTransportation->pack_name = $request->pack_name;
+            $SaveTransportation->transport_pack_amount = $request->transport_pack_amount;
+            $SaveTransportation->unpack_amount_per_hr = Null;
+            $SaveTransportation->unpack_amount_per_km = Null;
+        }
+        else{
+            $SaveTransportation->pack_name = Null;
+            $SaveTransportation->transport_pack_amount = Null;
+            $SaveTransportation->unpack_amount_per_hr = $request->unpack_amount_per_hr;
+            $SaveTransportation->unpack_amount_per_km = $request->unpack_amount_per_km;
+        }
+        $SaveTransportation->created_by = Auth::guard('admin')->user()->id;
+        $SaveTransportation->save();
+        return redirect('admin/transporation')->with('message', 'Transport added succesfully');
+    }
+    public function editNewTransporation($id){
+        $id = base64_decode($id);
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+        $data['edit_view'] = Transportation::where('status','=','1')->where('id','=',$id)->get();
+        return view('admin.master.new_transportation.edit')->with('data',$data);
+    }
+    public function UpdateNewTransportation(Request $request)
+    {
+        $autoid = $request->autoid;
+        $data = $request->all();
+        $SaveTransportation = Transportation::find($autoid);
+        $SaveTransportation->country_id = $request->country_id;
+        $SaveTransportation->state_id = $request->state_id;
+        $SaveTransportation->type = $request->type;
+        if($request->type == 'Pack')
+        {   
+            $SaveTransportation->pack_name = $request->pack_name;
+            $SaveTransportation->transport_pack_amount = $request->transport_pack_amount;
+            $SaveTransportation->unpack_amount_per_hr = Null;
+            $SaveTransportation->unpack_amount_per_km = Null;
+        }
+        else{
+            $SaveTransportation->pack_name = Null;
+            $SaveTransportation->transport_pack_amount = Null;
+            $SaveTransportation->unpack_amount_per_hr = $request->unpack_amount_per_hr;
+            $SaveTransportation->unpack_amount_per_km = $request->unpack_amount_per_km;
+        }
+        $SaveTransportation->updated_by = Auth::guard('admin')->user()->id;
+        $SaveTransportation->save();
+        return redirect('admin/transporation')->with('message', 'Transport Updated succesfully');
+    }   
+    public function interestTaxList()
+    {
+        $data['tax_view'] = DB::table('interest_tax_rate as int')->select('c.country_name','s.state_name','int.tax','int.id as taxid')
+                            ->join('country as c','c.id','=','int.country_id')
+                            ->join('state as s','s.id','=','int.state_id')
+                            ->where('int.status','=','1')
+                            ->get();
+        $data['country_view'] = Country::where('status','=','1')->get();
+        $data['state_view'] = State::where('status','=','1')->get();
+       
+        return view('admin.master.taxinterest.list',compact('data',$data));
+    }
+    public function saveInterestTax(Request $request)
+    {
+        $auto_id = $request->input('masterid');
+        $request->validate([
+            'country_id' => 'required',
+			'state_id' => 'required',
+            'tax' => 'required',
+                ], [
+            'country_id.required' => 'please enter Country name',
+			'state_id.required' => 'please enter State name',
+            'tax.required' => 'please enter Tax amount',
+        ]);
+        $data = $request->all();   
+        $defdaultLang = '';
+
+        if($auto_id!=''){
+            $data_exists = InterestTaxRate::where([
+                ['tax','=',$request->input('tax')],
+                ['state_id','=',$request->input('state_id')],
+                ['id','!=',$auto_id],
+                ['status','=','1']
+                ])->count();
+        }else{
+            $data_exists = InterestTaxRate::where([
+                        ['tax','=',$request->input('tax')],
+                        ['country_id','=',$request->input('country_id')],
+                        ['state_id','=',$request->input('state_id')],
+                        ['status','=','1'],     
+                        ])->count(); 
+        }
+        if($data_exists>0)
+        {
+            return  redirect($defdaultLang.'admin/interest_tax')->with('error',' Already Exists'); 
+        }
+        else{
+
+            $saveInterest = $this->InterestTaxRate->SaveInterestTaxRate($data);
+
+            if ($saveInterest == true) {
+                if($auto_id!='')
+                {
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Updated Succesfully');
+                }
+                else
+                {
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Added Succesfully');
+                }
+            }
+        }
+    }
+    public function interestTaxdestroy($id)
+    {
+     
+        if($id!='')
+        {
+            DB::table('interest_tax_rate')->where('id','=',$id)->update(['status'=>'0']);  
+        }
+        return redirect('admin/interest_tax')->with('message','Interest Tax Rate Details Deleted Successfully!!');
     }
 }

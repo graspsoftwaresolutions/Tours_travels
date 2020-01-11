@@ -8,8 +8,11 @@ use App\Model\Admin\City;
 use App\Model\Admin\Tax;
 use App\Model\Admin\Website;
 use Session;
+use DB;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Helpers\CommonHelper;
+use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 
@@ -51,6 +54,11 @@ class CustomerController extends BaseController
         {
             $SaveCustomer = CustomerDetails::find($data['id'])->update($data);
             $customerid = $data['id'];
+            $count = DB::table('users')->where('customer_id','=',$customerid)->count();
+            if($count > 0)
+            {
+                DB::table('users')->where('customer_id','=',$customerid)->update(['name'=>$data['name'],'phone' =>$data['phone']]);
+            }          
             $CustomerDetails =  CustomerDetails::find($data['id']);
             Session::flash('message', 'Customer Detail Updated Succesfully');
             return $this->sendResponse($CustomerDetails->toArray(), $customerid, 'Customer Details Updated Succesfully');
@@ -58,9 +66,28 @@ class CustomerController extends BaseController
         else{
             $CustomerDetails = CustomerDetails::create($data);
             $customerid = $CustomerDetails->id;
-            Session::flash('message', 'Customer Details Added Succesfully');
-            return $this->sendResponse($CustomerDetails->toArray(), $customerid, 'Customer Details Saved Succesfully');
+
+            $length = 8;
+            $alpha='a';
+            $randomPassword = CommonHelper::random_password($length,$alpha);
+            $pass = Hash::make($randomPassword);
+             
+            DB::table('users')->insert(['name'=>$CustomerDetails->name , 'password'=>$pass,'email'=>$CustomerDetails->email ,'phone' =>$CustomerDetails->phone ,'customer_id'=>$CustomerDetails->id]);
+
+            $details = [
+                'name'=>$CustomerDetails->name,
+                'email'=>$CustomerDetails->email,
+                'password'=>$randomPassword,
+            ];
+                $to_email =  $CustomerDetails->email;
+                $cc_email = 'shyni.bizsoft@gmail.com';
+
+                \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\CustomerPasswordEmail($details));
+            
+           Session::flash('message', 'Customer Details Added Succesfully');
+           return $this->sendResponse($CustomerDetails->toArray(), $customerid, 'Customer Details Saved Succesfully');
         }
+
     }
     public function customerEdit($id)
     {

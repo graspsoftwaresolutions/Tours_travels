@@ -698,7 +698,10 @@ class AjaxController extends CommonController
             4 => 'id'
         );
 
-        $totalData = Enquiry::count();
+        $totalData = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+        ->leftjoin('customer_details as c','c.id','=','e.customer_id')->count();
+
+        
 
         $totalFiltered = $totalData; 
 
@@ -711,14 +714,18 @@ class AjaxController extends CommonController
         if(empty($request->input('search.value')))
         {            
             if( $limit == -1){ 
-                $Enquiry = Enquiry::orderBy($order,$dir)
+                $Enquiry = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+                ->join('customer_details as c','c.id','=','e.customer_id')
+                ->orderBy($order,$dir)
                 ->where('status','=','1')
                 ->get()->toArray();
             }else{
-                $Enquiry =  Enquiry::offset($start)
+                $Enquiry = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+                ->join('customer_details as c','c.id','=','e.customer_id')
+                ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
-                ->where('status','=','1')
+                ->where('e.status','=','1')
                 ->get()->toArray();
             }
             //$Activity->dump();
@@ -726,7 +733,8 @@ class AjaxController extends CommonController
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
-            $Enquiry = Enquiry::where('status','=','1')
+            $Enquiry = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+                        ->join('customer_details as c','c.id','=','e.customer_id')
                          ->where(function($query) use ($search){
                         $query->orWhere('name', 'LIKE',"%{$search}%")
                         ->orWhere('email', 'LIKE',"%{$search}%")
@@ -736,7 +744,8 @@ class AjaxController extends CommonController
                     ->orderBy($order,$dir)
                     ->get()->toArray();
         }else{
-            $Enquiry = Enquiry::where('status','=','1')
+            $Enquiry = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+            ->join('customer_details as c','c.id','=','e.customer_id')
                         ->where(function($query) use ($search){
                             $query->orWhere('name', 'LIKE',"%{$search}%")
                             ->orWhere('email', 'LIKE',"%{$search}%")
@@ -748,7 +757,9 @@ class AjaxController extends CommonController
                         ->orderBy($order,$dir)
                         ->get()->toArray();
         }
-        $totalFiltered = Enquiry::where('id','LIKE',"%{$search}%")
+        $totalFiltered = DB::table('enquiry as e')->select('e.id','c.name','c.email','e.type','c.phone')
+        ->join('customer_details as c','c.id','=','e.customer_id')
+                        ->where('id','LIKE',"%{$search}%")
                         ->orWhere('name', 'LIKE',"%{$search}%")
                         ->orWhere('email', 'LIKE',"%{$search}%")
                         ->orWhere('phone', 'LIKE',"%{$search}%")

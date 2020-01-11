@@ -933,6 +933,7 @@
             $("#dummyRightList").append($("#right-section-packagearea").clone());
             $("#dummyRightList").addClass('hide');
             $("#wizard1").trigger('submit');
+            $("#wizard1").css('pointer-events','none');
              return true;
 
           }else{

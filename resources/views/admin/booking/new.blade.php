@@ -1206,6 +1206,8 @@
             $("#dummyRightList").append($("#right-section-packagearea").clone());
             $("#dummyRightList").addClass('hide');
             $("#wizard1").trigger('submit');
+            $("#wizard1").css('pointer-events','none');
+
              return true;
 
           }else{
@@ -1559,7 +1561,6 @@
                        
                           
           }));
-   
         }
    
       });
@@ -1594,6 +1595,17 @@
             "email": {
           required: true,
                email : true,
+               remote: {
+                url: "{{ url('/customer_emailexists')}}",
+                type: "post",
+                data: {
+                     email: function() {
+                        return $("#email").val();
+                    },
+                    _token: "{{csrf_token()}}",
+                    email: $(this).data('email')
+                },  
+            },
         },
             "country_id" : {
                required: true,
@@ -1630,10 +1642,11 @@
         "name": {
           required: "Please, enter Name",
         },
-            "email": {
-          required: "Please, enter Email",
-               email : "Please enter valid email",
-        },
+         "email": {
+            required: "Please, enter Email",
+            email : "Please enter valid email",
+            remote: "Email Already Exists",
+      },
             "country_id" : {
                required: "Please, choose country",
             },
