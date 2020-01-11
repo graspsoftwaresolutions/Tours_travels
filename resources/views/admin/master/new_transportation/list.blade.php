@@ -33,7 +33,7 @@
                         <div class="pull-right">
                                
                                  <a href="#:;" class="icon action toolbar-collapse hide"></a>
-                                 <a href="{{route('master.addTransportation')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Add</a>
+                                 <a href="{{route('master.addNewTransportation')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Add</a>
                             </div>
                             <h3 class="title medium">{{__('Transportation List')}}</h3>
                         </div>
@@ -45,15 +45,36 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                <th width="20%">{{__('State')}} </th>
-                                <th width="20%">{{__('From City')}} </th>
-                                    <th width="20%">{{__('To City')}} </th>
-                                    <th width="20%">{{__('Distance')}} </th>
-                                    <th width="20%">{{__('Amount per Km')}} </th>
-                                    <th width="20%">{{__('Total Amount')}} </th>
+                                <th width="15%">{{__('Country')}} </th>
+                                <th width="15%">{{__('State')}} </th>
+                                    <th width="15%">{{__('Type')}} </th>
+                                    <th width="15%">{{__('Pack Name')}} </th>
+                                    <th width="15%">{{__('Pack Amount')}} </th>
+                                    <th width="15%">{{__('Cost Per Km')}} </th>
+                                    <th width="15%">{{__('Cost Per Hr')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>
+
+                           
+
+                            @foreach( $data['tans_view'] as $values)
+                                <tr> 
+                                <td> @php if($values->country_name) { echo $values->country_name; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->state_name) { echo $values->state_name; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->type) { echo $values->type; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->pack_name) { echo $values->pack_name; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->transport_pack_amount) { echo $values->transport_pack_amount; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->unpack_amount_per_km) { echo $values->unpack_amount_per_km; } else{echo '---';  } @endphp </td> </td>
+                                <td> @php if($values->unpack_amount_per_hr) { echo $values->unpack_amount_per_hr; } else{echo '---';  } @endphp </td> </td>
+                                    <td>
+                                    @php $encrypted_id = base64_encode($values->tasportation_id); @endphp
+                                    <a href="{{route('edit_transporation',$encrypted_id)}}" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
+                                   
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                @endforeach
                         </table>
                     </div>
                 </div>
@@ -89,62 +110,6 @@
 @section('footerSecondSection')
 
 <script>
-
-
-
-(function($){
-    $('#datatable-master').DataTable({
-    
-    "columnDefs": [{
-      "targets": 0
-    }],
-    "order": [
-      [0, 'asc']
-    ],
-    "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "{{ route('ajax_tarnsportation_list') }}",
-            "dataType": "json",
-            "type": "POST",
-            "data": {
-                _token: "{{csrf_token()}}"
-            },
-            "error": function (jqXHR, textStatus, errorThrown) {
-                if(jqXHR.status==419){
-                    alert('Your session has expired, please login again');
-                    window.location.href = base_url;
-                }
-            },
-        },
-        "columns": [
-            {
-                "data": "state_name"
-            },
-            {
-                "data": "from_city_name"
-            },
-            {
-                "data": "to_city_name"
-            },
-            {
-                "data": "distance"
-            },
-            {
-                "data": "amount_per_km"
-            },
-            {
-                "data": "total_distance_amount"
-            },
-            {
-                "data": "options"
-            }
-        ]
-  });
-   // $('#datatable-master').dataTable();
-})(jQuery);
-
-
 function ConfirmDeletion() {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {
         return true;
