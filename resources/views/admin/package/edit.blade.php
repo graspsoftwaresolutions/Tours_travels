@@ -642,22 +642,22 @@
                                                     ,
                                                  @endif
                                                  @php $total_hotel_prices += $types->total_rooms * $types->total_amount; @endphp
-                                                  <input type="text" class="hide hotel_room_cost" name="hotel_room_cost_{{ $place->city_id }}[]" id="hotel_room_cost_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_amount }}"/>
-                                                  <input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_{{ $place->city_id }}[]" id="type_hotel_number_count_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_rooms }}"/>
-                                                  <input type="text" class="hide hotel_room_type{{ $package_hotel->id }}" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->roomtype_id }}"/>
+                                                  <input type="text" class="hide hotel_room_cost" name="hotel_room_cost_{{ $package_hotel->id }}[]" id="hotel_room_cost_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_amount }}"/>
+                                                  <input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_{{ $package_hotel->id }}[]" id="type_hotel_number_count_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_rooms }}"/>
+                                                  <input type="text" class="hide hotel_room_type{{ $package_hotel->id }}" name="hotel_room_type_{{ $package_hotel->id }}[]" id="hotel_room_type_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->roomtype_id }}"/>
                                               @endforeach
                                              
                                               <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> {{ $total_hotel_prices }} </span> 
 
-                                              <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},1)" class="btn btn-sm blue waves-effect waves-light ">Change</button>
+                                              <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},1)" class="btn btn-sm blue waves-effect waves-light ">Change</button>
 
-                                               <button id="remove_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="return RemoveHotelDB({{ $package_info->id }}, {{ $package_hotel->id }},{{$place->city_id}})" class="btn btn-sm red waves-effect waves-light ">Remove</button>
+                                               <button id="remove_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="return RemoveHotelDB({{ $package_info->id }}, {{ $package_hotel->id }},{{$place->city_id}})" class="btn btn-sm red waves-effect waves-light ">Remove</button>
                                               
                                             </p>
                                             <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $package_hotel->id }}"/>
                                             <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
-                                            <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $total_hotel_prices }}"/>
-                                            <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $types->total_rooms }}"/>
+                                            <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $package_hotel->id }}[]" id="hotel_cost_{{ $package_hotel->id }}" value="{{ $total_hotel_prices }}"/>
+                                            <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $package_hotel->id }}[]" id="hotel_number_count_{{ $package_hotel->id }}" value="{{ $types->total_rooms }}"/>
                                           </div>
                                           
                                          

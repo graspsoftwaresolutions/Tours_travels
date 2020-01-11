@@ -883,13 +883,13 @@
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;
                $(".hotel_cost").each(function() {
-                 var hotel_cost = parseFloat($(this).val());
+                 var hotel_cost = $(this).val()=='' ? 0 : parseFloat($(this).val());
                  total_hotel_cost = parseFloat(total_hotel_cost)+parseFloat(hotel_cost);
               });
               $("#total_accommodation").val(total_hotel_cost);
              var total_activity_cost = 0;
              $(".activity_cost").each(function() {
-                 var activity_cost = parseFloat($(this).val());
+                 var activity_cost = $(this).val()=='' ? 0 : parseFloat($(this).val());
                  total_activity_cost = parseFloat(total_activity_cost)+parseFloat(activity_cost);
               });
              $("#total_activities").val(total_activity_cost);

@@ -113,27 +113,34 @@ class PackageController extends Controller
                     $package_place->nights_count = $nights_count;
                     $package_place->save();
 
+                    $check_hotel_id = $request->input('second_hotel_'.$city_id);
                     $hotel_id = $request->input('second_hotel_'.$city_id);
                    
-                    if(isset($hotel_id)){
-                        $package_hotel = new PackageHotel() ;
-                        $package_hotel->package_id = $package_id;
-                        $package_hotel->city_id = $city_id;
-                        $package_hotel->hotel_id = $hotel_id[0];
-                        $hotel_nos = $request->input('hotel_number_count_'.$city_id);
-                        $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
-                        if(isset($hotel_room_type)){
-                            $package_hotel->roomtype_id = $hotel_room_type[0];
+                    if(isset($check_hotel_id)){
+                        $hotel_count = count($request->input('second_hotel_'.$city_id));
+                        for($k =0; $k<$hotel_count; $k++){
+                            $hotel_id = $request->input('second_hotel_'.$city_id)[$k];
+                            $check_hotel_typeid = $request->input('hotel_room_type_'.$hotel_id);
+                            if(isset($check_hotel_typeid)){
+                                $hoteltype_count = count($request->input('hotel_room_type_'.$hotel_id));
+                                for($l =0; $l<$hoteltype_count; $l++){
+                                    $hotel_room_type_id = $request->input('hotel_room_type_'.$hotel_id)[$l];
+                                    $hotel_room_type_numbers = $request->input('type_hotel_number_count_'.$hotel_id)[$l];
+                                    $hotel_room_type_cost = $request->input('hotel_room_cost_'.$hotel_id)[$l];
+
+                                    $package_hotel = new PackageHotel() ;
+                                    $package_hotel->package_id = $package_id;
+                                    $package_hotel->city_id = $city_id;
+                                    $package_hotel->hotel_id = $hotel_id;
+                                    $package_hotel->roomtype_id = $hotel_room_type_id;
+                                    $package_hotel->total_rooms = $hotel_room_type_numbers;
+                                    $package_hotel->total_amount = $hotel_room_type_cost;
+                                    $package_hotel->save();
+
+                                }
+                            }
                         }
-                        if(isset($hotel_nos)){
-                            $package_hotel->total_rooms = $hotel_nos[0];
-                        }
-                        $hotel_cost = $request->input('hotel_cost_'.$city_id);
-                        if(isset($hotel_cost)){
-                            $package_hotel->total_amount = $hotel_cost[0];
-                        }
-                        
-                        $package_hotel->save();
+                       
                     }
                     
                    
@@ -522,28 +529,58 @@ class PackageController extends Controller
                     $package_place->nights_count = $nights_count;
                     $package_place->save();
 
+                    $check_hotel_id = $request->input('second_hotel_'.$city_id);
                     $hotel_id = $request->input('second_hotel_'.$city_id);
                    
-                    if(isset($hotel_id)){
-                        $package_hotel = new PackageHotel() ;
-                        $package_hotel->package_id = $package_id;
-                        $package_hotel->city_id = $city_id;
-                        $package_hotel->hotel_id = $hotel_id[0];
-                        $hotel_nos = $request->input('hotel_number_count_'.$city_id);
-                        $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
-                        if(isset($hotel_room_type)){
-                            $package_hotel->roomtype_id = $hotel_room_type[0];
+                    if(isset($check_hotel_id)){
+                        $hotel_count = count($request->input('second_hotel_'.$city_id));
+                        for($k =0; $k<$hotel_count; $k++){
+                            $hotel_id = $request->input('second_hotel_'.$city_id)[$k];
+                            $check_hotel_typeid = $request->input('hotel_room_type_'.$hotel_id);
+                            if(isset($check_hotel_typeid)){
+                                $hoteltype_count = count($request->input('hotel_room_type_'.$hotel_id));
+                                for($l =0; $l<$hoteltype_count; $l++){
+                                    $hotel_room_type_id = $request->input('hotel_room_type_'.$hotel_id)[$l];
+                                    $hotel_room_type_numbers = $request->input('type_hotel_number_count_'.$hotel_id)[$l];
+                                    $hotel_room_type_cost = $request->input('hotel_room_cost_'.$hotel_id)[$l];
+
+                                    $package_hotel = new PackageHotel() ;
+                                    $package_hotel->package_id = $package_id;
+                                    $package_hotel->city_id = $city_id;
+                                    $package_hotel->hotel_id = $hotel_id;
+                                    $package_hotel->roomtype_id = $hotel_room_type_id;
+                                    $package_hotel->total_rooms = $hotel_room_type_numbers;
+                                    $package_hotel->total_amount = $hotel_room_type_cost;
+                                    $package_hotel->save();
+
+                                }
+                            }
                         }
-                        if(isset($hotel_nos)){
-                            $package_hotel->total_rooms = $hotel_nos[0];
-                        }
-                        $hotel_cost = $request->input('hotel_cost_'.$city_id);
-                        if(isset($hotel_cost)){
-                            $package_hotel->total_amount = $hotel_cost[0];
-                        }
-                        
-                        $package_hotel->save();
+                       
                     }
+
+                    // $hotel_id = $request->input('second_hotel_'.$city_id);
+                   
+                    // if(isset($hotel_id)){
+                    //     $package_hotel = new PackageHotel() ;
+                    //     $package_hotel->package_id = $package_id;
+                    //     $package_hotel->city_id = $city_id;
+                    //     $package_hotel->hotel_id = $hotel_id[0];
+                    //     $hotel_nos = $request->input('hotel_number_count_'.$city_id);
+                    //     $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
+                    //     if(isset($hotel_room_type)){
+                    //         $package_hotel->roomtype_id = $hotel_room_type[0];
+                    //     }
+                    //     if(isset($hotel_nos)){
+                    //         $package_hotel->total_rooms = $hotel_nos[0];
+                    //     }
+                    //     $hotel_cost = $request->input('hotel_cost_'.$city_id);
+                    //     if(isset($hotel_cost)){
+                    //         $package_hotel->total_amount = $hotel_cost[0];
+                    //     }
+                        
+                    //     $package_hotel->save();
+                    // }
                     $activity_ids = $request->input('second_activity_'.$city_id);
                     if( isset($activity_ids)){
                         $activity_count = count($activity_ids);
