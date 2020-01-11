@@ -239,7 +239,7 @@
        });
        $(function() {
          $('select[name=country_id]').change(function() {
-             alert('ok');
+             //alert('ok');
              var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
       
              $.get(url, function(data) {
