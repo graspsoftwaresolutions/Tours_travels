@@ -233,6 +233,23 @@
   input[readonly] {
       background-color: #e9ecef;
   }
+  .hotel-list-panel{
+    margin-bottom: 20px;
+  }
+  .media-img {
+    width: 21%;
+    height: inherit;
+  }
+  .mt7{
+    margin-top: 7px !important;
+  }
+  .card.media-card-sm img {
+      width: 100px;
+      height: 140px;
+  }
+  .card.media-card-sm {
+      height: 140px;
+  }
 
 </style>
 @endsection
@@ -552,116 +569,108 @@
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
                          @foreach($data['package_place'] as $key => $place)
 
-                           @if($place->nights_count!=0)
+                           
                             @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
                               $place_city_data = CommonHelper::getcityDetails($place->city_id);
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
 
-                              //$place_city_name = CommonHelper::getcityName($place->city_id);
-                              $package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
-                              //dd($package_hotel->roomtype);
-                             
-
-                              $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
-
-                             // 
-                              $amenitystring = '';
-                              $a_count = 0;
-
-                              if($package_hotel!=null){
-                                foreach($package_hotel->amenities as $key => $amenity){
-                                  if($a_count<4){
-                                    $amenitystring .= $amenity->amenities_name;
-                                    if($amenity_count-1 != $key){
-                                      $amenitystring .= ', ';
-                                    } 
-                                  }
-                                  $a_count++;
-                                }
-                              }
-                              
-                              //dd($package_hotel);
-
-                              $roomtypesstring = '';
-                              $type_count = $package_hotel!=null ? count($package_hotel->roomtypes) : 0;
-                              $room_cost = 0;
-                              $cityhotelid = '';
-                              $cityhotelroomtype = '';
-                              $cityhotelroomnumbers = 0;
-                               
-                              if($package_hotel!=null){
-                                $room_cost = $package_hotel->total_amount;
-                                $cityhotelid = $package_hotel->id;
-                                $cityhotelroomtype = $package_hotel->roomtype_id;
-                                $cityhotelroomnumbers = $package_hotel->total_rooms;
-                                foreach($package_hotel->roomtypes as $key => $roomtype){
-
-                                  if($roomtype->pivot->roomtype_id==$package_hotel->roomtype_id){
-                                    $roomtypesstring = $roomtype->room_type.' - '.$package_hotel->total_rooms;
-
-                                    
-                                  }
-                                 
-                                }
-                              }
-
-                              $rating_string = '';
-                              if($package_hotel!=null){
-                                $ratings = $package_hotel->ratings;
-                               
-                                if($ratings!=null){
-                                  $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
-                                }
-                              }
+                              $package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
                              
                             @endphp
 
-                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
+                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item hotel-list-panel">
+                                
                                 <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
-                                <div class="card media-card-sm">
-                                  <div id="picked-hotelmedia-{{ $place->city_id }}" class="media">
-                                    @if($package_hotel!=null)
+                                <div id="hotel_city_{{ $place->city_id }}" style="background: #f2f2f2;" class="hotel-panel">
+                                  <div id="hotel_citydata_{{ $place->city_id }}">
+                                  @foreach($package_hotels as $hotel)
                                     @php
-                                      $hotelimages = $package_hotel->hotelimages;
-                                      $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+                                      $package_hotel_types = CommonHelper::getPackageHotelTypes($package_info->id,$place->city_id,$hotel->hotel_id);
+                                      $package_hotel = CommonHelper::getPackageHotelDetails($package_info->id,$place->city_id,$hotel->hotel_id);
                                     @endphp
+                                      <div id="picked_city_hotel_{{ $package_hotel->id }}" class="card media-card-sm">
+                                        <div id="picked-hotelmedia-{{ $package_hotel->id }}" class="media">
+                                          
+                                          @php
+                                            $hotelimages = $package_hotel->hotelimages;
+                                            $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
 
-                                    <div class="media-left media-img">
-                                      <a href="#">
-                                        <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
-                                      </a>
-                                    </div>
-                                    <div class="media-body p10">
-                                      <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
-                                      <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
-                                      <p class="sub-text mt10">{{ $amenitystring }}</p>
-                                      <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span> <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{$package_hotel->roomtype_id}},{{$package_hotel->total_rooms}})" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button>
-                                        <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
-                                      </p>
-                                      <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $cityhotelid }}"/>
-                                      <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
-                                      <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $room_cost }}"/>
-                                      <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $cityhotelroomnumbers }}"/>
-                                      <input type="text" class="hide hotel_room_type" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $place->city_id }}" value="{{ $cityhotelroomtype }}"/>
-                                    </div>
-                                    @else
-                                    <div class="media-left media-img">
-                                      <a>
-                                        <img class="responsive-img" src="{{ asset('public/assets/images/no_image.jpg') }}" alt="Hotel Image">
-                                      </a>
-                                    </div>
-                                    <div class="media-body p10">
-                                      <h4 class="media-heading">Please choose hotel</h4> 
-                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
-                                    </div>
-                                    @endif
-                                  </div>
-                                </div>
+                                            $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
+
+                                            $amenitystring = '';
+                                            $a_count = 0;
+
+                                            if($package_hotel!=null){
+                                              foreach($package_hotel->amenities as $key => $amenity){
+                                                if($a_count<4){
+                                                  $amenitystring .= $amenity->amenities_name;
+                                                  if($amenity_count-1 != $key){
+                                                    $amenitystring .= ', ';
+                                                  } 
+                                                }
+                                                $a_count++;
+                                              }
+                                            }
+
+                                            $rating_string = '';
+                                            if($package_hotel!=null){
+                                              $ratings = $package_hotel->ratings;
+                                             
+                                              if($ratings!=null){
+                                                $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
+                                              }
+                                            }
+                                            $total_hotel_prices = 0;
+                                          @endphp
+
+                                          <div class="media-left media-img">
+                                            <a href="#">
+                                              <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
+                                            </a>
+                                          </div>
+                                          <div class="media-body p10">
+
+                                            <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
+                                            <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
+                                            <p class="sub-text mt7">{{ $amenitystring }}</p>
+                                            <p class="sub-text mt7">
+                                              @foreach($package_hotel_types as $tkey => $types)
+                                                 {{ $types->room_type }} - {{ $types->total_rooms }}
+                                                 @if($tkey!=count($package_hotel_types)-1)
+                                                    ,
+                                                 @endif
+                                                 @php $total_hotel_prices += $types->total_rooms * $types->total_amount; @endphp
+                                                  <input type="text" class="hide hotel_room_cost" name="hotel_room_cost_{{ $place->city_id }}[]" id="hotel_room_cost_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_amount }}"/>
+                                                  <input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_{{ $place->city_id }}[]" id="type_hotel_number_count_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_rooms }}"/>
+                                                  <input type="text" class="hide hotel_room_type{{ $package_hotel->id }}" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->roomtype_id }}"/>
+                                              @endforeach
+                                             
+                                              <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> {{ $total_hotel_prices }} </span> 
+
+                                              <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},1)" class="btn btn-sm blue waves-effect waves-light ">Change</button>
+
+                                               <button id="remove_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="return RemoveHotelDB({{ $package_info->id }}, {{ $package_hotel->id }},{{$place->city_id}})" class="btn btn-sm red waves-effect waves-light ">Remove</button>
+                                              
+                                            </p>
+                                            <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $package_hotel->id }}"/>
+                                            <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
+                                            <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $total_hotel_prices }}"/>
+                                            <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $types->total_rooms }}"/>
+                                          </div>
+                                          
+                                         
+                                        </div>
+                                      </div>
+                                      
+                                  @endforeach
+                                   </div>
+                                   <button id="add_hotel_button_{{ $place->city_id }}" style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light">+ Add Hotel</button>
+                                 </div>
                               </li>
 
-                           @endif
+                           
                         @endforeach
 
                     </ul>
@@ -782,49 +791,50 @@
                                 <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-{{$place->city_id}}" class="summaryno"></span></span> <br> {{ $place_state_name }} - <span id="summary-city-name-{{$place->city_id}}">{{ $place_city_name }}</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-{{$place->city_id}}" value="{{$place->city_id}}"></div>
 
                                 <div id="summary-hotelarea-{{$place->city_id}}" class="overall-place-activitylist">
-                                  @if($place->nights_count!=0)
                                   @php
-                                     $sum_package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
-                                      $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
-                                     
-                                      $amenitystring = '';
-
-                                      if($sum_package_hotel!=null){
-                                         foreach($sum_package_hotel->amenities as $key => $amenity){
-                                          $amenitystring .= $amenity->amenities_name;
-                                          if($amenity_count-1 != $key){
-                                            $amenitystring .= ', ';
-                                          } 
-                                        }
-                                      }
-                                     
-
-                                      $roomtypesstring = '';
-                                      $type_count = $sum_package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
-
-                                      if($sum_package_hotel!=null){
-                                        foreach($sum_package_hotel->roomtypes as $key => $roomtype){
-                                          if($roomtype->pivot->roomtype_id==$sum_package_hotel->roomtype_id){
-                                            $roomtypesstring = $roomtype->room_type.' - '.$sum_package_hotel->total_rooms;
-                                            //dd($roomtypesstring);
-                                          } 
-                                        }
-                                      }
-                                      $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                    $sum_package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
                                   @endphp
-                                  @if($sum_package_hotel!=null)
+                                  @foreach($sum_package_hotels as $sum_hotel)
                                     @php
+                                      $sum_package_hotel_types = CommonHelper::getPackageHotelTypes($package_info->id,$place->city_id,$sum_hotel->hotel_id);
+                                      $sum_package_hotel = CommonHelper::getPackageHotelDetails($package_info->id,$place->city_id,$sum_hotel->hotel_id);
+
+                                      $amenitystring = '';
+                                      $a_count = 0;
+
+                                      if($sum_package_hotel!=null){
+                                        foreach($sum_package_hotel->amenities as $key => $amenity){
+                                          if($a_count<4){
+                                            $amenitystring .= $amenity->amenities_name;
+                                            if($amenity_count-1 != $key){
+                                              $amenitystring .= ', ';
+                                            } 
+                                          }
+                                          $a_count++;
+                                        }
+                                      }
+                                      
                                       $hotelimages = $sum_package_hotel->hotelimages;
                                       $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                                     @endphp
-                                  <div id="summary_hotel_id_{{$place->city_id}}" class="msg-wrapper">
-                                    <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-{{$place->city_id}}" src="{{ $hotel_image }}" alt="" class="avatar "><a id="summary-hotel-name-{{$place->city_id}}" class="msg-from" style="display: initial;">{{ $sum_package_hotel->hotel_name }}</a><br><a id="summary-hotel-type-{{$place->city_id}}" class="msg-sub">{{ $roomtypesstring }}</a>
-                                    <p id="summary-features-{{$place->city_id}}">{{ $amenitystring }}</p>
-                                  </div>
-                                  @endif
-                                  @endif
+                                    <div id="summary-hotel-picked-{{$sum_package_hotel->id}}" class="">
+                                      <div id="summary_hotel_id_{{$sum_package_hotel->id}}" class="msg-wrapper">
+                                        <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-{{$place->city_id}}" src="{{ $hotel_image }}" alt="" class="avatar "><a id="summary-hotel-name-{{$place->city_id}}" class="msg-from" style="display: initial;">{{ $sum_package_hotel->hotel_name }}</a><br>
+                                        <a id="summary-hotel-type-{{$place->city_id}}" class="msg-sub">
+                                           @foreach($sum_package_hotel_types as $tkey => $types)
+                                                 {{ $types->room_type }} - {{ $types->total_rooms }}, 
+                                            @endforeach
+                                        </a>
+                                        <p id="summary-features-{{$place->city_id}}">{{ $amenitystring }}</p>
+                                      </div>
+                                    </div>
+                                  @endforeach
                                   <div style="clear:both"></div>
                                 </div>
+                                
+                                @php
+                                  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                @endphp
 
                                 <div style="clear:both"></div>
                                 <div id="summary-activity-section-{{$place->city_id}}" class="activities-summary">
@@ -1315,6 +1325,26 @@
     }
 
    
+  }
+  function RemoveHotelDB(packageid, hotelid,cityid){
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+       $("#picked_city_hotel_"+hotelid).remove();
+       $("#summary-hotel-picked-"+hotelid).remove();
+      // var url = "{{ route('delete_package_activity') }}" + '?activity_id=' + activityid+'&city_id='+cityid+'&package_id='+packageid;
+      // $.ajax({
+      //     url: url,
+      //     type: "GET",
+      //     dataType: "json",
+      //     success: function(resultdata) {
+      //       if(resultdata){
+      //         $("#city_activity_id_"+activityid).remove();
+      //         $("#summary_city_activity_id_"+activityid).remove();
+      //       }
+      //     }
+      //   });
+    }else{
+
+    }
   }
   function ChangeStatus(status){
     $("#package_status_val").val(status);

@@ -92,7 +92,7 @@
                               <p id="view-state-city-name" class="address">Anse Reunion, La Digue</p>
 
                               <div class="hotel-rating-details">
-                                 <img id="view-city-full-image" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive">
+                                 <img id="view-city-full-image" src="{{ asset('public/assets/demo/images/demo-12.jpg') }}" alt="" style="width: 100%;height: 230px;" class="img-responsive"/>
                                   <!--<div class="right-part">80 Good <a class="sur-ipink">(156 reviews)</a></div>-->
                                   <div style="clear:both"></div>
                               </div> 
@@ -153,7 +153,11 @@
                         </div><!-- /.row -->    
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                        Total Rooms : <span id="viewtotalrooms">0</span>
+                        <input type="text" id="viewtotalroomsval" class="hide" name="viewtotalroomsval" value="0"/>
+                        &nbsp;&nbsp;
+                        <button id="viewhotelconfirmbtn" type="button" onclick="" class="btn green waves-effect waves-theme">Confirm</button>
+                        <button class="btn-flat red waves-effect waves-theme" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->
               
             </div><!-- /.modal-content -->

@@ -240,6 +240,23 @@
 .rating{
   margin-bottom: 5px;
 }
+.hotel-list-panel{
+    margin-bottom: 20px;
+  }
+   .media-img {
+    width: 21%;
+    height: inherit;
+  }
+  .mt7{
+    margin-top: 7px !important;
+  }
+  .card.media-card-sm img {
+      width: 100px;
+      height: 140px;
+  }
+  .card.media-card-sm {
+      height: 140px;
+  }
 
 </style>
 @endsection

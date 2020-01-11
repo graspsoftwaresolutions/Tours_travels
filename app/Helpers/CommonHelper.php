@@ -180,6 +180,44 @@ class CommonHelper
         
     }
 
+    public static function getPackageHotels($packageid,$cityid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotels_data = DB::table('package_hotel as ph')->select('ph.hotel_id')
+                    ->where('ph.package_id','=',$packageid)
+                    ->where('ph.city_id','=',$cityid)->groupBy('ph.hotel_id')->get();
+
+        return $hotels_data;
+        
+    }
+
+    public static function getPackageHotelTypes($packageid,$cityid,$hotelid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotels_rooms = DB::table('package_hotel as ph')->select('ph.roomtype_id','ph.total_rooms','ph.total_amount','type.room_type')
+                      ->leftjoin('room_type as type','type.id','=','ph.roomtype_id')
+                    ->where('ph.package_id','=',$packageid)
+                    ->where('ph.city_id','=',$cityid)
+                    ->where('ph.hotel_id','=',$hotelid)
+                    ->get();
+
+        return $hotels_rooms;
+        
+    }
+
+
+    public static function getPackageHotelDetails($packageid,$cityid,$hotelid){
+        $hotel_data = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                //'roomtypes',
+                'hotelimages'
+            ))->where('id','=',$hotelid)->first();
+
+        return $hotel_data;
+        
+    }
+
     public static function getPackageActivities($packageid,$cityid){
         //dd($packageid);
         $activity_ids = DB::table('package_activities as pa')

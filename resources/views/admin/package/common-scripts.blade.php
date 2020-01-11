@@ -172,13 +172,13 @@
     
       $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" class="hide" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
 
-      $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+paramscity.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+      $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="hotel_city_'+paramscity.cityid+'" style="background: #f2f2f2;" class="hotel-panel"> <div id="hotel_citydata_'+paramscity.cityid+'"> </div><button style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></li>');
 
       $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
       var listlength = $('#place-sortList li').length;
 
-      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+paramscity.cityid+'" class="summaryno">'+listlength+'</span></span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+paramscity.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+paramscity.cityid+'" src="'+imagedummy+'" alt="" class="avatar "><a id="summary-hotel-name-'+paramscity.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+paramscity.cityid+'" class="msg-sub"></a><p id="summary-features-'+paramscity.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+paramscity.cityid+'" class="activities-summary"> </div></li>');
+      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+paramscity.cityid+'" class="summaryno">'+listlength+'</span></span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+paramscity.cityid+'" class="activities-summary"> </div></li>');
 
        $("#place-activitylist-"+paramscity.cityid).dragsort();
 
@@ -234,7 +234,7 @@
                   var a_count = 0;
                   $.each(amenitieslist, function(keya, valuea) {
                     //console.log(keya);
-                    if(a_count<5){
+                    if(a_count<8){
                        amenitiesString += valuea.amenities_name;
                       if(amenities_len-1!=keya){
                           amenitiesString += ', ';
@@ -251,18 +251,18 @@
                   var roomtype_id = '';
                   $.each(roomtypeslist, function(keya, valuea) {
                     //console.log(keya);
-                    
-                    if(keya==0){
-                      roomtypesString += valuea.room_type+' - 1';
-                      confirm_btn += 'return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+','+valuea.pivot.roomtype_id+',0)';
-                      room_cost = valuea.pivot.price;
-                      roomtype_id = valuea.pivot.roomtype_id;
-                    }else{
-                      return false;
-                    }
-                    // if(roomtypes_len-1!=keya){
-                    //     roomtypesString += ', ';
+                     roomtypesString += valuea.room_type;
+                    // if(keya==0){
+                    //   roomtypesString += valuea.room_type+' - 1';
+                    //   confirm_btn += 'return ConfirmHotel('+value.id+','+paramscity.cityid+','+passparamscity+','+valuea.pivot.roomtype_id+',0)';
+                       room_cost = valuea.pivot.price== null ? 0 : valuea.pivot.price;
+                    //   roomtype_id = valuea.pivot.roomtype_id;
+                    // }else{
+                    //   return false;
                     // }
+                    if(roomtypes_len-1!=keya){
+                        roomtypesString += ', ';
+                    }
                   }); 
                   var hotelimages = value.hotelimages;
                   var imagelocation = no_image_url;
@@ -289,7 +289,7 @@
                   //console.log(hotelimages[0].image_name);
                    //var imagelocation = paramscity.cityimage=='null' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
 
-                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> '+room_cost+' more</p><div class="rating" style="color: #faa61a;"> '+rating_string+'</div><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_'+value.id+'_'+roomtype_id+'" type="button" onclick="'+confirm_btn+'" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> </div></div></div></div></div></li>');
+                  $("#listhotelsarea").append('<li class="list-group-item"> <div class="card "> <div class="media"> <div class="media-left media-img"> <a><img class="responsive-img" src="'+imagelocation+'" style="height: 130px;" alt="hotel Image"></a></div><div class="media-body p8"> <div class="row"> <div class="col-md-10"> <h4 class="media-heading name">'+value.hotel_name+'</h4><p class="area hide">'+place_area+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+'</p></div><div class="col-md-2"> <p style="">at <i class="fa fa-inr"></i> '+room_cost+' more</p><br><div class="rating" style="color: #faa61a;"> '+rating_string+'</div><br><button type="button" id="viewhotelid" onclick="return ViewHotelDetails('+value.id+','+passparamscity+')" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button>  </div></div></div></div></div></li>');
                 
                 });
               // $('#masterid').val(result.id);
@@ -322,7 +322,7 @@
 
     });
 
-  function ViewHotelDetails(hotelid,paramscity,roomtyeid=false,room_nos=false){
+  function ViewHotelDetails(hotelid,paramscity,type=false){
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
     //var resdata = paramscity.replace('"', '');
     //console.log(paramscity.cityid);
@@ -335,7 +335,9 @@
     //   if ('roomtyeid' in resdata) {
     //     console.log(paramscity);
     //   }
-      
+    //alert(type);
+      $("#viewtotalroomsval").val(0);
+      $("#viewtotalrooms").text(0);
       var place_area = paramscity.statename+' - '+paramscity.cityname;
       var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
       $.ajax({
@@ -389,41 +391,33 @@
             $.each(roomtypeslist, function(keya, valuea) {
               //console.log(valuea.pivot.price);
               var desc = valuea.pivot.description==null ? '' : valuea.pivot.description;
-              if(roomtyeid!=false && valuea.id==roomtyeid){
-                var btncolor = 'blue';
-                var selectedtype = '<i class="icon mdi mdi-check"></i>';
-                var room_count = room_nos;
-                 var hotel_rooms_option = '';
-                  var i;
-                  for (i = 1; i <= 40; i++) {
-                    if(i==room_nos){
-                      hotel_rooms_option += '<option selected value="'+i+'">'+i+' Room(s)</option>';
-                    }else{
-                      hotel_rooms_option += '<option value="'+i+'">'+i+' Room(s)</option>';
-                    }
-                  }
-              }else{
-                var btncolor = 'green';
-                 var selectedtype = '';
-                var room_count = 1;
-                 var hotel_rooms_option = '';
-                var i;
-                for (i = 1; i <= 40; i++) {
-                  if(i==1){
-                    hotel_rooms_option += '<option selected value="'+i+'">'+i+' Room(s)</option>';
-                  }else{
-                    hotel_rooms_option += '<option value="'+i+'">'+i+' Room(s)</option>';
-                  }
-                }
-              }
-              var button_evt =  'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+','+valuea.pivot.roomtype_id+',1)';
-              $("#view-hotel-roomtypes").append('<h3>'+valuea.room_type+' <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+desc+'</div><br>');
-              $("#view-hotel-roomtypes").append('<div class="row"><div class="col-md-offset-4 col-md-4"><select class="selectroom form-control" id="hotel_rooms_'+resultdata.id+'_'+valuea.pivot.roomtype_id+'">'+hotel_rooms_option+'</select></div><div class="col-md-4"><button id="viewhotelconfirm_'+resultdata.id+'_'+valuea.pivot.roomtype_id+'" type="button" onclick="'+button_evt+'" class="btn '+btncolor+' waves-effect waves-theme">'+selectedtype+'Confirm</button></div></div>');
+
+               $("#view-hotel-roomtypes").append('<h3> <span id="roomtypename_'+valuea.pivot.roomtype_id+'">'+valuea.room_type+'</span> <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+desc+'</div><br>');
+            
+              $("#view-hotel-roomtypes").append('<div class="row"><div class="form-group"><label class="col-md-offset-2 col-sm-3 control-label" style="margin-top: 10px;">No of rooms:</label><div class="col-sm-4"><div class="input-field"><input type="text" id="hotel_rooms_'+valuea.pivot.roomtype_id+'" name="hotel_rooms_view" onKeyup="return CalculateRooms()" class="selectroom allow_number form-control" value="0"><input type="text" id="hotel_roomtype_'+valuea.pivot.roomtype_id+'" name="hotel_roomtype_view" readonly class="viewroomtypeid allow_number form-control" value="'+valuea.pivot.roomtype_id+'"><input type="text" id="hotel_roomtypecost_'+valuea.pivot.roomtype_id+'" name="hotel_roomtypecost_view" class="hotel_roomtypecost allow_number form-control" readonly value="'+valuea.pivot.price+'"><div class="input-highlight"></div></div></div></div></div>');
              
             }); 
-             $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');
+
+            if(type==1){
+              var total_rooms_count = 0;
+              $(".hotel_room_type"+hotelid).each(function() {
+                  var typeid = $(this).val();
+                  var total_rooms = $("#type_hotel_number_count_"+hotelid+"_"+typeid).val();
+                  $("#hotel_rooms_"+typeid).val(total_rooms);
+                  console.log(typeid+' '+total_rooms);
+                 
+                  total_rooms_count += parseInt(total_rooms);
+                  
+              });
+              //console.log(total_rooms_count);
+              $("#viewtotalroomsval").val(total_rooms_count);
+              $("#viewtotalrooms").text(total_rooms_count);
+            }
+            $("#view-hotel-roomtypes").append('<div style="clear:both"></div>');
 
             $("#view-hotel-listdescription").html(resultdata.listing_descriptions);
+            $("#viewhotelconfirmbtn").attr('onClick','return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
+
             //$('#viewhotelconfirm').attr('onclick', 'return ConfirmHotel('+resultdata.id+','+paramscity.cityid+','+passparamscity+')');
           }
       });
@@ -438,12 +432,13 @@
     
   }
 
-  function ConfirmHotel(hotelid,cityid,paramscity,roomtyeid,type){
+  function ConfirmHotel(hotelid,cityid,paramscity){
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
     $("#picked-hotelmedia-"+cityid).empty();
     //var imagename ='';
     var place_area = paramscity.statename+' - '+paramscity.cityname;
-
+    type =1;
+    roomtyeid =1;
     if(type==1){
       var hotel_room_nos = $("#hotel_rooms_"+hotelid+"_"+roomtyeid).val();
        //console.log(hotel_room_nos);
@@ -452,7 +447,8 @@
     }
 
     // /console.log(hotelid+'room type'+roomtyeid);
-
+    var viewtotalroomsval = $("#viewtotalroomsval").val();
+    if(viewtotalroomsval>0){
     var url = "{{ route('city_hotels_details') }}" + '?hotel_id=' + hotelid;
     $.ajax({
         url: url,
@@ -483,22 +479,22 @@
 
             var roomtypeslist = resultdata.roomtypes;
             var roomtypesString = '';
-            var roomtypes_len = roomtypeslist.length;
-            var room_cost = 0;
-            $.each(roomtypeslist, function(keya, valuea) {
-              //console.log(keya);
+          //  var roomtypes_len = roomtypeslist.length;
+           // var room_cost = 0;
+            // $.each(roomtypeslist, function(keya, valuea) {
+            //   //console.log(keya);
              
 
-              if(valuea.pivot.roomtype_id==roomtyeid){
-                roomtypesString = valuea.room_type+' - '+hotel_room_nos;
-                room_cost = valuea.pivot.price;
-                //alert(roomtypesString);
-              }
+            //   if(valuea.pivot.roomtype_id==roomtyeid){
+            //     roomtypesString = valuea.room_type+' - '+hotel_room_nos;
+            //     room_cost = valuea.pivot.price;
+            //     //alert(roomtypesString);
+            //   }
 
-              // if(roomtypes_len-1!=keya){
-              //     roomtypesString += ', ';
-              // }
-            }); 
+            //   // if(roomtypes_len-1!=keya){
+            //   //     roomtypesString += ', ';
+            //   // }
+            // }); 
 
             var ratings = resultdata.ratings;
             var rating_string = '';
@@ -506,18 +502,49 @@
               rating_string = ratings+' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
             }
 
-            var total_roomcost = room_cost*hotel_room_nos;
+           // var total_roomcost = room_cost*hotel_room_nos;
 
-            var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_roomcost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+hotel_room_nos+'" /><input type="text" class="hide hotel_room_type" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+cityid+'" value="'+roomtyeid+'" />';
+          
+            hiddenvalues = '';
+            var total_roomcost = 0;
+            $(".viewroomtypeid").each(function() {
+                var roomtypeid = $(this).val();
+                var roomnumbers = $("#hotel_rooms_"+roomtypeid).val();
+                var roomtypecost = $("#hotel_roomtypecost_"+roomtypeid).val();
+                if(roomnumbers>0){
+                  var roomtypename = $("#roomtypename_"+roomtypeid).text();
+                  roomtypesString += roomtypename+' - '+roomnumbers;
+                  roomtypesString += ', ';
+                  hiddenvalues +='<input type="text" class="hide hotel_room_type'+hotelid+'" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+hotelid+'_'+roomtypeid+'" value="'+roomtypeid+'" />';
+                  hiddenvalues +='<input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_'+cityid+'[]" id="type_hotel_number_count_'+hotelid+'_'+roomtypeid+'" value="'+roomnumbers+'"/>';
+                  hiddenvalues +='<input type="text" class="hide hotel_room_cost" name="hotel_room_cost_'+cityid+'[]"  id="hotel_room_cost_'+hotelid+'_'+roomtypeid+'" value="'+roomtypecost+'" />';
+                  total_roomcost +=parseFloat(roomnumbers)*parseFloat(roomtypecost);
+                }
+            });
 
-            $("#picked-hotelmedia-"+cityid).append('<div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_'+cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+resultdata.id+','+roomtyeid+','+hotel_room_nos+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div>');
-              $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
-              $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
-              $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
-              $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
+              hiddenvalues += '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_roomcost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+viewtotalroomsval+'" />';
+
+            if(!$('#picked_city_hotel_'+hotelid).length){
+              $("#hotel_citydata_"+cityid).append('<div id="picked_city_hotel_'+hotelid+'" class="card media-card-sm"><div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_3" style="margin-left: 20px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 20px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+',1)" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div></div><div style="clear: both;"></div>');
+              $("#summary-hotelarea-"+cityid).append('<div id="summary-hotel-picked-'+hotelid+'" class="" style="cursor: move;"><div id="summary_hotel_id_'+hotelid+'" class="msg-wrapper" style="cursor: move;"> <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+hotelid+'" src="'+imagelocation+'" alt="" class="avatar "><a id="summary-hotel-name-'+hotelid+'" class="msg-from" style="display: initial;">'+resultdata.hotel_name+'</a><br><a id="summary-hotel-type-'+hotelid+'" class="msg-sub">'+roomtypesString+'</a><p id="summary-features-'+hotelid+'">'+amenitiesString+'</p></div><div style="clear: both; cursor: move;"></div></div>');
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
+              // $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
+            }else{
+              $("#picked_city_hotel_"+hotelid).html('<div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_3" style="margin-left: 20px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 20px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+')" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div>');
+               $("#summary-hotel-picked-"+hotelid).html('<div id="summary_hotel_id_'+hotelid+'" class="msg-wrapper" style="cursor: move;"> <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+hotelid+'" src="'+imagelocation+'" alt="" class="avatar "><a id="summary-hotel-name-'+hotelid+'" class="msg-from" style="display: initial;">'+resultdata.hotel_name+'</a><br><a id="summary-hotel-type-'+hotelid+'" class="msg-sub">'+roomtypesString+'</a><p id="summary-features-'+hotelid+'">'+amenitiesString+'</p></div><div style="clear: both; cursor: move;"></div>');
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
+              // $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
+              // $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
+            }
+            
         }
     });
-
+   }else{
+     alert("no rooms added for this hotel");
+   }
     
     //alert(hotelid);
     $("#CityHotelDetailsModal").modal('hide');
@@ -792,6 +819,14 @@
        evt.preventDefault();
      }
    });
+     $(document).on('input', '.allow_number', function(){
+     var self = $(this);
+     self.val(self.val().replace(/[^0-9]/g, ''));
+     if ((evt.which < 48 || evt.which > 57)) 
+     {
+       evt.preventDefault();
+     }
+   });
   $(document).on('keyup', '#transport_charges,#additional_charges', function(){
      //var total_package_value = $("#total_package_value").val();
      var transport_charges = $("#transport_charges").val();
@@ -814,13 +849,31 @@
      $("#total_amount").val((parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2));
    });
 
-  function EditHotel(paramscity,hotelid,roomtyeid,room_nos){
-    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' , roomtyeid: '"+roomtyeid+"' , room_nos: '"+room_nos+"' }";
+  function EditHotel(paramscity,hotelid,type){
+    var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' , type: '"+type+"' }";
     var cityid = paramscity.cityid;
-    ViewHotelDetails(hotelid,paramscity,roomtyeid,room_nos);
+    ViewHotelDetails(hotelid,paramscity,type);
     // $("#hotel_rooms_"+hotelid+"_"+roomtyeid).val(room_nos);
     // $("#viewhotelconfirm_"+hotelid+"_"+roomtyeid).removeClass('green');
     // $("#viewhotelconfirm_"+hotelid+"_"+roomtyeid).addClass('blue');
+  }
+
+  function CalculateRooms(){
+    var total_rooms = 0;
+    $(".selectroom").each(function() {
+      var roomnumber = $(this).val();
+      roomnumber = roomnumber=='' ? 0 : parseInt(roomnumber);
+      total_rooms += parseInt(roomnumber);
+
+    });
+    $("#viewtotalrooms").text(total_rooms);
+    $("#viewtotalroomsval").val(total_rooms);
+
+  }
+
+  function RemoveHotel(hotelid,cityid){
+    $("#picked_city_hotel_"+hotelid).remove();
+    $("#summary-hotel-picked-"+hotelid).remove();
   }
 
 </script>
