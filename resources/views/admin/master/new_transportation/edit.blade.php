@@ -158,7 +158,7 @@
 
             <p><span style="color:red;    margin-left: 0px;"> Mandatory (*)</span></p>
             <div class="form-group clearfix">
-               <button id="submittext" type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
+               <button id="saveMasterButton" type="submit" class="btn theme-accent waves-effect waves-light pull-right"><i class="mdi mdi-send right"></i>Save</button>
             </div>
             <!-- /.form-group -->
          </form>
@@ -278,5 +278,8 @@
              });
          });
       });
+      $(document).on('submit','form#TransportationformValidate',function(){
+        $("#saveMasterButton").prop('disabled',true);
+    });
 </script>
 @endsection

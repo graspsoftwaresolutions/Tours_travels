@@ -55,9 +55,6 @@
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>
-
-                           
-
                             @foreach( $data['tans_view'] as $values)
                                 <tr> 
                                 <td> @php if($values->country_name) { echo $values->country_name; } else{echo '---';  } @endphp </td> </td>
