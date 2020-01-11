@@ -63,7 +63,7 @@
                                         <button class="btn btn-sm blue waves-effect waves-circle waves-light" onClick='showeditForm({{$tax->taxid}});'><i class="mdi mdi-lead-pencil"></i></button>
                                         &nbsp;
                                         <a>
-                                            <form style='display:inline-block;' action='{{ route("master.countrydestroy",$tax->taxid) }}' method='POST'>
+                                            <form style='display:inline-block;' action='{{ route("master.interestTaxdestroy",$tax->taxid) }}' method='POST'>
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                             <button type="submit" class="btn btn-sm red waves-effect waves-circle waves-light" onclick='return ConfirmDeletion()' ><i class="mdi mdi-delete"></i></button>
@@ -158,8 +158,6 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
-       
     </section> <!-- /.content-wrapper -->
 @endsection
 @section('footerSection')
@@ -175,8 +173,6 @@
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 @endsection
 @section('footerSecondSection')
-
-
 <script type="text/javascript">
 
     const regex = /[^\d.]|\.(?=.*\.)/g;

@@ -15,7 +15,7 @@ class InterestTaxRate extends Model
     public function SaveInterestTaxRate($data=array())
     {
         if (!empty($data['masterid'])) {
-            
+            $data['updated_by'] = Auth::guard('admin')->user()->id;
             $savedata = InterestTaxRate::find($data['masterid'])->update($data);
         } else {
             $data['created_by'] = Auth::guard('admin')->user()->id;

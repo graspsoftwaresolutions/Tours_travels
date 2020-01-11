@@ -515,6 +515,7 @@ class MasterController extends CommonController {
         $data['tax_view'] = DB::table('interest_tax_rate as int')->select('c.country_name','s.state_name','int.tax','int.id as taxid')
                             ->join('country as c','c.id','=','int.country_id')
                             ->join('state as s','s.id','=','int.state_id')
+                            ->where('int.status','=','1')
                             ->get();
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
@@ -570,5 +571,14 @@ class MasterController extends CommonController {
                 }
             }
         }
+    }
+    public function interestTaxdestroy($id)
+    {
+     
+        if($id!='')
+        {
+            DB::table('interest_tax_rate')->where('id','=',$id)->update(['status'=>'0']);  
+        }
+        return redirect('admin/interest_tax')->with('message','Interest Tax Rate Details Deleted Successfully!!');
     }
 }

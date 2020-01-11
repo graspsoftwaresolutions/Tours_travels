@@ -69,10 +69,10 @@ Route::group( [ 'prefix' => 'admin' ], function()
     //Interest Tax
     Route::get('/interest_tax','Admin\MasterController@interestTaxList')->name('master.interest_tax'); 
     Route::post('/save_interest_tax','Admin\MasterController@saveInterestTax')->name('master.save_interest_tax');
-    
-
     Route::get('/interestTax_detail','Admin\CommonController@interestTax_detail')->name('interestTax_detail');
-
+    Route::delete('interest_Taxdestroy/{id}','Admin\MasterController@interestTaxdestroy')->name('master.interestTaxdestroy'); 
+    
+    
 
     //Amenities Details 
     Route::get('/new_amenities', 'Admin\HotelController@newAmnities')->name('amenities.new');
