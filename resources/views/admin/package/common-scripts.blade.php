@@ -37,7 +37,8 @@
       var total_countable = parseInt(childcount)+parseInt(adultcount);
       $(".activity_person_cost").each(function() {
         var activitycostid = $(this).attr('id');
-        var activitycostval = $(this).val();
+       // alert($(this).val());
+        var activitycostval = $(this).val()=='' || $(this).val()=='null' || typeof($(this).val())=='object' ? 0 : $(this).val();
         cost_arr = activitycostid.split('_');
         var activity_id = cost_arr[3];
         var total_cost = activitycostval*total_countable;
@@ -45,7 +46,7 @@
         $("#summary_activity_value_"+activity_id).text(total_cost);
         $("#activity_cost_"+activity_id).val(total_cost);
 
-        //console.log(activitycostid);
+        console.log(activitycostval);
       });
       //console.log('child-'+childcount+',adult-'+adultcount+',infant-'+infantcount);
 
@@ -196,8 +197,8 @@
            var summary_cities = $("#summary-cities").text();
            var summary_city_name = $("#summary-city-name-"+cityid).html();
            var updatedString = summary_cities.replace(summary_city_name+',', "");
-           console.log(summary_cities);
-           console.log("#summary-city-name-"+cityid);
+           //console.log(summary_cities);
+           //console.log("#summary-city-name-"+cityid);
            $("#summary-cities").text(updatedString);
            $("#place_night_"+cityid).remove();
            $("#picked-hotelli-"+cityid).remove();
@@ -390,11 +391,16 @@
 
             $.each(roomtypeslist, function(keya, valuea) {
               //console.log(valuea.pivot.price);
+              var typecost = typeof(valuea.pivot.price)=='object' ? 0 : valuea.pivot.price;
+              // if(typeof(typecost)=='object'){
+              //   console.log(typeof(typecost) );
+              // }
+              
               var desc = valuea.pivot.description==null ? '' : valuea.pivot.description;
 
-               $("#view-hotel-roomtypes").append('<h3> <span id="roomtypename_'+valuea.pivot.roomtype_id+'">'+valuea.room_type+'</span> <span class="pull-right">at <i class="fa fa-inr"></i> '+valuea.pivot.price+'</span></h3><div>'+desc+'</div><br>');
+               $("#view-hotel-roomtypes").append('<h3> <span id="roomtypename_'+valuea.pivot.roomtype_id+'">'+valuea.room_type+'</span> <span class="pull-right">at <i class="fa fa-inr"></i> '+typecost+'</span></h3><div>'+desc+'</div><br>');
             
-              $("#view-hotel-roomtypes").append('<div class="row"><div class="form-group"><label class="col-md-offset-2 col-sm-3 control-label" style="margin-top: 10px;">No of rooms:</label><div class="col-sm-4"><div class="input-field"><input type="text" id="hotel_rooms_'+valuea.pivot.roomtype_id+'" name="hotel_rooms_view" onKeyup="return CalculateRooms()" class="selectroom allow_number form-control" value="0"><input type="text" id="hotel_roomtype_'+valuea.pivot.roomtype_id+'" name="hotel_roomtype_view" readonly class="viewroomtypeid allow_number hide form-control" value="'+valuea.pivot.roomtype_id+'"><input type="text" id="hotel_roomtypecost_'+valuea.pivot.roomtype_id+'" name="hotel_roomtypecost_view" class="hotel_roomtypecost hide allow_number form-control" readonly value="'+valuea.pivot.price+'"><div class="input-highlight"></div></div></div></div></div>');
+              $("#view-hotel-roomtypes").append('<div class="row"><div class="form-group"><label class="col-md-offset-2 col-sm-3 control-label" style="margin-top: 10px;">No of rooms:</label><div class="col-sm-4"><div class="input-field"><input type="text" id="hotel_rooms_'+valuea.pivot.roomtype_id+'" name="hotel_rooms_view" onKeyup="return CalculateRooms()" class="selectroom allow_number form-control" value="0"><input type="text" id="hotel_roomtype_'+valuea.pivot.roomtype_id+'" name="hotel_roomtype_view" readonly class="viewroomtypeid allow_number hide form-control" value="'+valuea.pivot.roomtype_id+'"><input type="text" id="hotel_roomtypecost_'+valuea.pivot.roomtype_id+'" name="hotel_roomtypecost_view" class="hotel_roomtypecost hide allow_number form-control" readonly value="'+typecost+'"><div class="input-highlight"></div></div></div></div></div>');
              
             }); 
 
@@ -404,7 +410,7 @@
                   var typeid = $(this).val();
                   var total_rooms = $("#type_hotel_number_count_"+hotelid+"_"+typeid).val();
                   $("#hotel_rooms_"+typeid).val(total_rooms);
-                  console.log(typeid+' '+total_rooms);
+                 // console.log(typeid+' '+total_rooms);
                  
                   total_rooms_count += parseInt(total_rooms);
                   
@@ -510,7 +516,7 @@
             $(".viewroomtypeid").each(function() {
                 var roomtypeid = $(this).val();
                 var roomnumbers = $("#hotel_rooms_"+roomtypeid).val();
-                var roomtypecost = $("#hotel_roomtypecost_"+roomtypeid).val();
+                var roomtypecost = $("#hotel_roomtypecost_"+roomtypeid).val() == null ? 0 : $("#hotel_roomtypecost_"+roomtypeid).val();
                 if(roomnumbers>0){
                   var roomtypename = $("#roomtypename_"+roomtypeid).text();
                   roomtypesString += roomtypename+' - '+roomnumbers;
@@ -594,7 +600,7 @@
 
 
   function ViewActivityDetails(activityid,paramscity){
-    console.log(activityid);
+    //console.log(activityid);
     var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //console.log(paramscity);
       var place_area = paramscity.statename+' - '+paramscity.cityname;
@@ -701,7 +707,7 @@
                var imagelocation = image_url+'/activity/'+hotelimages[0].image_name
             }
 
-            var total_act_cost = total_count*resultdata.amount;
+            var total_act_cost = resultdata.amount==null || resultdata.amount=='' ? 0 : total_count*resultdata.amount;
 
             var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+resultdata.id+'" value="'+total_act_cost+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+resultdata.id+'" value="'+resultdata.amount+'" />';
 

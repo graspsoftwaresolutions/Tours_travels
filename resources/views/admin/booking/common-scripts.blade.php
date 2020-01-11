@@ -37,7 +37,7 @@
       var total_countable = parseInt(childcount)+parseInt(adultcount);
       $(".activity_person_cost").each(function() {
         var activitycostid = $(this).attr('id');
-        var activitycostval = $(this).val();
+        var activitycostval = $(this).val()=='null' ? 0 : $(this).val();
         cost_arr = activitycostid.split('_');
         var activity_id = cost_arr[3];
         var total_cost = activitycostval*total_countable;
