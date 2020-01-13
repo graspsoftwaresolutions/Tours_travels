@@ -107,6 +107,10 @@
 @section('footerSecondSection')
 
 <script>
+(function($){
+        $('#datatable-master').dataTable();
+       
+    })(jQuery);
 function ConfirmDeletion() {
     if (confirm("{{ __('Are you sure you want to delete?') }}")) {
         return true;

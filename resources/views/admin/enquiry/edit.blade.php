@@ -89,7 +89,7 @@
                   $state_name = CommonHelper::getstateName($customer_details->state_id);
                   $city_name = CommonHelper::getcityName($customer_details->city_id);
                   @endphp
-                  <input placeholder="Email" readonly value="{{$country_name ? $country_name : ''}}" class="clearable" id="country_id" name="country_id" type="text">
+                  <input placeholder="Country Name" readonly {{$country_name ? $country_name : ''}} value="{{$country_name ? $country_name : ''}}" class="clearable" id="country_id" name="country_id" type="text">
                   <div class="input-highlight"></div>
                </div>
             </div>
@@ -98,7 +98,7 @@
                <div class="select-row form-group">
                   <label for="state_id" class="block">{{__('State Name') }}</label>                 
                   <!-- To validate the select add class "select-validate" -->     
-                  <input placeholder="Email" readonly value="{{$state_name ? $state_name : ''}}" class="clearable" id="state_id" name="state_id" type="text">
+                  <input placeholder="State Name" readonly value="{{$state_name ? $state_name : ''}}" class="clearable" id="state_id" name="state_id" type="text">
                   <div class="input-highlight"></div>
                </div>
             </div>
@@ -111,14 +111,14 @@
                <div class="select-row form-group">
                   <label for="city_id" class="block">{{__('City Name') }}</label>                 
                   <!-- To validate the select add class "select-validate" -->     
-                  <input placeholder="Email" readonly value="{{$city_name ? $city_name : ''}}" class="clearable" id="city_id" name="city_id" type="text">
+                  <input placeholder="City Name" readonly value="{{$city_name ? $city_name : ''}}" class="clearable" id="city_id" name="city_id" type="text">
                   <div class="input-highlight"></div>
                </div>
             </div>
             <!-- ./col- -->
             <div class="col-sm-6">
                <div class="form-group input-field label-float">
-                  <input placeholder="Address" class="clearable" readonly value="{{$customer_details->address_one ? $customer_details->address_one : ''}}" id="addressone" name="addressone" type="text">
+                  <input placeholder="Address One" class="clearable" readonly value="{{$customer_details->address_one ? $customer_details->address_one : ''}}" id="addressone" name="addressone" type="text">
                   <label for="address" class="fixed-label">{{__('Address one') }}</label>
                   <div class="input-highlight"></div>
                </div>
@@ -306,16 +306,26 @@
    $(document).ready(function(){
       $('.genpackages').hide();
       $('#country_id').attr('disabled', false)
-   
+      if($('#type').val() ==  'general')
+      {   
+            $('#send_quotation').hide();
+      }
+      else{
+         $('#send_quotation').show();
+      }
+
+
       $('#type').change(function(){
         var type =   $('#type').val();
          if(type == 'package')
          {
             $('.packages').show();
             $('.genpackages').show();
+            $('#send_quotation').show();
          }
          else{
             $('.genpackages').hide();
+            $('#send_quotation').hide();
          }
       });
    

@@ -104,7 +104,7 @@
                   <a id="city_sidebar_a_id" href="{{route('master.city')}}" class="submenu-target">{{ __('City Details') }}</a>
                 </li>
                 <li id="city_sidebar_li_id" class="submenu-item">
-                  <a id="city_sidebar_a_id" href="{{route('master.interest_tax')}}" class="submenu-target">{{ __('Inrerest Tax') }}</a>
+                  <a id="city_sidebar_a_id" href="{{route('master.interest_tax')}}" class="submenu-target">{{ __('Interest Rate Tax') }}</a>
                 </li>
                 <li id="transport_sidebar_li_id" class="submenu-item">
                   <a id="transport_sidebar_a_id" href="{{route('master.transportation')}}" class="submenu-target">{{ __('Transport') }}</a>
