@@ -89,7 +89,7 @@
                   $state_name = CommonHelper::getstateName($customer_details->state_id);
                   $city_name = CommonHelper::getcityName($customer_details->city_id);
                   @endphp
-                  <input placeholder="Country Name" readonly {{$country_name ? $country_name : ''}} value="{{$country_name ? $country_name : ''}}" class="clearable" id="country_id" name="country_id" type="text">
+                  <input placeholder="Country Name" readonly value="{{$country_name ? $country_name : ''}}" class="clearable" id="country_id" name="country_id" type="text">
                   <div class="input-highlight"></div>
                </div>
             </div>
