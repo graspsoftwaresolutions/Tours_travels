@@ -84,7 +84,7 @@
   <!-- start preheader -->
   <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
     <!-- A preheader is the short summary text that follows the subject line when an email is viewed in the inbox. -->
-    Paasword for Tours and Travels
+    Password for Tours and Travels
   </div>
   <!-- end preheader -->
 
@@ -126,7 +126,7 @@
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
             <td align="left" bgcolor="#faa61a" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
-              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Dear {{ $details['name'] }}, </h1>
+              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Dear {{ $details['name'] }}, Your account has been created succesfully! </h1>
 			  
 			<p>  <h3 style="margin: 0; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Password for the Tours and Travels account </h3> </p>
             </td>
@@ -154,6 +154,7 @@
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 0px;">
+              <p style="margin: 0;">Username : Registered Email is your username. </p>
               <p style="margin: 0;">Your password is  <b> {{ $details['password'] }} </b> </p>
             </td>
           </tr>

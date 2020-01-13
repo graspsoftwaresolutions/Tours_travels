@@ -94,13 +94,34 @@ class CommonHelper
     }
 	
 	public static function getCountryName($countryid){
-		return $country_name = Country::find($countryid)->country_name;
+        if($countryid!='')
+        {
+            return $country_name = Country::find($countryid)->country_name;
+        }
+        else{
+            return '';
+        }
+		
     }
 	public static function getstateName($stateid){
-		return $state_name = State::find($stateid)->state_name;
+        if($stateid!='')
+        {
+            return $state_name = State::find($stateid)->state_name;
+        }
+        else{
+            return '';
+        }
+		
     }
 	public static function getcityName($cityid){
-		return $city_name = City::find($cityid)->city_name;
+        if($cityid)
+        {
+            return $city_name = City::find($cityid)->city_name;
+        }
+        else{
+            return '';
+        }
+		
     }
 	
 	public static function ConvertdatetoDBFormat($date){
@@ -376,5 +397,11 @@ class CommonHelper
         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
         return $result;
    }
+//    public static function getEncCustomerDetails($customerid)
+//    {
+//         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
+//         $enc_customerid = crypt::encrypt($result);
+//         return $enc_customerid;
+//    }
 
 }
