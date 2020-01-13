@@ -251,6 +251,14 @@
       height: 140px;
   }
 
+  .btn-circle {
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+  }
+
 </style>
 @endsection
 @section('main-content')	
@@ -737,6 +745,78 @@
                 </div>
             
             </fieldset>
+            <h3>Transportation</h3>
+            <fieldset>
+                <div class="col-sm-12">
+                  <h4 class="text-headline">Transportation Charges</h4>
+                  <div class="row">
+                    <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
+                        @foreach($data['package_place'] as $place)
+                        @php 
+                          $place_state_name = CommonHelper::getstateName($place->state_id);
+                          $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                          $place_city_name = $place_city_data->city_name;
+                          $place_city_image = $place_city_data->city_image;
+                        @endphp
+                        <li data-cityid="3" id="picked-hotelli-3" class="tl-item hotel-list-panel">
+                          <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
+                          <div id="hotel_city_3" style="" class="hotel-panel"> 
+                            <div id="transport_citydata_3"> 
+                              <br>
+                              <div class="col-md-12 form-horizontal">
+                                  <div id="airportpick1" class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Airport(pickup/Drop)') }} 1</label>
+                                    <div class="col-sm-4">     
+                                      <div class="input-field">
+                                        <input type="text" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="">    
+                                        <div class="input-highlight"></div>
+                                      </div>
+                                    </div><!-- /.col- -->
+                                     <div class="col-sm-2">
+                                        <button type="button" onclick="return AddMoreAirport()" class="btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button>
+                                     </div>
+                                  </div><!-- /.form-group -->
+                                  <div id="moreAirport">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Driver beta') }}</label>
+                                    <div class="col-sm-6">     
+                                      <div class="input-field">
+                                        <input type="text" id="exampleInputPassword1" placeholder="">    
+                                        <div class="input-highlight"></div>
+                                      </div>
+                                    </div><!-- /.col- -->
+                                  </div><!-- /.form-group -->
+                                  <div class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Toll & Parking') }}</label>
+                                    <div class="col-sm-6">     
+                                      <div class="input-field">
+                                        <input type="text" id="exampleInputPassword1" placeholder="">    
+                                        <div class="input-highlight"></div>
+                                      </div>
+                                    </div><!-- /.col- -->
+                                  </div><!-- /.form-group -->
+                                  <div class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Interest Rate Tax') }}</label>
+                                    <div class="col-sm-6">     
+                                      <div class="input-field">
+                                        <input type="text" id="exampleInputPassword1" placeholder="">    
+                                        <div class="input-highlight"></div>
+                                      </div>
+                                    </div><!-- /.col- -->
+                                  </div><!-- /.form-group -->
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    <div id="dummy-transports">
+                      
+                    </div>
+                  </div>
+                </div>
+            </fieldset>
             <h3>Summary</h3>
             <fieldset>
                 <div class="col-sm-12">
@@ -1181,7 +1261,7 @@
                 
                return formsubmit;
             }
-            if(newIndex===3){
+            if(newIndex===4){
                $(".place-night-select").trigger('change');
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
@@ -1349,6 +1429,9 @@
   }
   function ChangeStatus(status){
     $("#package_status_val").val(status);
+  }
+ function AddMoreAirport(){
+   $("#moreAirport").append($("#airportpick1").clone());
   }
  
 </script>

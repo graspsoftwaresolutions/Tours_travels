@@ -547,6 +547,7 @@
                   
                   
             </fieldset>
+
             <h3>Activities</h3>
             <fieldset>
                 <div class="col-sm-12">
@@ -561,6 +562,20 @@
                   </div>
                 </div>
             
+            </fieldset>
+            <h3>Transportation</h3>
+            <fieldset>
+                <div class="col-sm-12">
+                  <h4 class="text-headline">Transportation Charges</h4>
+                  <div class="row">
+                    <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
+                        
+                    </ul>
+                    <div id="dummy-transports">
+                      
+                    </div>
+                  </div>
+                </div>
             </fieldset>
             <h3>Summary</h3>
             <fieldset>
