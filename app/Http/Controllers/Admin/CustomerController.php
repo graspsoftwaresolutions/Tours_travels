@@ -87,15 +87,14 @@ class CustomerController extends BaseController
            Session::flash('message', 'Customer Details Added Succesfully');
            return $this->sendResponse($CustomerDetails->toArray(), $customerid, 'Customer Details Saved Succesfully');
         }
-
     }
     public function customerEdit($id)
-    {
+    { 
+       
         $id = crypt::decrypt($id);
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['customer_view'] = CustomerDetails::where('id','=',$id)->get();
         return view('admin.customer.edit')->with('data',$data);
     }
-    
 }

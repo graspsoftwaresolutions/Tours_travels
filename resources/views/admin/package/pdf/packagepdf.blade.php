@@ -137,7 +137,6 @@
 					<td colspan="2" align="center" style="color: #548594;font-weight: bold;">
 						{{$package->package_name ? ucfirst($package->package_name) : ''}}
 					</td> 
-					
 				</tr>
 				<tr>
 					<td width="50%">

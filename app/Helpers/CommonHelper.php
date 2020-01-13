@@ -397,5 +397,11 @@ class CommonHelper
         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
         return $result;
    }
+//    public static function getEncCustomerDetails($customerid)
+//    {
+//         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
+//         $enc_customerid = crypt::encrypt($result);
+//         return $enc_customerid;
+//    }
 
 }

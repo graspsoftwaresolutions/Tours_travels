@@ -56,7 +56,7 @@
                      
                   </div>
                   <div class="form-group col-md-6">
-                     <input type="email" name='email' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}"  value="{{ Auth::check() ? Auth::user()->email : '' }}" id='email'  placeholder="Email"  />
+                     <input type="email" name='email' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}"  value="{{ Auth::check() ? Auth::user()->email : '' }}" id='email'  placeholder="Email or Username"  />
                      
                   </div>
                   <div class="clearfix"></div>
