@@ -206,6 +206,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('/booking_update', 'Admin\BookingController@bookingUpdate')->name('booking_update');
     Route::get('/packages_customized', 'Admin\PackageController@CustomizedList')->name('package.customized');
     Route::post('/ajax_cust_package_list','Admin\PackageController@ajax_cust_package_list')->name('ajax_cust_package_list');
+
+    Route::get('/get_state_taxrate', 'Admin\PackageController@getTaxRate')->name('get_state_taxrate');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');

@@ -748,7 +748,7 @@
             <h3>Transportation</h3>
             <fieldset>
                 <div class="col-sm-12">
-                  <h4 class="text-headline">Transportation Charges</h4>
+                  <h4 class="text-headline">Transportation Charges [Total : <span id="totaltransportcharges"></span>]</h4>
                   <div class="row">
                     <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
                         @foreach($data['package_place'] as $place)
@@ -757,55 +757,108 @@
                           $place_city_data = CommonHelper::getcityDetails($place->city_id);
                           $place_city_name = $place_city_data->city_name;
                           $place_city_image = $place_city_data->city_image;
+
+                          $interest_tax_amt = CommonHelper::getInterestRateTax($place->state_id);
+                          $packagetransports = CommonHelper::getPackageTransports($package_info->id,$place->city_id);
+                         // dd($packagetransports);
+                          $firsttransport = count($packagetransports)>0 ? $packagetransports[0] : '';
+                          //dd($firsttransport);
                         @endphp
-                        <li data-cityid="3" id="picked-hotelli-3" class="tl-item hotel-list-panel">
+                        <li data-cityid="{{$place->city_id}}" id="transportli-{{$place->city_id}}" class="tl-item hotel-list-panel">
                           <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
-                          <div id="hotel_city_3" style="" class="hotel-panel"> 
-                            <div id="transport_citydata_3"> 
+                          <div id="transport_city_{{$place->city_id}}" style="" class="hotel-panel"> 
+                            <div id="transport_citydata_{{$place->city_id}}"> 
                               <br>
                               <div class="col-md-12 form-horizontal">
-                                  <div id="airportpick1" class="form-group">
-                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Airport(pickup/Drop)') }} 1</label>
-                                    <div class="col-sm-4">     
-                                      <div class="input-field">
-                                        <input type="text" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="">    
-                                        <div class="input-highlight"></div>
-                                      </div>
-                                    </div><!-- /.col- -->
-                                     <div class="col-sm-2">
-                                        <button type="button" onclick="return AddMoreAirport()" class="btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button>
-                                     </div>
-                                  </div><!-- /.form-group -->
-                                  <div id="moreAirport">
+                                  <div id="initialCharge_{{$place->city_id}}" class="col-md-11 initialCharge_{{$place->city_id}}" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;">
+                                       <div id="airportpick" class="form-group">
+                                        <label for="airportpickup" class="col-sm-6 control-label">{{__('Airport(pickup/Drop)') }}</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->airportpickup_amount}}@endif" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                        
+                                      </div><!-- /.form-group -->
+                                     
+                                      <div class="form-group">
+                                        <label for="driverbeta" class="col-sm-6 control-label">{{__('Driver beta') }}</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->driverbeta_amount}}@endif" class="allow_decimal driverbeta" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                      </div><!-- /.form-group -->
+                                      <div class="form-group">
+                                        <label for="tollparking" class="col-sm-6 control-label">{{__('Toll & Parking') }}</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->tollparking_amount}}@endif" class="allow_decimal tollparking" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                      </div><!-- /.form-group -->
                                   </div>
-                                  <div class="form-group">
-                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Driver beta') }}</label>
-                                    <div class="col-sm-6">     
-                                      <div class="input-field">
-                                        <input type="text" id="exampleInputPassword1" placeholder="">    
-                                        <div class="input-highlight"></div>
-                                      </div>
-                                    </div><!-- /.col- -->
-                                  </div><!-- /.form-group -->
-                                  <div class="form-group">
-                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Toll & Parking') }}</label>
-                                    <div class="col-sm-6">     
-                                      <div class="input-field">
-                                        <input type="text" id="exampleInputPassword1" placeholder="">    
-                                        <div class="input-highlight"></div>
-                                      </div>
-                                    </div><!-- /.col- -->
-                                  </div><!-- /.form-group -->
-                                  <div class="form-group">
-                                    <label for="exampleInputPassword1" class="col-sm-6 control-label">{{__('Interest Rate Tax') }}</label>
-                                    <div class="col-sm-6">     
-                                      <div class="input-field">
-                                        <input type="text" id="exampleInputPassword1" placeholder="">    
-                                        <div class="input-highlight"></div>
-                                      </div>
-                                    </div><!-- /.col- -->
-                                  </div><!-- /.form-group -->
+                                  <div class="col-md-1">
+                                    <button type="button" onclick="return AddMoreAirport({{$place->city_id}})" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button>
+                                  </div>
+                                  <div id="moreCharges_{{$place->city_id}}">
+                                  @foreach($packagetransports as $key => $transports)
+                                  @if($key!=0)
+                                  <div id="initialCharge_{{$place->city_id}}" class="col-md-11 initialCharge_{{$place->city_id}}" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;">
+                                       <div id="airportpick" class="form-group">
+                                        <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_{{$place->city_id}}[]" value="{{$transports->airportpickup_amount}}" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                        
+                                      </div><!-- /.form-group -->
+                                     
+                                      <div class="form-group">
+                                        <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_{{$place->city_id}}[]" value="{{$transports->driverbeta_amount}}" class="allow_decimal driverbeta" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                      </div><!-- /.form-group -->
+                                      <div class="form-group">
+                                        <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label>
+                                        <div class="col-sm-6">     
+                                          <div class="input-field">
+                                            <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_{{$place->city_id}}[]" value="{{$transports->tollparking_amount}}" class="allow_decimal tollparking" placeholder="">    
+                                            <div class="input-highlight"></div>
+                                          </div>
+                                        </div><!-- /.col- -->
+                                      </div><!-- /.form-group -->
+                                  </div><div class="col-md-1"><button type="button" onclick="return RemoveMoreAirport(this,{{$place->city_id}})" class="btn btn-circle theme waves-effect red waves-circle waves-light"><i class="mdi mdi-delete"></i></button></div>
+                                  @endif
+                                  @endforeach
+                                  </div>
+                                  <div class="col-md-11">
+                                     <div class="form-group">
+                                      <label for="interestrate" class="col-sm-6 control-label">{{__('Interest Rate Tax') }}</label>
+                                      <div class="col-sm-6">     
+                                        <div class="input-field">
+                                          <input type="text" onkeyup="return CalculateTransport()" id="interestrate_{{$place->city_id}}" name="interestrate_{{$place->city_id}}" class="allow_decimal interestrate" value="@if($firsttransport){{$firsttransport->interestrate_amount}}@endif" readonly="" placeholder="">    
+                                          <div class="input-highlight"></div>
+                                        </div>
+                                      </div><!-- /.col- -->
+                                    </div><!-- /.form-group -->
+                                  </div>
+                                 
+                                  <div class="col-md-1">
+                                    &nbsp;
+                                  </div>
+                                 
                               </div>
+                               
                             </div>
                           </div>
                         </li>
@@ -1064,7 +1117,7 @@
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="transport_charges" value="{{ $package_info->transport_charges }}" name="transport_charges" class="allow_decimal" placeholder="Additional Charges">    
+                                <input type="text" id="transport_charges" readonly value="{{ $package_info->transport_charges }}" name="transport_charges" class="allow_decimal" placeholder="Additional Charges">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div>
@@ -1261,6 +1314,9 @@
                 
                return formsubmit;
             }
+            if(newIndex===3){
+              CalculateTransport();
+            }
             if(newIndex===4){
                $(".place-night-select").trigger('change');
               $("#travel-section").addClass('hide');
@@ -1430,9 +1486,7 @@
   function ChangeStatus(status){
     $("#package_status_val").val(status);
   }
- function AddMoreAirport(){
-   $("#moreAirport").append($("#airportpick1").clone());
-  }
+ 
  
 </script>
 @endsection

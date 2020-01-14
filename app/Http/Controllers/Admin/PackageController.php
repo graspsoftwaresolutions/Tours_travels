@@ -12,6 +12,7 @@ use App\Model\Admin\Package;
 use App\Model\Admin\PackagePlace;
 use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
+use App\Model\Admin\PackageTransports;
 use App\Model\Admin\Amenities;
 use App\Model\Admin\Website;
 
@@ -161,6 +162,36 @@ class PackageController extends Controller
                             $package_activities->save();
                         }
                     }
+
+
+                    $pickup_ids = $request->input('airportpickup_'.$city_id);
+                    if( isset($pickup_ids)){
+                        $pickup_count = count($pickup_ids);
+                        for($m =0; $m<$pickup_count; $m++){
+                            $pickup_amt = $request->input('airportpickup_'.$city_id)[$m];
+                            $driverbeta_amt = $request->input('driverbeta_'.$city_id)[$m];
+                            $tollparking_amt = $request->input('tollparking_'.$city_id)[$m];
+                            $interestrate_amt = $m==0 ? $request->input('interestrate_'.$city_id) : 0;
+                           $pickup_amt = $pickup_amt==null ? 0 : $pickup_amt;
+                           $driverbeta_amt = $driverbeta_amt==null ? 0 : $driverbeta_amt;
+                           $tollparking_amt = $tollparking_amt==null ? 0 : $tollparking_amt;
+                           $interestrate = $interestrate_amt==null ? 0 : $interestrate_amt;
+
+                            if($pickup_amt!=0 || $driverbeta_amt!=0 || $tollparking_amt!=0 || $interestrate!=0){
+                                $package_transports = new PackageTransports() ;
+                                $package_transports->package_id = $package_id;
+                                $package_transports->city_id = $city_id;
+                                $package_transports->airportpickup_amount = $pickup_amt;
+                                $package_transports->driverbeta_amount = $driverbeta_amt;
+                                $package_transports->tollparking_amount = $tollparking_amt;
+                                $package_transports->interestrate_amount = $interestrate;
+                                $package_transports->day_numbers = $m+1;
+                                $package_transports->save();
+                            }
+                            
+                        }
+                    }
+                    
                    // dd($hotel_id);
                     
 				}
@@ -512,6 +543,7 @@ class PackageController extends Controller
                 DB::table('package_hotel')->where('package_id','=',$package_id)->delete();
                 DB::table('package_place')->where('package_id','=',$package_id)->delete();
                 DB::table('package_activities')->where('package_id','=',$package_id)->delete();
+                DB::table('package_transports')->where('package_id','=',$package_id)->delete();
 
 				$state_count = count($request->input('picked_state'));
 				for($i =0; $i<$state_count; $i++){
@@ -595,6 +627,34 @@ class PackageController extends Controller
                                 $package_activities->total_amount = $activity_cost[$j];
                             }
                             $package_activities->save();
+                        }
+                    }
+
+                    $pickup_ids = $request->input('airportpickup_'.$city_id);
+                    if( isset($pickup_ids)){
+                        $pickup_count = count($pickup_ids);
+                        for($m =0; $m<$pickup_count; $m++){
+                            $pickup_amt = $request->input('airportpickup_'.$city_id)[$m];
+                            $driverbeta_amt = $request->input('driverbeta_'.$city_id)[$m];
+                            $tollparking_amt = $request->input('tollparking_'.$city_id)[$m];
+                            $interestrate_amt = $m==0 ? $request->input('interestrate_'.$city_id) : 0;
+                           $pickup_amt = $pickup_amt==null ? 0 : $pickup_amt;
+                           $driverbeta_amt = $driverbeta_amt==null ? 0 : $driverbeta_amt;
+                           $tollparking_amt = $tollparking_amt==null ? 0 : $tollparking_amt;
+                           $interestrate = $interestrate_amt==null ? 0 : $interestrate_amt;
+
+                            if($pickup_amt!=0 || $driverbeta_amt!=0 || $tollparking_amt!=0 || $interestrate!=0){
+                                $package_transports = new PackageTransports() ;
+                                $package_transports->package_id = $package_id;
+                                $package_transports->city_id = $city_id;
+                                $package_transports->airportpickup_amount = $pickup_amt;
+                                $package_transports->driverbeta_amount = $driverbeta_amt;
+                                $package_transports->tollparking_amount = $tollparking_amt;
+                                $package_transports->interestrate_amount = $interestrate;
+                                $package_transports->day_numbers = $m+1;
+                                $package_transports->save();
+                            }
+                            
                         }
                     }
                    // dd($hotel_id);
@@ -850,5 +910,11 @@ class PackageController extends Controller
       
         return redirect()->route('package.customized')->with('message','Quotation Sent Successfully!!');
         
+    }
+
+    public function getTaxRate(Request $request){
+        $state_id = $request->input('state_id');
+        $taxamout = CommonHelper::getInterestRateTax($state_id);
+        return $taxamout;
     }
 }
