@@ -18,6 +18,15 @@
    {
       pointer-events: none;
    }
+   .loading-overlay {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
 </style>
 @endsection
 @section('main-content')
@@ -100,6 +109,9 @@
                   </div>
                   <div class="clearfix"></div>
                   <input type='submit' id="SaveEnquiryButton" value='submit' class='pull-right btn btn-orange'>
+                  <!-- <button id='start_call'>Refresh</button> -->
+               <div id='loading' class='pull-right'></div>
+              
                </form>
             </div>
          </div>
@@ -184,7 +196,41 @@
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script>
-$(document).ready(function(){ 
+
+
+$(document).ready(function(){
+ 
+   /*This makes the timeout variable global so all functions can access it.*/
+// var timeout;
+
+// /*This is an example function and can be disreguarded
+// This function sets the loading div to a given string.*/
+// function loaded() {
+//     $('#loading').html('');
+// }
+// function startLoad() {
+
+//       var load_image_path = '{{ asset("public/web-assets/images/loader.gif") }}';
+// 		var html = 
+// 			'<div class="loading-overlay"></div>' +
+// 			'<div class="loading-overlay-image-container">' +
+// 				'<img src="'+load_image_path+'" class="loading-overlay-img"/>' +
+// 			'</div>';
+
+// 		// append our html to the DOM body
+// 		$( 'body' ).append( html );
+// //   // $( 'body' ).append( html );
+// //     $('body').html('<img style="width: 100px;" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif"/> ');
+
+//      clearTimeout(timeout);
+//      timeout = setTimeout(loaded, 50000);
+// }
+/*This binds a click event to the refresh button*/
+//$('#start_call').click(startLoad);
+/*This starts the load on page load, so you don't have to click the button*/
+//startLoad();
+
+
     $('.packages').hide();
    $('#type').change(function(){
      var type =   $('#type').val();
@@ -197,6 +243,8 @@ $(document).ready(function(){
          $('.packages').hide();
       }
    });
+
+   
    $("#formValidate").validate({
 			rules: {
 				"name": {
@@ -237,11 +285,13 @@ $(document).ready(function(){
             },
 			},
 			submitHandler: function (form) {
+            loader.showLoader();
                 $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
                 });
+               
 				$.ajax({
 					type: 'post',
 					url: "{{ route('enquiry_email') }}",
@@ -255,6 +305,7 @@ $(document).ready(function(){
                         //window.location.reload();
                      }
                      else{
+                        loader.hideLoader();
                         alert('Enquiry form submitted succesfully');
                         window.location.reload();
                      } 

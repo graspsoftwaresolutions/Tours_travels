@@ -14,6 +14,10 @@ class FileController extends Controller
       //  return 1;
         return view('booking.pdf.images');
     }
+    public function loader()
+    {
+      return view('loader');
+    }
  
     public function save()
     {

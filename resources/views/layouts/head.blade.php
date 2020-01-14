@@ -59,6 +59,29 @@
 			body{
 				font-family: sans-serif !important;
 			}
+            .loading-overlay {
+                display: none;
+                background: rgba( 26, 26, 26, 0.7 );
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                z-index: 99999;
+                top: 0;
+                left: 0;
+            }
+
+            .loading-overlay-image-container {
+                display: none;
+                position: fixed;
+                z-index: 7;
+                top: 50%;
+                left: 50%;
+                transform: translate( -50%, -50% );
+            }
+
+            .loading-overlay-img {
+                border-radius: 5px;
+            }
 			#footer .widget-title {
 				font-size: 20px;
 				font-weight: bold;

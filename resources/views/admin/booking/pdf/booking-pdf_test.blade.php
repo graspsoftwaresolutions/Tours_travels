@@ -91,7 +91,7 @@
         <div class="clearfix"/>
 		<table width="100%">
 			<thead>
-			<tr >
+			<tr>
 				<th width="20%" style="color:#4A7885">From Place</th>
 				<th width="20%" style="color:#4A7885">To Place </th>
 			</tr> </thead>    

@@ -154,10 +154,21 @@
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 0px;">
-              <p style="margin: 0;">Username : Registered Email is your username. </p>
-              <p style="margin: 0;">Your password is  <b> {{ $details['password'] }} </b> </p>
+          
+              <p style="margin: 0;">Username : Registered Email is your Username. </p>
+
             </td>
+            
           </tr>
+          <tr>
+            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 0px;">
+          
+            <p style="margin: 0;">  Your password is  <b> {{ $details['password'] }} </b></p>
+
+            </td>
+            
+          </tr>
+             
           <!-- end copy -->
 
           <!-- start button -->

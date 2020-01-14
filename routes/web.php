@@ -222,7 +222,7 @@ Route::post('/customer_phoneexists', 'CommonController@customerPhoneExists');
 Route::get('/image_validation', 'FileController@imageValidation');
 Route::post('filesave', 'FileController@save');  
 Route::get('/new_autocomplete', 'Admin\BookingController@auto');
-
+Route::get('/loader', 'FileController@loader');
 
 Route::prefix('admin')->group(function() {
    Route::get('/login','Auth\AdminLoginController@showLoginForm')->name('admin.login');

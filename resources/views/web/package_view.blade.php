@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('headSection')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link class="rtl_switch_page_css" href="{{ asset('public/assets/dist/css/pages/inbox.css') }}" rel="stylesheet" type="text/css"> 
 <style>
 #cover-contact-us {
     background: url('{{ asset("public/web-assets/images/cover-contact-us.jpg") }}') 50% 20%;
@@ -14,7 +16,6 @@
     padding: 20px 0 20px;
     position: relative;
 }
-
     .timeline:before {
         top: 0;
         bottom: 0;
@@ -25,7 +26,6 @@
         left: 3%;
         margin-left: -1.5px;
     }
-
     .timeline > li {
         margin-bottom: 20px;
         position: relative;
@@ -287,6 +287,7 @@
                                     }
                                     $place_state_name = CommonHelper::getstateName($place->state_id);
                                     $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                                    $package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
                                     @endphp
                                     <li class="timeline-inverted">
                                       <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
@@ -296,52 +297,59 @@
                                          [ {{$place_state_name}} - {{$place_city_data->city_name}} ]
                                         </p>
                                         <div class="col-md-12">
-                                            @php
+                                        @foreach($package_hotels as $hotel)
+                                        @php
+                                        $package_hotel_types = CommonHelper::getPackageHotelTypes($package_info->id,$place->city_id,$hotel->hotel_id);
+                                        $package_hotel = CommonHelper::getPackageHotelDetails($package_info->id,$place->city_id,$hotel->hotel_id);
+                                        @endphp
+                                      <div id="picked_city_hotel_{{ $package_hotel->id }}" class="card media-card-sm">
+                                        <div id="picked-hotelmedia-{{ $package_hotel->id }}" class="media">
+                                          
+                                          @php
+                                            $hotelimages = $package_hotel->hotelimages;
+                                            $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
 
-                                                $sum_package_hotel = CommonHelper::getPackageHotel($package_info->id,$place->city_id);
-                                                $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
+                                            $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
 
-                                                $amenitystring = '';
+                                            $amenitystring = '';
+                                            $a_count = 0;
 
-                                                if($sum_package_hotel!=null){
-                                                    foreach($sum_package_hotel->amenities as $key => $amenity){
-                                                      $amenitystring .= $amenity->amenities_name;
-                                                      if($amenity_count-1 != $key){
-                                                        $amenitystring .= ', ';
-                                                      } 
-                                                    }
+                                            if($package_hotel!=null){
+                                              foreach($package_hotel->amenities as $key => $amenity){
+                                                if($a_count<4){
+                                                  $amenitystring .= $amenity->amenities_name;
+                                                  if($amenity_count-1 != $key){
+                                                    $amenitystring .= ', ';
+                                                  } 
                                                 }
-                                                 $roomtypesstring = '';
-                                                  $type_count = $sum_package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
+                                                $a_count++;
+                                              }
+                                            }
 
-                                                  if($sum_package_hotel!=null){
-                                                    foreach($sum_package_hotel->roomtypes as $key => $roomtype){
-                                                      if($roomtype->pivot->roomtype_id==$sum_package_hotel->roomtype_id){
-                                                        $roomtypesstring = $roomtype->room_type.' - '.$sum_package_hotel->total_rooms;
-                                                        //dd($roomtypesstring);
-                                                      } 
-                                                    }
-                                                  }
-                                            @endphp
-                                            @if($sum_package_hotel!=null)
-                                            @php
-                                              $hotelimages = $sum_package_hotel->hotelimages;
-                                              $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-                                            @endphp
-                                            <div style="margin-top: 15px;" class="row">
+                                            $rating_string = '';
+                                            if($package_hotel!=null){
+                                              $ratings = $package_hotel->ratings;
+                                             
+                                              if($ratings!=null){
+                                                $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating fa fa-star"></i>';
+                                              }
+                                            }
+                                            $total_hotel_prices = 0;
+                                          @endphp
+                                          <div style="margin-top: 15px;" class="row">
                                                 <div class="col-md-3 col-sm-12">
                                                     <img src="{{ $hotel_image }}" class="img-responsive" style="height: 120px !important;border-radius: 5px;" alt="tour-img">
                                                 </div>
                                                 <div class="col-md-9 col-sm-12">
                                                     <div class="listing-right-custom">
-                                                        <h4 class="block-title">{{ $sum_package_hotel->hotel_name }}</h4>
-                                                        <p class="block-minor">{{ $roomtypesstring }} </p> 
+                                                        <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4>
+                                                        <p class="block-minor">{!! $rating_string !!} </p> 
                                                         <p>{{ $amenitystring }}</p>
                                                     </div>
                                                    
                                                 </div>
                                             </div>
-                                            @endif
+                                          @endforeach
                                             <br>
                                             @php
                                                 $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
@@ -362,7 +370,6 @@
                                      $startday = $startday+$nightcount;
                                     @endphp
                                     @endforeach
-                                    
                                 </ul>
                              </div>
                         </div><!-- end columns -->
