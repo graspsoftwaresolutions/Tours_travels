@@ -177,7 +177,18 @@
 
       $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><ul id="place-activitylist-'+paramscity.cityid+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-       $("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="hotel_city_'+paramscity.cityid+'" style="background: #f2f2f2;" class="hotel-panel"> <div id="transport_citydata_'+paramscity.cityid+'"> </div></div></li>');
+       $("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="transportli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="transport_city_'+paramscity.cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+paramscity.cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+paramscity.cityid+'" class="col-md-11 initialCharge_'+paramscity.cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+paramscity.cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+paramscity.cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+paramscity.cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+paramscity.cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+paramscity.cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+paramscity.cityid+'" class="col-sm-6 control-label">Interest Rate Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+paramscity.cityid+'" name="interestrate_'+paramscity.cityid+'" class="allow_decimal interestrate" value="500" readonly="" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
+       //$("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="hotel_city_'+paramscity.cityid+'" style="background: #f2f2f2;" class="hotel-panel"> <div id="transport_citydata_'+paramscity.cityid+'"> </div></div></li>');
+
+      var url = "{{ route('get_state_taxrate') }}" + '?state_id=' + paramscity.stateid;
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function(resultdata) {
+            $("#interestrate_"+paramscity.cityid).val(resultdata);
+          }
+        });
 
       var listlength = $('#place-sortList li').length;
 
@@ -533,14 +544,14 @@
               hiddenvalues += '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+resultdata.id+'[]"  id="hotel_cost_'+resultdata.id+'" value="'+total_roomcost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+resultdata.id+'[]"  id="hotel_number_count_'+resultdata.id+'" value="'+viewtotalroomsval+'" />';
 
             if(!$('#picked_city_hotel_'+hotelid).length){
-              $("#hotel_citydata_"+cityid).append('<div id="picked_city_hotel_'+hotelid+'" class="card media-card-sm"><div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_3" style="margin-left: 10px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+',1)" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div></div><div style="clear: both;"></div>');
+              $("#hotel_citydata_"+cityid).append('<div id="picked_city_hotel_'+hotelid+'" class="card media-card-sm"><div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+',1)" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div></div><div style="clear: both;"></div>');
               $("#summary-hotelarea-"+cityid).append('<div id="summary-hotel-picked-'+hotelid+'" class="" style="cursor: move;"><div id="summary_hotel_id_'+hotelid+'" class="msg-wrapper" style="cursor: move;"> <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+hotelid+'" src="'+imagelocation+'" alt="" class="avatar "><a id="summary-hotel-name-'+hotelid+'" class="msg-from" style="display: initial;">'+resultdata.hotel_name+'</a><br><a id="summary-hotel-type-'+hotelid+'" class="msg-sub">'+roomtypesString+'</a><p id="summary-features-'+hotelid+'">'+amenitiesString+'</p></div><div style="clear: both; cursor: move;"></div></div>');
               // $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
               // $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
               // $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
               // $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
             }else{
-              $("#picked_city_hotel_"+hotelid).html('<div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_3" style="margin-left: 10px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+')" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div>');
+              $("#picked_city_hotel_"+hotelid).html('<div id="picked-hotelmedia-'+hotelid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+resultdata.hotel_name+'</h4><p>'+place_area+' <span class="pull-right" style="font-size: 16px;">'+rating_string+'</span></p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_roomcost+' </span> <button id="edit_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="EditHotel('+passparamscity+','+hotelid+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button><button id="remove_hotel_button_'+hotelid+'" style="margin-left: 10px;" type="button" onclick="return RemoveHotel('+hotelid+', '+cityid+')" class="btn btn-sm red waves-effect waves-light ">Remove</button></p>'+hiddenvalues+'</div></div>');
                $("#summary-hotel-picked-"+hotelid).html('<div id="summary_hotel_id_'+hotelid+'" class="msg-wrapper" style="cursor: move;"> <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+hotelid+'" src="'+imagelocation+'" alt="" class="avatar "><a id="summary-hotel-name-'+hotelid+'" class="msg-from" style="display: initial;">'+resultdata.hotel_name+'</a><br><a id="summary-hotel-type-'+hotelid+'" class="msg-sub">'+roomtypesString+'</a><p id="summary-features-'+hotelid+'">'+amenitiesString+'</p></div><div style="clear: both; cursor: move;"></div>');
               // $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
               // $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( resultdata.hotel_name);
@@ -882,6 +893,42 @@
   function RemoveHotel(hotelid,cityid){
     $("#picked_city_hotel_"+hotelid).remove();
     $("#summary-hotel-picked-"+hotelid).remove();
+  }
+
+  function AddMoreAirport(cityid){
+ // alert(cityid);
+   $("#moreCharges_"+cityid).append($("#initialCharge_"+cityid).clone().find("input:text").val("").end());
+   $("#moreCharges_"+cityid).append('<div class="col-md-1"><button type="button" onclick="return RemoveMoreAirport(this,'+cityid+')" class="btn btn-circle theme waves-effect red waves-circle waves-light"><i class="mdi mdi-delete"></i></button></div>');
+  }
+  function RemoveMoreAirport(data_element,cityid){
+   // console.log($(data_element).parent().prev());
+
+    $(data_element).parent().prev().remove();
+    $(data_element).remove();
+    CalculateTransport();
+  }
+
+  function CalculateTransport(){
+    var total_transport = 0;
+    $(".airportpickup").each(function() {
+      airportpickup = $(this).val()=='' ? 0 : parseFloat($(this).val());
+      total_transport = parseFloat(total_transport) + parseFloat(airportpickup);
+    });
+    $(".driverbeta").each(function() {
+       driverbeta = $(this).val()=='' ? 0 : parseFloat($(this).val());
+      total_transport = parseFloat(total_transport) + parseFloat(driverbeta);
+    });
+    $(".tollparking").each(function() {
+       tollparking = $(this).val()=='' ? 0 : parseFloat($(this).val());
+      total_transport = parseFloat(total_transport) + parseFloat(tollparking);
+    });
+    $(".interestrate").each(function() {
+       interestrate = $(this).val()=='' ? 0 : parseFloat($(this).val());
+      total_transport = parseFloat(total_transport) + parseFloat(interestrate);
+    });
+    $("#transport_charges").val(total_transport);
+    $("#totaltransportcharges").text(total_transport);
+    $("#transport_charges").trigger('keyup');
   }
 
 </script>

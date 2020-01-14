@@ -397,6 +397,20 @@ class CommonHelper
         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
         return $result;
    }
+
+   public static function getInterestRateTax($stateid){
+        $taxrate = DB::table('interest_tax_rate')->where('state_id', '=', $stateid)->pluck('tax')->first();
+       
+        $taxrate = $taxrate=='' ? 0 : $taxrate;
+        return $taxrate;
+   }
+
+   public static function getPackageTransports($packageid,$cityid){
+        $transprts = DB::table('package_transports as t')
+                   ->where('t.package_id','=',$packageid)
+                   ->where('t.city_id','=',$cityid)->orderBy('day_numbers','asc')->get();
+        return $transprts;
+   }
 //    public static function getEncCustomerDetails($customerid)
 //    {
 //         $result = DB::table('customer_details')->where('id','=',$customerid)->first();

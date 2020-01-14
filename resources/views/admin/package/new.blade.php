@@ -566,7 +566,7 @@
             <h3>Transportation</h3>
             <fieldset>
                 <div class="col-sm-12">
-                  <h4 class="text-headline">Transportation Charges</h4>
+                  <h4 class="text-headline">Transportation Charges [Total : <span id="totaltransportcharges"></span>]</h4>
                   <div class="row">
                     <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
                         
@@ -682,7 +682,7 @@
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="transport_charges" name="transport_charges" class="allow_decimal" value="0" placeholder="Additional Charges">    
+                                <input type="text" id="transport_charges" name="transport_charges" readonly="" class="allow_decimal" value="0" placeholder="Additional Charges">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div>
@@ -894,6 +894,9 @@
                return formsubmit;
             }
             if(newIndex===3){
+              CalculateTransport();
+            }
+            if(newIndex===4){
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;
