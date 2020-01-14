@@ -41,7 +41,6 @@
 <footer>
   <div class="container">
   <p> Website URL : http://demo.graspsoftwaresolutions.com/tours/ </p>
-
 	</a>
 	</h4>
   </div>

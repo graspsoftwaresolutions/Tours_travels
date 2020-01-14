@@ -18,15 +18,7 @@
    {
       pointer-events: none;
    }
-   .loading-overlay {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
+
 </style>
 @endsection
 @section('main-content')
@@ -267,17 +259,17 @@ $(document).ready(function(){
 			},
 			messages: {
 				"name": {
-					required: "Please, enter Name",
+					required: "Please enter Name",
 				},
             "email": {
-					required: "Please, enter Email",
+					required: "Please enter Email",
                email : "Please enter valid email",
 				},
             "type" : {
-               required: "Please, choose type",
+               required: "Please choose type",
             },
             "phone" : {
-               required: "Please, enter Phone Number",
+               required: "Please enter Phone Number",
                digits : "Numbers only",
             },
             "message" : {
@@ -285,7 +277,7 @@ $(document).ready(function(){
             },
 			},
 			submitHandler: function (form) {
-            loader.showLoader();
+          //  loader.showLoader();
                 $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -305,7 +297,7 @@ $(document).ready(function(){
                         //window.location.reload();
                      }
                      else{
-                        loader.hideLoader();
+                       // loader.hideLoader();
                         alert('Enquiry form submitted succesfully');
                         window.location.reload();
                      } 

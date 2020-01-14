@@ -6,7 +6,7 @@
 <meta name="author" content="Tours and Travels">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ config('app.name', 'Tours and Travels') }}</title>
+<title>{{ config('app.name', 'Aspire Tours and Travels') }}</title>
 
 
 <link rel="apple-touch-icon" href="{{ asset('public/assets/images/logo.png') }}">

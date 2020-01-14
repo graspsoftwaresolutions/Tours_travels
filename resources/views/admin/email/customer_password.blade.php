@@ -101,8 +101,9 @@
         <![endif]-->
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
+          @php $website_dat = CommonHelper::getWebsiteDetails(); @endphp
             <td align="center" valign="top" style="padding: 36px 24px;">
-			       Welcome To Tours and Travels!!
+			       Welcome To {{ $website_dat->company_name ? $website_dat->company_name : '' }}!!
             </td>
           </tr>
         </table>
@@ -196,7 +197,7 @@
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-              <p style="margin: 0;">Cheers,<br> Tours and Travel </p>
+              <p style="margin: 0;">Cheers,<br> {{ $website_dat->company_name ? $website_dat->company_name : '' }} </p>
             </td>
           </tr>
           <!-- end copy -->

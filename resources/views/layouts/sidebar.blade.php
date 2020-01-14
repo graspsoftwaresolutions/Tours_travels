@@ -1,4 +1,5 @@
 @php $logo = CommonHelper::getlogo();  @endphp
+@php $website_dat = CommonHelper::getWebsiteDetails(); @endphp
    
         <nav class="navbar navbar-default main-navbar navbar-custom navbar-white affix-top" id="mynavbar-1">
             <div class="container">
@@ -11,7 +12,7 @@
                     <div class="header-search hidden-lg">
                         <a href="javascript:void(0)" class="search-button hide"><span><i class="fa fa-search"></i></span></a>
                     </div>
-                    <a href="{{ URL('/') }}" class="navbar-brand"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" width='50' > <span> &nbsp;&nbsp;TOURS </span>TRAVELS</a>
+                    <a href="{{ URL('/') }}" class="navbar-brand"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" width='50' > <span> &nbsp;&nbsp;{{ $website_dat->company_name ? $website_dat->company_name : '' }} </span></a>
                 </div><!-- end navbar-header -->
                 
                 <div class="collapse navbar-collapse" id="myNavbar1">
@@ -22,7 +23,6 @@
                         @auth
                         <!-- <li><a href="{{route('itineray_created')}}">Itinerary Created</a>  </li> -->
                         @endauth
-                        
                         <li id="enquiry_menu_id" style=""><a href="{{route('enquiry')}}">Enquiry</a>  </li>
                         <li class="hide"><a href="javascript:void(0)" class="search-button"><span><i class="fa fa-search"></i></span></a></li>
                     </ul>
@@ -30,8 +30,9 @@
             </div><!-- end container -->
         </nav>
         <div class="sidenav-content">
+       
             <div id="mySidenav" class="sidenav" >
-                <h2 id="web-name"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" style='height:50px;width:50px;margin-left:7px;'> </span>Tours Travles</h2>
+                <h2 id="web-name"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" style='height:50px;width:50px;margin-left:7px;'> </span>{{ $website_dat->company_phone ? $website_dat->company_phone : 'Tours Travles' }}</h2>
 
                 <div id="main-menu">
                 	<div class="closebtn">

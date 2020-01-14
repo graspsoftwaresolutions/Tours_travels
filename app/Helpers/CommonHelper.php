@@ -411,11 +411,11 @@ class CommonHelper
                    ->where('t.city_id','=',$cityid)->orderBy('day_numbers','asc')->get();
         return $transprts;
    }
-//    public static function getEncCustomerDetails($customerid)
-//    {
-//         $result = DB::table('customer_details')->where('id','=',$customerid)->first();
-//         $enc_customerid = crypt::encrypt($result);
-//         return $enc_customerid;
-//    }
+   public static function getEncCustomerDetails($customerid)
+   {
+        $result = DB::table('customer_details')->where('id','=',$customerid)->first();
+        $enc_customerid = crypt::encrypt($result);
+        return $enc_customerid;
+   }
 
 }

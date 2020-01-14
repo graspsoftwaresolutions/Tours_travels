@@ -49,7 +49,6 @@
    @php $row = $data['enq_view'][0]; 
    $customer_details = CommonHelper::getCustomerDetails($row->customer_id);
   // $enc_customerid = CommonHelper::getEncCustomerDetails($row->customer_id);
-   
    @endphp
    <div class="page-content clearfix">
       <!-- <div class="col-sm-10 col-sm-offset-1"> -->
@@ -57,7 +56,6 @@
       <form id="formValidate" class="wrapper-boxed paper p30 mt30" method="post" enctype="multipart/form-data" data-toggle="validator">
          @csrf
          <h1 class="text-display-1">Edit Enquiry Information</h1>
-        
          
          <input type="hidden" name="enquiry_id" value="{{$row->id}}">
          <input type="hidden" name="customer_id" value="{{$row->customer_id ? $row->customer_id : ''}}">

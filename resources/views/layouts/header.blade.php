@@ -5,8 +5,9 @@
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <div id="info">
                             <ul class="list-unstyled list-inline">
-                                <li><span><i class="fa fa-map-marker"></i></span>29 Land St, Lorem City, CA</li>
-                                <li><span><i class="fa fa-phone"></i></span>+00 123 4567</li>
+                            @php $website_dat = CommonHelper::getWebsiteDetails(); @endphp
+                                <li><span><i class="fa fa-map-marker"></i></span>{{ $website_dat->company_address_one ? $website_dat->company_address_one : '' }} , {{ $website_dat->company_address_two ? $website_dat->company_address_two : '' }}</li>
+                                <li><span><i class="fa fa-phone"></i></span>{{ $website_dat->company_phone ? $website_dat->company_phone : '' }}</li>
                             </ul>
                         </div><!-- end info -->
                     </div><!-- end columns -->
