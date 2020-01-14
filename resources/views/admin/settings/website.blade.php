@@ -302,8 +302,11 @@
                    "company_phone": {
    					   required: true,
                        digits : true,
-   				},
-                   "country_id": {
+               },
+               "company_address_one" : {
+                  required: true,
+               },
+               "country_id": {
    					required: true,
    				},
                    "state_id": {
@@ -315,28 +318,31 @@
    			},
    			messages: {
    				"company_name": {
-   					required: "Please, enter Name",
+   					required: "Please enter Name",
                        
    				},
                    "company_website": {
-   					required: "Please, enter website",
+   					required: "Please enter website",
    				},
                    "company_email": {
-   					required: "Please, enter email",
-                       email: "Please, enter valid Email address",
+   					required: "Please enter email",
+                       email: "Please enter valid Email address",
    				},
-                   "company_phone": {
-   					required: "Please, enter phone number",
+               "company_phone": {
+   					required: "Please enter phone number",
                        digits : "Numbers only",
-   				},
+               },
+               "company_address_one" : {
+                  required: "Please enter address",
+               },
                    "country_id": {
-   					required: "Please, choose country",
+   					required: "Please choose country",
    				},
                    "state_id": {
-   					required: "Please, choose State",
+   					required: "Please choose State",
    				},
                    "city_id": {
-   					required: "Please, choose City",
+   					required: "Please choose City",
    				},
    			},
    			// submitHandler: function (form) {

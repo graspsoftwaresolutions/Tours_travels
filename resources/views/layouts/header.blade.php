@@ -6,7 +6,7 @@
                         <div id="info">
                             <ul class="list-unstyled list-inline">
                             @php $website_dat = CommonHelper::getWebsiteDetails(); @endphp
-                                <li><span><i class="fa fa-map-marker"></i></span>{{ $website_dat->company_address_one ? $website_dat->company_address_one : 'test' }} , {{ $website_dat->company_address_two ? $website_dat->company_address_two : 'test' }}</li>
+                                <li><span><i class="fa fa-map-marker"></i></span>{{ $website_dat->company_address_one ? $website_dat->company_address_one : 'test' }} , {{ $website_dat->company_address_two ? $website_dat->company_address_two : '' }}</li>
                                 <li><span><i class="fa fa-phone"></i></span>{{ $website_dat->company_phone ? $website_dat->company_phone : '' }}</li>
                             </ul>
                         </div><!-- end info -->
