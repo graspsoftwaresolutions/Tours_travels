@@ -1,9 +1,9 @@
 <!--======================= FOOTER =======================-->
 <section id="footer" class="ftr-heading-o ftr-heading-mgn-1">
-        
+@php $website_dat = CommonHelper::getWebsiteDetails(); @endphp
 		<div id="footer-top" class="banner-padding ftr-top-grey ftr-text-white">
 			<div class="container">
-				<div class="row"> <aside class="col-xs-12 col-sm-6 col-md-3 htlfndr-widget-column"> <div class="widget"> <a class="htlfndr-logo " href="#">  <p class="widget-title footer-heading">Tours Travels</span></p> </a> <hr> <p>Suspendisse sed sollicitudin nisl, at dignissim libero. Sed porta tincidunt ipsum, vel volutpat.</p> <br> <p>Nunc ut fringilla urna. Cras vel adipiscing ipsum. Integer dignissim nisl eu lacus interdum facilisis. Aliquam erat volutpat. Nulla</p> </div> </aside> <aside class="col-xs-12 col-sm-6 col-md-3 htlfndr-widget-column"> <div class="widget"> <h3 class="widget-title footer-heading">contact info</h3> <h5>Address</h5> <p>Tours Travels <br>120 CA 15th Avenue-Suite 214, USA</p> <hr> <h5>Phone number</h5> <p>1-555-5555-5555</p> <hr> <h5>Email address</h5> <p>support@tours.com</p> </div> </aside> 
+				<div class="row"> <aside class="col-xs-12 col-sm-6 col-md-3 htlfndr-widget-column"> <div class="widget"> <a class="htlfndr-logo " href="#">  <p class="widget-title footer-heading">Tours Travels</span></p> </a> <hr> <p>Suspendisse sed sollicitudin nisl, at dignissim libero. Sed porta tincidunt ipsum, vel volutpat.</p> <br> <p>Nunc ut fringilla urna. Cras vel adipiscing ipsum. Integer dignissim nisl eu lacus interdum facilisis. Aliquam erat volutpat. Nulla</p> </div> </aside> <aside class="col-xs-12 col-sm-6 col-md-3 htlfndr-widget-column"> <div class="widget"> <h3 class="widget-title footer-heading">contact info</h3> <h5>Address</h5> <p> {{ $website_dat->company_name ? $website_dat->company_name : 'test' }}  <br>{{ $website_dat->company_address_one ? $website_dat->company_address_one : 'test' }} , {{ $website_dat->company_address_two ? $website_dat->company_address_two : '' }}</p> <hr> <h5>Phone number</h5> <p>{{ $website_dat->company_phone ? $website_dat->company_phone : '' }} </p> <hr> <h5>Email address</h5> <p>{{ $website_dat->company_email ? $website_dat->company_email : '' }}</p> </div> </aside> 
 				<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 footer-widget ftr-links ftr-pad-left">
 						<h3 class="widget-title footer-heading">RESOURCES</h3>
 						<ul class="list-unstyled">
@@ -35,10 +35,11 @@
 					
 					<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 footer-widget ftr-contact">
 						<h3 class="footer-heading">CONTACT US</h3>
+						
 						<ul class="list-unstyled">
-							<li><span><i class="fa fa-map-marker"></i></span>29 Land St, Lorem City, CA</li>
-							<li><span><i class="fa fa-phone"></i></span>+00 123 4567</li>
-							<li><span><i class="fa fa-envelope"></i></span>info@starhotel.com</li>
+							<li><span><i class="fa fa-map-marker"></i></span>{{ $website_dat->company_address_one ? $website_dat->company_address_one : 'test' }} , {{ $website_dat->company_address_two ? $website_dat->company_address_two : '' }}</li>
+							<li><span><i class="fa fa-phone"></i></span>{{ $website_dat->company_phone ? $website_dat->company_phone : '' }}</li>
+							<li><span><i class="fa fa-envelope"></i></span>{{ $website_dat->company_email ? $website_dat->company_email : '' }}</li>
 						</ul>
 					</div><!-- end columns -->
 					
