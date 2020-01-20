@@ -632,22 +632,21 @@ class MasterController extends CommonController {
             if ($saveInterest == true) {
                 if($auto_id!='')
                 {
-                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Updated Succesfully');
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Inter state tax Rate Updated Succesfully');
                 }
                 else
                 {
-                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Interest tax Rate Added Succesfully');
+                    return redirect($defdaultLang . 'admin/interest_tax')->with('message', 'Inter state tax Rate Added Succesfully');
                 }
             }
         }
     }
     public function interestTaxdestroy($id)
     {
-     
         if($id!='')
         {
             DB::table('interest_tax_rate')->where('id','=',$id)->update(['status'=>'0']);  
         }
-        return redirect('admin/interest_tax')->with('message','Interest Tax Rate Details Deleted Successfully!!');
+        return redirect('admin/interest_tax')->with('message','Inter state tax Details Deleted Successfully!!');
     }
 }

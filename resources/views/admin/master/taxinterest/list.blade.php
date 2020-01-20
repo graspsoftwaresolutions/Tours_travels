@@ -21,7 +21,7 @@
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
                     <li>Masters</li>
-                    <li>{{__('Interest tax List') }}</li>
+                    <li>{{__('Inter State Tax List') }}</li>
                 </ul>
             </div>          
 
@@ -37,7 +37,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Interest tax List') }}</h3>
+                            <h3 class="title medium">{{__('Inter State Tax List') }}</h3>
                         </div>
 
                     </div>
@@ -95,7 +95,7 @@
                     <div class="modal-content">
                         <div class="modal-header theme">
                             <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
-                            <h1 class="modal-title">Interest Rate Tax Details</h1>
+                            <h1 class="modal-title">Inter State Tax Details</h1>
                         </div><!-- /.modal-header -->
                         <form class="formValidate" id="TaxformValidate" method="post" action="{{ route('master.save_interest_tax') }}">
                             @csrf
