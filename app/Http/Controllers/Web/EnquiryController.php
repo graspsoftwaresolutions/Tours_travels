@@ -28,8 +28,9 @@ class EnquiryController extends Controller
         $auth_id = $request->auth_id;
 
        if($auth_id!='')
-       {  
+       { 
             $auth_customer_id = User::where('id','=',$auth_id)->pluck('customer_id')->first();
+           
             if($auth_customer_id!='')
             {
                 $SaveEnquiry = new Enquiry();
@@ -72,9 +73,10 @@ class EnquiryController extends Controller
                 {
                     \Mail::to($user_to_mail)->cc($user_cc_email)->send(new \App\Mail\EnquiryConfirmMail($details));
                 }
-
-                return json_encode($websiteEmail);
-                    }
+                    $resdata['status'] = 1;
+                    $resdata['message']= 'success';
+                    return json_encode($resdata);
+                }
         }
         else{
             $email_valid = $request->email;
