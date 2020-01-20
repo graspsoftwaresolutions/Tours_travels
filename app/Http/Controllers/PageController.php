@@ -19,6 +19,7 @@ use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Amenities;
 
 use App\Model\Admin\Hotel;
+use DB;
 
 class PageController extends Controller
 {
@@ -37,6 +38,17 @@ class PageController extends Controller
                 'places'
             ))->where('status','=',1)->where('user_package','!=',1)->limit(12)->get();
         $data['packages'] = $packages;
-     	return view('web.welcome',compact('data',$data));
+        $data['from_country_id'] ='';
+        $data['from_state_id'] ='';
+        $data['from_city_id'] = '';
+        $data['to_country_id'] = '';
+        $data['to_state_id'] ='';
+        $data['to_city_id'] ='';
+        $data['fr_details'] = '';
+        $data['todetails'] = '';
+        $data['type'] = '';
+        $data['adult_count'] = '';
+        $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
+     	return view('web.welcome')->with('data',$data);
     }
 }

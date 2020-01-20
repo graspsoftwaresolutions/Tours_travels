@@ -392,4 +392,26 @@ class CommonController extends Controller
             return "true";
         }
     }
+    public function FromCounrtyAutocomplete(Request $request)
+    {
+        $data = $request->all();
+        $keyword = $request->get('name');
+        $type = $request->type;
+        $search_param = "{$keyword}%";
+        if($keyword!='')
+        {
+            $result = DB::table('city as c')->select(DB::raw("CONCAT(con.country_name,'-',s.state_name,'-',c.city_name) AS value"),'c.id as cityid','con.id as countyid','s.id as stateid')
+                    ->join('state as s','s.id','=','c.state_id')
+                    ->join('country as con','con.id','=','c.country_id')
+                     ->orwhere("c.city_name","LIKE","%{$keyword}%")
+                     ->orwhere("s.state_name","LIKE","%{$keyword}%")
+                     ->orwhere("con.country_name","LIKE","%{$keyword}%")
+                    // ->orwhere('c.zipcode','like', '%'.$keyword.'%')
+                    // ->orwhere('cit.city_name','like', '%'.$keyword.'%')
+                    ->limit(20)
+                ->get();
+        }
+        
+        echo json_encode($result);
+    }
 }

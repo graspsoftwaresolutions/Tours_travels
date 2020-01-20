@@ -360,5 +360,50 @@ class PackageController extends Controller
         // ->where('pm.id','=',$packageid)->get();
         return view('web.package.created_itineries');
     }
+    public function packageSearch(Request $request)
+    {
+       $data = $request->all();
+       $data['from_city_id'] = $request->from_city_id;
+       $data['from_state_id']= $request->from_state_id;
+       $data['from_country_id']= $request->from_country_id;
+       $data['to_city_id']= $request->to_city_id;
+       $data['to_state_id']= $request->to_state_id;
+       $data['to_country_id']= $request->to_country_id;
+       $data['type']= $request->type;
+       $data['adult_count']= $request->adult_count;
+       $packages = Package::with(
+        array(
+            // 'amenities'=>function($query){
+            //     $query->select('amenities_name');
+            // },
+            'places'
+        ))->where('status','=',1)
+         ->where('user_package','!=',1)
+        ->where('from_city_id','=',$data['from_city_id'])
+        ->where('from_state_id','=',$data['from_state_id'])
+        ->where('from_country_id','=',$data['from_country_id'])
+        ->where('to_city_id','=',$data['to_city_id'])
+        ->where('to_state_id','=',$data['to_state_id'])
+        ->where('to_country_id','=',$data['to_country_id'])
+        ->where('package_type','=',$data['type'])
+        //->orwhere('adult_count','=',$data['adult_count'])
+        ->limit(20)
+        ->get();
+       // dd($request->input('from_city_id'));
+      // dd($packages);
+        $data['packages'] = $packages;
+        $data['fr_country_name'] = CommonHelper::getCountryName($data['from_country_id']);
+        $data['fr_state_name'] = CommonHelper::getstateName($data['from_state_id']);
+        $data['fr_city_name'] = CommonHelper::getcityName($data['from_city_id']);
+        $data['fr_details'] = $data['fr_country_name'].'-'.$data['fr_state_name'].'-'.$data['fr_city_name'];
 
+        $data['tocountry_name'] = CommonHelper::getCountryName($data['to_country_id']);
+        $data['tostate_name'] = CommonHelper::getstateName($data['to_state_id']);
+        $data['tocity_name'] = CommonHelper::getcityName($data['to_city_id']);
+        $data['todetails'] = $data['tocountry_name'].'-'.$data['tostate_name'].'-'.$data['tocity_name'];
+                                          
+        $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
+     	return view('web.welcome')->with('data',$data);
+
+    }
 }
