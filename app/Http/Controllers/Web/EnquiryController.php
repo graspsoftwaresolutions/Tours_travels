@@ -31,7 +31,7 @@ class EnquiryController extends Controller
        { 
             $auth_customer_id = User::where('id','=',$auth_id)->pluck('customer_id')->first();
            
-            if($auth_customer_id!='')
+            if($auth_customer_id!='' && $auth_customer_id!=null)
             {
                 $SaveEnquiry = new Enquiry();
                 $SaveEnquiry->customer_id =  $auth_customer_id;
