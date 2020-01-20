@@ -255,7 +255,7 @@
                             @endphp
                         	<div class="detail-slider">
                                 <div class="feature-slider">
-                                    <div><img src="{{ $to_city_image }}" class="img-responsive" alt="feature-img"/></div>
+                                    <div><img src="{{ $to_city_image }}" style="width:700px;height:500px;" class="img-responsive" alt="feature-img"/></div>
                                 </div><!-- end feature-slider -->
                                 
                                 <ul class="list-unstyled features tour-features">

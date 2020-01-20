@@ -417,5 +417,23 @@ class CommonHelper
         $enc_customerid = crypt::encrypt($result);
         return $enc_customerid;
    }
-
+   public static function getCreatedItineraries($userid)
+   {
+     if($userid!='' && $userid!=null)
+     {
+        $result = Package::where('user_id','=',$userid)->where('user_package','=',1)
+                    ->select('id as packageid','package_name','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number')->get();
+        return $result;
+     }
+   }
+   public static function getPackagePlace($packageid)
+   {
+       $result = DB::table('package_place')->where('package_id','=',$packageid)->pluck('nights_count')->first();
+       return $result;
+   }
+   public static function getCityImage($cityid)
+   {
+        $result = DB::table('city')->where('id','=',$cityid)->select('city_image','city_name')->first();
+        return $result;
+   }
 }

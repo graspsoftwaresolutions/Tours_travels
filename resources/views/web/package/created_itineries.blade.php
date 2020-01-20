@@ -13,8 +13,14 @@
     }
 </style>
 @endsection
-
 @section('main-content')
+@php 
+   $authid =  Auth::user()->id ;
+   if($authid!='' && $authid!=null)
+   {
+        $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);    
+   }
+@endphp
             <!--===== INNERPAGE-WRAPPER ====-->
             <section class="innerpage-wrapper">
         	<div id="dashboard" class="innerpage-section-padding">
@@ -22,8 +28,8 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                         	<div class="dashboard-heading">
-                                <h2>Travel <span>Profile</span></h2>
-                                <p>Hi Lisa, Welcome to Star Travels!</p>
+                                <h2>My <span>Trips</span></h2>
+                                <p>Hi {{ Auth::check() ? Auth::user()->name : '' }}, Welcome to Aspire Tours and Travels!</p>
                                 <p>All your trips booked with us will appear here and you'll be able to manage everything!</p>
                             </div><!-- end dashboard-heading -->
                         	
@@ -31,53 +37,53 @@
                             <div id="dashboard-tabs">
                             	<ul class="nav nav-tabs nav-justified">
                                     <li class="active"><a href="#dsh-dashboard" data-toggle="tab"><span><i class="fa fa-cogs"></i></span>Dashboard</a></li>
-                                    <li><a href="#dsh-profile" data-toggle="tab"><span><i class="fa fa-user"></i></span>Profile</a></li>
-                                    <li><a href="#dsh-booking" data-toggle="tab"><span><i class="fa fa-briefcase"></i></span>Booking</a></li>
-                                    <li><a href="#dsh-wishlist" data-toggle="tab"><span><i class="fa fa-heart"></i></span>Wishlist</a></li>
+                                    <!-- <li><a href="#dsh-profile" data-toggle="tab"><span><i class="fa fa-user"></i></span>Profile</a></li> -->
+                                    <li><a href="#dsh-wishlist" data-toggle="tab"><span><i class="fa fa-briefcase"></i></span>Itineraries created</a></li>
+                                    <li><a href="#dsh-booking" data-toggle="tab"><span><i class="fa fa-briefcase"></i></span>Booked Trips</a></li>
+                                    
                                     <li><a href="#dsh-cards" data-toggle="tab"><span><i class="fa fa-credit-card"></i></span>My Cards</a></li>
                                 </ul>
-                            	
                                 <div class="tab-content">
                                 	<div id="dsh-dashboard" class="tab-pane in active fade">
                                 		<div class="dashboard-content">
-                                            <h2 class="dash-content-title">Total Traveled</h2>
-                                            <div class="row info-stat">
+                                            <!-- <h2 class="dash-content-title">Total Traveled</h2> -->
+                                            <!-- <div class="row info-stat">
                                             
                                                 <div class="col-sm-6 col-md-3">
                                                     <div class="stat-block">
                                                         <span><i class="fa fa-tachometer"></i></span>
                                                         <h3>1548</h3>
                                                         <p>Miles</p>
-                                                    </div><!-- end stat-block -->
-                                                </div><!-- end columns -->
+                                                    </div>
+                                                </div>
                                                 
                                                 <div class="col-sm-6 col-md-3">
                                                     <div class="stat-block">
                                                         <span><i class="fa fa-globe"></i></span>
                                                         <h3>12%</h3>
                                                         <p>World</p>
-                                                    </div><!-- end stat-block -->
-                                                </div><!-- end columns -->
+                                                    </div>
+                                                </div>
                                                 
                                                 <div class="col-sm-6 col-md-3">
                                                     <div class="stat-block">
                                                         <span><i class="fa fa-building"></i></span>
                                                         <h3>312</h3>
                                                         <p>Cities</p>
-                                                    </div><!-- end stat-block -->
-                                                </div><!-- end columns -->
+                                                    </div>
+                                                </div>
                                                 
                                                 <div class="col-sm-6 col-md-3">
                                                     <div class="stat-block">
                                                         <span><i class="fa fa-paper-plane"></i></span>
                                                         <h3>102</h3>
                                                         <p>Trips</p>
-                                                    </div><!-- end stat-block -->
-                                                </div><!-- end columns -->
+                                                    </div>
+                                                </div>
                                                 
-                                            </div><!-- end row -->
+                                            </div> -->
                                             
-                                            <div class="dashboard-listing recent-activity">
+                                            <!-- <div class="dashboard-listing recent-activity">
                                                 <h3 class="dash-listing-heading">Recent Activites</h3>
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
@@ -113,10 +119,10 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                </div><!-- end table-responsive -->
-                                            </div><!-- end recent-activity -->
+                                                </div>
+                                            </div> -->
                                             
-                                            <div class="dashboard-listing invoices">
+                                            <!-- <div class="dashboard-listing invoices">
                                                 <h3 class="dash-listing-heading">Invoices</h3>
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
@@ -174,8 +180,8 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                </div><!-- end table-responsive -->
-                                            </div><!-- end invoices -->
+                                                </div>
+                                            </div> -->
                                         </div><!-- end dashboard-content -->
                                     </div><!-- end dsh-dashboard -->
                                     
@@ -214,6 +220,49 @@
                                         </div><!-- end dashboard-content -->
                                     </div><!-- end dsh-profile -->
                                     
+                                    <div id="dsh-wishlist" class="tab-pane fade">
+                                    	<div class="dashboard-content wishlist">
+                                            <h2 class="dash-content-title">Your Itineraries!!</h2>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    @foreach($Created_Itineraries as $values)
+                                                        @php
+                                                            $package_night = CommonHelper::getPackagePlace($values->packageid);
+                                                            $night_count=0;
+                                                             $night_count = $package_night>0 ? $night_count+$package_night : $night_count;
+                                                             $enc_id = Crypt::encrypt($values->packageid);
+                                                             $view = route('package.details',$enc_id);
+                                                        @endphp
+                                                        <tr class="list-content">
+                                                            @if($values->to_city_id)
+                                                                @php
+                                                                $cityImage = CommonHelper::getCityImage($values->to_city_id);
+                                                                $to_city_image = $cityImage->city_image ==null || $cityImage->city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$cityImage->city_image) ;
+                                                                @endphp
+                                                                <td class="list-img wishlist-img">
+                                                                <a href="{{$view}}"> 
+                                                                <img src="{{$to_city_image}}" class="img-responsive" style="width: 200px;height: 200px;"  alt="{{$cityImage->city_name}}" />
+                                                                </a> </td>
+                                                           @endif
+                                                            <td class="list-text wishlist-text">
+                                                                <h3>{{$values->package_name}} <span><small> {{ $night_count }} Nights and {{ $night_count+1 }} Days </small></span>
+                                                                </h3>
+                                                                <p>{{$values->reference_number}}</p>
+                                                                <p class="order">{{$values->adult_count}} Adults,{{$values->child_count}} Childrens and {{$values->infant_count}} Infants </p>
+                                                                <button class="btn btn-orange">Book Now</button>
+                                                                <button class="btn btn-orange visible-sm pull-right">INR : {{$values->total_amount}} </button>
+                                                            </td>
+                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-orange">INR : {{$values->total_amount}}</button></td>
+                                                        </tr>
+                                                        @endforeach
+                                                     </tbody>
+                                                 </table>
+                                            </div><!-- end table-responsive -->
+                                        </div><!-- end dashboard-content -->
+                                    </div><!-- end dsh-wishlist -->
+
+
                                     <div id="dsh-booking" class="tab-pane fade">
                                     	<div class="dashboard-content booking-trips">
                                             <h2 class="dash-content-title">Trips You have Booked!</h2>
@@ -291,96 +340,7 @@
                                         </div><!-- end dashboard-content -->
                                     </div><!-- end dsh-booking -->
                                     
-                                    <div id="dsh-wishlist" class="tab-pane fade">
-                                    	<div class="dashboard-content wishlist">
-                                            <h2 class="dash-content-title">Your Wish List</h2>
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <tbody>
-                                                        <tr class="list-content">
-                                                            <td class="list-img wishlist-img"><img src="images/wishlist.jpg" class="img-responsive" alt="wishlist-img" /></td>
-                                                            <td class="list-text wishlist-text">
-                                                                <h3>Grand Lilly
-                                                                    <span class="rating">
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star lightgrey"></i>
-                                                                    </span>
-                                                                </h3>
-                                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                                                <p class="order"><span>Order Total:</span> $548</p>
-                                                                <button class="btn btn-orange">Book Now</button>
-                                                                <button class="btn btn-lightgrey visible-sm pull-right">Remove</button>
-                                                            </td>
-                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-lightgrey">Remove</button></td>
-                                                        </tr>
-                                                        
-                                                        <tr class="list-content">
-                                                            <td class="list-img wishlist-img"><img src="images/wishlist.jpg" class="img-responsive" alt="wishlist-img" /></td>
-                                                            <td class="list-text wishlist-text">
-                                                                <h3>Grand Lilly
-                                                                    <span class="rating">
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star lightgrey"></i>
-                                                                    </span>
-                                                                </h3>
-                                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                                                <p class="order"><span>Order Total:</span> $548</p>
-                                                                <button class="btn btn-orange">Book Now</button>
-                                                                <button class="btn btn-lightgrey visible-sm pull-right">Remove</button>
-                                                            </td>
-                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-lightgrey">Remove</button></td>
-                                                        </tr>
-                                                        
-                                                        <tr class="list-content">
-                                                            <td class="list-img wishlist-img"><img src="images/wishlist.jpg" class="img-responsive" alt="wishlist-img" /></td>
-                                                            <td class="list-text wishlist-text">
-                                                                <h3>Grand Lilly
-                                                                    <span class="rating">
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star lightgrey"></i>
-                                                                    </span>
-                                                                </h3>
-                                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                                                <p class="order"><span>Order Total:</span> $548</p>
-                                                                <button class="btn btn-orange">Book Now</button>
-                                                                <button class="btn btn-lightgrey visible-sm pull-right">Remove</button>
-                                                            </td>
-                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-lightgrey">Remove</button></td>
-                                                        </tr>
-                                                        
-                                                        <tr class="list-content">
-                                                            <td class="list-img wishlist-img"><img src="images/wishlist.jpg" class="img-responsive" alt="wishlist-img" /></td>
-                                                            <td class="list-text wishlist-text">
-                                                                <h3>Grand Lilly
-                                                                    <span class="rating">
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star orange"></i>
-                                                                        <i class="fa fa-star lightgrey"></i>
-                                                                    </span>
-                                                                </h3>
-                                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                                                <p class="order"><span>Order Total:</span> $548</p>
-                                                                <button class="btn btn-orange">Book Now</button>
-                                                                <button class="btn btn-lightgrey visible-sm pull-right">Remove</button>
-                                                            </td>
-                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-lightgrey">Remove</button></td>
-                                                        </tr>
-                                                     </tbody>
-                                                 </table>
-                                            </div><!-- end table-responsive -->
-                                        </div><!-- end dashboard-content -->
-                                    </div><!-- end dsh-wishlist -->
+
                                     
                                     <div id="dsh-cards" class="tab-pane fade">
                                     	<div class="dashboard-content my-cards">

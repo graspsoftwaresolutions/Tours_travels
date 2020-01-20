@@ -74,7 +74,7 @@
                                     <div class="grid-block main-block t-grid-block">
                                         <div class="main-img t-grid-img">
                                             <a href="{{$view}}">
-                                                <img src="{{ $to_city_image }}" class="img-responsive" alt="hotel-img" />
+                                                <img src="{{ $to_city_image }}" style="width:360px;height:255px;" class="img-responsive" alt="hotel-img" />
                                             </a>
                                             <div class="main-mask">
                                                 <ul class="list-unstyled list-inline offer-price-1">

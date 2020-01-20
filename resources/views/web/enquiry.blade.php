@@ -51,7 +51,7 @@
                <form method='post' id='formValidate' >
                @csrf
                   <div class="form-group col-md-6">
-                     {{old('name')}}
+                    
                      <input type="hidden" value="{{ Auth::check() ? Auth::user()->id : '' }}" name='auth_id' id='auth_id' class="form-control" placeholder="Name"  />
                      <input type="text" value="{{ Auth::check() ? Auth::user()->name : old('name') }}" name='name' id='name' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="Name"  />
                      

@@ -351,6 +351,13 @@ class PackageController extends Controller
     }
     public function createdItineray()
     {
+        // $authid = Auth::user()->id ;
+        // $data[] = Package::where('user_id','=',$userid)->where('user_package','=',1)
+        //             ->select('id as packageid','package_name','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number')->get();
+        
+        // $data['package_place'] = DB::table('package_place as pp')
+        // ->leftjoin('package_master as pm','pm.id','=','pp.package_id')
+        // ->where('pm.id','=',$packageid)->get();
         return view('web.package.created_itineries');
     }
 
