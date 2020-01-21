@@ -309,5 +309,7 @@ $(document).ready(function(){
 $(document).on('submit','form#formValidate',function(){
       $("#SaveEnquiryButton").prop('disabled',true);
 });
+$("#home_menu_id").removeClass('active');
+$("#enquiry_menu_id").addClass('active');
 </script>
 @endsection

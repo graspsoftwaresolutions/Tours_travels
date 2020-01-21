@@ -483,7 +483,8 @@
 		
 @section('footerSection')
 <script type="text/javascript">
-  
+$("#home_menu_id").removeClass('active');
+$("#itinerary_created_menu").addClass('active');
 </script>
 @endsection
 @endif
