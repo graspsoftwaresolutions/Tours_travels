@@ -63,8 +63,7 @@ height:100%;">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="form-group left-icon">
-                                            
-                                                <input id="form_details" value="{{$data['fr_details'] ? $data['fr_details'] : ''}}" type="text" class="form-control" placeholder="From" >
+                                                <input id="form_details" required value="{{$data['fr_details'] ? $data['fr_details'] : ''}}" type="text" class="form-control" placeholder="From" >
                                                 <i class="fa fa-map-marker"></i>
                                                 <input type="hidden" name="from_city_id" id="from_city_id" value="{{$data['from_city_id'] ? $data['from_city_id'] : ''}}">
                                                 <input type="hidden" name="from_state_id" id="from_state_id" value="{{$data['from_state_id'] ? $data['from_state_id'] : ''}}">
@@ -74,7 +73,7 @@ height:100%;">
                                         
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="form-group left-icon">
-                                                <input id="to_details" value="{{$data['todetails'] ? $data['todetails'] : ''}}" type="text" class="form-control" placeholder="To" >
+                                                <input id="to_details" required value="{{$data['todetails'] ? $data['todetails'] : ''}}" type="text" class="form-control" placeholder="To" >
                                                 <i class="fa fa-map-marker"></i>
                                                 <input type="hidden" name="to_city_id" id="to_city_id" value="{{$data['to_city_id'] ? $data['to_city_id'] : ''}}">
                                                 <input type="hidden" name="to_state_id" id="to_state_id" value="{{$data['to_state_id'] ? $data['to_state_id'] : ''}}">
@@ -105,8 +104,8 @@ height:100%;">
                                 </div> -->
                                 <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3">
                                     <div class="form-group right-icon">
-                                        <select name="type" class="form-control">
-                                            <option value="0"  disabled>Type</option>
+                                        <select name="type" required class="form-control">
+                                            <option value="0" selected="true"  disabled>Type</option>
                                             @foreach($data['pacakge_type'] as $values)
                                              <option value="{{$values->id}}" @if($data['type']==$values->id) selected @endif>{{$values->package_type}}</option>
                                             @endforeach

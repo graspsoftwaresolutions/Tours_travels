@@ -371,24 +371,48 @@ class PackageController extends Controller
        $data['to_country_id']= $request->to_country_id;
        $data['type']= $request->type;
        $data['adult_count']= $request->adult_count;
-       $packages = Package::with(
-        array(
-            // 'amenities'=>function($query){
-            //     $query->select('amenities_name');
-            // },
-            'places'
-        ))->where('status','=',1)
-         ->where('user_package','!=',1)
-        ->where('from_city_id','=',$data['from_city_id'])
-        ->where('from_state_id','=',$data['from_state_id'])
-        ->where('from_country_id','=',$data['from_country_id'])
-        ->where('to_city_id','=',$data['to_city_id'])
-        ->where('to_state_id','=',$data['to_state_id'])
-        ->where('to_country_id','=',$data['to_country_id'])
-        ->where('package_type','=',$data['type'])
-        //->orwhere('adult_count','=',$data['adult_count'])
-        ->limit(20)
-        ->get();
+       if($data['type']!='' && $data['type']!=null && $data['type']!=0)
+       {
+            $packages = Package::with(
+            array(
+                // 'amenities'=>function($query){
+                //     $query->select('amenities_name');
+                // },
+                'places'
+            ))->where('status','=',1)
+             ->where('user_package','!=',1)
+            ->where('from_city_id','=',$data['from_city_id'])
+            ->where('from_state_id','=',$data['from_state_id'])
+            ->where('from_country_id','=',$data['from_country_id'])
+            ->where('to_city_id','=',$data['to_city_id'])
+            ->where('to_state_id','=',$data['to_state_id'])
+            ->where('to_country_id','=',$data['to_country_id'])
+            ->where('package_type','=',$data['type'])
+            //->orwhere('adult_count','=',$data['adult_count'])
+            ->limit(20)
+            ->get();
+       }
+       else{
+            $packages = Package::with(
+            array(
+                // 'amenities'=>function($query){
+                //     $query->select('amenities_name');
+                // },
+                'places'
+            ))->where('status','=',1)
+             ->where('user_package','!=',1)
+            ->where('from_city_id','=',$data['from_city_id'])
+            ->where('from_state_id','=',$data['from_state_id'])
+            ->where('from_country_id','=',$data['from_country_id'])
+            ->where('to_city_id','=',$data['to_city_id'])
+            ->where('to_state_id','=',$data['to_state_id'])
+            ->where('to_country_id','=',$data['to_country_id'])
+           // ->where('package_type','=',$data['type'])
+            //->orwhere('adult_count','=',$data['adult_count'])
+            ->limit(20)
+            ->get();
+       }
+      
        // dd($request->input('from_city_id'));
       // dd($packages);
         $data['packages'] = $packages;
@@ -404,6 +428,5 @@ class PackageController extends Controller
                                           
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
-
     }
 }
