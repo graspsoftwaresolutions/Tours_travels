@@ -20,9 +20,9 @@
                         
                         <li id="home_menu_id" class="active"><a href="{{URL('/')}}">Home</a> </li>
                         <li id="package_menu_id"><a href="{{route('packages')}}">Itinerary</a>  </li>
-                        @auth
+                        <!-- @auth
                         <li id="itinerary_created_menu"><a href="{{route('itineray_created')}}">Itinerary Created</a>  </li>
-                        @endauth
+                        @endauth -->
                         <li id="enquiry_menu_id" style=""><a href="{{route('enquiry')}}">Enquiry</a>  </li>
                         <li class="hide"><a href="javascript:void(0)" class="search-button"><span><i class="fa fa-search"></i></span></a></li>
                     </ul>

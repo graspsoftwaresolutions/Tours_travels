@@ -413,19 +413,27 @@ class PackageController extends Controller
             ->get();
        }
       
-       // dd($request->input('from_city_id'));
-      // dd($packages);
         $data['packages'] = $packages;
         $data['fr_country_name'] = CommonHelper::getCountryName($data['from_country_id']);
         $data['fr_state_name'] = CommonHelper::getstateName($data['from_state_id']);
         $data['fr_city_name'] = CommonHelper::getcityName($data['from_city_id']);
-        $data['fr_details'] = $data['fr_country_name'].'-'.$data['fr_state_name'].'-'.$data['fr_city_name'];
-
+        if($data['fr_country_name']!='')
+        {
+            $data['fr_details'] = $data['fr_country_name'].'-'.$data['fr_state_name'].'-'.$data['fr_city_name'];
+        }
+        else{
+            $data['fr_details'] ='';
+        }
         $data['tocountry_name'] = CommonHelper::getCountryName($data['to_country_id']);
         $data['tostate_name'] = CommonHelper::getstateName($data['to_state_id']);
         $data['tocity_name'] = CommonHelper::getcityName($data['to_city_id']);
-        $data['todetails'] = $data['tocountry_name'].'-'.$data['tostate_name'].'-'.$data['tocity_name'];
-                                          
+        if($data['tocountry_name']!='')
+        {
+            $data['todetails'] = $data['tocountry_name'].'-'.$data['tostate_name'].'-'.$data['tocity_name'];
+        }
+        else{
+            $data['todetails'] =''; 
+        }                                 
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
     }

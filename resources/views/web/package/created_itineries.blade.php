@@ -222,7 +222,7 @@
                                     
                                     <div id="dsh-wishlist" class="tab-pane fade">
                                     	<div class="dashboard-content wishlist">
-                                            <h2 class="dash-content-title">Your Itineraries!!</h2>
+                                            <h2 class="dash-content-title">Customized Itineraries!!</h2>
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <tbody>

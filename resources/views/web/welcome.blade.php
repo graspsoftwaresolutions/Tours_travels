@@ -56,6 +56,7 @@ height:100%;">
                 <div class="tab-content">
                     <div id="flights" class="tab-pane in active">
                         <form method="post" action="{{route('package_search')}}">
+                        <input type="hidden" name="_method" value="PUT">
                         @csrf
                             <div class="row">
 
@@ -154,6 +155,8 @@ height:100%;">
                         </div><!-- end page-heading -->
                         
                         <div class="row">
+                    
+                       
                                 @foreach($packages as $package)
                                 @php
                                     $to_city_data = CommonHelper::getcityDetails($package->to_city_id);
@@ -204,9 +207,27 @@ height:100%;">
                                     </div><!-- end t-grid-block -->
                                 </div><!-- end columns -->
                                 @endforeach
-								<div class="col-md-12">
-									<center><a href="{{route('packages')}}" class="btn btn-orange">View All Packages</a></center>
-								</div>
+                               
+                                @php
+                                if(count($packages)==0)
+                                {
+                                    @endphp
+                                    <div class="col-md-12">
+                                    
+                                    <center >   <h2> <span class="label label-info"> No results found</span></h2>  </center>
+								    </div>
+                                    @php
+                                }
+                                else{
+                                    @endphp
+                                    <div class="col-md-12">
+                               
+                                    <center><a href="{{route('packages')}}" class="btn btn-orange">View All Packages</a></center>
+                                    </div>
+                                    @php
+                                }
+								@endphp
+                               
                             </div><!-- end row -->
                        
                     </div><!-- end columns -->

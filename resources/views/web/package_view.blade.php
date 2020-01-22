@@ -338,7 +338,7 @@
                                           @endphp
                                           <div style="margin-top: 15px;" class="row">
                                                 <div class="col-md-3 col-sm-12">
-                                                    <img src="{{ $hotel_image }}" class="img-responsive" style="height: 120px !important;border-radius: 5px;" alt="tour-img">
+                                                    <img src="{{ $hotel_image }}" class="img-responsive" style="height: 100px !important;border-radius: 5px;width:111px;" alt="tour-img">
                                                 </div>
                                                 <div class="col-md-9 col-sm-12">
                                                     <div class="listing-right-custom">

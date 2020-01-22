@@ -18,8 +18,8 @@
                             <a style="float:right;color:white;margin-left: 7px;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
-                            </form>
-                            <a style="float:right;color:white;" href="{{ url('/home') }}">Dashboard</a> 
+                            </form> 
+                            <a style="float:right;color:white;" href="{{route('itineray_created')}}">Dashboard</a> 
                             @else
                                 <li><a href="{{ route('login') }}" style="color:white;"><span><i class="fa fa-lock"></i></span>Login</a></li>
 
