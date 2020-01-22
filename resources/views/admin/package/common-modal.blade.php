@@ -226,6 +226,7 @@
                                    
                                    
                                 </ul>
+                                <input type="text" name="activity_day_number" class="hide" id="activity_day_number" value="1">
                               </div><!-- /.col -->
                               <div class="clearfix">  </div>
                             </div><!-- /.row -->        
@@ -270,7 +271,7 @@
                                   <div class="divider theme ml14 mr14"></div>
                                   <div id="view-activity-imagearea">
                                   </div>
-                                  
+                                  <input type="text" name="view_activity_day_number" id="view_activity_day_number" class="hide" value="1">
                               </div>   
                               <br>
                              

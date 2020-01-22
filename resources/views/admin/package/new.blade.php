@@ -208,7 +208,11 @@
   }
 
   .activities-summary{
-    padding-top: 40px;
+    padding-top: 10px;
+  }
+  
+  .summary-activity-citysection{
+    padding-top: 20px;
   }
 
   .timeline-icon.ti-text {
@@ -828,68 +832,68 @@
             if (newIndex === 1 )
             {
                var formsubmit =true; 
-               if($("#from_country_id").val()==''){
-                  $('.from_country_id-error').remove();
-                  $( '<div id="from_country_id-error" class="error from_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#from_country_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_country_id-error").remove();
-               }
-               if($("#to_country_id").val()==''){
-                  $('.to_country_id-error').remove();
-                  $( '<div id="to_country_id-error" class="error to_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#to_country_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_country_id-error").remove();
-               }
-              if($("#from_state_id").val()==''){
-                  $('.from_state_id-error').remove();
-                  $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#from_state_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_state_id-error").remove();
-               }
-               if($("#to_state_id").val()==''){
-                  $('.to_state_id-error').remove();
-                  $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#to_state_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_state_id-error").remove();
-               }
-               if($("#from_city_id").val()==''){
-                  $('.from_city_id-error').remove();
-                  $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#from_city_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#from_city_id-error").remove();
-               }
-               if($("#to_city_id").val()==''){
-                  $('.to_city_id-error').remove();
-                  $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#to_city_id' );
-                  formsubmit =false; 
-               }else{
-                 $("#to_city_id-error").remove();
-               }
-                if($("#package_name").val()==''){
-                  $('.package_name-error').remove();
-                  $( '<div id="package_name-error" class="error package_name-error custom-error">Please enter package name.</div>' ).insertAfter( '#package_name' );
-                  formsubmit =false; 
-               }else{
-                 $("#package_name-error").remove();
-               }
+              //  if($("#from_country_id").val()==''){
+              //     $('.from_country_id-error').remove();
+              //     $( '<div id="from_country_id-error" class="error from_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#from_country_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_country_id-error").remove();
+              //  }
+              //  if($("#to_country_id").val()==''){
+              //     $('.to_country_id-error').remove();
+              //     $( '<div id="to_country_id-error" class="error to_country_id-error custom-error" >Please choose Country.</div>' ).insertAfter( '#to_country_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_country_id-error").remove();
+              //  }
+              // if($("#from_state_id").val()==''){
+              //     $('.from_state_id-error').remove();
+              //     $( '<div id="from_state_id-error" class="error from_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#from_state_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_state_id-error").remove();
+              //  }
+              //  if($("#to_state_id").val()==''){
+              //     $('.to_state_id-error').remove();
+              //     $( '<div id="to_state_id-error" class="error to_state_id-error custom-error">Please choose State.</div>' ).insertAfter( '#to_state_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_state_id-error").remove();
+              //  }
+              //  if($("#from_city_id").val()==''){
+              //     $('.from_city_id-error').remove();
+              //     $( '<div id="from_city_id-error" class="error from_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#from_city_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#from_city_id-error").remove();
+              //  }
+              //  if($("#to_city_id").val()==''){
+              //     $('.to_city_id-error').remove();
+              //     $( '<div id="to_city_id-error" class="error to_city_id-error custom-error">Please choose City.</div>' ).insertAfter( '#to_city_id' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#to_city_id-error").remove();
+              //  }
+              //   if($("#package_name").val()==''){
+              //     $('.package_name-error').remove();
+              //     $( '<div id="package_name-error" class="error package_name-error custom-error">Please enter package name.</div>' ).insertAfter( '#package_name' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#package_name-error").remove();
+              //  }
 
-                if($("#package_type").val()==''){
-                  $('.package_type-error').remove();
-                  $( '<div id="package_type-error" class="error from_city_id-error custom-error">Please choose Type.</div>' ).insertAfter( '#package_type' );
-                  formsubmit =false; 
-               }else{
-                 $("#package_type-error").remove();
-               }
+              //   if($("#package_type").val()==''){
+              //     $('.package_type-error').remove();
+              //     $( '<div id="package_type-error" class="error from_city_id-error custom-error">Please choose Type.</div>' ).insertAfter( '#package_type' );
+              //     formsubmit =false; 
+              //  }else{
+              //    $("#package_type-error").remove();
+              //  }
 
-               if($('#place-sortList li').length==0 && formsubmit==true){
-                  alert("Please pick any place");
-                  formsubmit =false; 
-               }
+              //  if($('#place-sortList li').length==0 && formsubmit==true){
+              //     alert("Please pick any place");
+              //     formsubmit =false; 
+              //  }
                 
                return formsubmit;
             }
