@@ -29,7 +29,7 @@
                                 @endif
                             @endauth
                             @endif
-                                	<form>
+                                	<!-- <form>
                                     	<ul class="list-inline">
                                         	<li>
                                                 <div class="form-group currency">
@@ -38,7 +38,7 @@
                                                         <option value="">$</option>
                                                         <option value="">£</option>
                                                     </select>
-                                                </div><!-- end form-group -->
+                                                </div>
 											</li>
                                             
                                             <li>
@@ -50,10 +50,10 @@
                                                         <option value="">FR</option>
                                                         <option value="">IT</option>
                                                     </select>
-                                                </div><!-- end form-group -->
+                                                </div>
                                             </li>
 										</ul>
-                                    </form>
+                                    </form> -->
                                 </li>
                             </ul>
                         </div><!-- end links -->

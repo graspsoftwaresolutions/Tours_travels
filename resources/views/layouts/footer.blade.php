@@ -101,3 +101,4 @@
 			</div><!-- end container -->
 		</div><!-- end footer-bottom -->	
 	</section><!-- end footer -->
+	<div id="loader"></div>

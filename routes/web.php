@@ -17,7 +17,10 @@
 
 Auth::routes();
 Route::get('/', 'PageController@homePage');
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home','Web\PackageController@createdItineray')->name('home');
+Route::get('/newloader','HomeController@loder');
+
 //Hotel Booking frontend
 
 Route::get('/tour-booking', 'Web\TourBookingController@tourBooking')->name('tour_booking');
@@ -236,9 +239,8 @@ Route::prefix('admin')->group(function() {
 
 Route::get('/package-details/{parameter}','Web\PackageController@ViewPackage')->name('package.details');
 Route::get('/packages','Web\PackageController@PackagesList')->name('packages');
-
 //
-Route::get('/created_itineray','Web\PackageController@createdItineray')->name('itineray_created');
+Route::get('/dashboard','Web\PackageController@createdItineray')->name('itineray_created');
 
 Route::post('/direct_booking','Web\TourBookingController@bookingSave')->name('direct_booking');
 Route::get('/add_package','Web\PackageController@AddPackage')->name('add_package');
@@ -252,5 +254,7 @@ Route::put('package_search','Web\PackageController@packageSearch')->name('packag
 
 Route::get('package_search','Web\PackageController@packageSearch')->name('package_search');
 Route::post('fromcountry_autocomplete','CommonController@FromCounrtyAutocomplete')->name('fromcountry_autocomplete');
+
+Route::get('sight_seeing','PageController@sightSeeing')->name('sight_seeing');
 
 

@@ -51,4 +51,10 @@ class PageController extends Controller
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
     }
+    public function sightSeeing()
+    {
+        $data['activities_view'] = Activity::where('status','=','1')->limit(12)->get();
+      //  dd($data['activities_view']);
+        return view('web.sight_seeing')->with('data',$data);
+    }
 }

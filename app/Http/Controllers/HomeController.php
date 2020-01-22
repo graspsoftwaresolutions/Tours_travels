@@ -63,5 +63,8 @@ class HomeController extends Controller
         $user->save();
         return redirect()->back()->with("success","Password changed successfully !");
     }
-    
+    public function loder()
+    {
+        return view('loadernew');
+    }
 }

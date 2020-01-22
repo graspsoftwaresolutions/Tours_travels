@@ -18,6 +18,18 @@
    {
       pointer-events: none;
    }
+   /* #loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.75) url('{{ asset("public/assets/images/spinner.gif") }}') no-repeat center center;
+  z-index: 10000;
+} */
+
 
 </style>
 @endsection
@@ -183,6 +195,7 @@
    <!-- end container -->
 </section>
 <!-- end newsletter-1 -->
+
 @endsection
 @section('footerSection')
 <script src="{{ asset('public/assets/dist/js/plugins/wizard/jquery.steps.min.js') }}"></script>
@@ -191,37 +204,6 @@
 
 
 $(document).ready(function(){
- 
-   /*This makes the timeout variable global so all functions can access it.*/
-// var timeout;
-
-// /*This is an example function and can be disreguarded
-// This function sets the loading div to a given string.*/
-// function loaded() {
-//     $('#loading').html('');
-// }
-// function startLoad() {
-
-//       var load_image_path = '{{ asset("public/web-assets/images/loader.gif") }}';
-// 		var html = 
-// 			'<div class="loading-overlay"></div>' +
-// 			'<div class="loading-overlay-image-container">' +
-// 				'<img src="'+load_image_path+'" class="loading-overlay-img"/>' +
-// 			'</div>';
-
-// 		// append our html to the DOM body
-// 		$( 'body' ).append( html );
-// //   // $( 'body' ).append( html );
-// //     $('body').html('<img style="width: 100px;" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif"/> ');
-
-//      clearTimeout(timeout);
-//      timeout = setTimeout(loaded, 50000);
-// }
-/*This binds a click event to the refresh button*/
-//$('#start_call').click(startLoad);
-/*This starts the load on page load, so you don't have to click the button*/
-//startLoad();
-
 
     $('.packages').hide();
    $('#type').change(function(){
@@ -277,13 +259,12 @@ $(document).ready(function(){
             },
 			},
 			submitHandler: function (form) {
-          //  loader.showLoader();
+            spinner.show();
                 $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
                 });
-               
 				$.ajax({
 					type: 'post',
 					url: "{{ route('enquiry_email') }}",
@@ -297,7 +278,7 @@ $(document).ready(function(){
                         //window.location.reload();
                      }
                      else{
-                       // loader.hideLoader();
+                        spinner.hide();
                         alert('Enquiry form submitted succesfully');
                         window.location.reload();
                      } 

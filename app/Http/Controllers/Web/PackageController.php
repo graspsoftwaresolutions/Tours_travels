@@ -437,4 +437,8 @@ class PackageController extends Controller
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
     }
+    public function sightSeeing()
+    {
+        return view('web.sight_seeing');
+    }
 }

@@ -59,28 +59,16 @@
 			body{
 				font-family: sans-serif !important;
 			}
-            .loading-overlay {
-                display: none;
-                background: rgba( 26, 26, 26, 0.7 );
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                z-index: 99999;
-                top: 0;
-                left: 0;
-            }
-
-            .loading-overlay-image-container {
-                display: none;
-                position: fixed;
-                z-index: 7;
-                top: 50%;
-                left: 50%;
-                transform: translate( -50%, -50% );
-            }
-
-            .loading-overlay-img {
-                border-radius: 5px;
+            #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.75) url('{{ asset("public/assets/images/spinner.gif") }}') no-repeat center center;
+            z-index: 10000;
             }
 			#footer .widget-title {
 				font-size: 20px;
