@@ -149,6 +149,7 @@
 
       // list
       //$("#place-sortList").sortable();
+
    })(jQuery);
    function AddHiddenMenu(){
     //alert('Test');
@@ -162,6 +163,8 @@
       var imagelocation = paramscity.cityimage=='null' || paramscity.cityimage=='' ? no_image_url : image_url+'/city/'+paramscity.cityimage;
       var imagedummy =  no_image_url;
 
+      var lastnightcount = $(".night-count").html()=='' ? 0 : parseInt($(".night-count").html());
+
     //console.log(paramscity);
       var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
       //var passparamscity = '"'+paramscity+'"';
@@ -171,15 +174,16 @@
       var night_options='<option value="1" selected="">1 Night</option><option value="2">2 Nights</option><option value="3">3 Nights</option><option value="4">4 Nights</option><option value="5">5 Nights</option><option value="6">6 Nights</option><option value="7">7 Nights</option><option value="8">8 Nights</option><option value="9">9 Nights</option><option value="10">10 Nights</option>';
 
     
-      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" class="hide" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
+      $("#destination-night-area").append('<div data-cityid="'+paramscity.cityid+'" id="place_night_'+paramscity.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+imagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+paramscity.cityid+'" class="button-close"> <button type="button" onclick="return DeleteNight('+paramscity.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+paramscity.cityname+'</small><div class="form-group"><select id="place_night_select_'+paramscity.cityid+'" name="place_night_select[]" class="form-control place-night-select">'+night_options+'</select><input type="text" class="place_night_count hide" id="place_night_count_'+paramscity.cityid+'" name="place_night_count_'+paramscity.cityid+'[]" value="1" ></input></div></div>');  
 
       $("#place-hotels").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="hotel_city_'+paramscity.cityid+'" style="background: #f2f2f2;" class="hotel-panel"> <div id="hotel_citydata_'+paramscity.cityid+'"> </div><button style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" id="add_hotel_button_'+paramscity.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></li>');
 
       var listlength = $('#place-sortList li').length;
+      newdaynumber = parseInt(lastnightcount)+parseInt(1);
 
-      $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'-'+listlength+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.cityname+' - Day '+listlength+'</div><ul id="place-activitylist-'+paramscity.cityid+'-'+listlength+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+','+listlength+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+      $("#place-activities").append('<li data-cityid="'+paramscity.cityid+'" id="picked-activityli-'+paramscity.cityid+'-'+newdaynumber+'" class="tl-item list-group-item item-avatar picked-activityli-'+paramscity.cityid+' msg-row unread"> <div class="timeline-icon ti-text">'+paramscity.cityname+' - Day '+newdaynumber+'</div><ul id="place-activitylist-'+paramscity.cityid+'-'+newdaynumber+'" style="list-style: none !important;" class="place-activitylist"></ul><a id="pick-actitity-link-'+paramscity.cityid+'" href="#" onClick="PickActity('+passparamscity+','+newdaynumber+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-       $("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="transportli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="transport_city_'+paramscity.cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+paramscity.cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+paramscity.cityid+'" class="col-md-11 initialCharge_'+paramscity.cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+paramscity.cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+paramscity.cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+paramscity.cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+paramscity.cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+paramscity.cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+paramscity.cityid+'" class="col-sm-6 control-label">Inter State Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+paramscity.cityid+'" name="interestrate_'+paramscity.cityid+'" class="allow_decimal interestrate" value="500" readonly="" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
+       $("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="transportli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="transport_city_'+paramscity.cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+paramscity.cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+paramscity.cityid+'" class="col-md-11 initialCharge_'+paramscity.cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+paramscity.cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+paramscity.cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+paramscity.cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+paramscity.cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+paramscity.cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+paramscity.cityid+'" class="col-sm-6 control-label">Inter State Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+paramscity.cityid+'" name="interestrate_'+paramscity.cityid+'" class="allow_decimal interstaterate_'+paramscity.stateid+' interestrate" value="0" readonly="" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
        //$("#place-transports").append('<li data-cityid="'+paramscity.cityid+'" id="picked-hotelli-'+paramscity.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+paramscity.statename+' - '+paramscity.cityname+'</div><div id="hotel_city_'+paramscity.cityid+'" style="background: #f2f2f2;" class="hotel-panel"> <div id="transport_citydata_'+paramscity.cityid+'"> </div></div></li>');
 
       var url = "{{ route('get_state_taxrate') }}" + '?state_id=' + paramscity.stateid;
@@ -188,13 +192,25 @@
           type: "GET",
           dataType: "json",
           success: function(resultdata) {
-            $("#interestrate_"+paramscity.cityid).val(resultdata);
+            var statetax = 0;
+           
+            $(".interstaterate_"+paramscity.stateid).each(function(index) {
+              taxval = $(this).val();
+              statetax = parseInt(statetax)+parseInt(taxval);
+              
+            });
+           
+             if(statetax==0 || statetax==''){
+                 $("#interestrate_"+paramscity.cityid).val(resultdata);
+              }else{
+                 $("#interestrate_"+paramscity.cityid).val(0);
+              }
           }
         });
 
       //var listlength = $('#place-sortList li').length;
 
-      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+paramscity.cityid+'" class="summaryno">'+listlength+'</span></span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"><div style="clear:both"></div></div><div style="clear:both"></div><div class="summary-activity-citysection" id="summary-activity-citysection-'+paramscity.cityid+'">Day '+listlength+'<div id="summary-activity-section-'+paramscity.cityid+'-'+listlength+'" class="activities-summary"> </div></div></li>');
+      $("#overall-summary").append('<li data-cityid="'+paramscity.cityid+'" id="summary-activityli-'+paramscity.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+paramscity.cityid+'" class="summaryno">'+listlength+'</span></span> <br> '+paramscity.statename+' - <span id="summary-city-name-'+paramscity.cityid+'">'+paramscity.cityname+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+paramscity.cityid+'" value="'+paramscity.cityid+'"/></div><div id="summary-hotelarea-'+paramscity.cityid+'" class="overall-place-activitylist"><div style="clear:both"></div></div><div style="clear:both"></div><div class="summary-activity-citysection" id="summary-activity-citysection-'+paramscity.cityid+'"><b style="font-size:18px;">Day '+newdaynumber+'</b><div id="summary-activity-section-'+paramscity.cityid+'-'+newdaynumber+'" class="activities-summary"> </div></div></li>');
 
        //$("#place-activitylist-"+paramscity.cityid).dragsort();
 
@@ -222,6 +238,7 @@
            $("#summary-activityli-"+cityid).remove();
            $("#picked-activityli-"+cityid).remove();
            $("#picked-li-"+cityid).remove();
+           $("#transportli-"+cityid).remove();
            $("#place_button_"+cityid).attr("disabled", false);
            //$(".place-night-select").trigger('change');
            CalculateDaysNights();
@@ -729,7 +746,7 @@
 
             var total_act_cost = resultdata.amount==null || resultdata.amount=='' ? 0 : total_count*resultdata.amount;
 
-            var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+resultdata.id+'" value="'+total_act_cost+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+resultdata.id+'" value="'+resultdata.amount+'" />';
+            var hiddenvalues = '<input type="text" class="hide" name="second_activity_'+cityid+'_'+daynumber+'[]" id="second_activity_'+cityid+'" value="'+resultdata.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'_'+daynumber+'[]"  id="activity_cost_'+resultdata.id+'" value="'+total_act_cost+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'_'+daynumber+'[]"  id="activity_person_cost_'+resultdata.id+'" value="'+resultdata.amount+'" />';
 
             if(!$('#city_activity_id_'+resultdata.id).length){
               $("#place-activitylist-"+cityid+"-"+daynumber).append('<li><div id="city_activity_id_'+resultdata.id+'" class="msg-wrapper"><img src="'+imagelocation+'" alt="" class="avatar "><a class="msg-sub">'+resultdata.title_name+'</a><a class="msg-from hide"><i class="fa fa-inr"></i> <span id="total_activity_value_'+resultdata.id+'">'+total_act_cost+'</span></a><p>'+hiddenvalues+'<a onclick="return RemoveActivity('+resultdata.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>');
@@ -788,7 +805,7 @@
         var cityval = $(this).children().find(".summary-city").val();
         $('#place-sortList').append($('#dummyList #dummy-place-sortList #picked-li-'+cityval));
         $('#place-hotels').append($('#dummy-hotels #dummy-place-hotels #picked-hotelli-'+cityval));
-        $('#place-activities').append($('#dummy-activities #dummy-place-activities #picked-activityli-'+cityval));
+        $('#place-activities').append($('#dummy-activities #dummy-place-activities .picked-activityli-'+cityval));
         $('#destination-night-area').append($('#dummyListNights #dummy-destination-night-area #place_night_'+cityval));
 
         var summary_city_name = $("#summary-city-name-"+cityval).html();
@@ -799,22 +816,30 @@
           return $(this).children().find(".summary-city").val();
         }).get();
           $("#dummyList,#dummy-hotels,#dummy-activities,#dummyListNights").empty();
+
        // console.log(summarycount);
         // $("input[name=list1SortOrder]").val(data.join("|"));
     }
 
+    
+
    
     $(function () {
-        $("#overall-summary").dragsort({
-            dragSelector: "div",
-            dragBetween: true,
-            dragEnd: saveOrder,
-            //placeHolderTemplate: "<li class='placeHolder'><div></div></li>",
-            cursor: "move"
-        });
+        // $("#overall-summary").dragsort({
+        //     dragSelector: "div",
+        //     dragBetween: true,
+        //     dragEnd: saveOrder,
+        //     //placeHolderTemplate: "<li class='placeHolder'><div></div></li>",
+        //     cursor: "move"
+        // });
+
+        
        
     });
     $(document).on('change', '.place-night-select', function() {
+      //alert($(this).val());
+      // $("#place_night_count_"+city_id_night).val(night_count);
+      // $("#place_night_select_"+city_id_night).val(night_count);
       CalculateDaysNights();
       RegenerateActivities();
       
@@ -959,14 +984,82 @@
        for (var i = 1; i <= night_count; i++) {
            daynumber = parseInt(startday)+parseInt(i);
            params = $("#picked-li-"+city_id_night).data('params')
-           $("#place-activities").append('<li data-cityid="'+city_id_night+'" id="picked-activityli-'+city_id_night+'-'+daynumber+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+summary_city_name+' - Day '+daynumber+'</div><ul id="place-activitylist-'+city_id_night+'-'+daynumber+'" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-'+city_id_night+'" href="#" onclick="PickActity('+params+','+daynumber+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
+           $("#place-activities").append('<li data-cityid="'+city_id_night+'" id="picked-activityli-'+city_id_night+'-'+daynumber+'" class="tl-item list-group-item item-avatar picked-activityli-'+city_id_night+' msg-row unread"> <div class="timeline-icon ti-text">'+summary_city_name+' - Day '+daynumber+'</div><ul id="place-activitylist-'+city_id_night+'-'+daynumber+'" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-'+city_id_night+'" href="#" onclick="PickActity('+params+','+daynumber+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
-           $("#summary-activity-citysection-"+city_id_night).append('Day '+daynumber+'<div id="summary-activity-section-'+city_id_night+'-'+daynumber+'" class="activities-summary"> </div>');
+           $("#summary-activity-citysection-"+city_id_night).append('<b style="font-size:18px;">Day '+daynumber+'</b><div id="summary-activity-section-'+city_id_night+'-'+daynumber+'" class="activities-summary"> </div>');
        }
        startday = parseInt(startday) + parseInt(night_count);
     });
     //$("#place-activities").append('<li data-cityid="3" id="picked-activityli-3-1" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">Bintulu - Day 4</div><ul id="place-activitylist-3" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-3" href="#" onclick="PickActity({ },1)" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li><li data-cityid="28" id="picked-activityli-28-2" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">Miri - Day 2</div><ul id="place-activitylist-28" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-28" href="#" onclick="PickActity({ },2)" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li><li data-cityid="5" id="picked-activityli-5-3" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">Victoria - Day 3</div><ul id="place-activitylist-5" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-5" href="#" onclick="PickActity({ },3)" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>');
 
   }
+
+  $("#place-sortList").dragsort({
+      dragSelector: "li",
+      dragBetween: true,
+      dragEnd: RegenerateOrder,
+    });
+   function RegenerateOrder(){
+    //  alert('hi');
+      
+      $("#summary-cities").empty();
+
+      // $("#dummyList").empty();
+      // $("#dummyList").append($("#place-sortList").clone());
+      // $('#dummyList #place-sortList').prop('id', 'dummy-place-sortList');
+
+      $("#dummy-hotels,#dummy-activities,#dummyListNights,#dummySummaryList,#dummy-transports").empty();
+      $("#dummy-hotels").append($("#place-hotels").clone());
+      $('#dummy-hotels #place-hotels').prop('id', 'dummy-place-hotels');
+
+      //$("#dummy-activities").append($("#place-activities").clone());
+      //$('#dummy-activities #place-activities').prop('id', 'dummy-place-activities');
+
+      $("#dummySummaryList").append($("#overall-summary").clone());
+      $('#dummySummaryList #overall-summary').prop('id', 'dummy-overall-summary');
+
+      $("#dummy-transports").append($("#place-transports").clone());
+      $('#dummy-transports #place-transports').prop('id', 'dummy-place-transports');
+
+      $("#dummyListNights").append($("#destination-night-area").clone());
+      $('#dummyListNights #destination-night-area').prop('id', 'dummy-destination-night-area');
+      
+
+        var summarycount = $('#overall-summary li.summary-activity').length;
+        $("#place-hotels,#place-activities,#destination-night-area,#overall-summary,#place-transports").empty();
+        //$("").empty();
+        var data = $("#place-sortList li").map(function (index) {
+
+        // console.log(placelistarray);
+        var cityval = $(this).data('cityid');
+        //$('#place-sortList').append($('#dummyList #dummy-place-sortList #picked-li-'+cityval));
+        $('#place-hotels').append($('#dummy-hotels #dummy-place-hotels #picked-hotelli-'+cityval));
+        //$('#place-activities').append($('#dummy-activities #dummy-place-activities .picked-activityli-'+cityval));
+        $('#destination-night-area').append($('#dummyListNights #dummy-destination-night-area #place_night_'+cityval));
+
+        $('#overall-summary').append($('#dummySummaryList #dummy-overall-summary #summary-activityli-'+cityval));
+
+        $('#place-transports').append($('#dummy-transports #dummy-place-transports #transportli-'+cityval));
+
+        var summary_city_name = $("#summary-city-name-"+cityval).html();
+        $("#summary-cities").append(summary_city_name+', ');
+
+         //$("#place-activitylist-"+cityval).dragsort();
+          
+          return $(this).children().find(".summary-city").val();
+        }).get();
+        $("#dummyList,#dummy-hotels,#dummy-activities,#dummyListNights,#dummySummaryList,#dummy-transports").empty();
+       
+
+       $(".place_night_count").each(function() {
+          dropdown_id = $(this).attr('id');
+          dropdown_arr = dropdown_id.split('_');
+          city_id_night = dropdown_arr[3];
+          $("#place_night_select_"+city_id_night).val($(this).val());
+        });
+       CalculateDaysNights();
+       RegenerateActivities();
+    }
+
 
 </script>

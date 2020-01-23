@@ -208,7 +208,12 @@
   }
 
   .activities-summary{
-    padding-top: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .summary-activity-citysection{
+    padding-top: 25px;
   }
 
   .timeline-icon.ti-text {
@@ -697,6 +702,9 @@
                   <h4 class="text-headline">Activities</h4>
                   <div class="row">
                     <ul id="place-activities" class="timeline bg-color-switch mt40 timeline-single">
+                      @php
+                        $pack_total_nights = 0;
+                      @endphp
                       @foreach($data['package_place'] as $place)
                         @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
@@ -704,38 +712,50 @@
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
 
-                              $package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
-                             // dd($package_activities);
+                             
+                              $pack_night_count = $place->nights_count;
+                              
+                              //dd($place);
                         @endphp
-                        <li data-cityid="{{$place->city_id}}" id="picked-activityli-{{$place->city_id}}" class="tl-item list-group-item item-avatar msg-row unread">
-                          <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
+                        @for($n=1;$n<=$pack_night_count;$n++)
+                        @php
+                           $pack_daynumber = $pack_total_nights+$n;
+                           $package_activities = CommonHelper::getPackageActivitiesDays($package_info->id,$place->city_id,$pack_daynumber);
+                        @endphp
+                        <li data-cityid="{{$place->city_id}}" id="picked-activityli-{{$place->city_id}}-{{$pack_daynumber}}" class="tl-item list-group-item picked-activityli-{{$place->city_id}} item-avatar msg-row unread">
+                          <div class="timeline-icon ti-text">{{ $place_city_name }} - Day {{ $pack_daynumber }}</div>
                         @if($package_activities!=null)
-                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" >
+                            <ul id="place-activitylist-{{$place->city_id}}-{{$pack_daynumber}}" style="list-style: none !important;" class="place-activitylist" >
                               @foreach($package_activities as $activity)
                                @php
                                   $activityimages = $activity->activity_images;
                                   $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-                                 // dd($activity);
+                                  //dd($activity);
                                   $package_activity_cost= CommonHelper::getPackageActivityCost($package_info->id,$activity->id);
                                 @endphp
                               <li>
                                 <div id="city_activity_id_{{ $activity->id }}" class="msg-wrapper">
                                   <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from hide"><i class="fa fa-inr hide"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
                                   <p>
-                                    <input type="text" class="hide" name="second_activity_{{$place->city_id}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
-                                    <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
-                                    <input type="text" class="hide activity_person_cost" name="activity_person_cost_{{$place->city_id}}[]"  id="activity_person_cost_{{ $activity->id }}" value="{{$activity->amount}}" />
+                                    <input type="text" class="hide" name="second_activity_{{$place->city_id}}_{{$pack_daynumber}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
+                                    <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}_{{$pack_daynumber}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
+                                    <input type="text" class="hide activity_person_cost" name="activity_person_cost_{{$place->city_id}}_{{$pack_daynumber}}[]"  id="activity_person_cost_{{ $activity->id }}" value="{{$activity->amount}}" />
                                     <a onclick="return RemoveActivityDB({{ $package_info->id }}, {{ $activity->id }},{{$place->city_id}})" style="color: red;cursor:pointer;" class="">Remove</a></p>
                                 </div>
                               </li>
                               @endforeach
                             </ul>
-                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right" style="top: -20px;"><i class="mdi mdi-plus left"></i>Add activity</a>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{ $pack_daynumber }})" class="btn btn-sm purple waves-effect waves-light pull-right" style="top: -20px;"><i class="mdi mdi-plus left"></i>Add activity</a>
                         @else
-                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" ></ul>
-                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
+                            <ul id="place-activitylist-{{$place->city_id}}-{{$pack_daynumber}}" style="list-style: none !important;" class="place-activitylist" ></ul>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{ $pack_daynumber }})" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
                         @endif
                         </li>
+                        @endfor
+                        @php
+                          $pack_total_nights += $pack_night_count;
+                        @endphp
+                       
                       @endforeach
                     </ul>
                     <div id="dummy-activities">
@@ -911,6 +931,9 @@
                           
                       </div>
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
+                          @php
+                             $sum_total_nights = 0;
+                          @endphp
                           @foreach($data['package_place'] as $place) 
                            
                             @php 
@@ -966,11 +989,20 @@
                                 </div>
                                 
                                 @php
-                                  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                 
+                                   $sum_night_count = $place->nights_count;
+                                  //$sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
                                 @endphp
 
                                 <div style="clear:both"></div>
-                                <div id="summary-activity-section-{{$place->city_id}}" class="activities-summary">
+                                <div class="summary-activity-citysection" id="summary-activity-citysection-{{$place->city_id}}">
+                                @for($n=1;$n<=$sum_night_count;$n++)
+                                @php
+                                   $summary_daynumber = $sum_total_nights+$n;
+                                   $sum_package_activities = CommonHelper::getPackageActivitiesDays($package_info->id,$place->city_id,$summary_daynumber);
+                                @endphp
+                                <b style="font-size:18px;">Day {{$summary_daynumber}}</b>
+                                <div id="summary-activity-section-{{$place->city_id}}-{{$summary_daynumber}}" class="activities-summary">
                                   @foreach($sum_package_activities as $activity)
                                   @php
                                     $activityimages = $activity->activity_images;
@@ -990,10 +1022,18 @@
                                   </div>
                                   @endforeach
                                 </div>
+                                @endfor
+                                  @php
+                                    $sum_total_nights += $sum_night_count;
+                                  @endphp
+                                </div>
                               </li>
                             
                           @endforeach
                        </ul>
+                       <div id="dummySummaryList">
+
+                         </div>
                        <br>
                         <br>
                     </div>
@@ -1020,9 +1060,12 @@
                                   @foreach($data['package_place'] as $place)
                                   @php 
                                     $place_state_name = CommonHelper::getstateName($place->state_id);
-                                    $place_city_name = CommonHelper::getcityName($place->city_id);
+                                    //$place_city_name = CommonHelper::getcityName($place->city_id);
+                                    $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                                    $place_city_name = $place_city_data->city_name;
+                                    $place_city_image = $place_city_data->city_image;
                                   @endphp
-                                  <li data-cityid="{{ $place->city_id }}" id="picked-li-{{ $place->city_id }}" class="list-group-item cityplace sort-handle">. {{ $place_state_name }} - {{ $place_city_name }}<span class="callout-left blue-grey"></span>
+                                  <li data-cityid="{{ $place->city_id }}" data-params="{  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' }" id="picked-li-{{ $place->city_id }}" class="list-group-item cityplace sort-handle">. {{ $place_state_name }} - {{ $place_city_name }}<span class="callout-left blue-grey"></span>
                                     <input type="text" name="picked_state[]" class="hide" id="picked-state-{{ $place->city_id }}" value="{{ $place->state_id }}">
                                     <input type="text" name="picked_city[]" class="hide" id="picked-city-{{ $place->city_id }}" value="{{ $place->city_id }}">
                                   </li>
@@ -1318,7 +1361,7 @@
               CalculateTransport();
             }
             if(newIndex===4){
-               $(".place-night-select").trigger('change');
+              CalculateDaysNights();
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;

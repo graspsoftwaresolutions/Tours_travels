@@ -96,7 +96,8 @@ class PackageController extends Controller
 
           $check_picked_state = $request->input('picked_state');
 			if( isset($check_picked_state)){
-				$state_count = count($request->input('picked_state'));
+                $state_count = count($request->input('picked_state'));
+                $total_nights = 0;
 				for($i =0; $i<$state_count; $i++){
 					$state_id = $request->input('picked_state')[$i];
                     $city_id = $request->input('picked_city')[$i];
@@ -105,6 +106,7 @@ class PackageController extends Controller
                     if(isset($night_cnt)){
                         $nights_count = $night_cnt[0];
                     }
+                   
 				
 					
                     $package_place = new PackagePlace() ;
@@ -145,24 +147,31 @@ class PackageController extends Controller
                     }
                     
                    
-
-                    $activity_ids = $request->input('second_activity_'.$city_id);
-                    if( isset($activity_ids)){
-                        $activity_count = count($activity_ids);
-                        for($j =0; $j<$activity_count; $j++){
-                            $activity_id = $request->input('second_activity_'.$city_id)[$j];
-                            $package_activities = new PackageActivities() ;
-                            $package_activities->package_id = $package_id;
-                            $package_activities->city_id = $city_id;
-                            $package_activities->activity_id = $activity_id;
-                            $activity_cost = $request->input('activity_cost_'.$city_id);
-                            if(isset($activity_cost)){
-                                $package_activities->total_amount = $activity_cost[$j];
+                    if($nights_count>0){
+                        for($n=1;$n<=$nights_count;$n++){
+                            $day_number = $total_nights+$n;
+                            $activity_ids = $request->input('second_activity_'.$city_id.'_'.$day_number);
+                            if( isset($activity_ids)){
+                                $activity_count = count($activity_ids);
+                                for($j =0; $j<$activity_count; $j++){
+                                    $activity_id = $request->input('second_activity_'.$city_id.'_'.$day_number)[$j];
+                                    $package_activities = new PackageActivities() ;
+                                    $package_activities->package_id = $package_id;
+                                    $package_activities->day_numbers = $day_number;
+                                    $package_activities->city_id = $city_id;
+                                    $package_activities->activity_id = $activity_id;
+                                    $activity_cost = $request->input('activity_cost_'.$city_id.'_'.$day_number);
+                                    if(isset($activity_cost)){
+                                        $package_activities->total_amount = $activity_cost[$j];
+                                    }
+                                    $package_activities->save();
+                                }
                             }
-                            $package_activities->save();
                         }
+                        
                     }
-
+                    
+                    $total_nights += $nights_count;
 
                     $pickup_ids = $request->input('airportpickup_'.$city_id);
                     if( isset($pickup_ids)){
@@ -545,6 +554,7 @@ class PackageController extends Controller
                 DB::table('package_activities')->where('package_id','=',$package_id)->delete();
                 DB::table('package_transports')->where('package_id','=',$package_id)->delete();
 
+                $total_nights = 0;
 				$state_count = count($request->input('picked_state'));
 				for($i =0; $i<$state_count; $i++){
 					$state_id = $request->input('picked_state')[$i];
@@ -591,44 +601,48 @@ class PackageController extends Controller
                        
                     }
 
-                    // $hotel_id = $request->input('second_hotel_'.$city_id);
-                   
-                    // if(isset($hotel_id)){
-                    //     $package_hotel = new PackageHotel() ;
-                    //     $package_hotel->package_id = $package_id;
-                    //     $package_hotel->city_id = $city_id;
-                    //     $package_hotel->hotel_id = $hotel_id[0];
-                    //     $hotel_nos = $request->input('hotel_number_count_'.$city_id);
-                    //     $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
-                    //     if(isset($hotel_room_type)){
-                    //         $package_hotel->roomtype_id = $hotel_room_type[0];
-                    //     }
-                    //     if(isset($hotel_nos)){
-                    //         $package_hotel->total_rooms = $hotel_nos[0];
-                    //     }
-                    //     $hotel_cost = $request->input('hotel_cost_'.$city_id);
-                    //     if(isset($hotel_cost)){
-                    //         $package_hotel->total_amount = $hotel_cost[0];
-                    //     }
-                        
-                    //     $package_hotel->save();
-                    // }
-                    $activity_ids = $request->input('second_activity_'.$city_id);
-                    if( isset($activity_ids)){
-                        $activity_count = count($activity_ids);
-                        for($j =0; $j<$activity_count; $j++){
-                            $activity_id = $request->input('second_activity_'.$city_id)[$j];
-                            $package_activities = new PackageActivities() ;
-                            $package_activities->package_id = $package_id;
-                            $package_activities->city_id = $city_id;
-                            $package_activities->activity_id = $activity_id;
-                            $activity_cost = $request->input('activity_cost_'.$city_id);
-                            if(isset($activity_cost)){
-                                $package_activities->total_amount = $activity_cost[$j];
+                    if($nights_count>0){
+                        for($n=1;$n<=$nights_count;$n++){
+                            $day_number = $total_nights+$n;
+                            $activity_ids = $request->input('second_activity_'.$city_id.'_'.$day_number);
+                            if( isset($activity_ids)){
+                                $activity_count = count($activity_ids);
+                                for($j =0; $j<$activity_count; $j++){
+                                    $activity_id = $request->input('second_activity_'.$city_id.'_'.$day_number)[$j];
+                                    $package_activities = new PackageActivities() ;
+                                    $package_activities->package_id = $package_id;
+                                    $package_activities->day_numbers = $day_number;
+                                    $package_activities->city_id = $city_id;
+                                    $package_activities->activity_id = $activity_id;
+                                    $activity_cost = $request->input('activity_cost_'.$city_id.'_'.$day_number);
+                                    if(isset($activity_cost)){
+                                        $package_activities->total_amount = $activity_cost[$j];
+                                    }
+                                    $package_activities->save();
+                                }
                             }
-                            $package_activities->save();
                         }
+                        
                     }
+                    
+                    $total_nights += $nights_count;
+
+                    // $activity_ids = $request->input('second_activity_'.$city_id);
+                    // if( isset($activity_ids)){
+                    //     $activity_count = count($activity_ids);
+                    //     for($j =0; $j<$activity_count; $j++){
+                    //         $activity_id = $request->input('second_activity_'.$city_id)[$j];
+                    //         $package_activities = new PackageActivities() ;
+                    //         $package_activities->package_id = $package_id;
+                    //         $package_activities->city_id = $city_id;
+                    //         $package_activities->activity_id = $activity_id;
+                    //         $activity_cost = $request->input('activity_cost_'.$city_id);
+                    //         if(isset($activity_cost)){
+                    //             $package_activities->total_amount = $activity_cost[$j];
+                    //         }
+                    //         $package_activities->save();
+                    //     }
+                    // }
 
                     $pickup_ids = $request->input('airportpickup_'.$city_id);
                     if( isset($pickup_ids)){

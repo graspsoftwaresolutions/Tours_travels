@@ -253,6 +253,22 @@ class CommonHelper
        // dd($activities);
         return $activities;
     }
+
+    public static function getPackageActivitiesDays($packageid,$cityid,$daynumber){
+        //dd($packageid);
+        $activity_ids = DB::table('package_activities as pa')
+                    ->where('pa.package_id','=',$packageid)
+                    ->where('pa.city_id','=',$cityid)
+                    ->where('pa.day_numbers','=',$daynumber)
+                    ->pluck('pa.activity_id');
+       // dd($activity_ids);
+        $activities = Activity::with(
+            array(
+                'activity_images'
+            ))->whereIn('id',$activity_ids)->get();
+       // dd($activities);
+        return $activities;
+    }
 	
     public static function getPackageActivityCost($packageid,$activityid){
          $activity_amount = DB::table('package_activities as pa')
