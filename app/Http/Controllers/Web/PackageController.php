@@ -25,6 +25,10 @@ use Auth;
 
 class PackageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => 'createdItineray']);
+    }
      public function ViewPackage($encid){
         $packageid = crypt::decrypt($encid);
         $data['country_view'] = Country::where('status','=','1')->get();
@@ -358,6 +362,7 @@ class PackageController extends Controller
         // $data['package_place'] = DB::table('package_place as pp')
         // ->leftjoin('package_master as pm','pm.id','=','pp.package_id')
         // ->where('pm.id','=',$packageid)->get();
+        
         return view('web.package.created_itineries');
     }
     public function packageSearch(Request $request)
@@ -437,8 +442,5 @@ class PackageController extends Controller
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
     }
-    public function sightSeeing()
-    {
-        return view('web.sight_seeing');
-    }
+    
 }

@@ -257,4 +257,6 @@ Route::post('fromcountry_autocomplete','CommonController@FromCounrtyAutocomplete
 
 Route::get('sight_seeing','PageController@sightSeeing')->name('sight_seeing');
 
+Route::get('sight_seeing_view/{parameter}','PageController@sightSeeingViewMore')->name('sightseeing_viewmore');
+
 

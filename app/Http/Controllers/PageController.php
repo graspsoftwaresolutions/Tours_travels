@@ -17,6 +17,7 @@ use App\Model\Admin\PackagePlace;
 use App\Model\Admin\PackageHotel;
 use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Amenities;
+use Illuminate\Support\Facades\Crypt;
 
 use App\Model\Admin\Hotel;
 use DB;
@@ -56,5 +57,12 @@ class PageController extends Controller
         $data['activities_view'] = Activity::where('status','=','1')->limit(12)->get();
       //  dd($data['activities_view']);
         return view('web.sight_seeing')->with('data',$data);
+    }
+    public function sightSeeingViewMore($id)
+    {
+        $activityid = crypt::decrypt($id); 
+        $data['activities_view'] = Activity::where('status','=','1')->where('id','=',$activityid)->get();
+          
+        return view('web.sight_seeing_view')->with('data',$data);
     }
 }

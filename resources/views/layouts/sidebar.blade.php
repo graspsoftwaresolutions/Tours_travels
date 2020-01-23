@@ -20,7 +20,7 @@
                         
                         <li id="home_menu_id" class="active"><a href="{{URL('/')}}">Home</a> </li>
                         <li id="package_menu_id"><a href="{{route('packages')}}">Itinerary</a>  </li>
-                        <!-- <li id="package_menu_id"><a href="{{route('sight_seeing')}}">Sight Seeing</a>  </li> -->
+                        <li id="package_menu_id"><a href="{{route('sight_seeing')}}">Sight Seeing</a>  </li>
                         <!-- @auth
                         <li id="itinerary_created_menu"><a href="{{route('itineray_created')}}">Itinerary Created</a>  </li>
                         @endauth -->
