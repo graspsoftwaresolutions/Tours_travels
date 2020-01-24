@@ -36,9 +36,8 @@ class PdfController extends Controller
         {
            // return view('admin.package.pdf.packagepdf')->with($data);
             $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
-              return  $pdf->stream();
-            //$pdf->save(storage_path('app/pdf/'.$packageid.'_package_details.pdf'));
-         //   return $pdf->download($packageid.'_package_details.pdf');
+             // return  $pdf->stream();
+            return $pdf->download($packageid.'_package_details.pdf');
         }
     }
     public function BookingView($encid)
@@ -65,7 +64,7 @@ class PdfController extends Controller
         
          if($data!='')
          {
-           return view('admin.booking.pdf.booking_pdf')->with($data);
+           //return view('admin.booking.pdf.booking_pdf')->with($data);
             $pdf = PDF::loadView('admin.booking.pdf.booking_pdf', $data);
            // return  $pdf->stream();
             return $pdf->download('booking_details.pdf');
