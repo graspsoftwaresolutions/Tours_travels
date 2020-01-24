@@ -325,6 +325,9 @@
 				$days = 1;
 				//dd(2);
 		@endphp
+		@php
+		$pack_total_nights = 0;
+		@endphp
 		
 		<h2 style="color:#4A7885"><b>Detailed Summary</b> </h2>
 		@foreach($package_place_data as $key => $place)
@@ -336,7 +339,9 @@
                               $place_city_image = $place_city_data->city_image;
 
                               $package_hotels = CommonHelper::getPackageHotels($package->packageautoid,$place->city_id);
-                             
+							  $pack_night_count = $place->nights_count;
+							  //dd($pack_night_count);
+
                             @endphp		
 
 							@foreach($package_hotels as $hotel)
@@ -380,7 +385,8 @@
                                             }
                                             $total_hotel_prices = 0;
 											$sum_package_activities = CommonHelper::getPackageActivities($package->packageautoid,$place->city_id);
-                                          @endphp   
+                                     
+									      @endphp   
                                           <div class="media-body p10">     
 												<div class="" style="float: left;width: 100%;font-size: 16px;margin-right: 10px; padding: 10px;background: #c3986a;color: #fff; ">
 													<b>  {{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span> </b> 
@@ -444,20 +450,31 @@
                                           </div>
 										  <p class="inner-bullets"> <b> Total Amount : </b> {{ $total_hotel_prices ?  $total_hotel_prices  : '' }} </p>
                                   @endforeach
-							@foreach($sum_package_activities as $activity)
-                        @php
-                        $activityimages = $activity->activity_images;
-                        $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-                       // $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
-                            $package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
-                            $activity_images  = CommonHelper::getActivityImages($activity->id);
-                        @endphp
+							@for($n=1;$n<=$pack_night_count;$n++)
+							@php
+							$pack_daynumber = $pack_total_nights+$n;
+							$package_activities = CommonHelper::getPackageActivitiesDays($package->packageautoid,$place->city_id,$pack_daynumber);
+							@endphp
+
+
+							@foreach($package_activities as $activity)
+							@php
+							$activityimages = $activity->activity_images;
+							$act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+							// $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+								$package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
+								$activity_images  = CommonHelper::getActivityImages($activity->id);
+							@endphp
                           <div class="clearfix"></div>
+						  <hr style="margin : 0px 0 20px 10px">
+						  <h2 style="margin : 0px 0 20px 10px" class="">Activities</h2>
+						  <p><b>Day : </b> {{ $pack_daynumber }}</p>
                         <div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
 	                        <p class="inner-bullets" style="margin: 5px;"> <b> Activity Name <br> </b> </p>
 	                    </div>
+						
 	                     <div class="" style="float: left;width: 74%;font-size: 16px;margin-right: 10px; padding: 0px; ">
-	                        <p class="inner-bullets" style="margin: 5px;"> {{ $activity->title_name ? ucfirst($activity->title_name) : '' }} </p>
+	                        <p class="inner-bullets" style="margin: 5px;">  {{ $activity->title_name ? ucfirst($activity->title_name) : '' }} </p>
 	                    </div>
                         <div class="clearfix"></div>
                          <br><br>
@@ -561,8 +578,13 @@
 								@if($custom_data=='no')
 									<p class="inner-bullets"><b> Amount </b> : {{$package_activity_cost ? $package_activity_cost : ''}} </p>
 							  @endif
+						 
 
-                        @endforeach   
+                        @endforeach  
+						@endfor
+                        @php
+                          $pack_total_nights += $pack_night_count;
+                        @endphp 
                
                 @php $slno++; @endphp  
 
