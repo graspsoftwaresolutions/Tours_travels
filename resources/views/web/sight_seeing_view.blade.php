@@ -25,156 +25,75 @@
         	<div id="hotel-details" class="innerpage-section-padding">
                 <div class="container">
                     <div class="row">        	
+                    <div class="col-xs-12 col-sm-12 col-md-3 side-bar left-side-bar">
+                        @php  $row = $data['activities_view'][0]; 
                         
-                        <div class="col-xs-12 col-sm-12 col-md-3 side-bar left-side-bar">
-                            
+                        $country_name = CommonHelper::getCountryName($row->country_id);
+                        $state_name = CommonHelper::getstateName($row->state_id);
+                        $city_name = CommonHelper::getcityName($row->city_id);
+                        
+                       // $packages = CommonHelper::getRelatedPackges($country_name,$state_name);
+                        
+                        
+                        @endphp
                             <div class="side-bar-block booking-form-block">
-                            	<h2 class="selected-price">$568.00 <span>De Forte</span></h2>
+                            	<h2 class="selected-price">Related Packages</h2>
+                                <!-- <img src="{{asset('storage/app/activity/1_202001221156531.jpg')}}" > -->
                             
                             	<div class="booking-form">
-                                	<h3>Book Hotel</h3>
-                                    <p>Find your dream hotel today</p>
-                                    
-                                    <form>
-                                    	<div class="form-group">
-                                    		<input type="text" class="form-control" placeholder="First Name" required/>                                       
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="text" class="form-control" placeholder="Last Name" required/>                                       
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="email" class="form-control" placeholder="Email" required/>                                       
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="text" class="form-control" placeholder="Phone" required/>                                       
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="text" class="form-control" placeholder="Country" required/>                                       
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="text" class="form-control dpd1" placeholder="Arrival Date" required/>                                       		<i class="fa fa-calendar"></i>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                    		<input type="text" class="form-control dpd2" placeholder="Departure Date" required/>                                       		<i class="fa fa-calendar"></i>
-                                        </div>
-                                        
-                                        <div class="row">
-                                        	<div class="col-sm-6 col-md-12 col-lg-6 no-sp-r">
-                                                <div class="form-group right-icon">
-                                                    <select class="form-control">
-                                                        <option selected>Rooms</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                    </select>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-6 col-md-12 col-lg-6 no-sp-l">    
-                                                <div class="form-group right-icon">
-                                                    <select class="form-control">
-                                                        <option selected>Beds</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                    </select>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                        	<div class="col-sm-6 col-md-12 col-lg-6 no-sp-r">
-                                                <div class="form-group right-icon">
-                                                    <select class="form-control">
-                                                        <option selected>Adults</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                    </select>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-sm-6 col-md-12 col-lg-6 no-sp-l">    
-                                                <div class="form-group right-icon">
-                                                    <select class="form-control">
-                                                        <option selected>Childs</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                    </select>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group right-icon">
-                                            <select class="form-control">
-                                                <option selected>Payment Method</option>
-                                                <option>Credit Card</option>
-                                                <option>Paypal</option>
-                                            </select>
-                                            <i class="fa fa-angle-down"></i>
-                                        </div>
-                                        
-                                        <div class="checkbox custom-check">
-                                        	<input type="checkbox" id="check01" name="checkbox"/>
-                                            <label for="check01"><span><i class="fa fa-check"></i></span>By continuing, you are agree to the <a href="#">Terms & Conditions.</a></label>
-                                        </div>
-                                        
-                                        <button class="btn btn-block btn-orange">Confirm Booking</button>
-                                    </form>
+                                	<!-- <h3>Book Hotel</h3>
+                                    <p>Find your dream hotel today</p> -->
+                                    <!-- <div class="row"> -->
+                            
+                                @foreach($data['packages_view'] as $values)
+                                 @php $city_image = CommonHelper::getCityImage($values->to_city_id);  @endphp
+                                <div class="grid-block main-block h-grid-block">
+                                    <div class="main-img h-grid-img">
+                                        <a href="{{route('package.details',Crypt::encrypt($values->id))}}">
+                                        @if($city_image!='')
+                                            <img style="width:264px;height:190px;"  src="{{asset('storage/app/city/'.$city_image->city_image)}}" class="img-responsive" alt="hotel-img" />
+                                            @else
+                                            <img style="width:264px;height:190px;"  src="{{$no_imag_url}}" class="img-responsive" alt="hotel-img" />
+                                            @endif
+                                        </a>
+                                        <div class="main-mask">
+                                            <ul class="list-unstyled list-inline offer-price-1">
+                                                <li class="price">{{$values->total_amount}} Rs/-<span class="divider"></li>
+                                            </ul>
+                                        </div><!-- end main-mask -->
+                                    </div><!-- end h-grid-img -->
+                                    @php 
+                                    $country_name = CommonHelper::getCountryName($values->to_country_id);
+                                    $state_name = CommonHelper::getstateName($values->to_state_id);
+                                    $city_name = CommonHelper::getcityName($values->to_city_id);
 
+                                    @endphp
+                                     <div class="block-info h-grid-info">
+
+                                         <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($values->id))}}">{{$values->package_name}}</a></h5>
+                                         <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
+                                         <p class="">{{ $values->adult_count}} Adult {{ $values->child_count}} Childern  {{ $values->infant_count}} Infants </p>
+                                       
+                                        <div class="grid-btn">
+                                            <a href="{{route('package.details',Crypt::encrypt($values->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
+                                        </div><!-- end grid-btn -->
+                                     </div><!-- end h-grid-info -->
+                                </div><!-- end h-grid-block -->
+                                @endforeach
+                            
+                                    
                                 </div><!-- end booking-form -->
                             </div><!-- end side-bar-block -->
                             
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-12">
-                                    <div class="side-bar-block main-block ad-block">
-                                        <div class="main-img ad-img">
-                                            <a href="#">
-                                                <img src="images/car-ad.jpg" class="img-responsive" alt="car-ad" />
-                                                <div class="ad-mask">
-                                                    <div class="ad-text">
-                                                        <span>Luxury</span>
-                                                        <h2>Car</h2>
-                                                        <span>Offer</span>
-                                                    </div><!-- end ad-text -->
-                                                </div><!-- end columns -->
-                                            </a>
-                                        </div><!-- end ad-img -->
-                                    </div><!-- end side-bar-block -->
-                                </div><!-- end columns -->
-                                
-                                <div class="col-xs-12 col-sm-6 col-md-12">    
-                                    <div class="side-bar-block support-block">
-                                        <h3>Need Help</h3>
-                                        <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis. Est atqui timeam mnesarchum.</p>
-                                        <div class="support-contact">
-                                            <span><i class="fa fa-phone"></i></span>
-                                            <p>+1 123 1234567</p>
-                                        </div><!-- end support-contact -->
-                                    </div><!-- end side-bar-block -->
-                                </div><!-- end columns -->
-                                
-                            </div><!-- end row -->
+                           
                         </div><!-- end columns -->
-                        
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 content-side">
                             
                             <div class="detail-slider">
                                 <div class="feature-slider">
                                     @php
-                                $row = $data['activities_view'][0];
-                                 $activityimage = CommonHelper::getActivityImages($row->id);   @endphp
+                                
+                                 $activityimage = CommonHelper::getallActivityImages($row->id);   @endphp
                                    
                                     @foreach($activityimage as $values)
                                     <div><img src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:848px; height:494px;" class="img-responsive" alt="feature-thumb"/></div>
@@ -183,7 +102,7 @@
                             	
                                 <div class="feature-slider-nav">
                                 @foreach($activityimage as $values)
-                                    <div><img src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:200px; height:150px;padding:5px;" class="img-responsive" alt="feature-thumb"/></div>
+                                    <div><img src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:200px; height:150px;padding:5px;margin-left:0px;" class="img-responsive" alt="feature-thumb"/></div>
                                     @endforeach
                                 </div><!-- end feature-slider-nav -->
                             </div>  <!-- end detail-slider -->
@@ -233,9 +152,7 @@
 
                                                     $hours_and_minutes = $hours.' '.$minutes;
                                                    
-                                                     $country_name = CommonHelper::getCountryName($row->country_id);
-                                                        $state_name = CommonHelper::getstateName($row->state_id);
-                                                        $city_name = CommonHelper::getcityName($row->city_id);
+                                                    
                                                
                                                     @endphp
                                                 <h4> Duration : {{$hours_and_minutes}} </h4>
@@ -299,17 +216,7 @@
                             
                             
                             
-                            
-                            <div class="pages">
-                                <ol class="pagination">
-                                    <li><a href="#" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#" aria-label="Next"><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a></li>
-                                </ol>
-                            </div><!-- end pages -->
+                          
                         </div><!-- end columns -->
 
                     </div><!-- end row -->
@@ -323,4 +230,8 @@
 @section('footerSection')
 <script src ="{{ asset('public/web-assets/js/slick.min.js') }}"></script>
 <script src ="{{ asset('public/web-assets/js/custom-slick.js') }}"></script>
+<script>
+$("#home_menu_id").removeClass('active');
+$('#sighseeing_menu_id').addClass('active');
+</script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('headSection')
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
 @endsection
-
 @section('main-content')
 <!--=================== PAGE-COVER =================-->
 <section class="page-cover" id="cover-hotel-grid-list">
@@ -22,24 +22,18 @@
             <div class="col-sm-12">
             
                 <ul class="nav nav-tabs center-tabs">
-                    <li class="active hide"><a href="#flights" data-toggle="tab"><span><i class="fa fa-plane"></i></span><span class="st-text">Flights</span></a></li>
-                    <!--li><a href="#hotels" data-toggle="tab"><span><i class="fa fa-building"></i></span><span class="st-text">Hotels</span></a></li>
-                    <li><a href="#tours" data-toggle="tab"><span><i class="fa fa-suitcase"></i></span><span class="st-text">Tours</span></a></li>
-                    <li><a href="#cruise" data-toggle="tab"><span><i class="fa fa-ship"></i></span><span class="st-text">Cruise</span></a></li>
-                    <li><a href="#cars" data-toggle="tab"><span><i class="fa fa-car"></i></span><span class="st-text">Cars</span></a></li-->
+                    <li class="active hide"><a href="#flights" data-toggle="tab"><span><i class="fa fa-plane"></i></span><span class="st-text">Flights</span></a></li>       
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content" >
                     <div id="flights" class="tab-pane in active">
-                        <form method="post" action="http://localhost/Tours_travels/package_search">
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="vwOWqeMcQGIjGr52SgHjqqUI0PfcoFFAIfx3k01z">           
-                                         <div class="row">
-
+                        <form method="post" action="{{route('activity_search')}}">
+                        @csrf   
+                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <!-- <div class="row"> -->
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="form-group left-icon">
-                                                <input id="form_details" required value="" type="text" class="form-control" placeholder="Place" >
+                                                <input id="form_details" required value="{{$data['fr_details'] ? $data['fr_details'] : ''}}" type="text" class="form-control" placeholder="Place" >
                                                 <i class="fa fa-map-marker"></i>
                                                 <input type="hidden" name="from_city_id" id="from_city_id" value="">
                                                 <input type="hidden" name="from_state_id" id="from_state_id" value="">
@@ -48,7 +42,7 @@
                                         </div><!-- end columns -->
                                         
                                         
-                                    </div><!-- end row -->								
+                                    <!-- </div>							 -->
                                 </div><!-- end columns -->
                                 
                                
@@ -78,6 +72,9 @@
                     <div class="row">        	
                         
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 content-side">
+                        @php if(count($data['activities_view'])>0) 
+                        {
+                            @endphp
 							@foreach($data['activities_view'] as $values)
                             @php $activityimage = CommonHelper::getActivityImages($values->id);  @endphp
                             <div class="list-block main-block h-list-block">
@@ -132,24 +129,22 @@
                                         <h3 class="block-title"><a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}">{{$values->title_name}}</a></h3>
                                         <!-- <p class="block-minor">From: Scotland</p> -->
                                         <p>{!! $values->short_description ? substr($values->short_description, 0, 200) : '' !!}..More</p>
-                                        <a href="hotel-detail-left-sidebar.html" class="btn btn-orange btn-lg">View More</a>
+                                        <a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}" class="btn btn-orange btn-lg">View More</a>
                                      </div><!-- end h-list-info -->
                             	</div><!-- end list-content -->
                             </div><!-- end h-list-block -->
                             @endforeach
-
-                            <!-- <div class="pages">
-                                <ol class="pagination">
-                                    <li><a href="#" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#" aria-label="Next"><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a></li>
-                                </ol>
-                            </div>
-                        </div> -->
-
+                            @php
+                            }
+                            else{
+                                @endphp
+                                <div class="col-md-12">
+                                    
+                                    <center >   <h2> <span class="label label-info"> No results found</span></h2>  </center>
+								    </div>
+                                @php
+                            }
+                            @endphp
                     </div><!-- end row -->
             	</div><!-- end container -->
             </div><!-- end hotel-listing -->
@@ -218,5 +213,55 @@
 @endsection
 		
 @section('footerSection')
-
+<script src="{{ asset('public/js/jquery.dragsort.js') }}"></script>
+<script src ="{{ asset('public/assets/dist/js/jquery-ui.js') }}"></script>
+<script>
+$("#home_menu_id").removeClass('active');
+$('#sighseeing_menu_id').addClass('active');
+$(document).ready(function(){ 
+    $('#form_details').autocomplete({
+    // minChars: 1,
+    source: function(request, response) {
+        $.ajaxSetup({
+         headers: {
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+      });
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: "{{route('fromcountry_autocomplete')}}",
+        data: 'action=from_country'+'&name='+request.term,
+        success: function(data) {
+         //console.log(data.length);
+         if (data.length === 0) {
+               var res_msg = "No Results";
+                alert(res_msg);
+              
+            }
+          response( $.map( data, function( item ) {
+            //console.log(data.length);
+                  var object = new Object();
+                  object.label = item.value;
+                  object.value = item.name;
+                  object.cityid = item.cityid;
+                  object.countyid = item.countyid;
+                  object.stateid = item.stateid;
+                  return object 
+          }));
+        }
+   
+      });
+    },
+    select: function (event, ui) {
+         $("#form_details").val(ui.item.value);
+         $("#from_country_id").val(ui.item.countyid);
+         $("#from_state_id").val(ui.item.stateid);
+         $("#from_city_id").val(ui.item.cityid);
+      },
+   });
+   
+});
+</script>
+</script>
 @endsection

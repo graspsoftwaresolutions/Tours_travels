@@ -306,6 +306,11 @@ class CommonHelper
         $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->Orderby('id', 'asc')->limit(3)->get();
         return $activity_images;
     }
+    public static function getallActivityImages($activityid)
+    {
+        $activity_images = DB::table('activity_images')->where('activity_id','=',$activityid)->Orderby('id', 'asc')->get();
+        return $activity_images;
+    }
     public static function getBookingHotel($bookingid,$cityid){
         $hotel_data = DB::table('booking_hotel as bh')->select('hotel_id','total_rooms','total_amount','roomtype_id')
                     ->where('bh.booking_id','=',$bookingid)
@@ -452,4 +457,5 @@ class CommonHelper
         $result = DB::table('city')->where('id','=',$cityid)->select('city_image','city_name')->first();
         return $result;
    }
+ 
 }

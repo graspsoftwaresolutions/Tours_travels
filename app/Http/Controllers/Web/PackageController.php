@@ -77,7 +77,7 @@ class PackageController extends Controller
         }
     }
 
-     public function packageSave(Request $request)
+    public function packageSave(Request $request)
     {
         //return $request->all();
         $request->validate([
@@ -442,5 +442,6 @@ class PackageController extends Controller
         $data['pacakge_type'] = DB::table('package_type')->where('status','=','1')->get();
      	return view('web.welcome')->with('data',$data);
     }
+    
     
 }

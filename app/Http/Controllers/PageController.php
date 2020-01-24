@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helpers\CommonHelper;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -54,14 +55,37 @@ class PageController extends Controller
     }
     public function sightSeeing()
     {
+        $data['fr_details'] = '';
         $data['activities_view'] = Activity::where('status','=','1')->limit(12)->get();
       //  dd($data['activities_view']);
+        return view('web.sight_seeing')->with('data',$data);
+    }
+    public function activitySearch(Request $request)
+    {
+        $data = $request->all();
+        $data['city_id'] = $request->from_city_id;
+        $data['state_id']= $request->from_state_id;
+        $data['country_id']= $request->from_country_id;
+        $data['fr_country_name'] = CommonHelper::getCountryName($data['country_id']);
+        $data['fr_state_name'] = CommonHelper::getstateName($data['state_id']);
+        $data['fr_city_name'] = CommonHelper::getcityName($data['city_id']);
+        if($data['fr_country_name']!='')
+        {
+            $data['fr_details'] = $data['fr_country_name'].'-'.$data['fr_state_name'].'-'.$data['fr_city_name'];
+        }
+        else{
+            $data['fr_details'] ='';
+        }
+        $data['activities_view']  = Activity::where([ 'country_id'=>$data['country_id'] , 'state_id'=>$data['state_id'] , 'city_id'=>$data['city_id'], 'status'=>'1' ])->get();
+        
+
         return view('web.sight_seeing')->with('data',$data);
     }
     public function sightSeeingViewMore($id)
     {
         $activityid = crypt::decrypt($id); 
         $data['activities_view'] = Activity::where('status','=','1')->where('id','=',$activityid)->get();
+        $data['packages_view'] = Package::where('status','=','1')->limit(5)->get();
           
         return view('web.sight_seeing_view')->with('data',$data);
     }

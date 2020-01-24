@@ -386,7 +386,7 @@
                                             $total_hotel_prices = 0;
 											$sum_package_activities = CommonHelper::getPackageActivities($package->packageautoid,$place->city_id);
                                      
-									      @endphp   
+									      @endphp
                                           <div class="media-body p10">     
 												<div class="" style="float: left;width: 100%;font-size: 16px;margin-right: 10px; padding: 10px;background: #c3986a;color: #fff; ">
 													<b>  {{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span> </b> 
@@ -450,25 +450,26 @@
                                           </div>
 										  <p class="inner-bullets"> <b> Total Amount : </b> {{ $total_hotel_prices ?  $total_hotel_prices  : '' }} </p>
                                   @endforeach
-							@for($n=1;$n<=$pack_night_count;$n++)
-							@php
-							$pack_daynumber = $pack_total_nights+$n;
-							$package_activities = CommonHelper::getPackageActivitiesDays($package->packageautoid,$place->city_id,$pack_daynumber);
-							@endphp
+															
+									@for($n=1;$n<=$pack_night_count;$n++)
+									@php
+									$pack_daynumber = $pack_total_nights+$n;
+									$package_activities = CommonHelper::getPackageActivitiesDays($package->packageautoid,$place->city_id,$pack_daynumber);
+												
+									@endphp
 
-
-							@foreach($package_activities as $activity)
-							@php
-							$activityimages = $activity->activity_images;
-							$act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-							// $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
-								$package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
-								$activity_images  = CommonHelper::getActivityImages($activity->id);
-							@endphp
+									@foreach($package_activities as $activity)
+									@php
+									$activityimages = $activity->activity_images;
+									$act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+									// $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+										$package_activity_cost= CommonHelper::getPackageActivityCost($package->packageautoid,$activity->id);
+										$activity_images  = CommonHelper::getActivityImages($activity->id);
+									@endphp
                           <div class="clearfix"></div>
 						  <hr style="margin : 0px 0 20px 10px">
-						  <h2 style="margin : 0px 0 20px 10px" class="">Activities</h2>
-						  <p><b>Day : </b> {{ $pack_daynumber }}</p>
+						  <!-- <h2 style="margin : 0px 0 20px 10px" class=""></h2> -->
+						  <p><b>Day : </b> {{ $pack_daynumber  }}  - Activities</p>
                         <div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
 	                        <p class="inner-bullets" style="margin: 5px;"> <b> Activity Name <br> </b> </p>
 	                    </div>
