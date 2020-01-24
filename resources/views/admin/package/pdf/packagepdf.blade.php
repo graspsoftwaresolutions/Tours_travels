@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"  rel="stylesheet">
 @php 	//$company_data = $data['website_data'][0]; 
    		//$package = $data['package_data'][0];
        // $package_place_data = $data['package_place'][0];
@@ -389,10 +390,23 @@
 									      @endphp
                                           <div class="media-body p10">     
 												<div class="" style="float: left;width: 100%;font-size: 16px;margin-right: 10px; padding: 10px;background: #c3986a;color: #fff; ">
-													<b>  {{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span> </b> 
+													<b>  {{ $place_state_name }} - {{ $place_city_name }}  </b> 
 												</div>
-                                            
-                                            	<div class="clearfix"></div> 
+												<div  class="clearfix"></div> 							
+													@php
+													if($rating_string!=null){
+														@endphp
+														<p style="font-size: 15px;"><b>Rating</b>
+														@php
+														for ($i = 1; $i <= $rating_string; $i++) {
+															@endphp
+													 	  <i class="fa fa-star orange"></i> 
+															@php
+														}
+													}
+													@endphp		
+												</p>
+                                            	<div  class="clearfix"></div> 
 												<br>
 												<div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
 													<p class="inner-bullets" style="margin: 5px;"> <b> {{$slno}} . Hotel Name  </p>
@@ -449,13 +463,12 @@
                                             @php $slno++; @endphp  
                                           </div>
 										  <p class="inner-bullets"> <b> Total Amount : </b> {{ $total_hotel_prices ?  $total_hotel_prices  : '' }} </p>
-                                  @endforeach
-															
+                                  @endforeach				
 									@for($n=1;$n<=$pack_night_count;$n++)
 									@php
 									$pack_daynumber = $pack_total_nights+$n;
 									$package_activities = CommonHelper::getPackageActivitiesDays($package->packageautoid,$place->city_id,$pack_daynumber);
-												
+									//dd($package_activities);			
 									@endphp
 
 									@foreach($package_activities as $activity)

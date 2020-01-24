@@ -269,7 +269,7 @@ class CommonHelper
        // dd($activities);
         return $activities;
     }
-	
+
     public static function getPackageActivityCost($packageid,$activityid){
          $activity_amount = DB::table('package_activities as pa')
                     ->where('pa.package_id','=',$packageid)
