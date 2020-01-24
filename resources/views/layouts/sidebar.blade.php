@@ -12,7 +12,7 @@
                     <div class="header-search hidden-lg">
                         <a href="javascript:void(0)" class="search-button hide"><span><i class="fa fa-search"></i></span></a>
                     </div>
-                    <a href="{{ URL('/') }}" class="navbar-brand"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" width='50' > <span> &nbsp;&nbsp;{{ $website_dat->company_name ? $website_dat->company_name : '' }} </span></a>
+                    <a href="{{ URL('/') }}" class="navbar-brand"><span> <img class="pull-left" src="{{ asset('storage/app/website/'.$logo)}}" width='33' > <span> &nbsp;&nbsp;{{ $website_dat->company_name ? $website_dat->company_name : '' }} </span></a>
                 </div><!-- end navbar-header -->
                 
                 <div class="collapse navbar-collapse" id="myNavbar1">
