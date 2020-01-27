@@ -65,6 +65,7 @@
                                             </ul>
                                         </div><!-- end main-mask -->
                                     </div><!-- end h-grid-img -->
+
                                     @php 
                                     $country_name = CommonHelper::getCountryName($row_packages->to_country_id);
                                     $state_name = CommonHelper::getstateName($row_packages->to_state_id);
@@ -75,7 +76,6 @@
                                          <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">{{$row_packages->package_name}}</a></h5>
                                          <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
                                          <p class="">{{ $row_packages->adult_count}} Adult {{ $row_packages->child_count}} Childern  {{ $row_packages->infant_count}} Infants </p>
-                                       
                                         <div class="grid-btn">
                                             <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
                                         </div><!-- end grid-btn -->
@@ -94,18 +94,22 @@
                             
                             <div class="detail-slider">
                                 <div class="feature-slider">
-                                    @php
-                                
-                                 $activityimage = CommonHelper::getallActivityImages($row->id);   @endphp
+                              @php  $activityimage = CommonHelper::getallActivityImages($row->id);   @endphp
                                    
-                                    @foreach($activityimage as $values)
-                                    <div><img src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:848px; height:494px;" class="img-responsive" alt="feature-thumb"/></div>
+                                    @foreach($activityimage as $key => $values)
+                                    @if($key==0)
+                                    <div  ><img  id="zoomimage_{{$values->id}}" src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:848px; height:494px;" class="img-responsive" alt="feature-thumb"/></div>
+                                    @endif
                                     @endforeach
                                 </div><!-- end feature-slider -->
-                            	
-                                <div class="feature-slider-nav">
-                                @foreach($activityimage as $values)
-                                    <div><img src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:200px; height:150px;padding:5px;margin-left:0px;" class="img-responsive" alt="feature-thumb"/></div>
+                                <div class="row">
+                                 @foreach($activityimage as $values)  
+                                 @php $imagename = asset('storage/app/activity/'.$values->image_name); 
+                                        $id = $values->id;
+                                        
+                                 @endphp
+                                    <div class="col-md-3"><img 
+                                    src="{{$imagename}}"  style="width:200px; height:150px;padding:5px;" class="img-responsive" alt="feature-thumb"  onclick="return setFullImage('{{$imagename}}',{{$id}}) " /></div>
                                     @endforeach
                                 </div><!-- end feature-slider-nav -->
                             </div>  <!-- end detail-slider -->
@@ -238,9 +242,14 @@ $("#home_menu_id").removeClass('active');
 $('#sighseeing_menu_id').addClass('active');
 </script>
 <script type="text/javascript" charset="utf-8">
-    $(window).load(function() {
-    $('.flexslider').flexslider();
-    $(window).trigger('resize');
+$(document).ready(function(){
+//   var   image_url   = 'storage/app/activity';
+//     var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+//    var imagelocation = ''
+//     $(".zoomimage").attr("src", imagelocation);
 });
+    function setFullImage(imageobj,imageid){       
+    $("#zoomimage_"+imageid).attr("src",imageobj) ;
+  }
 </script>
 @endsection

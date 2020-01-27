@@ -1,6 +1,6 @@
 
 
- $('.feature-slider').slick({
+/*  $('.feature-slider').slick({
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
@@ -9,7 +9,7 @@
     autoplay: true,
     autoplaySpeed: 4000,
     adaptiveHeight: true
-  });
+  }); */
   
   
   /*$('.feature-slider-nav').slick({
@@ -22,7 +22,7 @@
   });*/
   
   
-  $('.feature-slider-nav').slick({
+/*   $('.feature-slider-nav').slick({
     centerMode: false,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -46,4 +46,4 @@
         }
       }
     ]
-  });
+  }); */
