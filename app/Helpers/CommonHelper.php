@@ -457,5 +457,11 @@ class CommonHelper
         $result = DB::table('city')->where('id','=',$cityid)->select('city_image','city_name')->first();
         return $result;
    }
+   public static function getRelatedPackges($id)
+   { 
+        $result = Package::where('id','=',$id)->limit(5)->first();
+       // dd($result);
+        return $result;
+   }
  
 }

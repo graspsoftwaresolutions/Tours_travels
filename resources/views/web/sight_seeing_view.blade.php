@@ -2,6 +2,9 @@
 @section('headSection')
 <link href="{{ asset('public/web-assets/css/slick.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('public/web-assets/css/slick-theme.css') }}" rel="stylesheet" type="text/css">
+<style>
+.feature-slider-nav{margin-left:0px; } 
+</style>
 @endsection
 
 @section('main-content')
@@ -27,59 +30,59 @@
                     <div class="row">        	
                     <div class="col-xs-12 col-sm-12 col-md-3 side-bar left-side-bar">
                         @php  $row = $data['activities_view'][0]; 
-                        
+                        $package_id = $data['package_id'];
                         $country_name = CommonHelper::getCountryName($row->country_id);
                         $state_name = CommonHelper::getstateName($row->state_id);
                         $city_name = CommonHelper::getcityName($row->city_id);
                         
-                       // $packages = CommonHelper::getRelatedPackges($country_name,$state_name);
+                       //$packages = CommonHelper::getRelatedPackges($country_name,$state_name);
                         
-                        
+                      
                         @endphp
                             <div class="side-bar-block booking-form-block">
-                            	<h2 class="selected-price">Related Packages</h2>
+                            	<h4 class="selected-price" style="font-size: 25px;">Related Packages</h4>
                                 <!-- <img src="{{asset('storage/app/activity/1_202001221156531.jpg')}}" > -->
                             
                             	<div class="booking-form">
                                 	<!-- <h3>Book Hotel</h3>
                                     <p>Find your dream hotel today</p> -->
                                     <!-- <div class="row"> -->
-                            
-                                @foreach($data['packages_view'] as $values)
-                                 @php $city_image = CommonHelper::getCityImage($values->to_city_id);  @endphp
+                            @foreach($data['package_id'] as $values)
+                            @php  $row_packages = CommonHelper::getRelatedPackges($values->package_id); 
+                                 $city_image = CommonHelper::getCityImage($row_packages->to_city_id);  @endphp
                                 <div class="grid-block main-block h-grid-block">
                                     <div class="main-img h-grid-img">
-                                        <a href="{{route('package.details',Crypt::encrypt($values->id))}}">
-                                        @if($city_image!='')
+                                        <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">
+                                            @if($city_image!='')
                                             <img style="width:264px;height:190px;"  src="{{asset('storage/app/city/'.$city_image->city_image)}}" class="img-responsive" alt="hotel-img" />
                                             @else
-                                            <img style="width:264px;height:190px;"  src="{{$no_imag_url}}" class="img-responsive" alt="hotel-img" />
+                                            <img style="width:264px;height:190px;"  src="{{asset('public/assets/images/no_image.jpg')}}" class="img-responsive" alt="hotel-img" />
                                             @endif
                                         </a>
                                         <div class="main-mask">
                                             <ul class="list-unstyled list-inline offer-price-1">
-                                                <li class="price">{{$values->total_amount}} Rs/-<span class="divider"></li>
+                                                <li class="price">{{$row_packages->total_amount}} Rs/-<span class="divider"></li>
                                             </ul>
                                         </div><!-- end main-mask -->
                                     </div><!-- end h-grid-img -->
                                     @php 
-                                    $country_name = CommonHelper::getCountryName($values->to_country_id);
-                                    $state_name = CommonHelper::getstateName($values->to_state_id);
-                                    $city_name = CommonHelper::getcityName($values->to_city_id);
+                                    $country_name = CommonHelper::getCountryName($row_packages->to_country_id);
+                                    $state_name = CommonHelper::getstateName($row_packages->to_state_id);
+                                    $city_name = CommonHelper::getcityName($row_packages->to_city_id);
 
                                     @endphp
                                      <div class="block-info h-grid-info">
-
-                                         <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($values->id))}}">{{$values->package_name}}</a></h5>
+                                         <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">{{$row_packages->package_name}}</a></h5>
                                          <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
-                                         <p class="">{{ $values->adult_count}} Adult {{ $values->child_count}} Childern  {{ $values->infant_count}} Infants </p>
+                                         <p class="">{{ $row_packages->adult_count}} Adult {{ $row_packages->child_count}} Childern  {{ $row_packages->infant_count}} Infants </p>
                                        
                                         <div class="grid-btn">
-                                            <a href="{{route('package.details',Crypt::encrypt($values->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
+                                            <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
                                         </div><!-- end grid-btn -->
                                      </div><!-- end h-grid-info -->
                                 </div><!-- end h-grid-block -->
-                                @endforeach
+                               
+                             @endforeach
                             
                                     
                                 </div><!-- end booking-form -->
@@ -233,5 +236,11 @@
 <script>
 $("#home_menu_id").removeClass('active');
 $('#sighseeing_menu_id').addClass('active');
+</script>
+<script type="text/javascript" charset="utf-8">
+    $(window).load(function() {
+    $('.flexslider').flexslider();
+    $(window).trigger('resize');
+});
 </script>
 @endsection
