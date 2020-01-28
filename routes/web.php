@@ -251,15 +251,12 @@ Route::get('/city_hotels_details','Web\PackageController@HotelDetails')->name('w
 Route::get('city_activity_details','Web\PackageController@ActivityDetails')->name('web.city_activity_details');
 Route::post('/package_save', 'Web\PackageController@packageSave')->name('web.package_save');
 Route::put('package_search','Web\PackageController@packageSearch')->name('package_search');
-
 Route::get('package_search','Web\PackageController@packageSearch')->name('package_search');
 Route::post('fromcountry_autocomplete','CommonController@FromCounrtyAutocomplete')->name('fromcountry_autocomplete');
-
 Route::get('sight_seeing','PageController@sightSeeing')->name('sight_seeing');
-
 Route::post('activity_search','PageController@activitySearch')->name('activity_search');
 Route::get('activity_search','PageController@activitySearch')->name('activity_search');
-
 Route::get('sight_seeing_view/{parameter}','PageController@sightSeeingViewMore')->name('sightseeing_viewmore');
+Route::get('hotel_view/{parameter}','PageController@hotelDetails');
 
 

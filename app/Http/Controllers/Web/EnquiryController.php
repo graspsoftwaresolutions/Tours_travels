@@ -79,6 +79,8 @@ class EnquiryController extends Controller
                 }
         }
         else{
+
+            
             $email_valid = $request->email;
             $phone_valid = $request->phone;
 
@@ -103,7 +105,6 @@ class EnquiryController extends Controller
                 return json_encode($resdata);
             }
             else{
-
                 $CustomerDetails = new CustomerDetails();
                 $CustomerDetails->name = $request->name ; 
                 $CustomerDetails->email = $request->email ; 

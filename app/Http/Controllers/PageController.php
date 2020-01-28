@@ -77,8 +77,6 @@ class PageController extends Controller
             $data['fr_details'] ='';
         }
         $data['activities_view']  = Activity::where([ 'country_id'=>$data['country_id'] , 'state_id'=>$data['state_id'] , 'city_id'=>$data['city_id'], 'status'=>'1' ])->get();
-        
-
         return view('web.sight_seeing')->with('data',$data);
     }
     public function sightSeeingViewMore($id)
@@ -91,5 +89,11 @@ class PageController extends Controller
                                     ->get();    
             
         return view('web.sight_seeing_view')->with('data',$data);
+    }
+    public function hotelDetails($id)
+    {
+        $hotelid = crypt::decrypt($id);
+
+        return view("web.hotel_view");
     }
 }

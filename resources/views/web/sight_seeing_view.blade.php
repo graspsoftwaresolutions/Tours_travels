@@ -27,69 +27,18 @@
                 <section class="innerpage-wrapper">
         	<div id="hotel-details" class="innerpage-section-padding">
                 <div class="container">
-                    <div class="row">        	
-                    <div class="col-xs-12 col-sm-12 col-md-3 side-bar left-side-bar">
-                        @php  $row = $data['activities_view'][0]; 
-                        $package_id = $data['package_id'];
-                        $country_name = CommonHelper::getCountryName($row->country_id);
-                        $state_name = CommonHelper::getstateName($row->state_id);
-                        $city_name = CommonHelper::getcityName($row->city_id);
+                    <div class="row">    
+                    @php  $row = $data['activities_view'][0]; 
+                            $package_id = $data['package_id'];
+                            $country_name = CommonHelper::getCountryName($row->country_id);
+                            $state_name = CommonHelper::getstateName($row->state_id);
+                            $city_name = CommonHelper::getcityName($row->city_id);
+                            
+                         //$packages = CommonHelper::getRelatedPackges($country_name,$state_name);
+                            
                         
-                       //$packages = CommonHelper::getRelatedPackges($country_name,$state_name);
-                        
-                      
-                        @endphp
-                            <div class="side-bar-block booking-form-block">
-                            	<h4 class="selected-price" style="font-size: 25px;">Related Packages</h4>
-                                <!-- <img src="{{asset('storage/app/activity/1_202001221156531.jpg')}}" > -->
-                            
-                            	<div class="booking-form">
-                                	<!-- <h3>Book Hotel</h3>
-                                    <p>Find your dream hotel today</p> -->
-                                    <!-- <div class="row"> -->
-                            @foreach($data['package_id'] as $values)
-                            @php  $row_packages = CommonHelper::getRelatedPackges($values->package_id); 
-                                 $city_image = CommonHelper::getCityImage($row_packages->to_city_id);  @endphp
-                                <div class="grid-block main-block h-grid-block">
-                                    <div class="main-img h-grid-img">
-                                        <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">
-                                            @if($city_image!='')
-                                            <img style="width:264px;height:190px;"  src="{{asset('storage/app/city/'.$city_image->city_image)}}" class="img-responsive" alt="hotel-img" />
-                                            @else
-                                            <img style="width:264px;height:190px;"  src="{{asset('public/assets/images/no_image.jpg')}}" class="img-responsive" alt="hotel-img" />
-                                            @endif
-                                        </a>
-                                        <div class="main-mask">
-                                            <ul class="list-unstyled list-inline offer-price-1">
-                                                <li class="price">{{$row_packages->total_amount}} Rs/-<span class="divider"></li>
-                                            </ul>
-                                        </div><!-- end main-mask -->
-                                    </div><!-- end h-grid-img -->
-
-                                    @php 
-                                    $country_name = CommonHelper::getCountryName($row_packages->to_country_id);
-                                    $state_name = CommonHelper::getstateName($row_packages->to_state_id);
-                                    $city_name = CommonHelper::getcityName($row_packages->to_city_id);
-
-                                    @endphp
-                                     <div class="block-info h-grid-info">
-                                         <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">{{$row_packages->package_name}}</a></h5>
-                                         <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
-                                         <p class="">{{ $row_packages->adult_count}} Adult {{ $row_packages->child_count}} Childern  {{ $row_packages->infant_count}} Infants </p>
-                                        <div class="grid-btn">
-                                            <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
-                                        </div><!-- end grid-btn -->
-                                     </div><!-- end h-grid-info -->
-                                </div><!-- end h-grid-block -->
-                               
-                             @endforeach
-                            
-                                    
-                                </div><!-- end booking-form -->
-                            </div><!-- end side-bar-block -->
-                            
-                           
-                        </div><!-- end columns -->
+                            @endphp    	
+                    
                         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 content-side">
                             
                             <div class="detail-slider">
@@ -98,7 +47,7 @@
                                    
                                     @foreach($activityimage as $key => $values)
                                     @if($key==0)
-                                    <div  ><img  id="zoomimage_{{$values->id}}" src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:848px; height:494px;" class="img-responsive" alt="feature-thumb"/></div>
+                                    <div  ><img  id="zoomimage" src="{{asset('storage/app/activity/'.$values->image_name)}}" style="width:848px; height:494px;" class="img-responsive" alt="feature-thumb"/></div>
                                     @endif
                                     @endforeach
                                 </div><!-- end feature-slider -->
@@ -226,6 +175,60 @@
                           
                         </div><!-- end columns -->
 
+                        <div class="col-xs-12 col-sm-12 col-md-3 side-bar left-side-bar">
+                            
+                            <div class="side-bar-block booking-form-block">
+                            	<h4 class="selected-price" style="font-size: 25px;">Related Packages</h4>
+                                <!-- <img src="{{asset('storage/app/activity/1_202001221156531.jpg')}}" > -->
+                            
+                            	<div class="booking-form">
+                                	<!-- <h3>Book Hotel</h3>
+                                    <p>Find your dream hotel today</p> -->
+                                    <!-- <div class="row"> -->
+                                @foreach($data['package_id'] as $values)
+                                @php  $row_packages = CommonHelper::getRelatedPackges($values->package_id); 
+                                 $city_image = CommonHelper::getCityImage($row_packages->to_city_id);  @endphp
+                                <div class="grid-block main-block h-grid-block">
+                                    <div class="main-img h-grid-img">
+                                        <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">
+                                            @if($city_image!='')
+                                            <img style="width:264px;height:190px;"  src="{{asset('storage/app/city/'.$city_image->city_image)}}" class="img-responsive" alt="hotel-img" />
+                                            @else
+                                            <img style="width:264px;height:190px;"  src="{{asset('public/assets/images/no_image.jpg')}}" class="img-responsive" alt="hotel-img" />
+                                            @endif
+                                        </a>
+                                        <div class="main-mask">
+                                            <ul class="list-unstyled list-inline offer-price-1">
+                                                <li class="price">{{$row_packages->total_amount}} Rs/-<span class="divider"></li>
+                                            </ul>
+                                        </div><!-- end main-mask -->
+                                    </div><!-- end h-grid-img -->
+
+                                    @php 
+                                    $country_name = CommonHelper::getCountryName($row_packages->to_country_id);
+                                    $state_name = CommonHelper::getstateName($row_packages->to_state_id);
+                                    $city_name = CommonHelper::getcityName($row_packages->to_city_id);
+
+                                    @endphp
+                                     <div class="block-info h-grid-info">
+                                         <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">{{$row_packages->package_name}}</a></h5>
+                                         <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
+                                         <p class="">{{ $row_packages->adult_count}} Adult {{ $row_packages->child_count}} Childern  {{ $row_packages->infant_count}} Infants </p>
+                                        <div class="grid-btn">
+                                            <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
+                                        </div><!-- end grid-btn -->
+                                     </div><!-- end h-grid-info -->
+                                </div><!-- end h-grid-block -->
+                               
+                             @endforeach
+                            
+                                    
+                                </div><!-- end booking-form -->
+                            </div><!-- end side-bar-block -->
+                            
+                           
+                        </div><!-- end columns -->
+
                     </div><!-- end row -->
             	</div><!-- end container -->
             </div><!-- end hotel-details -->
@@ -242,14 +245,8 @@ $("#home_menu_id").removeClass('active');
 $('#sighseeing_menu_id').addClass('active');
 </script>
 <script type="text/javascript" charset="utf-8">
-$(document).ready(function(){
-//   var   image_url   = 'storage/app/activity';
-//     var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
-//    var imagelocation = ''
-//     $(".zoomimage").attr("src", imagelocation);
-});
     function setFullImage(imageobj,imageid){       
-    $("#zoomimage_"+imageid).attr("src",imageobj) ;
+    $("#zoomimage").attr("src",imageobj) ;
   }
 </script>
 @endsection

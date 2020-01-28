@@ -341,12 +341,12 @@
                                                     <img src="{{ $hotel_image }}" class="img-responsive" style="height: 100px !important;border-radius: 5px;width:111px;" alt="tour-img">
                                                 </div>
                                                 <div class="col-md-9 col-sm-12">
-                                                    <div class="listing-right-custom">
-                                                        <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4>
-                                                        <p class="block-minor">{!! $rating_string !!} </p> 
+                                                    <div class="listing-right-custom">   
+                                                       <!-- <a style="text-decoration:none;" href="{{URL::to('hotel_view/'.Crypt::encrypt($package_hotel->id))}}"> <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4> </a> -->
+                                                       <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4>
+                                                        <p class="block-minor" style="color:#faa61a">{!! $rating_string !!} </p> 
                                                         <p>{{ $amenitystring }}</p>
                                                     </div>
-                                                   
                                                 </div>
                                             </div>
                                           @endforeach
@@ -357,10 +357,37 @@
                                             @foreach($sum_package_activities as $activity)
                                             @php
                                                  $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+                                                
+                                                $hours = floor($activity->duartion_hours / 60) ;
+                                                $minutes = floor($activity->duartion_hours % 60) ;
+
+                                                if($hours == 0 )
+                                                {
+                                                    $hours = '';
+                                                }
+                                                elseif($hours == 1){
+                                                    $hours = $hours.' '.'hour';
+                                                }
+                                                else{
+                                                    $hours = $hours.' '.'hours';
+                                                }
+
+                                                    if($minutes == 0)
+                                                    {
+                                                        $minutes = '';
+                                                    }
+                                                    elseif($minutes == 1){
+                                                        $minutes = $minutes.' '.'minute';
+                                                    }
+                                                    else{
+                                                        $minutes = $minutes.' '.'minutes';
+                                                    }
+
+                                                    $hours_and_minutes = $hours.' '.$minutes;                                                  
                                             @endphp
-                                            <div class="timeline-heading">
-                                              <h4 class="timeline-title">- {{ $activity->title_name }}</h4>
-                                              <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $activityduration }}</small></p>
+                                            <div class="timeline-heading"> 
+                                            <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title">- {{ $activity->title_name }}</h4> </a>
+                                              <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
                                             </div>
                                             @endforeach
                                          </div>

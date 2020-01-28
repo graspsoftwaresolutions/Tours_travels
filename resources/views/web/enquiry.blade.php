@@ -275,6 +275,7 @@ $(document).ready(function(){
                      if(response.status == 0)
                      {
                         alert(response.message);
+                        spinner.hide();
                         //window.location.reload();
                      }
                      else{
