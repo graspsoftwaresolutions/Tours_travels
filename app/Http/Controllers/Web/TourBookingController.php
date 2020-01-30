@@ -13,6 +13,8 @@ use App\Model\Admin\Booking;
 use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
+use App\Model\Admin\BookigTransports;
+
 use DB;
 use Illuminate\Support\Facades\Crypt;
 use Auth;
@@ -48,15 +50,10 @@ class TourBookingController extends Controller
         
         $packageid = crypt::decrypt($id);
         $form_date = crypt::decrypt($fromdate);
+        $data['form_date'] = $form_date;
 
-        // $date_array = explode("-",$form_date);  							
-        // $date_format = $date_array[2]."/".$date_array[1]."/".$date_array[0];
-         $data['form_date'] = $form_date;
-
-         $to_date = crypt::decrypt($todate);
-        // $date_array1 = explode("-",$to_date);  							
-        // $date_format1 = $date_array1[2]."/".$date_array1[1]."/".$date_array1[0];
-            $data['to_date'] = $to_date;
+        $to_date = crypt::decrypt($todate);
+        $data['to_date'] = $to_date;
 
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['package_info'] = Package::where('id','=',$packageid)->first();
@@ -104,7 +101,7 @@ class TourBookingController extends Controller
         $booking->reference_number = $request->reference_number;
         $booking->payment_mode = $request->payment_mode;
         $booking->user_booking = 1;
-        $booking->updated_by = Auth::user()->id;
+        $booking->created_by = Auth::user()->id;
         $booking->save();
 
         $booking_last_id = $booking->id; 
@@ -145,6 +142,21 @@ class TourBookingController extends Controller
             $BookingHotel->total_rooms = $data['package_hotel'][$i]->total_rooms; 
             $BookingHotel->total_amount = $data['package_hotel'][$i]->total_amount;
             $BookingHotel->save();
+        }
+
+        $data['package_transports'] = DB::table('package_transports')->where('package_id','=',$packageid)->get();
+       
+        for($i=0;$i<count($data['package_transports']);$i++)
+        {
+            $BookigTransports = new BookigTransports();
+            $BookigTransports->booking_id = $booking_last_id;
+            $BookigTransports->city_id = $data['package_transports'][$i]->city_id;
+            $BookigTransports->day_numbers = $data['package_transports'][$i]->day_numbers;
+            $BookigTransports->airportpickup_amount = $data['package_transports'][$i]->airportpickup_amount;
+            $BookigTransports->driverbeta_amount = $data['package_transports'][$i]->driverbeta_amount; 
+            $BookigTransports->tollparking_amount = $data['package_transports'][$i]->tollparking_amount;
+            $BookigTransports->interestrate_amount = $data['package_transports'][$i]->interestrate_amount;
+            $BookigTransports->save();
         }
         return redirect()->route('itineray_created')->with('message','Your Booked Trips'); 
     }

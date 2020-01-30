@@ -1,4 +1,4 @@
-(function($) {
+/* (function($) {
 	
 	"use strict";
 
@@ -41,4 +41,4 @@
 		format: 'mm-dd-yyyy'
 	});
 			
-})(jQuery);
+})(jQuery); */
