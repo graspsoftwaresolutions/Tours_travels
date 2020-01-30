@@ -112,6 +112,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-3 side-bar right-side-bar">
                             
                             <div class="side-bar-block booking-form-block">
+                            <h4 class="selected-price" style="font-size: 25px;">Related Packages</h4>
+                            <div class="booking-form">
                                 @foreach($data['related_package'] as $values)
                             	@php  $row_packages = CommonHelper::getRelatedPackges($values->id); 
                                  $city_image = CommonHelper::getCityImage($row_packages->to_city_id);  @endphp
@@ -147,6 +149,7 @@
                                      </div><!-- end h-grid-info -->
                                 </div><!-- end h-grid-block -->
                                 @endforeach
+                                </div>
                             </div><!-- end side-bar-block -->                     
                         </div><!-- end columns -->  
                         
