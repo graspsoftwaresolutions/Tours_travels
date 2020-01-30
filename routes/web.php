@@ -257,6 +257,7 @@ Route::get('sight_seeing','PageController@sightSeeing')->name('sight_seeing');
 Route::post('activity_search','PageController@activitySearch')->name('activity_search');
 Route::get('activity_search','PageController@activitySearch')->name('activity_search');
 Route::get('sight_seeing_view/{parameter}','PageController@sightSeeingViewMore')->name('sightseeing_viewmore');
-Route::get('hotel_view/{parameter}','PageController@hotelDetails');
-
+Route::get('hotel_view/{parameter}/{parameter1}','PageController@hotelDetails');
+Route::get('book-now/{parameter}/{formdate}/{todate}','Web\TourBookingController@booking_now')->name('book_now');
+Route::post('booking_confirm','Web\TourBookingController@bookingConfirm')->name('booking_confirm');
 

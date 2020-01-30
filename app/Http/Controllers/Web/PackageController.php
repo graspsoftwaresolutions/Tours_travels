@@ -39,7 +39,6 @@ class PackageController extends Controller
         //$data['package_activities'] = PackageActivities::where('package_id','=',$packageid)->get();
         return view('web.package_view',compact('data',$data));
     }
-
     public function PackagesList(){
     	$packages = Package::with(
             array(

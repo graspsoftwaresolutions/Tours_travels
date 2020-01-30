@@ -255,18 +255,18 @@ class CommonHelper
     }
 
     public static function getPackageActivitiesDays($packageid,$cityid,$daynumber){
-        //dd($packageid);
+        
         $activity_ids = DB::table('package_activities as pa')
                     ->where('pa.package_id','=',$packageid)
                     ->where('pa.city_id','=',$cityid)
                     ->where('pa.day_numbers','=',$daynumber)
                     ->pluck('pa.activity_id');
-       // dd($activity_ids);
+        
         $activities = Activity::with(
             array(
                 'activity_images'
             ))->whereIn('id',$activity_ids)->get();
-       // dd($activities);
+        //dd($activities);
         return $activities;
     }
 
@@ -463,5 +463,28 @@ class CommonHelper
        // dd($result);
         return $result;
    }
+   public static function getallHotelImages($id)
+   {
+        $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$id)->Orderby('id', 'asc')->limit(4)->get();
+        return $hotel_images;
+   }
+   public static function getallHotelAmenites($id)
+   {
+        $hotel_amenites = DB::table('hotel_amenities as ha')->select('amenities_name')
+                            ->leftjoin('amenities as a','a.id','=','ha.amenity_id')
+                            ->where('hotel_id','=',$id)->get();
+                            
+        return $hotel_amenites;
+   }
+//    public static function getHotelTypes($cityid,$hotelid)
+//    {
+//         DB::select( DB::raw('set sql_mode=""'));
+//         $hotels_rooms = DB::table('hotels as h')->select('ph.roomtype_id','ph.total_rooms','ph.total_amount','type.room_type')
+//                     ->leftjoin('room_type as type','type.id','=','ph.roomtype_id')
+//                     ->where('ph.package_id','=',$packageid)
+//                     ->get();
+
+//         return $hotels_rooms;
+//    }
  
 }
