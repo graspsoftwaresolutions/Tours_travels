@@ -57,8 +57,8 @@
                                         $id = $values->id;
                                         
                                  @endphp
-                                    <div class="col-md-3"><img 
-                                    src="{{$imagename}}"  style="width:200px; height:150px;padding:5px;" class="img-responsive" alt="feature-thumb"  onclick="return setFullImage('{{$imagename}}',{{$id}}) " /></div>
+                                    <div class="col-md-3"><img  
+                                    src="{{$imagename}}"  style="width:200px; height:150px;padding:5px;cursor:pointer;" class="img-responsive" alt="feature-thumb"  onclick="return setFullImage('{{$imagename}}',{{$id}}) " /></div>
                                     @endforeach
                                 </div><!-- end feature-slider-nav -->
                             </div>  <!-- end detail-slider -->
@@ -107,9 +107,6 @@
                                                     }
 
                                                     $hours_and_minutes = $hours.' '.$minutes;
-                                                   
-                                                    
-                                               
                                                     @endphp
                                                 <h4> Duration : {{$hours_and_minutes}} </h4>
                                                 <h5> Place : {{$country_name}} , {{$state_name}} , {{$city_name}}  </h5>
@@ -199,7 +196,7 @@
                                         </a>
                                         <div class="main-mask">
                                             <ul class="list-unstyled list-inline offer-price-1">
-                                                <li class="price">{{$row_packages->total_amount}} Rs/-<span class="divider"></li>
+                                                <li class="price">Rs {{$row_packages->total_amount}} /- <span class="divider"></li>
                                             </ul>
                                         </div><!-- end main-mask -->
                                     </div><!-- end h-grid-img -->

@@ -923,6 +923,7 @@ class AjaxController extends CommonController
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
             ->orderBy($order,$dir)
             ->where('p.status','=','1')
+            ->where('b.user_booking','=','0')
             ->get()->toArray();
         }else{
             $booking =  DB::table('booking_master as b')
@@ -935,6 +936,7 @@ class AjaxController extends CommonController
             ->limit($limit)
             ->orderBy($order,$dir)
             ->where('p.status','=','1')
+            ->where('b.user_booking','=','0')
             ->get()->toArray();
         }
         //$Activity->dump();
@@ -949,6 +951,7 @@ class AjaxController extends CommonController
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','1')
+                    ->where('b.user_booking','=','0')
                     ->where(function($query) use ($search){
                     $query->orWhere('p.package_name', 'LIKE',"%{$search}%")
                     
@@ -967,6 +970,7 @@ class AjaxController extends CommonController
                 ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                 ->leftjoin('state as st','st.id','=','p.to_state_id')
                 ->where('b.status','=','1')
+                ->where('b.user_booking','=','0')
                     ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
                         ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
@@ -986,6 +990,7 @@ class AjaxController extends CommonController
                     ->leftjoin('city as cit','cit.id','=','p.to_city_id')
                     ->leftjoin('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','1')
+                    ->where('b.user_booking','=','0')
                     ->where('p.id','LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('cd.name', 'LIKE',"%{$search}%")

@@ -199,17 +199,18 @@
 
 
 </style>
-@endsection
-
 @section('main-content')
     @php
         $package_info = $data['package_info'];
         //dd($package_info->package_type);
         $package_place = $data['package_place'];
+        $pack_total_nights = 0;
        
         $citys_data = [];
         foreach($data['package_place'] as $place){
           $citys_data[] = $place->city_id;
+         
+          
         }
    @endphp
     <!--================ PAGE-COVER ===============-->
@@ -236,6 +237,9 @@
                         <div class="col-sm-12 col-md-8 no-pd-r">
                             <h3>{{ ucfirst($package_info->package_name) }}</h3>
                             @php
+                            $pack_total_nights = 0;
+                            @endphp
+                            @php
                                 $to_state_name = CommonHelper::getstateName($package_info->to_state_id);
                                 $to_city_data = CommonHelper::getcityDetails($package_info->to_city_id);
                                 $to_city_name = $to_city_data->city_name;
@@ -244,6 +248,7 @@
                                 $place_counts = count($data['package_place']);
                                 $summary_cities='';
                                 $night_count=0;
+                                
                                 $startday = 1;
                                 foreach($data['package_place'] as $key => $place){
                                    $sum_city_name = CommonHelper::getcityName($place->city_id);
@@ -276,20 +281,22 @@
                                 
                                  <ul class="timeline">
                                     @foreach($data['package_place'] as $key => $place)
-                                    @php
-                                    $nightcount = $place->nights_count;
-                                    if($nightcount == 1 )
-                                    {
-                                        $days_val = 'Day '.$startday ;
-                                    }
-                                    else{
-                                        $days_val = 'Day '.$startday.' - '.($startday+$nightcount-1) ;
-                                    }
-                                    $place_state_name = CommonHelper::getstateName($place->state_id);
-                                    $place_city_data = CommonHelper::getcityDetails($place->city_id);
-                                    $package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
-                                    @endphp
-                                    <li class="timeline-inverted">
+                                        @php
+                                        $nightcount = $place->nights_count;
+                                    
+                                        if($nightcount == 1 )
+                                        {
+                                            $days_val = 'Day '.$startday ;
+                                        }
+                                        else{
+                                            $days_val = 'Day '.$startday.' - '.($startday+$nightcount-1) ;
+                                        }
+                                        $place_state_name = CommonHelper::getstateName($place->state_id);
+                                        $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                                        $package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
+                                        $pack_night_count = $place->nights_count;
+                                        @endphp
+                                     <li class="timeline-inverted">
                                       <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
 
                                       <div class="timeline-panel">
@@ -342,8 +349,8 @@
                                                 </div>
                                                 <div class="col-md-9 col-sm-12">
                                                     <div class="listing-right-custom">   
-                                                       <!-- <a style="text-decoration:none;" href="{{URL::to('hotel_view/'.Crypt::encrypt($package_hotel->id))}}"> <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4> </a> -->
-                                                       <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4>
+                                                       <a style="text-decoration:none;" href="{{URL::to('hotel_view/'.Crypt::encrypt($package_hotel->id),Crypt::encrypt($package_info->id))}}"> <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4> </a>
+                                                     
                                                         <p class="block-minor" style="color:#faa61a">{!! $rating_string !!} </p> 
                                                         <p>{{ $amenitystring }}</p>
                                                     </div>
@@ -351,12 +358,16 @@
                                             </div>
                                           @endforeach
                                             <br>
+                                            @for($n=1;$n<=$pack_night_count;$n++)
                                             @php
-                                                $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                            $pack_daynumber = $pack_total_nights+$n;
+                                            $package_activities = CommonHelper::getPackageActivitiesDays($package_info->id,$place->city_id,$pack_daynumber);
+                                          
+                                              //  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
                                             @endphp
-                                            @foreach($sum_package_activities as $activity)
+                                            @foreach($package_activities as $activity)
                                             @php
-                                                 $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+                                                $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
                                                 
                                                 $hours = floor($activity->duartion_hours / 60) ;
                                                 $minutes = floor($activity->duartion_hours % 60) ;
@@ -382,20 +393,27 @@
                                                     else{
                                                         $minutes = $minutes.' '.'minutes';
                                                     }
-
                                                     $hours_and_minutes = $hours.' '.$minutes;                                                  
                                             @endphp
                                             <div class="timeline-heading"> 
-                                            <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title">- {{ $activity->title_name }}</h4> </a>
-                                              <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
+                                                    <p> Day - {{$pack_daynumber}}  </p>
+                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title"> {{ $activity->title_name }}</h4> </a>
+                                                     <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
+
                                             </div>
                                             @endforeach
+                                            @endfor
+                                            @php
+                                            $pack_total_nights += $pack_night_count;
+                                            @endphp
                                          </div>
                                       </div>
-                                    </li>
-                                    @php
-                                     $startday = $startday+$nightcount;
-                                    @endphp
+                                     </li>
+                                        @php
+                                       
+                                        
+                                        $startday = $startday+$nightcount;
+                                        @endphp
                                     @endforeach
                                 </ul>
                              </div>
@@ -404,35 +422,24 @@
                             <br> <br>
                             <label>Price starts from</label>
                             <p id="priceText" style="padding: 10px;"><span class="price" style="color: #543304;font-size: 24px;font-weight: 500;">RM {{ number_format($package_info->total_amount,2) }}</span> for {{ $package_info->adult_count+$package_info->child_count }} persons</p>
-                            @auth
-                            <!--label>Persons</label>
-                            <div class="form-group right-icon">
-                                <select class="form-control">
-                                    <option disabled="">Adults</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
-                               
-                            </div-->
+                            @auth                        
                             <form id="dir_booking" class="" method="post" enctype="multipart/form-data"  action="{{ route('direct_booking') }}">
                                 @csrf
                                  <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
                                              <input type="text" id="package_id" name="package_id" readonly required="" class="form-control hide" value="{{ $package_info->id }}" placeholder="Package id" >
-                                            <input type="text" id="form_date" name="form_date" readonly required="" class="form-control dpd1" placeholder="Check In" >
+                                            <input type="text" id="form_date"  name="form_date"  autocomplete="off" required class="form-control dpd1" placeholder="Check In" >
                                         </div>
-                                    </div><!-- end columns -->
-                                    
+                                    </div><!-- end columns --> 
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
-                                            <input type="text" id="to_date" name="to_date" readonly="" required="" class="form-control dpd2" placeholder="Check Out" >
+                                            <input type="text" id="to_date" name="to_date" autocomplete="off"  required class="form-control dpd2" placeholder="Check Out" >
                                         </div>
                                     </div><!-- end columns -->
-
-                                </div><!-- end row -->  
-                                <button type="submit" class="btn btn-orange">BOOK NOW</button>
+                                </div><!-- end row --> 
+                                <button type="submit"  class="btn btn-orange">BOOK </button>
+                               
                             </form>
                             <br>
                             <br>
@@ -487,7 +494,6 @@
                 </div><!-- end row -->
         	</div><!-- end container -->
         </section><!-- end best-features -->
-
          <!--========================= NEWSLETTER-1 ==========================-->
          <section id="newsletter-1" class="section-padding back-size newsletter hide"> 
             <div class="container">

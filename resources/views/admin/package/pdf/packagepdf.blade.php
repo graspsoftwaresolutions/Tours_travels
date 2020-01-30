@@ -343,8 +343,7 @@
 							  $pack_night_count = $place->nights_count;
 							  //dd($pack_night_count);
 
-                            @endphp		
-
+                            @endphp
 							@foreach($package_hotels as $hotel)
                                     @php
                                       $package_hotel_types = CommonHelper::getPackageHotelTypes($package->packageautoid,$place->city_id,$hotel->hotel_id);

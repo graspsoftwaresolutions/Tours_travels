@@ -86,14 +86,31 @@ class PageController extends Controller
        // dd($data['activities_view']);
         $data['package_id'] =  DB::table('package_activities as pa')->select('package_id')
                                     ->where('pa.activity_id','=',$activityid)
-                                    ->get();    
-            
+                                    ->get();
         return view('web.sight_seeing_view')->with('data',$data);
     }
-    public function hotelDetails($id)
+    public function hotelDetails($id,$packid)
     {
         $hotelid = crypt::decrypt($id);
-
-        return view("web.hotel_view");
+        $packageid = crypt::decrypt($packid);
+        
+        // $data['hotels'] = Hotel::with(
+        //     array(
+        //         'amenities'=>function($query){
+        //             $query->select('amenities_name');
+        //         },
+        //         'roomtypes',
+        //         'hotelimages'
+        //     ))->where('id','=',$hotelid)->first();
+            
+        // $data['hotel_roomtypes'] = DB::table('hotel_roomtypes')->where('hotel_id','=',$hotelid)->pluck('roomtype_id');
+        $data['hotel_data'] = Hotel::where('id','=',$hotelid)->first(); 
+       $city_id =  $data['hotel_data']->city_id;
+       
+        $data['package_info'] = Package::where('id','=',$packageid)->first();
+        $data['related_package'] = Package::where('id','=',$packageid)->where('to_city_id','=',$city_id)->limit(3)->get();
+        $data['package_type'] = DB::table('package_type')->where('status','=','1')->get();
+        $data['package_place'] = PackagePlace::where('package_id','=',$packageid)->get();
+        return view("web.hotel_view",compact('data',$data));
     }
 }

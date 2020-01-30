@@ -89,6 +89,9 @@
                                            @endif
                                         </a>
                                         @php
+                                        $country_name = CommonHelper::getCountryName($values->country_id);
+                                        $state_name = CommonHelper::getstateName($values->state_id);
+                                        $city_name = CommonHelper::getcityName($values->city_id);
                                         $hours = floor($values->duartion_hours / 60) ;
                                         $minutes = floor($values->duartion_hours % 60) ;
 
@@ -128,7 +131,7 @@
                                     
                                     <div class="list-info h-list-info">
                                         <h3 class="block-title"><a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}">{{$values->title_name}}</a></h3>
-                                        <!-- <p class="block-minor">From: Scotland</p> -->
+                                       <br> <h5>{{$country_name}} , {{$state_name}} , {{$city_name}}  </h5>
                                         <p>{!! $values->short_description ? substr($values->short_description, 0, 200) : '' !!}..More</p>
                                         <a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}" class="btn btn-orange btn-lg">View More</a>
                                      </div><!-- end h-list-info -->

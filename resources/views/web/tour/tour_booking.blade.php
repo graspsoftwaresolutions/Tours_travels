@@ -1,699 +1,645 @@
 @extends('layouts.admin')
 @section('headSection')
-<link href="{{ asset('public/web-assets/css/steps.css') }}" rel="stylesheet" type="text/css">
 <style>
-			body{
-				font-family: sans-serif !important;
-			}
-			#footer .widget-title {
-				font-size: 20px;
-				font-weight: bold;
-				margin-bottom: 3.3rem;
-				margin-top: 0;
-				text-transform: uppercase;
-			}
-			.timeline_items li h3:before, .timeline_items:after, a.content_link:after {
-    border-color: #2991d6;
+    #cover-tour-grid-list {
+        background: url('{{ asset("public/web-assets/images/cover-tour-grid-list.jpg") }}') 50% 84%;
+        background-size: 140%;
+        color: white;
+    }
+    .section-padding{
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .innerpage-section-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
-.timeline_items li h3:before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-width: 4px;
-    border-style: solid;
-    -webkit-border-radius: 100%;
-    border-radius: 100%;
-    position: absolute;
-    left: 50%;
-    top: 11px;
-    margin-left: -8px;
-    display: block;
-    z-index: 1;
+.timeline {
+    list-style: none;
+    padding: 20px 0 20px;
+    position: relative;
+}
+    .timeline:before {
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 3px;
+        background-color: #eeeeee;
+        left: 3%;
+        margin-left: -1.5px;
+    }
+    .timeline > li {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+        .timeline > li:before,
+        .timeline > li:after {
+            content: " ";
+            display: table;
+        }
+
+        .timeline > li:after {
+            clear: both;
+        }
+
+        .timeline > li:before,
+        .timeline > li:after {
+            content: " ";
+            display: table;
+        }
+
+        .timeline > li:after {
+            clear: both;
+        }
+
+        .timeline > li > .timeline-panel {
+            width: 91%;
+            float: left;
+           // border: 1px solid #d4d4d4;
+            border-radius: 2px;
+            padding: 20px;
+            position: relative;
+           // -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+           // box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+        }
+
+            .timeline > li > .timeline-panel:before {
+                position: absolute;
+                top: 26px;
+                right: -15px;
+                display: inline-block;
+                border-top: 15px solid transparent;
+                border-left: 15px solid #ccc;
+                border-right: 0 solid #ccc;
+                border-bottom: 15px solid transparent;
+                content: " ";
+            }
+
+            .timeline > li > .timeline-panel:after {
+                position: absolute;
+                top: 27px;
+                right: -14px;
+                display: inline-block;
+                border-top: 14px solid transparent;
+                border-left: 14px solid #fff;
+                border-right: 0 solid #fff;
+                border-bottom: 14px solid transparent;
+                content: " ";
+            }
+
+        .timeline > li > .timeline-badge {
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            font-size: 1.4em;
+            text-align: center;
+            position: absolute;
+            top: 16px;
+            //left: 15%;
+            //margin-left: -25px;
+            background-color: #999999;
+            z-index: 100;
+            border-top-right-radius: 50%;
+            border-top-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            border-bottom-left-radius: 50%;
+        }
+
+        .timeline > li.timeline-inverted > .timeline-panel {
+            float: left;
+            left: 8%;
+        }
+
+            .timeline > li.timeline-inverted > .timeline-panel:before {
+                border-left-width: 0;
+                border-right-width: 15px;
+                left: -15px;
+                right: auto;
+            }
+
+            .timeline > li.timeline-inverted > .timeline-panel:after {
+                border-left-width: 0;
+                border-right-width: 14px;
+                left: -14px;
+                right: auto;
+            }
+
+.timeline-badge.primary {
+    background-color: #2e6da4 !important;
 }
 
+.timeline-badge.success {
+    background-color: #3f903f !important;
+}
 
-		</style>
+.timeline-badge.warning {
+    background-color: #f0ad4e !important;
+}
+
+.timeline-badge.danger {
+    background-color: #d9534f !important;
+}
+
+.timeline-badge.info {
+    background-color: #5bc0de !important;
+}
+
+.timeline-title {
+    margin-top: 0;
+    color: inherit;
+}
+
+.timeline-body > p,
+.timeline-body > ul {
+    margin-bottom: 0;
+}
+
+    .timeline-body > p + p {
+        margin-top: 5px;
+    }
+
+@media (max-width: 767px) {
+    ul.timeline:before {
+        left: 40px;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        width: calc(100% - 90px);
+        width: -moz-calc(100% - 90px);
+        width: -webkit-calc(100% - 90px);
+    }
+
+    ul.timeline > li > .timeline-badge {
+        left: 15px;
+        margin-left: 0;
+        top: 16px;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        float: right;
+    }
+
+        ul.timeline > li > .timeline-panel:before {
+            border-left-width: 0;
+            border-right-width: 15px;
+            left: -15px;
+            right: auto;
+        }
+
+        ul.timeline > li > .timeline-panel:after {
+            border-left-width: 0;
+            border-right-width: 14px;
+            left: -14px;
+            right: auto;
+        }
+}
+.listing-right-custom{
+    padding: 5px;
+}
+</style>
 @endsection
-
+@php
+        $package_info = $data['package_info'];
+        //dd($package_info->package_type);
+        $package_place = $data['package_place'];
+        $pack_total_nights = 0;
+       
+        $citys_data = [];
+        foreach($data['package_place'] as $place){
+          $citys_data[] = $place->city_id;
+         
+          
+        }
+   @endphp
 @section('main-content')
-
-<!--========================= NEWSLETTER-1 ==========================-->
-<section id="" class="section-padding ">
-   <div class="container">
-      <div class="row">
-         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <form id="wizard1" action="#" class="paper">
-               <h3>Account</h3>
-               <fieldset>
-                  <div class="col-sm-8 col-sm-offset-1">
-                     <h4 class="text-headline">Account Information</h4>
-                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" required="">
-                     </div>
-                     <ul id="overall-summarya" class="list-group list-group-animation item-border">
-                        <li class="list-group-item sort-handle">1 These list-group items are sortable.
-                           <span class="callout-left amber"></span>
-                        </li>
-                        <li class="list-group-item sort-handle">2 It has support for touch devices.
-                           <span class="callout-left blue-dark"></span>
-                        </li>
-                        <li class="list-group-item sort-handle">3 Just drag some elements around.
-                           <span class="callout-left pink"></span>
-                        </li>
-                        <li class="list-group-item sort-handle">4 Save new order in localstorage.
-                           <span class="callout-left purple"></span>
-                        </li>
-                     </ul>
-                  </div>
-                  <!-- /.col- -->
-               </fieldset>
-               <h3>Profile</h3>
-               <fieldset>
-                  <div class="col-sm-8 col-sm-offset-1">
-                     <h4 class="text-headline">Profile Information</h4>
-                     <!-- Button trigger modal -->
-                     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                     Launch demo modal
-                     </button>
-                     <!-- Modal -->
-                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                              </div>
-                              <div class="modal-body">
-                                 <ul id="listhotelsarea" style="list-style: none" class="list list-group list-group-animation item-border paper isinview">
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/6_201911280629471.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">new hotels</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Fitness facilities, Free Meal, Taxi Available</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 10 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(6,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_6_1" type="button" onclick="return ConfirmHotel(6,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">muruganp</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Meal, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(7,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_7_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/8_20191128065025.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">test</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Fitness facilities</p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(8,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_8_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/9_20191128065339.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">testerrer</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Taxi Available, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 100 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(9,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_9_2" type="button" onclick="return ConfirmHotel(9,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/12_20191128070501.png" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">demo bcc</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Taxi Available, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(12,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_12_1" type="button" onclick="return ConfirmHotel(12,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/14_20191130110350.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">newmuruhgan</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10"></p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(14,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_14_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">tesste</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Free Meal, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(16,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_16_2" type="button" onclick="return ConfirmHotel(16,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">tertert</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Fitness facilities, Taxi Available</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 34 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(20,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_20_2" type="button" onclick="return ConfirmHotel(20,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">te</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 100 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(21,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_21_2" type="button" onclick="return ConfirmHotel(21,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/22_201912271055311.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">rtetret</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Free Meal</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(22,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_22_1" type="button" onclick="return ConfirmHotel(22,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalone">
-                                 Launch demo modal
-                                 </button>
-                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                 <button type="button" class="btn btn-primary">Save changes</button>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="modal fade" id="myModalone" tabindex="-1" role="dialog" aria-labelledby="myModalLabelone">
-                        <div class="modal-dialog modal-lg" role="document">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                              </div>
-                              <div class="modal-body">
-                                 <ul id="listhotelsarea" style="list-style: none" class="list list-group list-group-animation item-border paper isinview">
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/6_201911280629471.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">new hotels</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Fitness facilities, Free Meal, Taxi Available</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 10 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(6,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_6_1" type="button" onclick="return ConfirmHotel(6,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/7_20191128064351.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">muruganp</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Meal, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(7,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_7_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/8_20191128065025.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">test</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Fitness facilities</p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(8,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_8_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/9_20191128065339.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">testerrer</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Taxi Available, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 100 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(9,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_9_2" type="button" onclick="return ConfirmHotel(9,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/12_20191128070501.png" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">demo bcc</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Taxi Available, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(12,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_12_1" type="button" onclick="return ConfirmHotel(12,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/14_20191130110350.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">newmuruhgan</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10"></p>
-                                                      <p class="sub-text mt10"></p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 0 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(14,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_14_" type="button" onclick="" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">tesste</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Free Meal, Power Backup Facility - No power cut</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(16,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_16_2" type="button" onclick="return ConfirmHotel(16,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">tertert</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Fitness facilities, Taxi Available</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 34 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(20,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_20_2" type="button" onclick="return ConfirmHotel(20,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/public/assets/images/no_image.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">te</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi</p>
-                                                      <p class="sub-text mt10">Premium - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 100 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(21,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_21_2" type="button" onclick="return ConfirmHotel(21,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },2,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                       <div class="card ">
-                                          <div class="media">
-                                             <div class="media-left media-img"> <a><img class="responsive-img" src="http://localhost/Tours_travels/storage/app/hotels/22_201912271055311.jpg" style="height: 130px;" alt="hotel Image"></a></div>
-                                             <div class="media-body p8">
-                                                <div class="row">
-                                                   <div class="col-md-10">
-                                                      <h4 class="media-heading name">rtetret</h4>
-                                                      <p class="area">Sarawak - Bintulu</p>
-                                                      <p class="sub-text mt10">Free Wifi, Free Meal</p>
-                                                      <p class="sub-text mt10">Deluxe - 1</p>
-                                                   </div>
-                                                   <div class="col-md-2">
-                                                      <p style="margin-bottom: 10px;">at <i class="fa fa-inr"></i> 5 more</p>
-                                                      <button type="button" id="viewhotelid" onclick="return ViewHotelDetails(22,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' })" style="margin-bottom: 10px;" class="btn form-control btn-sm teal waves-effect waves-theme">View</button> <button id="hotellistconfirm_22_1" type="button" onclick="return ConfirmHotel(22,3,{  cityid: 3,  stateid: 1, cityname: 'Bintulu', statename: 'Sarawak' , cityimage: '1575531388.jpg' },1,0)" class="btn form-control btn-sm green waves-effect waves-theme">Confirm</button> 
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                 <button type="button" class="btn btn-primary">Save changes</button>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- /.col- -->
-               </fieldset>
-               <h3>Subscription</h3>
-               <fieldset>
-                  <div class="col-sm-10 col-sm-offset-1">
-                     <h4 class="text-headline">Subscription plan</h4>
-                     <div class="column one column_timeline">
-                        <ul id="overall-summary" class="timeline_items">
-                           <li style="margin: 0!important;list-style: none!important; padding: 0 0 25px 55%; position: relative;background: url(http://be.beantownthemes.com/html/images/timeline_right.png) no-repeat top center;">
-                              <h3><span style="
-                                 font-size: 12px;
-                                 line-height: 18px;
-                                 display: inline-block;
-                                 padding: 2px 5px;
-                                 -webkit-border-radius: 4px;
-                                 border-radius: 4px;
-                                 position: absolute;
-                                 right: 55%;
-                                 top: 8px;
-                                 ">29.12.2013</span>Vitae adipiscing turpis aen</h3>
-                              <div class="desc" style="position: relative;
-                                 font-size: 15px;
-                                 line-height: 31px;">
-                                 Vitae adipiscing turpis. Aenean ligula nibh, molestie id viverra a, dapibus at dolor. In iaculis viverra neque, ac eleifend ante lobortis id. In viverra ipsum stie id viverra.
-                              </div>
-                           </li>
-                           <li style="margin: 0!important;list-style: none!important; padding: 0 0 25px 55%; position: relative;">
-                              <h3><span style="
-                                 font-size: 12px;
-                                 line-height: 18px;
-                                 display: inline-block;
-                                 padding: 2px 5px;
-                                 -webkit-border-radius: 4px;
-                                 border-radius: 4px;
-                                 position: absolute;
-                                 right: 55%;
-                                 top: 8px;
-                                 ">29.12.2014</span>Vitae adipiscing turpis aen</h3>
-                              <div class="desc" style="position: relative;
-                                 font-size: 15px;
-                                 line-height: 31px;">
-                                 Vitae adipiscing turpis. Aenean ligula nibh, molestie id viverra a, dapibus at dolor. In iaculis viverra neque, ac eleifend ante lobortis id. In viverra ipsum stie id viverra.
-                              </div>
-                           </li>
-                           <li style="margin: 0!important;list-style: none!important; padding: 0 0 25px 55%; position: relative;">
-                              <h3><span style="
-                                 font-size: 12px;
-                                 line-height: 18px;
-                                 display: inline-block;
-                                 padding: 2px 5px;
-                                 -webkit-border-radius: 4px;
-                                 border-radius: 4px;
-                                 position: absolute;
-                                 right: 55%;
-                                 top: 8px;
-                                 ">29.12.2015</span>Vitae adipiscing turpis aen</h3>
-                              <div class="desc" style="position: relative;
-                                 font-size: 15px;
-                                 line-height: 31px;">
-                                 Vitae adipiscing turpis. Aenean ligula nibh, molestie id viverra a, dapibus at dolor. In iaculis viverra neque, ac eleifend ante lobortis id. In viverra ipsum stie id viverra.
-                              </div>
-                           </li>
+<section class="page-cover" id="cover-hotel-grid-list">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                    	<h1 class="page-title">Package</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="#">Home</a></li>
+                            <li class="active">Package Detail </li>
                         </ul>
-                     </div>
-                  </div>
-                  <!-- /.col- -->
-               </fieldset>
-               <h3>Finish</h3>
-               <fieldset>
-                  <div class="col-sm-8 col-sm-offset-1">
-                     <div class="text-headline">Terms and Conditions</div>
-                     <div class="form-group mt40">
-                        <input id="acceptTerms1" name="acceptTerms1" type="checkbox"> <label for="acceptTerms1" class="text-subhead sub-text">I agree with the Terms and Conditions.</label>        
-                     </div>
-                     <!-- /.form-group -->
-                  </div>
-                  <!-- /.col- -->
-               </fieldset>
-            </form>
-         </div>
-         <!-- end columns -->
-      </div>
-      <!-- end row -->
-   </div>
-   <!-- end container -->
-</section>
-<!-- end newsletter-1 -->
+                    </div><!-- end columns -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end page-cover -->
 
+                <!--===== INNERPAGE-WRAPPER ====-->
+                <section class="innerpage-wrapper">
+        	<div id="cruise-booking" class="innerpage-section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 content-side">
+                        	
+                            <h3>{{ ucfirst($package_info->package_name) }}</h3>
+                            @php
+                            $pack_total_nights = 0;
+                            @endphp
+                            @php
+                                $to_state_name = CommonHelper::getstateName($package_info->to_state_id);
+                                $to_city_data = CommonHelper::getcityDetails($package_info->to_city_id);
+                                $to_city_name = $to_city_data->city_name;
+                                $to_city_image = $to_city_data->city_image;
+                                $to_city_image = $to_city_image==null || $to_city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$to_city_image) ;
+                                $place_counts = count($data['package_place']);
+                                $summary_cities='';
+                                $night_count=0;
+                                
+                                $startday = 1;
+                                foreach($data['package_place'] as $key => $place){
+                                   $sum_city_name = CommonHelper::getcityName($place->city_id);
+                                   $summary_cities .= $sum_city_name.', ';
+                                    
+                                   $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
+                                }
+                              //die;
+                            @endphp
+                        	<div class="detail-slider">
+                                <div class="feature-slider">
+                                    <div><img src="{{ $to_city_image }}" style="width:700px;height:500px;" class="img-responsive" alt="feature-img"/></div>
+                                </div><!-- end feature-slider -->
+                                
+                                <ul class="list-unstyled features tour-features">
+                                    <li><div class="f-icon"><i class="fa fa-map-marker"></i></div><div class="f-text"><p class="f-heading">{{ $to_state_name }}</p><p class="f-data">{{$summary_cities}}</p></div></li>
+                                    <li><div class="f-icon"><i class="fa fa-user"></i></div><div class="f-text"><p class="f-heading">Persons</p><p class="f-data">{{ $package_info->adult_count }} adults, {{ $package_info->child_count }} children</p></div></li>
+                                    <li><div class="f-icon"><i class="fa fa-calendar"></i></div><div class="f-text"><p class="f-heading">Duration</p><p class="f-data">{{ $night_count }} Nights & {{ $night_count+1 }} Days</p></div></li>
+                                    
+                                </ul>
+                            </div><!-- end detail-slider -->  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="bold">Itinerary</h3>
+                                    <br>
+                                     
+                                </div>
+                                <div class="clearfix">
+                                </div>
+                                
+                                 <ul class="timeline">
+                                    @foreach($data['package_place'] as $key => $place)
+                                        @php
+                                        $nightcount = $place->nights_count;
+                                    
+                                        if($nightcount == 1 )
+                                        {
+                                            $days_val = 'Day '.$startday ;
+                                        }
+                                        else{
+                                            $days_val = 'Day '.$startday.' - '.($startday+$nightcount-1) ;
+                                        }
+                                        $place_state_name = CommonHelper::getstateName($place->state_id);
+                                        $place_city_data = CommonHelper::getcityDetails($place->city_id);
+                                        $package_hotels = CommonHelper::getPackageHotels($package_info->id,$place->city_id);
+                                        $pack_night_count = $place->nights_count;
+                                        @endphp
+                                     <li class="timeline-inverted">
+                                      <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+
+                                      <div class="timeline-panel">
+                                        <p style="font-size: 16px;font-weight: bold;"> {{ $days_val }}
+                                         [ {{$place_state_name}} - {{$place_city_data->city_name}} ]
+                                        </p>
+                                        <div class="col-md-12">
+                                        @foreach($package_hotels as $hotel)
+                                        @php
+                                        $package_hotel_types = CommonHelper::getPackageHotelTypes($package_info->id,$place->city_id,$hotel->hotel_id);
+                                        $package_hotel = CommonHelper::getPackageHotelDetails($package_info->id,$place->city_id,$hotel->hotel_id);
+                                        @endphp
+                                      <div id="picked_city_hotel_{{ $package_hotel->id }}" class="card media-card-sm">
+                                        <div id="picked-hotelmedia-{{ $package_hotel->id }}" class="media">
+                                          
+                                          @php
+                                            $hotelimages = $package_hotel->hotelimages;
+                                            $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
+
+                                            $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
+
+                                            $amenitystring = '';
+                                            $a_count = 0;
+
+                                            if($package_hotel!=null){
+                                              foreach($package_hotel->amenities as $key => $amenity){
+                                                if($a_count<4){
+                                                  $amenitystring .= $amenity->amenities_name;
+                                                  if($amenity_count-1 != $key){
+                                                    $amenitystring .= ', ';
+                                                  } 
+                                                }
+                                                $a_count++;
+                                              }
+                                            }
+
+                                            $rating_string = '';
+                                            if($package_hotel!=null){
+                                              $ratings = $package_hotel->ratings;
+                                             
+                                              if($ratings!=null){
+                                                $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating fa fa-star"></i>';
+                                              }
+                                            }
+                                            $total_hotel_prices = 0;
+                                          @endphp
+                                          <div style="margin-top: 15px;" class="row">
+                                                <div class="col-md-3 col-sm-12">
+                                                    <img src="{{ $hotel_image }}" class="img-responsive" style="height: 100px !important;border-radius: 5px;width:111px;" alt="tour-img">
+                                                </div>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <div class="listing-right-custom">   
+                                                       <a style="text-decoration:none;" href="{{URL::to('hotel_view/'.Crypt::encrypt($package_hotel->id),Crypt::encrypt($package_info->id))}}"> <h4 class="block-title">{{ $package_hotel->hotel_name }}</h4> </a>
+                                                     
+                                                        <p class="block-minor" style="color:#faa61a">{!! $rating_string !!} </p> 
+                                                        <p>{{ $amenitystring }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          @endforeach
+                                            <br>
+                                            @for($n=1;$n<=$pack_night_count;$n++)
+                                            @php
+                                            $pack_daynumber = $pack_total_nights+$n;
+                                            $package_activities = CommonHelper::getPackageActivitiesDays($package_info->id,$place->city_id,$pack_daynumber);
+                                          
+                                              //  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
+                                            @endphp
+                                            @foreach($package_activities as $activity)
+                                            @php
+                                                $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
+                                                
+                                                $hours = floor($activity->duartion_hours / 60) ;
+                                                $minutes = floor($activity->duartion_hours % 60) ;
+
+                                                if($hours == 0 )
+                                                {
+                                                    $hours = '';
+                                                }
+                                                elseif($hours == 1){
+                                                    $hours = $hours.' '.'hour';
+                                                }
+                                                else{
+                                                    $hours = $hours.' '.'hours';
+                                                }
+
+                                                    if($minutes == 0)
+                                                    {
+                                                        $minutes = '';
+                                                    }
+                                                    elseif($minutes == 1){
+                                                        $minutes = $minutes.' '.'minute';
+                                                    }
+                                                    else{
+                                                        $minutes = $minutes.' '.'minutes';
+                                                    }
+                                                    $hours_and_minutes = $hours.' '.$minutes;                                                  
+                                            @endphp
+                                            <div class="timeline-heading"> 
+                                                    <p> Day - {{$pack_daynumber}}  </p>
+                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title"> {{ $activity->title_name }}</h4> </a>
+                                                     <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
+
+                                            </div>
+                                            @endforeach
+                                            @endfor
+                                            @php
+                                            $pack_total_nights += $pack_night_count;
+                                            @endphp
+                                         </div>
+                                      </div>
+                                     </li>
+                                        @php
+                                       
+                                        
+                                        $startday = $startday+$nightcount;
+                                        @endphp
+                                    @endforeach
+                                </ul>
+                             </div>  
+                                
+                           
+                            
+                        </div><!-- end columns -->
+						
+                        
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 side-bar right-side-bar">
+                                        
+                                <div class="col-xs-12 col-sm-6 col-md-12"> 
+                                
+                                <!-- <div class="lg-booking-form-heading">
+                                
+                                	<h3>Payment Information</h3>
+                                </div> -->
+                                    <div class="side-bar-block support-block">
+                                    <h3 style="color: #faa61a;">Payment Information</h3>
+                                   <!-- end lg-bform-heading -->
+                                
+                                <div class="payment-tabs">
+                                	
+                                    
+                                    <!-- <div class="tab-content"> -->
+                                    	<div class="tab-pane fade in active">
+                                          
+                                        <form id="payment_form" class="form-horizontal" method="post" action="{{route('booking_confirm')}}">
+                                        @csrf
+                                        <input type="hidden" name="packageid" value="{{$package_info->id}}">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="email">From Date</label>
+                                            <div class="col-sm-6"> 
+                                                    <input type="date" readonly class="form-control" name="form_date" id="form_date" value="{{$data['form_date']}}">
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-4" for="email">To Date</label>
+                                            <div class="col-sm-6"> 
+                                                <input type="date" readonly class="form-control" name="to_date" id="to_date" value="{{$data['to_date']}}">
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-4" for="email">Payment Mode:</label>
+                                            <div class="col-sm-6">
+                                               <select id="payment_mode" name="payment_mode" class="form-control" >
+                                                    <option selected="true" value="0" disabled>Select</option>
+                                                    <option value="card">Card</option>
+                                                    <option value="cash">Cash</option>
+                                                    <option value="online_payment">Online Payment</option>
+                                               </select>
+                                            </div>
+                                            </div>
+                                            <div class="online_mode hide">
+                                                <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Reference Number</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="text" class="form-control" id="reference_number" name="reference_number">
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="card_mode hide">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Card Type</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="radio" id="credit" value="credit" name="payment_mode">Credit
+                                                    <input type="radio" id="debit" value="debit" name="payment_mode">Debit
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Card Number</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="text" class="form-control" id="card_number" name="card_number">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Card Holder Name</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="text" class="form-control" id="card_holder_name" name="card_holder_name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">CVV</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="text" class="form-control" id="cvv" name="cvv">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Expiry Month</label>
+                                                <div class="col-sm-6">      
+                                                    <select class="form-control" name="expiry_month">
+                                                    <option selected="true" disabled value="0">Select month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Expiry Year</label>
+                                                <div class="col-sm-6">  
+                                                <select class="form-control" name="expiry_year">
+                                             @php   $this_year = date("Y"); // Run this only once
+                                                for ($year = $this_year; $year <= $this_year + 20; $year++) {
+                                                    @endphp
+                                                      <option value={{$year}}>{{$year}} </option>
+                                                      @php
+                                                } @endphp       
+                                                </select>
+                                                    <!-- <option selected="true" disabled value="0">Select month</option>
+                                                    <option value="January">January</option> -->
+                                                   
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="pwd">Package Amount</label>
+                                                <div class="col-sm-6">          
+                                                    <input type="text" class="form-control" id="pwd" readonly name="package_amount" value="{{ number_format($package_info->total_amount,2) }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">        
+                                           
+                                            </div>
+                                            <div class="form-group">        
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="submit" class="btn btn-orange pull-right">Submit</button>
+                                            </div>
+                                            </div>
+                                        </form>
+                                            
+                                          </div> 
+                                        
+                                        
+                                        
+                                    <!-- </div> -->
+                                </div><!-- end payment-tabs -->
+                                        <h3>Need Help</h3>
+                                        <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis. Est atqui timeam mnesarchum.</p>
+                                        <div class="support-contact">
+                                            <span><i class="fa fa-phone"></i></span>
+                                            <p>+1 123 1234567</p>
+                                        </div><!-- end support-contact -->
+                                    </div><!-- end side-bar-block -->
+                                </div><!-- end columns -->
+                                
+                            </div><!-- end row -->
+                        
+                        </div><!-- end columns -->
+                        
+                    </div><!-- end row -->
+                </div><!-- end container -->         
+            </div><!-- end cruise-booking -->
+        </section><!-- end innerpage-wrapper -->
 @endsection
 @section('footerSection')
-<script src="{{ asset('public/web-assets/js/jquery.steps.js') }}"></script>
-<script src="{{ asset('public/web-assets/js/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('public/web-assets/js/jquery.dragsort.js') }}"></script>
+<script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script type="text/javascript">
-            var form = $("#wizard1").show();
-             
-            form.steps({
-                headerTag: "h3",
-                bodyTag: "fieldset",
-                transitionEffect: "slideLeft",
-                onStepChanging: function (event, currentIndex, newIndex)
-                {
-                    // Allways allow previous action even if the current form is not valid!
-                    if (currentIndex > newIndex)
-                    {
-                        return true;
-                    }
-                    // Forbid next action on "Warning" step if the user is to young
-                    if (newIndex === 3 && Number($("#age-2").val()) < 18)
-                    {
-                        return false;
-                    }
-                    // Needed in some cases if the user went back (clean up)
-                    if (currentIndex < newIndex)
-                    {
-                        // To remove error styles
-                        form.find(".body:eq(" + newIndex + ") label.error").remove();
-                        form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                    }
-                    form.validate().settings.ignore = ":disabled,:hidden";
-                    return form.valid();
-                },
-                onStepChanged: function (event, currentIndex, priorIndex)
-                {
-                    // Used to skip the "Warning" step if the user is old enough.
-                    if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
-                    {
-                        form.steps("next");
-                    }
-                    // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
-                    if (currentIndex === 2 && priorIndex === 3)
-                    {
-                        form.steps("previous");
-                    }
-                },
-                onFinishing: function (event, currentIndex)
-                {
-                    form.validate().settings.ignore = ":disabled";
-                    return form.valid();
-                },
-                onFinished: function (event, currentIndex)
-                {
-                    alert("Submitted!");
-                }
-            }).validate({
-                errorPlacement: function errorPlacement(error, element) { element.after(error); },
-                rules: {
-                    confirm: {
-                        equalTo: "#password-2"
-                    }
-                }
-            });
-            $("#overall-summary").dragsort({
-                dragEnd: saveOrder,
-            });
-             function saveOrder() {
-                alert('ok');
-             }
-        </script>
+    $("#home_menu_id").removeClass('active');
+    $("#package_menu_id").addClass('active');
+    $(document).ready(function(e){
+    
+      $('#payment_mode').change(function(e){
+        var payment_mode =  $('#payment_mode').val();
+            if(payment_mode == 'online_payment')
+            {
+                $('.online_mode').removeClass('hide');
+                $('.card_mode').addClass('hide');
+            }
+            else if(payment_mode == 'cash')
+            {
+                $('.online_mode').addClass('hide');
+                $('.card_mode').addClass('hide');
+            }
+            else if(payment_mode == 'card')
+            {
+                $('.card_mode').removeClass('hide');
+                $('.online_mode').addClass('hide');
+            }
+      });
+      $("#payment_form").validate({
+        rules: {
+            payment_mode: {
+                required: true,
+            },
+            card_number : {
+                minlength: 16,
+                maxlength: 16,
+                digits : true,
+            },
+            cvv : {
+                minlength: 3,
+                maxlength: 3,
+                digits : true,
+            },
+        },
+        //For custom messages
+        messages: {
+            payment_mode: {
+                required: '{{__("Please select Payment Mode") }}',
+            },
+            card_number : {
+                minlength: '{{__("Please enter 16 digits") }}',
+                maxlength: '{{__("Please enter only 16 digits") }}',
+                digits : "Numbers only",
+            },  
+            cvv : {
+                minlength: '{{__("Please enter 3 digits") }}',
+                maxlength: '{{__("Please enter only 3 digits") }}',
+                digits : "Numbers only",
+            },
+        },
+    });
+    });
+</script>
 @endsection
