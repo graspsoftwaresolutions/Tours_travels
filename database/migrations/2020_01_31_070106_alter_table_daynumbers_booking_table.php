@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDaynumberToPackageActivities extends Migration
+class AlterTableDaynumbersBookingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddDaynumberToPackageActivities extends Migration
      */
     public function up()
     {
-        Schema::table('package_activities', function (Blueprint $table) {
-            $table->unsignedBigInteger('day_numbers')->nullable();
+        Schema::table('booking_activities', function (Blueprint $table) {
+            //
+         //   $table->unsignedBigInteger('day_numbers')->nullable();
+            $table->unsignedBigInteger('day_numbers')->nullable()->change();
         });
     }
 
@@ -25,7 +27,7 @@ class AddDaynumberToPackageActivities extends Migration
      */
     public function down()
     {
-        Schema::table('package_activities', function (Blueprint $table) {
+        Schema::table('booking_activities', function (Blueprint $table) {
             //
         });
     }

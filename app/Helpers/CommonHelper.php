@@ -15,6 +15,10 @@ use App\Model\Admin\PackageActivities;
 use App\Model\Admin\Hotel;
 use App\Model\Admin\Amenities;
 use App\Model\Admin\Website;
+use App\Model\Admin\Booking;
+use App\Model\Admin\BookingPlace;
+use App\Model\Admin\BookingHotel;
+use App\Model\Admin\BookingActivities;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +36,7 @@ class CommonHelper
         $details = DB::table("package_master")->whereIn('id',$package)
                                                 ->select('package_name')
                                                 ->get();
+
         return $details;
     }
     
@@ -334,7 +339,6 @@ class CommonHelper
             //return json_encode(['hotels' => $hotels, 'roomtype' => $hotel_data->roomtype_id]);
         }
         return $hotels;
-
     }
     public static  function getBookingActivities($bookingid,$cityid){
         
@@ -447,6 +451,15 @@ class CommonHelper
         return $result;
      }
    }
+   public static function getCreatedBooking($userid)
+   {
+     if($userid!='' && $userid!=null)
+     {
+        $result = Booking::where('customer_id','=',$userid)->where('user_booking','=',1)
+                    ->select('id as bookingid','package_id','from_date','to_date','to_country_id','to_state_id','to_city_id','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number')->get();
+                    return $result;
+     }
+   }
    public static function getPackagePlace($packageid)
    {
        $result = DB::table('package_place')->where('package_id','=',$packageid)->pluck('nights_count')->first();
@@ -486,5 +499,8 @@ class CommonHelper
 
 //         return $hotels_rooms;
 //    }
- 
+    public static function getPackaName($id)
+    {
+        return $packageName = DB::table('package_master')->where('id','=',$id)->pluck('package_name')->first();
+    }
 }

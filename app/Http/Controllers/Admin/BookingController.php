@@ -309,5 +309,9 @@ class BookingController extends Controller
              }
          return redirect('admin/booking_list')->with('message','Booking Updated Successfully!!');
      }
+     public function confirmBookingList()
+     {
+        return view('admin.booking.confirmed_list');
+     }
 
 }

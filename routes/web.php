@@ -169,7 +169,11 @@ Route::group( [ 'prefix' => 'admin' ], function()
     
     Route::get('/booking_list', 'Admin\BookingController@bookingList')->name('bookings.list');
     Route::post('ajax_booking_list','Admin\AjaxController@ajax_booking_list')->name('ajax_booking_list');
+    Route::post('ajax_confirmed_booking_list','Admin\AjaxController@ajax_confirmed_booking_list')->name('ajax_confirmed_booking_list');
     Route::get('booking_pdf/{parameter}','Admin\PdfController@BookingView')->name('booking.pdf');
+
+    
+    Route::get('/confirm_booking', 'Admin\BookingController@confirmBookingList')->name('booking.confirmed');
 
     Route::get('package_place_details','Admin\PackageController@packagePlaceDetails')->name('package_place_details');
     Route::get('/get-hotel-list', 'Admin\PackageController@PackageHotels')->name('get-hotel-list');
