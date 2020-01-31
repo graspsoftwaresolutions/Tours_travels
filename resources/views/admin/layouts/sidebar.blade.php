@@ -181,6 +181,9 @@
                 <li id="booking_sidebar_li_id" class="submenu-item">
                   <a id="booking_sidebar_a_id" href="{{ route('bookings.list') }}" class="submenu-target">{{ __('All Bookings') }}</a>
                 </li>
+                <li id="cust_packages_sidebar_li_id" class="submenu-item">
+                  <a id="cust_packages_sidebar_a_id" href="{{ route('booking.confirmed') }}" class="submenu-target">{{ __('Confirm Booking') }}</a>
+                </li>
                 <li id="booking_add_sidebar_li_id" class="submenu-item">
                   <a id="booking_add_sidebar_a_id" href="{{route('booking.new')}}" class="submenu-target">{{ __('Add Booking') }}</a>
                 </li>

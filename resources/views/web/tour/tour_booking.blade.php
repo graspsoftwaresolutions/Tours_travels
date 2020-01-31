@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('headSection')
+
 <style>
     #cover-tour-grid-list {
         background: url('{{ asset("public/web-assets/images/cover-tour-grid-list.jpg") }}') 50% 84%;
@@ -200,6 +201,7 @@
     padding: 5px;
 }
 </style>
+
 @endsection
 @php
         $package_info = $data['package_info'];
@@ -234,7 +236,7 @@
         	<div id="cruise-booking" class="innerpage-section-padding">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 content-side">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 content-side">
                         	
                             <h3>{{ ucfirst($package_info->package_name) }}</h3>
                             @php
@@ -425,7 +427,7 @@
 						
                         
                         
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 side-bar right-side-bar">
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 side-bar right-side-bar">
                                         
                                 <div class="col-xs-12 col-sm-6 col-md-12"> 
                                 
@@ -438,8 +440,7 @@
                                    <!-- end lg-bform-heading -->
                                 
                                 <div class="payment-tabs">
-                                	
-                                    
+
                                     <!-- <div class="tab-content"> -->
                                     	<div class="tab-pane fade in active">
                                           
@@ -448,19 +449,19 @@
                                         <input type="hidden" name="packageid" value="{{$package_info->id}}">
                                         <div class="form-group">
                                             <label class="control-label col-sm-4" for="email">From Date</label>
-                                            <div class="col-sm-6"> 
+                                            <div class="col-sm-8"> 
                                                     <input type="date" readonly class="form-control" name="form_date" id="form_date" value="{{$data['form_date']}}">
                                             </div>
                                             </div>
                                             <div class="form-group">
                                             <label class="control-label col-sm-4" for="email">To Date</label>
-                                            <div class="col-sm-6"> 
+                                            <div class="col-sm-8"> 
                                                 <input type="date" readonly class="form-control" name="to_date" id="to_date" value="{{$data['to_date']}}">
                                             </div>
                                             </div>
                                             <div class="form-group">
                                             <label class="control-label col-sm-4" for="email">Payment Mode:</label>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                <select id="payment_mode" name="payment_mode" class="form-control" >
                                                     <option selected="true" value="0" disabled>Select</option>
                                                     <option value="card">Card</option>
@@ -472,7 +473,7 @@
                                             <div class="online_mode hide">
                                                 <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Reference Number</label>
-                                                <div class="col-sm-6">          
+                                                <div class="col-sm-8">          
                                                     <input type="text" class="form-control" id="reference_number" name="reference_number">
                                                 </div>
                                             </div>
@@ -481,32 +482,35 @@
                                             <div class="card_mode hide">
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Card Type</label>
-                                                <div class="col-sm-6">          
-                                                    <input type="radio" id="credit" value="credit" name="payment_mode">Credit
-                                                    <input type="radio" id="debit" value="debit" name="payment_mode">Debit
+                                                <div class="col-sm-8">          
+                                                    <input type="radio" id="credit" value="credit" name="payment_mode">
+                                                    <label for = "credit">Credit</label>
+                                                    <input type="radio" id="debit" value="debit" name="payment_mode">
+                                                    <label for = "debit">Debit</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Card Number</label>
-                                                <div class="col-sm-6">          
-                                                    <input type="text" class="form-control" id="card_number" name="card_number">
+                                                <div class="col-sm-8">          
+                                                    <input type="text" data-inputmask="'mask': '9999 9999 9999 9999'" class="form-control" id="card_number" name="card_number">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Card Holder Name</label>
-                                                <div class="col-sm-6">          
+                                                <div class="col-sm-8">          
                                                     <input type="text" class="form-control" id="card_holder_name" name="card_holder_name">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">CVV</label>
-                                                <div class="col-sm-6">          
-                                                    <input type="text" class="form-control" id="cvv" name="cvv">
+                                                <div class="col-sm-8">   
+
+                                                    <input type="text"  data-inputmask="'mask': '999'"   class="form-control" id="cvv" name="cvv">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Expiry Month</label>
-                                                <div class="col-sm-6">      
+                                                <div class="col-sm-8">      
                                                     <select class="form-control" name="expiry_month">
                                                     <option selected="true" disabled value="0">Select month</option>
                                                     <option value="January">January</option>
@@ -527,7 +531,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Expiry Year</label>
-                                                <div class="col-sm-6">  
+                                                <div class="col-sm-8">  
                                                 <select class="form-control" name="expiry_year">
                                              @php   $this_year = date("Y"); // Run this only once
                                                 for ($year = $this_year; $year <= $this_year + 20; $year++) {
@@ -536,15 +540,14 @@
                                                       @php
                                                 } @endphp       
                                                 </select>
-                                                    <!-- <option selected="true" disabled value="0">Select month</option>
-                                                    <option value="January">January</option> -->
+                                                    
                                                    
                                                 </div>
                                             </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Package Amount</label>
-                                                <div class="col-sm-6">          
+                                                <div class="col-sm-8">          
                                                     <input type="text" class="form-control" id="pwd" readonly name="package_amount" value="{{ number_format($package_info->total_amount,2) }}">
                                                 </div>
                                             </div>
@@ -563,15 +566,15 @@
                                         
                                         
                                     <!-- </div> -->
-                                </div><!-- end payment-tabs -->
-                                        <h3>Need Help</h3>
+                                </div>
+                                        <!-- <h3>Need Help</h3>
                                         <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis. Est atqui timeam mnesarchum.</p>
                                         <div class="support-contact">
                                             <span><i class="fa fa-phone"></i></span>
                                             <p>+1 123 1234567</p>
-                                        </div><!-- end support-contact -->
-                                    </div><!-- end side-bar-block -->
-                                </div><!-- end columns -->
+                                        </div> -->
+                                    </div>
+                                </div>
                                 
                             </div><!-- end row -->
                         
@@ -583,11 +586,15 @@
         </section><!-- end innerpage-wrapper -->
 @endsection
 @section('footerSection')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
 <script src="{{ asset('public/assets/dist/js/plugins/validation/jquery.validate.min.js') }}"></script>
 <script type="text/javascript">
+
     $("#home_menu_id").removeClass('active');
     $("#package_menu_id").addClass('active');
     $(document).ready(function(e){
+        $(":input").inputmask();
     
       $('#payment_mode').change(function(e){
         var payment_mode =  $('#payment_mode').val();
@@ -614,13 +621,13 @@
             },
             card_number : {
                 minlength: 16,
-                maxlength: 16,
-                digits : true,
+                // maxlength: 16,
+               // digits : true,
             },
             cvv : {
                 minlength: 3,
                 maxlength: 3,
-                digits : true,
+                // digits : true,
             },
         },
         //For custom messages
@@ -630,13 +637,13 @@
             },
             card_number : {
                 minlength: '{{__("Please enter 16 digits") }}',
-                maxlength: '{{__("Please enter only 16 digits") }}',
-                digits : "Numbers only",
+                // maxlength: '{{__("Please enter only 16 digits") }}',
+              //  digits : "Numbers only",
             },  
             cvv : {
                 minlength: '{{__("Please enter 3 digits") }}',
                 maxlength: '{{__("Please enter only 3 digits") }}',
-                digits : "Numbers only",
+                // digits : "Numbers only",
             },
         },
     });

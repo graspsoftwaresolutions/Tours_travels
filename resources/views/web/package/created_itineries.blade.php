@@ -18,7 +18,9 @@
    $authid =  Auth::user()->id ;
    if($authid!='' && $authid!=null)
    {
-        $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);    
+        $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);  
+        $Created_Booking = CommonHelper::getCreatedBooking($authid);    
+       
    }
 @endphp
             <!--===== INNERPAGE-WRAPPER ====-->
@@ -234,6 +236,44 @@
                                                              $enc_id = Crypt::encrypt($values->packageid);
                                                              $view = route('package.details',$enc_id);
                                                         @endphp
+                                                        @php
+                                                            $adult_count = $values->adult_count;
+                                                            $child_count = $values->child_count;
+                                                            $infant_count = $values->infant_count;
+                                                            if($adult_count == 0 )
+                                                            {
+                                                                $adult_count = '';
+                                                            }
+                                                            elseif($adult_count == 1){
+                                                                $adult_count = $adult_count.' '.'Adult';
+                                                            }
+                                                            else{
+                                                                $adult_count = $adult_count.' '.'Adults';
+                                                            }
+
+                                                                if($child_count == 0)
+                                                                {
+                                                                    $child_count = '';
+                                                                }
+                                                                elseif($child_count == 1){
+                                                                    $child_count = $child_count.' '.'Child';
+                                                                }
+                                                                else{
+                                                                    $child_count = $child_count.' '.'Childrens';
+                                                                }
+
+                                                                if($infant_count == 0)
+                                                                {
+                                                                    $infant_count = '';
+                                                                }
+                                                                elseif($infant_count == 1){
+                                                                    $infant_count = $infant_count.' '.'Infant';
+                                                                }
+                                                                else{
+                                                                    $infant_count = $infant_count.' '.'infant_count';
+                                                                }
+                                                                $adult_child_infant = $adult_count.' '.$child_count.' '.$infant_count;                                                  
+                                                        @endphp
                                                         <tr class="list-content">
                                                             @if($values->to_city_id)
                                                                 @php
@@ -246,14 +286,24 @@
                                                                 </a> </td>
                                                            @endif
                                                             <td class="list-text wishlist-text">
-                                                                <h3>{{$values->package_name}} <span><small> {{ $night_count }} Nights and {{ $night_count+1 }} Days </small></span>
-                                                                </h3>
-                                                                <p>{{$values->reference_number}}</p>
-                                                                <p class="order">{{$values->adult_count}} Adults,{{$values->child_count}} Childrens and {{$values->infant_count}} Infants </p>
+                                                            <a href="{{$view}}" style="text-decoration:none;">  <h3>{{$values->package_name}}  </a><span><small> [ {{ $night_count }} Nights and {{ $night_count+1 }} Days ] </small></span>
+                                                                </h3> 
+
+                                                                <p> <b style="color:#faa61a;">Reference Number </b>   &nbsp; &nbsp;  #{{$values->reference_number}}</p>
+                                                                <p style="font-size: 16px;color: #faa61a;">Places</p>
+                                                                    @php $city_id = CommonHelper::getPackagePlaceCitiy($values->packageid); @endphp
+                                                                     @foreach($city_id as $val)
+                                                                        @php   $city_name = CommonHelper::getcityName($val->city_id);
+
+                                                                        @endphp
+                                                                        <p style="margin-left: 40px;"> * {{$city_name}}    </p>  
+                                                                     @endforeach
+                                                                <p class="order"> <b style="color:#faa61a;"> Persons </b>  &nbsp; &nbsp; &nbsp;   {{$adult_child_infant}} </p>
                                                                 <button class="btn btn-orange">Book Now</button>
-                                                                <button class="btn btn-orange visible-sm pull-right">INR : {{$values->total_amount}} </button>
+                                                               
                                                             </td>
-                                                            <td class="wishlist-btn hidden-sm"><button class="btn btn-orange">INR : {{$values->total_amount}}</button></td>
+                                                            <!-- <td class="wishlist-btn hidden-sm"><button class="btn btn-orange">INR : {{$values->total_amount}}</button></td> -->
+                                                            <td class="wishlist-btn hidden-sm"><span class="label label-warning" style="background-color: #faa61a;font-size: 19px;">INR : {{$values->total_amount}}</span></td>
                                                         </tr>
                                                         @endforeach
                                                      </tbody>
@@ -270,77 +320,56 @@
                                                 <div class="dash-listing-heading">
                                                     <div class="custom-radio">
                                                         <input type="radio" id="radio01" name="radio" checked/>
-                                                        <label for="radio01"><span></span>All Types</label>
+                                                        <label for="radio01"><span></span>Booked Trips</label>
                                                     </div><!-- end custom-radio -->
                                                         
-                                                    <div class="custom-radio">
+                                                    <!-- <div class="custom-radio">
                                                         <input type="radio" id="radio02" name="radio" />
                                                         <label for="radio02"><span></span>Hotels</label>
-                                                    </div><!-- end custom-radio -->
+                                                    </div>
                                                     
                                                     <div class="custom-radio">
                                                         <input type="radio" id="radio03" name="radio" />
                                                         <label for="radio03"><span></span>Flights</label>
-                                                    </div><!-- end custom-radio -->
+                                                    </div>
                                                     
                                                     <div class="custom-radio">
                                                         <input type="radio" id="radio04" name="radio" />
                                                         <label for="radio04"><span></span>Cars</label>
-                                                    </div><!-- end custom-radio -->
+                                                    </div> -->
                                                 </div>
                                                 
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
                                                         <tbody>
+                                                        @foreach($Created_Booking as $values)
+                                                     @php   $packagename = CommonHelper::getPackaName($values->package_id); 
+                                                         $booked_date = CommonHelper::convert_date_datepicker($values->from_date);
+                                                            $country_name = CommonHelper::getCountryName($values->to_country_id);
+                                                            $state_name = CommonHelper::getstateName($values->to_state_id);
+                                                            $city_name = CommonHelper::getcityName($values->to_city_id);
+                                                         @endphp
                                                             <tr>
                                                                 <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>18</h3><p>October</p></div></td>
                                                                 <td class="dash-list-text booking-list-detail">
-                                                                    <h3>Tom's Restaurant</h3>
+                                                                <a href="{{$view}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
                                                                     <ul class="list-unstyled booking-info">
-                                                                        <li><span>Booking Date:</span> 26.12.2017 at 03:20 pm</li>
+                                                                        <li><span>Booking Date:</span> {{$booked_date}}</li>
                                                                         <li><span>Booking Details:</span> 3 to 6 People</li>
-                                                                        <li><span>Client:</span> Lisa Smith<span class="line">|</span>lisasmith@youremail.com<span class="line">|</span>125 254 2578</li>
+                                                                        <li><span>Place: {{$country_name}},{{$state_name}},{{$city_name}}. </span></li>
                                                                     </ul>
                                                                     <button class="btn btn-orange">Message</button>
                                                                 </td>
                                                                 <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
                                                             </tr>
-                                                            
-                                                            <tr>
-                                                                <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>18</h3><p>October</p></div></td>
-                                                                <td class="dash-list-text booking-list-detail">
-                                                                    <h3>Tom's Restaurant</h3>
-                                                                    <ul class="list-unstyled booking-info">
-                                                                        <li><span>Booking Date:</span> 26.12.2017 at 03:20 pm</li>
-                                                                        <li><span>Booking Details:</span> 3 to 6 People</li>
-                                                                        <li><span>Client:</span> Lisa Smith<span class="line">|</span>lisasmith@youremail.com<span class="line">|</span>125 254 2578</li>
-                                                                    </ul>
-                                                                    <button class="btn btn-orange">Message</button>
-                                                                </td>
-                                                                <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
-                                                            </tr>
-                                                            
-                                                            <tr>
-                                                                <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>18</h3><p>October</p></div></td>
-                                                                <td class="dash-list-text booking-list-detail">
-                                                                    <h3>Tom's Restaurant</h3>
-                                                                    <ul class="list-unstyled booking-info">
-                                                                        <li><span>Booking Date:</span> 26.12.2017 at 03:20 pm</li>
-                                                                        <li><span>Booking Details:</span> 3 to 6 People</li>
-                                                                        <li><span>Client:</span> Lisa Smith<span class="line">|</span>lisasmith@youremail.com<span class="line">|</span>125 254 2578</li>
-                                                                    </ul>
-                                                                    <button class="btn btn-orange">Message</button>
-                                                                </td>
-                                                                <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
-                                                            </tr>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div><!-- end table-responsive -->
                                             </div><!-- end booking-listings -->
                                         </div><!-- end dashboard-content -->
                                     </div><!-- end dsh-booking -->
-                                    
-
+                                
                                     
                                     <div id="dsh-cards" class="tab-pane fade">
                                     	<div class="dashboard-content my-cards">
@@ -419,7 +448,6 @@
                 </div><!-- end container -->   
             </div><!-- end contact-us -->
         </section><!-- end innerpage-wrapper -->
-
            <!--======================= BEST FEATURES =====================-->
            <section id="best-features" class="banner-padding black-features">
         	<div class="container">

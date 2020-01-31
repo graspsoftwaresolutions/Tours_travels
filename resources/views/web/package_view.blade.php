@@ -260,6 +260,7 @@
                             @endphp
                         	<div class="detail-slider">
                                 <div class="feature-slider">
+                                    <input type="hidden" name="nightcount" id="nightcount" value="{{$night_count}}">
                                     <div><img src="{{ $to_city_image }}" style="width:700px;height:500px;" class="img-responsive" alt="feature-img"/></div>
                                 </div><!-- end feature-slider -->
                                 
@@ -428,13 +429,15 @@
                                  <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
-                                             <input type="text" id="package_id" name="package_id" readonly required="" class="form-control hide" value="{{ $package_info->id }}" placeholder="Package id" >
-                                            <input type="text" id="form_date"  name="form_date"  autocomplete="off" required class="form-control dpd1" placeholder="Check In" >
+                                             <input type="text" id="package_id" name="package_id"  required="" class="form-control hide" value="{{ $package_info->id }}" placeholder="Package id" >
+                                             <!-- <input type="text" id="form_date" onclick="getdate()" name="form_date"  autocomplete="off" required class="form-control dpd1" placeholder="Check In" > -->
+                                              <input type="text" id="form_date" readonly name="form_date"  class="form-control dpd1" autocomplete="off" required  placeholder="Check In"> 
                                         </div>
                                     </div><!-- end columns --> 
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
-                                            <input type="text" id="to_date" name="to_date" autocomplete="off"  required class="form-control dpd2" placeholder="Check Out" >
+                                            <!-- <input type="text" id="to_date" name="to_date" autocomplete="off"  required class="form-control dpd2" placeholder="Check Out" > -->
+                                            <input type="text" readonly  id="to_date" name="to_date" autocomplete="off" class="form-control dpd2"  placeholder="Check Out" >
                                         </div>
                                     </div><!-- end columns -->
                                 </div><!-- end row --> 
@@ -516,4 +519,76 @@
 @endsection
 		
 @section('footerSection')
+<script>
+$(document).ready(function(){
+//     $("#form_date").on("change", function(){
+//        var date = new Date($("#form_date").val());
+//            days = parseInt($("#nightcount").val(), 10);
+        
+//         if(!isNaN(date.getTime())){
+//             date.setDate(date.getDate() + days);
+            
+//             $("#to_date").val(date.toInputFormat());
+//         } else {
+//             alert("Invalid Date");  
+//         }
+//    });
+    Date.prototype.toInputFormat = function() {
+        var yyyy = this.getFullYear().toString();
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+        var dd  = this.getDate().toString();
+        // return yyyy + "/" + (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]); 
+        return (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0])  + "/" + yyyy;
+        };
+  //$(".datepicker").datepicker({});
+});
+(function($) {
+
+	// Cache Selectors
+	var date1		=$('.dpd1'),
+		date2		=$('.dpd2');
+	
+	
+	//Date Picker//
+	var nowTemp = new Date();
+	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	 
+	var checkin = date1.datepicker({
+		onRender: function(date) {
+			return date.valueOf() < now.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+		if (ev.date.valueOf() > checkout.date.valueOf()) {
+			var newDate = new Date(ev.date)
+			newDate.setDate(newDate.getDate() + 2);
+            //console.log(newDate.getDate() + 1);
+			checkout.setValue(newDate);
+		}
+        var date = new Date($("#form_date").val());
+           days = parseInt($("#nightcount").val(), 10);
+        
+        if(!isNaN(date.getTime())){
+            date.setDate(date.getDate() + days);
+            
+            $("#to_date").val(date.toInputFormat());
+        } else {
+            alert("Invalid Date");  
+        }
+		checkin.hide();
+		//date2[0].focus();
+		
+	}).data('datepicker');
+	
+	var checkout = date2.datepicker({
+		onRender: function(date) {
+			return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+		}
+		
+	}).on('changeDate', function(ev) {
+		checkout.hide();
+	}).data('datepicker');
+	
+			
+})(jQuery);
+</script>
 @endsection
