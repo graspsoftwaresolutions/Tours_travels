@@ -310,4 +310,46 @@ class BookingController extends Controller
          return redirect('admin/booking_list')->with('message','Booking Updated Successfully!!');
      }
 
+     public function PackageHotels(Request $request){
+        $package_id = $request->input('package_id');
+        $city_id = $request->input('city_id');
+        $package_hotels = CommonHelper::getPackageHotels($package_id,$city_id);
+        $hotel_info = [];
+        foreach($package_hotels as $key => $hotel){
+            $hotel_id = $hotel->hotel_id;
+            $room_types = CommonHelper::getPackageHotelTypes($package_id,$city_id,$hotel_id);
+            $hotel_details = CommonHelper::getPackageHotelDetails($package_id,$city_id,$hotel_id);
+            $hotel_info[$hotel_id]['id'] = $hotel_id;
+            $hotel_info[$hotel_id]['room_types'] = $room_types;
+            $hotel_info[$hotel_id]['hotel_details'] = $hotel_details;
+        }
+        return $hotel_info;
+    }
+
+    public function PackageActivities(Request $request){
+        $package_id = $request->input('package_id');
+        $city_id = $request->input('city_id');
+        $day_number = $request->input('day_number');
+
+        $activity_ids = DB::table('package_activities as pa')
+                    ->where('pa.package_id','=',$package_id)
+                    ->where('pa.city_id','=',$city_id)
+                    ->where('pa.day_numbers','=',$day_number)
+                    ->pluck('pa.activity_id');
+        $activity_data = [];
+        foreach($activity_ids as $key => $activity){
+            $activityid = $activity;
+
+            $activities = Activity::with(
+                array(
+                    'activity_images'
+                ))->where('id',$activityid)->get();
+            $activity_data['activity_data'] =  $activities;
+            $activity_data['cost'] = CommonHelper::getPackageActivityCost($package_id,$activityid);
+            
+        }
+       // $package_activities = CommonHelper::getPackageActivities($package_id,$city_id,$day_number);
+        return $activity_data;
+    }
+
 }
