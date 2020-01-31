@@ -236,6 +236,44 @@
                                                              $enc_id = Crypt::encrypt($values->packageid);
                                                              $view = route('package.details',$enc_id);
                                                         @endphp
+                                                        @php
+                                                            $adult_count = $values->adult_count;
+                                                            $child_count = $values->child_count;
+                                                            $infant_count = $values->infant_count;
+                                                            if($adult_count == 0 )
+                                                            {
+                                                                $adult_count = '';
+                                                            }
+                                                            elseif($adult_count == 1){
+                                                                $adult_count = $adult_count.' '.'Adult';
+                                                            }
+                                                            else{
+                                                                $adult_count = $adult_count.' '.'Adults';
+                                                            }
+
+                                                                if($child_count == 0)
+                                                                {
+                                                                    $child_count = '';
+                                                                }
+                                                                elseif($child_count == 1){
+                                                                    $child_count = $child_count.' '.'Child';
+                                                                }
+                                                                else{
+                                                                    $child_count = $child_count.' '.'Childrens';
+                                                                }
+
+                                                                if($infant_count == 0)
+                                                                {
+                                                                    $infant_count = '';
+                                                                }
+                                                                elseif($infant_count == 1){
+                                                                    $infant_count = $infant_count.' '.'Infant';
+                                                                }
+                                                                else{
+                                                                    $infant_count = $infant_count.' '.'infant_count';
+                                                                }
+                                                                $adult_child_infant = $adult_count.' '.$child_count.' '.$infant_count;                                                  
+                                                        @endphp
                                                         <tr class="list-content">
                                                             @if($values->to_city_id)
                                                                 @php
@@ -248,10 +286,19 @@
                                                                 </a> </td>
                                                            @endif
                                                             <td class="list-text wishlist-text">
-                                                                <h3>{{$values->package_name}} <span><small> {{ $night_count }} Nights and {{ $night_count+1 }} Days </small></span>
-                                                                </h3>
-                                                                <p>{{$values->reference_number}}</p>
-                                                                <p class="order">{{$values->adult_count}} Adults,{{$values->child_count}} Childrens and {{$values->infant_count}} Infants </p>
+                                                            <a href="{{$view}}" style="text-decoration:none;">  <h3>{{$values->package_name}}  </a><span><small> [ {{ $night_count }} Nights and {{ $night_count+1 }} Days ] </small></span>
+                                                                </h3> 
+
+                                                                <p> <b style="color:#faa61a;">Reference Number </b>   &nbsp; &nbsp;  #{{$values->reference_number}}</p>
+                                                                <p style="font-size: 16px;color: #faa61a;">Places</p>
+                                                                    @php $city_id = CommonHelper::getPackagePlaceCitiy($values->packageid); @endphp
+                                                                     @foreach($city_id as $val)
+                                                                        @php   $city_name = CommonHelper::getcityName($val->city_id);
+
+                                                                        @endphp
+                                                                        <p style="margin-left: 40px;"> * {{$city_name}}    </p>  
+                                                                     @endforeach
+                                                                <p class="order"> <b style="color:#faa61a;"> Persons </b>  &nbsp; &nbsp; &nbsp;   {{$adult_child_infant}} </p>
                                                                 <button class="btn btn-orange">Book Now</button>
                                                                
                                                             </td>
@@ -273,7 +320,7 @@
                                                 <div class="dash-listing-heading">
                                                     <div class="custom-radio">
                                                         <input type="radio" id="radio01" name="radio" checked/>
-                                                        <label for="radio01"><span></span>All Types</label>
+                                                        <label for="radio01"><span></span>Booked Trips</label>
                                                     </div><!-- end custom-radio -->
                                                         
                                                     <!-- <div class="custom-radio">
@@ -305,7 +352,7 @@
                                                             <tr>
                                                                 <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>18</h3><p>October</p></div></td>
                                                                 <td class="dash-list-text booking-list-detail">
-                                                                    <h3>{{$packagename}}</h3>
+                                                                <a href="{{$view}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
                                                                     <ul class="list-unstyled booking-info">
                                                                         <li><span>Booking Date:</span> {{$booked_date}}</li>
                                                                         <li><span>Booking Details:</span> 3 to 6 People</li>

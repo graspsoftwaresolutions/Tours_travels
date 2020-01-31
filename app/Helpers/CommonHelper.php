@@ -128,6 +128,16 @@ class CommonHelper
         }
 		
     }
+    public static function getAllcityName($cityid){
+        if($cityid)
+        {
+            return $city_name = City::where('id','=',$cityid)->select('city_name')->get();
+        }
+        else{
+            return '';
+        }
+		
+    }
 	
 	public static function ConvertdatetoDBFormat($date){
 		if($date!=""){
@@ -375,6 +385,16 @@ class CommonHelper
         return 1000;
    }
 
+   public static function newbookingNumber(){
+    $last_no = DB::table('booking_master')->orderBy('booking_number', 'desc')->limit(1)->pluck('booking_number');
+    
+     if(count($last_no)>0){
+         $last_no =  $last_no[0];
+         return is_numeric($last_no) ? $last_no+1 : 1000;
+     }
+     return 1000;
+}
+
     public static function newReferenceNumber(){
        $random = time() . rand(10*45, 100*98);
        return $random;
@@ -464,6 +484,11 @@ class CommonHelper
    {
        $result = DB::table('package_place')->where('package_id','=',$packageid)->pluck('nights_count')->first();
        return $result;
+   }
+   public static function getPackagePlaceCitiy($id)
+   {
+        $result = DB::table('package_place')->where('package_id','=',$id)->select('city_id')->get(); 
+        return $result;
    }
    public static function getCityImage($cityid)
    {
