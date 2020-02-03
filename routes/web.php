@@ -110,6 +110,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('hotel_update','Admin\HotelController@hotelUpdate')->name('save.edithotel');
     Route::get('/delete_hotel_image','Admin\HotelController@imageDelete')->name('delete_hotel_image');
     Route::get('delete-roomtype-data','Admin\HotelController@deleteRoomtype')->name('delete-roomtype-data');
+    
+    Route::delete('hotels_delete/{id}','Admin\HotelController@hotelDestroy')->name('hotels.hoteldestroy');
     //Route::get('/delete_hotel_image','HotelController@imageDelete')->name('hotel.imagedelete');
 
     //Hotel Rooms
@@ -130,7 +132,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('delete_inclusion','Admin\ActivityController@deleteInclusion')->name('delete_inclusion');
     Route::get('delete_exclusion','Admin\ActivityController@deleteExclusion')->name('delete_exclusion');
     Route::get('delete_activity_image','Admin\ActivityController@ActivityimageDelete')->name('delete_activity_image');
-
+   
+    Route::delete('activity-delete/{id}','Admin\ActivityController@activityDestroy')->name('activity.deleteactivity');
+    
 
     //Package
     Route::get('/new_package', 'Admin\PackageController@index')->name('package.new');

@@ -91,6 +91,7 @@ class BookingController extends Controller
          $SaveBooking->from_date = $request->from_date;
          $SaveBooking->to_date = $request->to_date;
          $SaveBooking->grand_total = $request->grand_total_amount;
+         $SaveBooking->booking_number =  CommonHelper::newbookingNumber();
 
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 
@@ -137,8 +138,6 @@ class BookingController extends Controller
                         
                         $booking_hotel->save();
                     }
-                    
-                   
 
                     $activity_ids = $request->input('second_activity_'.$city_id);
                     if( isset($activity_ids)){

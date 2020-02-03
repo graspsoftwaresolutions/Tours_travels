@@ -359,4 +359,20 @@ class ActivityController extends BaseController
        
         return json_encode($update);
     }
+    public function activityDestroy($id)
+    {
+        $id = crypt::decrypt($id);
+        $Activity = new Activity();
+        $activity_booking =  DB::table('booking_activities')->where('activity_id','=',$id)->count();
+        $activities_package =  DB::table('package_activities')->where('activity_id','=',$id)->count();
+        if($activity_booking > 0  || $activities_package > 0 )
+        {
+            return redirect('admin/activity')->with('error','You cannot delete the Activity');
+        }
+        else{
+            $Activity->where('id','=',$id)->update(['status'=>'0']);
+            $activity_delete = DB::table('activity_images')->where('activity_id','=',$id)->delete();
+            return redirect('admin/activity')->with('message','Activity Details Deleted Successfully!!');
+        }
+    }
 }

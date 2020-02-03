@@ -490,7 +490,43 @@ class AjaxController extends CommonController
                     ->count();
         }
         $table ="hotels";
-        $data = $this->CommonAjaxReturn($hotels, 2, '', 1,$table,'master.edithotel'); 
+    //  $data = $this->CommonAjaxReturn($hotels, 0, 'hotels.hoteldestroy', 0,$table); 
+    //    $data = $this->CommonAjaxReturn($hotels, 2, '', 0,$table,'master.edithotel'); 
+      //  $data = $this->CommonAjaxReturn($hotels, 2, '', 1,$table,'master.edithotel'); 
+
+      $data = array();
+      if(!empty($hotels))
+      {
+          foreach ($hotels as $hotels)
+          {
+              $hotelscount =  DB::table('hotels as hot')->select('hot.id','hot.ratings','hot.hotel_name','hot.contact_name','hot.status','s.state_name','c.city_name')
+                    ->join('state as s','s.id','=','hot.state_id')
+                    ->join('city as c','c.id','=','hot.city_id')
+                    ->where('hot.status','=','1')
+                    ->count();
+              
+              if($hotelscount>=1){
+                 
+                  $nestedData['id'] = $hotels->id;
+                  $nestedData['hotel_name'] = $hotels->hotel_name;
+                 
+                  $nestedData['state_name'] = $hotels->hotel_name;
+                  $nestedData['city_name'] = $hotels->city_name;
+                  $nestedData['contact_name'] = $hotels->contact_name;
+                  $nestedData['ratings'] = $hotels->ratings;
+                  $enc_id = Crypt::encrypt($hotels->id);
+                  $edit = route('master.edithotel',$enc_id);
+                  $delete = route('hotels.hoteldestroy',$enc_id);
+                  $actions = '';
+                  $actions .="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a> ";
+                  $actions .="<a><form style='display:inline-block;' action='$delete' method='POST'>".method_field('DELETE').csrf_field();
+                  $actions .="&nbsp;&nbsp;<button  type='submit' class='btn btn-sm red waves-effect waves-circle waves-light' onclick='return ConfirmDeletion()'><i class='mdi mdi-delete'></i></button> </form>";
+                  $nestedData['options'] = $actions;
+                
+                  $data[] = $nestedData;
+              }
+              
+          }
    
     $json_data = array(
         "draw"            => intval($request->input('draw')),  
@@ -501,6 +537,7 @@ class AjaxController extends CommonController
 
         echo json_encode($json_data); 
     }
+}
     public function roomtypeNameexists(Request $request)
     {
         $room_type = $request->room_type;
@@ -668,8 +705,11 @@ class AjaxController extends CommonController
                    $nestedData['zip_code'] = $Activity->zip_code;
                    $enc_id = Crypt::encrypt($Activity->id);
                    $edit = route('activity.editactivity',$enc_id);
-                   
-                   $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>";
+                   $delete = route('activity.deleteactivity',$enc_id);
+                   $actions = '';
+                   $actions .="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a> ";
+                   $actions .="<a><form style='display:inline-block;' action='$delete' method='POST'>".method_field('DELETE').csrf_field();
+                   $actions .="&nbsp;&nbsp;<button  type='submit' class='btn btn-sm red waves-effect waves-circle waves-light' onclick='return ConfirmDeletion()'><i class='mdi mdi-delete'></i></button> </form>";
                    $nestedData['options'] = $actions;
                  
                    $data[] = $nestedData;

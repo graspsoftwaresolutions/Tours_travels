@@ -72,21 +72,23 @@
                     <div class="row">        	
                         
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 content-side">
-                        @php
+                        @php 
                         if(count($data['activities_view'])>0) 
                         {
+                            
                             @endphp
 							@foreach($data['activities_view'] as $values)
-                            @php $activityimage = CommonHelper::getActivityImages($values->id);  @endphp
+                            @php $activityimage = CommonHelper::getActivityImages($values->id); @endphp
                             <div class="list-block main-block h-list-block">
                             	<div class="list-content">
                             		<div class="main-img list-img h-list-img">
                                         <a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}">
-                                        @if($activityimage[0]->image_name!='')
-                                            <img src="{{asset('storage/app/activity/'.$activityimage[0]->image_name)}}" style="width:410px;height:240px;" class="img-responsive" alt="{{$values->title_name}}" />
-                                           @else
-                                           <img src="{{$no_image_url}}" style="width:360px;height:240px;" class="img-responsive" alt="hotel-img" />
-                                           @endif
+                                        
+                                        @foreach($activityimage as $key => $val) 
+                                        @if($key<1)
+                                          <img src="{{asset('storage/app/activity/'.$val->image_name)}}" style="width:410px;height:240px;" class="img-responsive" />
+                                        @endif
+                                        @endforeach
                                         </a>
                                         @php
                                         $country_name = CommonHelper::getCountryName($values->country_id);
@@ -149,6 +151,7 @@
                                 @php
                             }
                             @endphp
+                        </div>
                     </div><!-- end row -->
             	</div><!-- end container -->
             </div><!-- end hotel-listing -->

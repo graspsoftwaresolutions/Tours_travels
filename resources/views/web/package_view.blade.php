@@ -431,13 +431,13 @@
                                         <div class="form-group left-icon">
                                              <input type="text" id="package_id" name="package_id"  required="" class="form-control hide" value="{{ $package_info->id }}" placeholder="Package id" >
                                              <!-- <input type="text" id="form_date" onclick="getdate()" name="form_date"  autocomplete="off" required class="form-control dpd1" placeholder="Check In" > -->
-                                              <input type="text" id="form_date" readonly name="form_date"  class="form-control dpd1" autocomplete="off" required  placeholder="Check In"> 
+                                              <input type="text" id="form_date"  name="form_date"  class="form-control dpd1" autocomplete="off" required  placeholder="Check In"> 
                                         </div>
                                     </div><!-- end columns --> 
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
                                             <!-- <input type="text" id="to_date" name="to_date" autocomplete="off"  required class="form-control dpd2" placeholder="Check Out" > -->
-                                            <input type="text" readonly  id="to_date" name="to_date" autocomplete="off" class="form-control dpd2"  placeholder="Check Out" >
+                                            <input type="text"   id="to_date" name="to_date" autocomplete="off" class="form-control dpd2"  placeholder="Check Out" >
                                         </div>
                                     </div><!-- end columns -->
                                 </div><!-- end row --> 

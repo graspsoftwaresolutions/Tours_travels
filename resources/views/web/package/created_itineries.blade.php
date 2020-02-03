@@ -274,13 +274,14 @@
                                                                 }
                                                                 $adult_child_infant = $adult_count.' '.$child_count.' '.$infant_count;                                                  
                                                         @endphp
-                                                        <tr class="list-content">
+                                                        <tr class="list-content" style="height: 202px;">
                                                             @if($values->to_city_id)
                                                                 @php
                                                                 $cityImage = CommonHelper::getCityImage($values->to_city_id);
                                                                 $to_city_image = $cityImage->city_image ==null || $cityImage->city_image=='' ?  asset("public/assets/images/no_image.jpg") :  asset('storage/app/city/'.$cityImage->city_image) ;
                                                                 @endphp
                                                                 <td class="list-img wishlist-img">
+ 
                                                                 <a href="{{$view}}"> 
                                                                 <img src="{{$to_city_image}}" class="img-responsive" style="width: 200px;height: 200px;"  alt="{{$cityImage->city_name}}" />
                                                                 </a> </td>
@@ -289,17 +290,21 @@
                                                             <a href="{{$view}}" style="text-decoration:none;">  <h3>{{$values->package_name}}  </a><span><small> [ {{ $night_count }} Nights and {{ $night_count+1 }} Days ] </small></span>
                                                                 </h3> 
 
-                                                                <p> <b style="color:#faa61a;">Reference Number </b>   &nbsp; &nbsp;  #{{$values->reference_number}}</p>
-                                                                <p style="font-size: 16px;color: #faa61a;">Places</p>
-                                                                    @php $city_id = CommonHelper::getPackagePlaceCitiy($values->packageid); @endphp
-                                                                     @foreach($city_id as $val)
-                                                                        @php   $city_name = CommonHelper::getcityName($val->city_id);
+                                                                <p> <b>Reference Number </b>  :  &nbsp;  #{{$values->reference_number}}</p>
+                                                               
 
-                                                                        @endphp
-                                                                        <p style="margin-left: 40px;"> * {{$city_name}}    </p>  
-                                                                     @endforeach
-                                                                <p class="order"> <b style="color:#faa61a;"> Persons </b>  &nbsp; &nbsp; &nbsp;   {{$adult_child_infant}} </p>
-                                                                <button class="btn btn-orange">Book Now</button>
+                                                                    @php $city_id = CommonHelper::getPackagePlaceCitiy($values->packageid); 
+                                                                    $prefix = $citiesList = ''; 
+                                                                    foreach ($city_id as $valu) 
+                                                                    {
+                                                                        $city_name = CommonHelper::getcityName($valu->city_id);
+                                                                        $citiesList .= $prefix . '"' . $city_name . '"';
+                                                                        $prefix = ', ';
+                                                                    } @endphp
+                                                                    <p style="font-size: 16px;">Places : [{{$citiesList}}] </p>
+                                                                 
+                                                                <p> <b> Persons </b>  : &nbsp;   {{$adult_child_infant}} </p>
+                                                                <button style="margin-top: 0px;" class="btn btn-orange">Book Now</button>
                                                                
                                                             </td>
                                                             <!-- <td class="wishlist-btn hidden-sm"><button class="btn btn-orange">INR : {{$values->total_amount}}</button></td> -->
@@ -322,21 +327,6 @@
                                                         <input type="radio" id="radio01" name="radio" checked/>
                                                         <label for="radio01"><span></span>Booked Trips</label>
                                                     </div><!-- end custom-radio -->
-                                                        
-                                                    <!-- <div class="custom-radio">
-                                                        <input type="radio" id="radio02" name="radio" />
-                                                        <label for="radio02"><span></span>Hotels</label>
-                                                    </div>
-                                                    
-                                                    <div class="custom-radio">
-                                                        <input type="radio" id="radio03" name="radio" />
-                                                        <label for="radio03"><span></span>Flights</label>
-                                                    </div>
-                                                    
-                                                    <div class="custom-radio">
-                                                        <input type="radio" id="radio04" name="radio" />
-                                                        <label for="radio04"><span></span>Cars</label>
-                                                    </div> -->
                                                 </div>
                                                 
                                                 <div class="table-responsive">
@@ -344,23 +334,79 @@
                                                         <tbody>
                                                         @foreach($Created_Booking as $values)
                                                      @php   $packagename = CommonHelper::getPackaName($values->package_id); 
+                                                    
                                                          $booked_date = CommonHelper::convert_date_datepicker($values->from_date);
+                                                            $date = $values->from_date;
+
+                                                            $date_array = explode("-",$date);           							
+                                                            $date_format = $date_array[2]."-".$date_array[1]."-".$date_array[0];
+                                                            $converted_date = date('Y-m-d', strtotime($date_format));
+                                                            $date_one = date("d",strtotime($converted_date));
+                                                            $month = date("M",strtotime($converted_date));
+
                                                             $country_name = CommonHelper::getCountryName($values->to_country_id);
                                                             $state_name = CommonHelper::getstateName($values->to_state_id);
                                                             $city_name = CommonHelper::getcityName($values->to_city_id);
                                                          @endphp
+                                                         @php
+                                                            $booking_adult_count = $values->adult_count;
+                                                            $booking_child_count = $values->child_count;
+                                                            $booking_infant_count = $values->infant_count;
+                                                            if($booking_adult_count == 0 )
+                                                            {
+                                                                $booking_adult_count = '';
+                                                            }
+                                                            elseif($booking_adult_count == 1){
+                                                                $booking_adult_count = $booking_adult_count.' '.'Adult';
+                                                            }
+                                                            else{
+                                                                $booking_adult_count = $booking_adult_count.' '.'Adults';
+                                                            }
+
+                                                                if($booking_child_count == 0)
+                                                                {
+                                                                    $booking_child_count = '';
+                                                                }
+                                                                elseif($booking_child_count == 1){
+                                                                    $booking_child_count = $booking_child_count.' '.'Child';
+                                                                }
+                                                                else{
+                                                                    $booking_child_count = $booking_child_count.' '.'Childrens';
+                                                                }
+
+                                                                if($booking_infant_count == 0)
+                                                                {
+                                                                    $booking_infant_count = '';
+                                                                }
+                                                                elseif($booking_infant_count == 1){
+                                                                    $booking_infant_count = $booking_infant_count.' '.'Infant';
+                                                                }
+                                                                else{
+                                                                    $booking_infant_count = $booking_infant_count.' '.'infant_count';
+                                                                }
+                                                                $booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count;    
+                                                                                                           
+                                                        @endphp
                                                             <tr>
-                                                                <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>18</h3><p>October</p></div></td>
+                                                                <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>{{$date_one}}</h3><br><p>{{$month}}</p></div></td>
                                                                 <td class="dash-list-text booking-list-detail">
                                                                 <a href="{{$view}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
                                                                     <ul class="list-unstyled booking-info">
                                                                         <li><span>Booking Date:</span> {{$booked_date}}</li>
-                                                                        <li><span>Booking Details:</span> 3 to 6 People</li>
-                                                                        <li><span>Place: {{$country_name}},{{$state_name}},{{$city_name}}. </span></li>
-                                                                    </ul>
-                                                                    <button class="btn btn-orange">Message</button>
+                                                                        <li><span>Reference Number </span> {{$values->booking_number}}</li>
+                                                                        @php $cityid = CommonHelper::getPackagePlaceCitiy($values->packageid); 
+                                                                        $prefixx = $citiesListt = ''; 
+                                                                        foreach ($cityid as $val) 
+                                                                        {
+                                                                            $city_name = CommonHelper::getcityName($val->city_id);
+                                                                            $citiesListt .= $prefixx . '"' . $city_name . '"';
+                                                                            $prefix = ', ';
+                                                                        }@endphp
+                                                                        <li><span>Places :</span> [{{$citiesList}}]</li> 
+                                                                        <li><span>Persons :</span> {{$booking_adult_child_infant}}</li> 
+                                                                        <li><span>Amount :</span> {{$values->total_amount}}</li> </ul>
                                                                 </td>
-                                                                <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
+                                                                <!-- <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td> -->
                                                             </tr>
                                                             @endforeach
                                                         </tbody>

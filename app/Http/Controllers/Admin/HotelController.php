@@ -36,7 +36,7 @@ class HotelController extends CommonController
     {
         $data['amenities_list'] = Amenities::where('status','=','1')->get(); 
         return view('admin.master.amenities.amenities',compact('data',$data));
-    }
+    }   
 
     public function hotelSave(Request $request){
         $request->validate([
@@ -418,5 +418,23 @@ class HotelController extends CommonController
         }
         echo json_encode($returndata);
     }
-    
+    public function hotelDestroy($eid)
+    { 
+        $id = Crypt::decrypt($eid);
+        $Hotel = new Hotel();
+        $package_hotel =  DB::table('package_hotel')->where('hotel_id','=',$id)->count();
+        $hotel_amenities =  DB::table('hotel_amenities')->where('hotel_id','=',$id)->count();
+        $hotel_rooms =  DB::table('hotel_rooms')->where('hotel_id','=',$id)->count();
+        $hotel_roomtypes =  DB::table('hotel_roomtypes')->where('hotel_id','=',$id)->count();
+        if($package_hotel > 0  || $hotel_amenities > 0 || $hotel_rooms > 0 || $hotel_roomtypes > 0)
+        {
+            return redirect('admin/hotels')->with('error','You cannot delete the Hotel');
+        }
+        else{
+            $Hotel->where('id','=',$id)->update(['status'=>'0']);
+            $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$id)->delete();
+            return redirect('admin/hotels')->with('message','Hotel Details Deleted Successfully!!');
+        }
+    }
+
 }

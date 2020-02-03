@@ -92,7 +92,7 @@ class PackageController extends Controller
          $SavePackage->package_number = CommonHelper::newPackageNumber();
 
          $SavePackage->save();
-         $package_id = $SavePackage->id; 
+         $package_id = $SavePackage->id;
 
           $check_picked_state = $request->input('picked_state');
 			if( isset($check_picked_state)){
