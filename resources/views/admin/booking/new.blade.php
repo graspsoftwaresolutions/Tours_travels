@@ -212,7 +212,8 @@
   }
 
   .activities-summary{
-    padding-top: 40px;
+     padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .timeline-icon.ti-text {
@@ -236,6 +237,34 @@
   }
   input[readonly] {
       background-color: #e9ecef;
+  }
+
+    .media-img {
+      width: 20%;
+      height: inherit;
+  }
+  .rating{
+    margin-bottom: 5px;
+  }
+  .hotel-list-panel{
+    margin-bottom: 20px;
+  }
+   .media-img {
+    width: 21%;
+    height: inherit;
+  }
+  .mt7{
+    margin-top: 7px !important;
+  }
+  .card.media-card-sm img {
+      width: 100px;
+      height: 140px;
+  }
+  .card.media-card-sm {
+      height: 140px;
+  }
+    .summary-activity-citysection{
+    padding-top: 25px;
   }
 
 </style>
@@ -623,6 +652,20 @@
                 </div>
             
             </fieldset>
+             <h3>Transportation</h3>
+            <fieldset>
+                <div class="col-sm-12">
+                  <h4 class="text-headline">Transportation Charges [Total : <span id="totaltransportcharges"></span>]</h4>
+                  <div class="row">
+                    <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
+                        
+                    </ul>
+                    <div id="dummy-transports">
+                      
+                    </div>
+                  </div>
+                </div>
+            </fieldset>
             <h3>Summary</h3>
             <fieldset>
                 <div class="col-sm-12">
@@ -649,6 +692,9 @@
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
                           
                        </ul>
+                       <div id="dummySummaryList">
+
+                         </div>
                        <br>
                         <br>
                     </div>
@@ -1152,6 +1198,9 @@
                return formsubmit;
             }
             if(newIndex===3){
+              CalculateTransport();
+            }
+            if(newIndex===4){
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;
@@ -1159,6 +1208,7 @@
                  var hotel_cost = parseFloat($(this).val());
                  total_hotel_cost = parseFloat(total_hotel_cost)+parseFloat(hotel_cost);
               });
+              // alert(total_hotel_cost);
               $("#total_accommodation").val(total_hotel_cost);
              var total_activity_cost = 0;
              $(".activity_cost").each(function() {
@@ -1359,6 +1409,7 @@
       $("#additional_transport").val(total_chargers_extra);
       $("#pack_additional_transport").val(total_chargers_extra);
 
+
       var total_members = parseInt(ui.item.adult_count)+parseInt(ui.item.child_count)+parseInt(ui.item.infant_count);
       $("#total-travellers").text(total_members);
      // console.log(ui.item);
@@ -1379,13 +1430,17 @@
                 success: function (data) {
                   //   console.log(data.package_id);
                   //   console.log(data.place_details);
-                     $('#place-sortList,#place-hotels,#overall-summary,#place-activities').empty();
+                     $('#place-sortList,#place-hotels,#overall-summary,#place-activities,#place-transports').empty();
                      $("#summary-cities,#destination-night-area").empty();
                       //console.log(data.place_details);
                       var total_night_count = 0;
                        var startday = 1;
+                       var startdayone = 0;
+                       var startdaytwo = 0;
+
                      $.each(data.place_details, function( index, value ) {
                         var cityid = value.cityid;
+                        var stateid = value.stateid;
                          //console.log(value);
                         var state_city_names = value.state_name+' - '+value.city_name;
                         $("#summary-cities").append(value.city_name+', ');
@@ -1402,7 +1457,9 @@
                              var fromday = startday+' - '+(parseInt(startday)+parseInt(value.nights_count)-1);
                            }
 
-                        $("#overall-summary").append('<li data-cityid="'+value.cityid+'" id="summary-activityli-'+value.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+value.cityid+'" class="summaryno">'+fromday+'</span></span> <br> '+value.state_name+' - <span id="summary-city-name-'+value.cityid+'">'+value.city_name+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+value.cityid+'" value="'+value.cityid+'"/></div><div id="summary-hotelarea-'+value.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+value.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+value.cityid+'" src="" alt="" class="avatar "><a id="summary-hotel-name-'+value.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+value.cityid+'" class="msg-sub"></a><p id="summary-features-'+value.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+value.cityid+'" class="activities-summary"> </div></li>');
+                        //$("#overall-summary").append('<li data-cityid="'+value.cityid+'" id="summary-activityli-'+value.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+value.cityid+'" class="summaryno">'+fromday+'</span></span> <br> '+value.state_name+' - <span id="summary-city-name-'+value.cityid+'">'+value.city_name+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+value.cityid+'" value="'+value.cityid+'"/></div><div id="summary-hotelarea-'+value.cityid+'" class="overall-place-activitylist"> <div id="summary_hotel_id_'+value.cityid+'" class="msg-wrapper"><img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+value.cityid+'" src="" alt="" class="avatar "><a id="summary-hotel-name-'+value.cityid+'" class="msg-from"  style="display: initial;"></a><br><a id="summary-hotel-type-'+value.cityid+'" class="msg-sub"></a><p id="summary-features-'+value.cityid+'"></p></div><div style="clear:both"></div></div><div style="clear:both"></div><div id="summary-activity-section-'+value.cityid+'" class="activities-summary"> </div></li>');
+
+                        $("#overall-summary").append('<li data-cityid="'+value.cityid+'" id="summary-activityli-'+value.cityid+'" class="tl-item summary-activity list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-'+value.cityid+'" class="summaryno">'+fromday+'</span></span> <br>'+value.state_name+' - <span id="summary-city-name-'+value.cityid+'">'+value.city_name+'</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-'+value.cityid+'" value="'+value.cityid+'"></div><div id="summary-hotelarea-'+value.cityid+'" class="overall-place-activitylist"> <div style="clear:both"></div></div><div style="clear:both"></div><div class="summary-activity-citysection" id="summary-activity-citysection-'+value.cityid+'"> </div></li>');
 
                         if(value.nights_count!=0){
                           total_night_count = parseInt(total_night_count) + parseInt(value.nights_count);
@@ -1411,103 +1468,189 @@
     
                          $("#destination-night-area").append('<div data-cityid="'+value.cityid+'" id="place_night_'+value.cityid+'" class="col-xs-6 col-sm-6 col-md-4 mt20"><img class="responsive-img z-depth-1" src="'+cityimagelocation+'" style="width:190px;height: 100px;" alt=""><div id="place_night_remove_'+value.cityid+'" class="button-close hide"> <button type="button" onclick="return DeleteNight('+value.cityid+')" class="btn btn-sm red waves-effect waves-circle waves-light"> x </button></div><small class="night-place-name">'+value.city_name+'</small><br>'+value.nights_count+' Nights<input type="text" class="hide" id="place_night_count_'+value.cityid+'" name="place_night_count_'+value.cityid+'[]" value="'+value.nights_count+'" ></input></div></div>');  
 
-                          var night_url = "{{ route('get-hotel-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
-                          $.get(night_url, function(package_hotel_data) {
-                            if(package_hotel_data!=null && typeof(package_hotel_data)!='string'){
-                              var amenitieslist = package_hotel_data.amenities;
-                             
-                              amenities_len = package_hotel_data!=null || typeof(package_hotel_data)!='string' ? amenitieslist.length : 0;
-                               //console.log('test-'+amenities_len);
-
-                             // 
-                              var amenitiesString = '';
-                              var roomtypesString = '';
-
-                              if(package_hotel_data!=null){
-                                $.each(amenitieslist, function(keya, valuea) {
-                                    //console.log(keya);
-                                    amenitiesString += valuea.amenities_name;
-                                    if(amenities_len-1!=keya){
-                                        amenitiesString += ', ';
-                                    }
-                                  }); 
-                              }
-
-                               var roomtypeslist = package_hotel_data.roomtypes;
-
-                              if(package_hotel_data!=null){
-                                total_room_cost = package_hotel_data.total_amount;
-                                //cityhotelid = package_hotel_data.id;
-                               // cityhotelroomtype = package_hotel_data.roomtype_id;
-                               // cityhotelroomnumbers = package_hotel_data.total_rooms;
-
-                                $.each(roomtypeslist, function(keya, valuea) {
-                              
-
-                                  if(valuea.pivot.roomtype_id==package_hotel_data.roomtype_id){
-                                    roomtypesString = valuea.room_type+' - '+package_hotel_data.total_rooms;
-                                    room_cost = valuea.pivot.price;
-                                    //alert(roomtypesString);
-                                  }
-
-                                }); 
-
+                          var night_url = "{{ route('get-bookinghotel-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
+                            $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+state_city_names+'</div><div id="hotel_city_'+value.cityid+'" style="background: #f2f2f2;" class="hotel-panel"><div id="hotel_citydata_'+value.cityid+'"></div> <button id="add_hotel_button_'+value.cityid+'" style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" type="button" onclick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light">+ Add Hotel</button></div></li>');
+                          $.get(night_url, function(package_hotels) {
+                           // console.log(package_hotel_data);
+                          
+                            $.each(package_hotels, function(key, value) {
+                              package_hotel_data = value;
+                              if(package_hotel_data!=null && typeof(package_hotel_data)!='string'){
+                                var hotel_info = package_hotel_data.hotel_details;
+                                var amenitieslist = hotel_info.amenities;
+                                //console.log(hotel_info);
                                
+                                amenities_len = package_hotel_data!=null || typeof(package_hotel_data)!='string' ? amenitieslist.length : 0;
+                                 //console.log('test-'+amenities_len);
+
+                               // 
+                                var amenitiesString = '';
+                                var roomtypesString = '';
+                                var roomtypesHidden = '';
+                                var total_room_cost = 0;
+
+                                if(package_hotel_data!=null){
+                                  $.each(amenitieslist, function(keya, valuea) {
+                                      //console.log(keya);
+                                      amenitiesString += valuea.amenities_name;
+                                      if(amenities_len-1!=keya){
+                                          amenitiesString += ', ';
+                                      }
+                                    }); 
+                                }
+
+                                 var roomtypeslist = hotel_info.roomtypes;
+
+                                if(package_hotel_data!=null){
+                                  room_types = package_hotel_data.room_types;
+                                  $.each(room_types, function(keya, valuea) {
+                                     roomtypesString += valuea.room_type+' - '+valuea.total_rooms;
+                                     roomtypesString += ', ';
+                                     total_room_cost = parseInt(total_room_cost)+(parseInt(valuea.total_amount)*parseInt(valuea.total_rooms));
+                                     roomtypesHidden += '<input type="text" class="hide hotel_room_cost" name="hotel_room_cost_'+hotel_info.id+'[]" id="hotel_room_cost_'+hotel_info.id+'_'+valuea.roomtype_id+'" value="'+valuea.total_amount+'"> <input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_'+hotel_info.id+'[]" id="type_hotel_number_count_'+hotel_info.id+'_'+valuea.roomtype_id+'" value="'+valuea.total_rooms+'"> <input type="text" class="hide hotel_room_type'+hotel_info.id+'" name="hotel_room_type_'+hotel_info.id+'[]" id="hotel_room_type_'+hotel_info.id+'_'+valuea.roomtype_id+'" value="'+valuea.roomtype_id+'">';
+                                  }); 
+                                 //  total_room_cost = package_hotel_data.total_amount;
+                                 //  //cityhotelid = package_hotel_data.id;
+                                 // // cityhotelroomtype = package_hotel_data.roomtype_id;
+                                 // // cityhotelroomnumbers = package_hotel_data.total_rooms;
+
+                                 //  $.each(roomtypeslist, function(keya, valuea) {
+                                
+
+                                 //    if(valuea.pivot.roomtype_id==package_hotel_data.roomtype_id){
+                                 //      roomtypesString = valuea.room_type+' - '+package_hotel_data.total_rooms;
+                                 //      room_cost = valuea.pivot.price;
+                                 //      //alert(roomtypesString);
+                                 //    }
+
+                                 //  }); 
+
+                                 
+                                }
+                                var imagelocation = no_image_url;
+                                var hotelimages = hotel_info.hotelimages;
+
+                                if(hotelimages.length>0){
+                                   var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
+                                }
+
+                                 // var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+hotel_info.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_room_cost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+hotel_info.total_rooms+'" /><input type="text" class="hide hotel_room_type" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+cityid+'" value="'+hotel_info.roomtype_id+'" />';
+
+                                 var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+hotel_info.id+'"> <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"> <input type="text" class="hide hotel_cost" name="hotel_cost_'+hotel_info.id+'[]" id="hotel_cost_'+hotel_info.id+'" value="'+total_room_cost+'"> <input type="text" class="hide hotel_number_count" name="hotel_number_count_'+hotel_info.id+'[]" id="hotel_number_count_'+hotel_info.id+'" value="10">';
+
+                                 var hotel_data_section = '<div id="picked_city_hotel_'+hotel_info.id+'" class="card media-card-sm"><div id="picked-hotelmedia-'+hotel_info.id+'" class="media"><div class="media-left media-img"> <a href="#"> <img class="responsive-img" src="'+imagelocation+'" alt="Hotel Image"> </a></div><div class="media-body p10"><h4 class="media-heading">'+hotel_info.hotel_name+'</h4><p>Sarawak - Bintulu <span class="pull-right" style="font-size: 16px;"> 4 <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i> </span></p><p class="sub-text mt7">'+amenitiesString+'</p><p class="sub-text mt7"> '+roomtypesString+' '+roomtypesHidden+' <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> '+total_room_cost+' </span> <button id="edit_hotel_button_'+cityid+'" style="margin-left: 10px;" type="button" onclick="EditHotel('+passparamscity+','+hotel_info.id+',1)" class="btn btn-sm blue waves-effect waves-light ">Change</button> <button id="remove_hotel_button_'+cityid+'" style="margin-left: 10px;" type="button" onclick="return RemoveHotel('+hotel_info.id+','+cityid+',1)" class="btn btn-sm red waves-effect waves-light ">Remove</button></p> '+hiddenvalues+'</div></div></div>';
+                                 //alert(hotel_data_section);
+
+                                $("#hotel_citydata_"+cityid).append(hotel_data_section);
+                                $("#summary-hotelarea-"+cityid).append('<div id="summary-hotel-picked-'+hotel_info.id+'" class=""> <div id="summary_hotel_id_'+hotel_info.id+'" class="msg-wrapper"> <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-'+cityid+'" src="'+imagelocation+'" alt="" class="avatar "><a id="summary-hotel-name-'+cityid+'" class="msg-from" style="display: initial;">'+hotel_info.hotel_name+'</a><br><a id="summary-hotel-type-'+cityid+'" class="msg-sub"> '+roomtypesString+' </a> <p id="summary-features-'+cityid+'">'+amenitiesString+' </p></div></div>');
+
+                                //$("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+package_hotel_data.hotel_name+'</h4><p>'+state_city_names+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_room_cost+' </span> <button id="edit_hotel_button_'+value.cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+package_hotel_data.id+','+package_hotel_data.roomtype_id+','+package_hotel_data.total_rooms+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div></div></div></li> ');
+
+                                //$("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
+                                //$("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( package_hotel_data.hotel_name);
+                               // $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
+                                //$("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
                               }
-                              var imagelocation = no_image_url;
-                              var hotelimages = package_hotel_data.hotelimages;
-
-                              if(hotelimages.length>0){
-                                 var imagelocation = image_url+'/hotels/'+hotelimages[0].image_name
-                              }
-
-                               var hiddenvalues = '<input type="text" class="hide" name="second_hotel_'+cityid+'[]" id="second_hotel_'+cityid+'" value="'+package_hotel_data.id+'"/><input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="'+cityid+'"/><input type="text" class="hide hotel_cost" name="hotel_cost_'+cityid+'[]"  id="hotel_cost_'+cityid+'" value="'+total_room_cost+'" /><input type="text" class="hide hotel_number_count" name="hotel_number_count_'+cityid+'[]"  id="hotel_number_count_'+cityid+'" value="'+package_hotel_data.total_rooms+'" /><input type="text" class="hide hotel_room_type" name="hotel_room_type_'+cityid+'[]"  id="hotel_room_type_'+cityid+'" value="'+package_hotel_data.roomtype_id+'" />';
-
-                              $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"> <a href="#"><img class="responsive-img" src="'+imagelocation+'" alt="Hotel image"></a></div><div class="media-body p10"><h4 class="media-heading">'+package_hotel_data.hotel_name+'</h4><p>'+state_city_names+'</p><p class="sub-text mt10">'+amenitiesString+'</p><p class="sub-text mt10">'+roomtypesString+' <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> '+total_room_cost+' </span> <button id="edit_hotel_button_'+value.cityid+'" style="margin-left: 20px;" type="button" onClick="EditHotel('+passparamscity+','+package_hotel_data.id+','+package_hotel_data.roomtype_id+','+package_hotel_data.total_rooms+')" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button></p>'+hiddenvalues+'</div></div></div></li> ');
-
-                               $("#summary_hotel_id_"+cityid+" #summary-hotel-img-"+cityid).attr("src", imagelocation);
-                              $("#summary_hotel_id_"+cityid+" #summary-hotel-name-"+cityid).html( package_hotel_data.hotel_name);
-                              $("#summary_hotel_id_"+cityid+" #summary-hotel-type-"+cityid).html( roomtypesString);
-                              $("#summary_hotel_id_"+cityid+" #summary-features-"+cityid).html( amenitiesString);
-                            }else{
-                              $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
-                            }
+                            });
+                            
+                            //else{
+                             // $("#place-hotels").append('<li data-cityid="'+value.cityid+'" id="picked-hotelli-'+value.cityid+'" class="tl-item"><div class="timeline-icon ti-text">'+state_city_names+'</div><div class="card media-card-sm"><div id="picked-hotelmedia-'+value.cityid+'" class="media"><div class="media-left media-img"><a><img class="responsive-img" src="'+imagedummy+'" alt="Hotel Image"></a></div><div class="media-body p10"><h4 class="media-heading">Please choose hotel</h4> <button id="add_hotel_button_'+value.cityid+'" type="button" onClick="PickHotel('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button></div></div></div></li>');
+                           // }
                             
                           });
                         }
-                        var activity_url = "{{ route('get-activity-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid;
 
-                        $.get(activity_url, function(package_activity_data) {
-                          var place_activities_data = '<li data-cityid="'+value.cityid+'" id="picked-activityli-'+value.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+state_city_names+'</div><ul id="place-activitylist-'+value.cityid+'" style="list-style: none !important;" class="place-activitylist">';
-                            place_activities_data +='</ul><a id="pick-actitity-link-'+value.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>';
-                          $("#place-activities").append(place_activities_data);
-                          if(package_activity_data.length!=0){
-                            $.each(package_activity_data, function(keyact, valueact) {
-                              var activityimages = valueact.activity_images;
-                              var act_image = no_image_url;
-                              if(activityimages.length>0){
-                                 var act_image = image_url+'/activity/'+activityimages[0].image_name;
+                        for (var i = 1; i <= value.nights_count; i++) {
+                          daynumber = parseInt(startdayone)+parseInt(i);
+                          activities_area = '<li data-cityid="'+value.cityid+'" id="picked-activityli-'+value.cityid+'-'+daynumber+'" class="tl-item list-group-item item-avatar picked-activityli-'+value.cityid+' msg-row unread"> <div class="timeline-icon ti-text">'+value.city_name+' - Day '+daynumber+'</div><ul id="place-activitylist-'+value.cityid+'-'+daynumber+'" style="list-style: none !important;" class="place-activitylist" data-listidx="0"></ul><a id="pick-actitity-link-'+value.cityid+'" href="#" onclick="PickActity('+passparamscity+','+daynumber+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>';
+                           $("#place-activities").append(activities_area);
+                           summarydata = '<b style="font-size:18px;">Day '+daynumber+'</b> <div id="summary-activity-section-'+value.cityid+'-'+daynumber+'" class="activities-summary"> </div>';
+                           $("#summary-activity-citysection-"+value.cityid).append(summarydata);
+
+                        }
+                        startdayone = parseInt(startdayone) + parseInt(value.nights_count);
+
+                        for (var j = 1; j <= value.nights_count; j++) {
+                           daynumberone = parseInt(startdaytwo)+parseInt(j);
+                            
+
+                            var activity_url = "{{ route('get-bookingactivity-list') }}" + '?package_id=' + packageid + '&city_id=' + value.cityid + '&day_number=' + daynumberone;
+
+                            $.get(activity_url, function(package_activity_data) {
+                              var place_activities_data = '<li data-cityid="'+value.cityid+'" id="picked-activityli-'+value.cityid+'" class="tl-item list-group-item item-avatar msg-row unread"> <div class="timeline-icon ti-text">'+state_city_names+'</div><ul id="place-activitylist-'+value.cityid+'" style="list-style: none !important;" class="place-activitylist">';
+                                place_activities_data +='</ul><a id="pick-actitity-link-'+value.cityid+'" href="#" onClick="PickActity('+passparamscity+')" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a></li>';
+                             
+                                
+                              if(package_activity_data.length!=0){
+                                $.each(package_activity_data, function(keyact, valueactivity) {
+                                 ajaxdaynumber = valueactivity.daynumber;
+                                 valueact = valueactivity.activity_data[0];
+                                 //console.log(valueact);
+                             
+                                 
+                                  var activityimages = valueact.activity_images;
+                                  var act_image = no_image_url;
+                                  if(activityimages.length>0){
+                                     var act_image = image_url+'/activity/'+activityimages[0].image_name;
+                                  }
+                                  //console.log(act_image);
+                                  var total_cost_act = valueactivity.cost;
+                                  //var activity_cost_url = "{{ route('get-activity-cost') }}" + '?package_id=' + packageid + '&activity_id=' + valueact.id;
+                                 // $.get(activity_cost_url, function(package_activity_cost) {
+                                    //console.log(package_activity_cost);
+                                    //var total_cost_act = package_activity_cost;
+                                    var hiddenvalues_one = '<input type="text" class="hide" name="second_activity_'+cityid+'_'+ajaxdaynumber+'[]" id="second_activity_'+cityid+'" value="'+valueact.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'_'+ajaxdaynumber+'[]"  id="activity_cost_'+valueact.id+'" value="'+total_cost_act+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'_'+ajaxdaynumber+'[]"  id="activity_person_cost_'+valueact.id+'" value="'+valueact.amount+'" />';
+                                      place_activity_data ='<li><div id="city_activity_id_'+valueact.id+'" class="msg-wrapper"><img src="'+act_image+'" alt="" class="avatar "><a class="msg-sub">'+valueact.title_name+'</a><a class="msg-from hide"><i class="fa fa-inr"></i> <span id="total_activity_value_'+valueact.id+'">'+total_cost_act+'</span></a><p>'+hiddenvalues_one+'<a onclick="return RemoveActivity('+valueact.id+','+ajaxdaynumber+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>';
+                                    //  console.log(cityid+'c'+daynumberone);
+                                           // console.log(place_activity_data);
+
+                                      $("#place-activitylist-"+cityid+"-"+ajaxdaynumber).append(place_activity_data);
+
+                                      var act_overview  = valueact.overview != null ? valueact.overview : '';
+                                       var activityduration = (valueact.duartion_hours/60).toFixed(0)+' hour '+(valueact.duartion_hours%60)+' minutes';
+
+                                       $("#summary-activity-section-"+cityid+"-"+ajaxdaynumber).append('<div id="summary_city_activity_id_'+valueact.id+'" class=""> <h3 style="text-decoration: underline;">'+valueact.title_name+' <a class="pull-right hide"><i class="fa fa-inr"></i> '+total_cost_act+'</a></h3> <div class="sub-summary-activity"> <h5>Overview</h5> <div id="activity-summary-overview" class="activity-description"> '+act_overview+' </div><h5>Duration: '+activityduration+'</h5> </div></div>');
+
+                                     // $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+valueact.id+'" class=""><h3 style="text-decoration: underline;">'+valueact.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> <span id="summary_activity_value_'+valueact.id+'">'+total_cost_act+'</span></a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
+                                     $("#pick-actitity-link-"+cityid).css('top','-20px');
+                                  //}); 
+                                  //console.log(place_activities_data);
+                                }); 
                               }
-                              var total_cost_act = 0;
-                              var activity_cost_url = "{{ route('get-activity-cost') }}" + '?package_id=' + packageid + '&activity_id=' + valueact.id;
-                              $.get(activity_cost_url, function(package_activity_cost) {
-                                var total_cost_act = package_activity_cost;
-                                var hiddenvalues_one = '<input type="text" class="hide" name="second_activity_'+cityid+'[]" id="second_activity_'+cityid+'" value="'+valueact.id+'"/><input type="text" class="hide activity_cost" name="activity_cost_'+cityid+'[]"  id="activity_cost_'+valueact.id+'" value="'+total_cost_act+'" /><input type="text" class="hide activity_person_cost" name="activity_person_cost_'+cityid+'[]"  id="activity_person_cost_'+valueact.id+'" value="'+valueact.amount+'" />';
-                                  place_activity_data ='<li><div id="city_activity_id_'+valueact.id+'" class="msg-wrapper"><img src="'+act_image+'" alt="" class="avatar "><a class="msg-sub">'+valueact.title_name+'</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_'+valueact.id+'">'+total_cost_act+'</span></a><p>'+hiddenvalues_one+'<a onclick="return RemoveActivity('+valueact.id+','+cityid+')" style="color: red;cursor:pointer;" class="">Remove</a></p></div></li>';
+                            
+                              //console.log(package_activity_data);
+                              
+                            });
+                            
 
-                                  $("#place-activitylist-"+cityid).append(place_activity_data);
+                        }
+                        startdaytwo = parseInt(startdaytwo) + parseInt(value.nights_count);
 
-                                  var act_overview  = valueact.overview != null ? valueact.overview : '';
-                                   var activityduration = (valueact.duartion_hours/60).toFixed(0)+' hour '+(valueact.duartion_hours%60)+' minutes';
-                                  $("#summary-activity-section-"+cityid).append('<div id="summary_city_activity_id_'+valueact.id+'" class=""><h3 style="text-decoration: underline;">'+valueact.title_name+' <a class="pull-right"><i class="fa fa-inr"></i> <span id="summary_activity_value_'+valueact.id+'">'+total_cost_act+'</span></a></h3><div class="sub-summary-activity"><h5>Overview</h5><div id="activity-summary-overview" class="activity-description"> '+act_overview+'</div><h5>Duration: '+activityduration+'</h5></div></div>');
-                                 $("#pick-actitity-link-"+cityid).css('top','-20px');
-                              }); 
-                              //console.log(place_activities_data);
-                            }); 
-                          }
-                        
-                          //console.log(package_activity_data);
+                      
+
+                        $("#place-transports").append('<li data-cityid="'+cityid+'" id="transportli-'+cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+state_city_names+'</div><div id="transport_city_'+cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+cityid+'" class="col-md-11 initialCharge_'+cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+cityid+'" class="col-sm-6 control-label">Inter State Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+cityid+'" name="interestrate_'+cityid+'" class="allow_decimal interstaterate_'+stateid+' interestrate" value="0" readonly="" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
+
+                        var transurl = "{{ route('get_package_transports') }}" + '?state_id=' + stateid +'&city_id='+cityid +'&package_id='+packageid;
+                        $.ajax({
+                           url: transurl,
+                           type: "GET",
+                           dataType: "json",
+                           success: function(result) {
+                            //  console.log(typeof result.city_id);
+                             //var resultdata = JSON.parse(result);
+                             //console.log(result);
+                             rescity_id = result.city_id;
+                             if(rescity_id!=''){
+                                 $("#initialCharge_"+rescity_id+" #airportpickup").val(result.airportpickup_amount);
+                                 $("#initialCharge_"+rescity_id+" #driverbeta").val(result.driverbeta_amount);
+                                 $("#initialCharge_"+rescity_id+" #tollparking").val(result.tollparking_amount);
+                                 $("#interestrate_"+rescity_id).val(result.interestrate_amount);
+                             }
+                             CalculateTransport();
+                           }
                         });
+                       
+                       
                          startday = parseInt(startday)+parseInt(value.nights_count);
 
                      });
