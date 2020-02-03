@@ -1085,12 +1085,15 @@ class AjaxController extends CommonController
 
         $totalData = DB::table('booking_master as b')
             ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-            ->leftjoin('package_master as p','p.id','=','b.package_id')
-            ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-            ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-            ->leftjoin('state as st','st.id','=','p.to_state_id')
+            ->join('package_master as p','p.id','=','b.package_id')
+            ->join('customer_details as cd','cd.id','=','b.customer_id')
+            ->join('city as cit','cit.id','=','p.to_city_id')
+            ->join('state as st','st.id','=','p.to_state_id')
+            ->where('b.status','=','1')
+            ->where('b.user_booking','=','1')
         ->count();
-        
+     
+
         $totalFiltered = $totalData; 
 
         $limit = $request->input('length');
@@ -1103,28 +1106,28 @@ class AjaxController extends CommonController
         {            
         if( $limit == -1){ 
             $booking = DB::table('booking_master as b')
-                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-                    ->leftjoin('package_master as p','p.id','=','b.package_id')
-                    ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+            ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
+            ->join('package_master as p','p.id','=','b.package_id')
+            ->join('customer_details as cd','cd.id','=','b.customer_id')
+            ->join('city as cit','cit.id','=','p.to_city_id')
+            ->join('state as st','st.id','=','p.to_state_id')
             ->orderBy($order,$dir)
-            ->where('p.status','=','1')
+            ->where('b.status','=','1')
             ->where('b.user_booking','=','1')
             ->get()->toArray();
         }else{
             $booking =  DB::table('booking_master as b')
-                        ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-                        ->leftjoin('package_master as p','p.id','=','b.package_id')
-                        ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-                        ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-                        ->leftjoin('state as st','st.id','=','p.to_state_id')
+            ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
+            ->join('package_master as p','p.id','=','b.package_id')
+            ->join('customer_details as cd','cd.id','=','b.customer_id')
+            ->join('city as cit','cit.id','=','p.to_city_id')
+            ->join('state as st','st.id','=','p.to_state_id')
             ->offset($start)
             ->limit($limit)
             ->orderBy($order,$dir)
-            ->where('p.status','=','1')
+            ->where('b.status','=','1')
             ->where('b.user_booking','=','1')
-          //  ->dump()
+            
             ->get()->toArray();
         }
         }
@@ -1132,11 +1135,11 @@ class AjaxController extends CommonController
         $search = $request->input('search.value'); 
         if( $limit == -1){
         $booking =DB::table('booking_master as b')
-                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-                    ->leftjoin('package_master as p','p.id','=','b.package_id')
-                    ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+        ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
+        ->join('package_master as p','p.id','=','b.package_id')
+        ->join('customer_details as cd','cd.id','=','b.customer_id')
+        ->join('city as cit','cit.id','=','p.to_city_id')
+        ->join('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','1')
                     ->where('b.user_booking','=','1')
                     ->where(function($query) use ($search){
@@ -1150,12 +1153,12 @@ class AjaxController extends CommonController
                 ->orderBy($order,$dir)
                 ->get()->toArray();
         }else{
-        $booking = DB::table('booking_master as b')
-                ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-                ->leftjoin('package_master as p','p.id','=','b.package_id')
-                ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-                ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-                ->leftjoin('state as st','st.id','=','p.to_state_id')
+        $booking =DB::table('booking_master as b')
+        ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
+        ->join('package_master as p','p.id','=','b.package_id')
+        ->join('customer_details as cd','cd.id','=','b.customer_id')
+        ->join('city as cit','cit.id','=','p.to_city_id')
+        ->join('state as st','st.id','=','p.to_state_id')
                 ->where('b.status','=','1')
                 ->where('b.user_booking','=','0')
                     ->where(function($query) use ($search){
@@ -1171,11 +1174,11 @@ class AjaxController extends CommonController
                     ->get()->toArray();
         }
             $totalFiltered = DB::table('booking_master as b')
-                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
-                    ->leftjoin('package_master as p','p.id','=','b.package_id')
-                    ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
-                    ->leftjoin('city as cit','cit.id','=','p.to_city_id')
-                    ->leftjoin('state as st','st.id','=','p.to_state_id')
+                        ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total')
+                        ->join('package_master as p','p.id','=','b.package_id')
+                        ->join('customer_details as cd','cd.id','=','b.customer_id')
+                        ->join('city as cit','cit.id','=','p.to_city_id')
+                        ->join('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','1')
                     ->where('b.user_booking','=','1')
                     ->where('p.id','LIKE',"%{$search}%")
@@ -1187,7 +1190,7 @@ class AjaxController extends CommonController
         }
         // $table ="activities";
         //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
-        //   dd($Activity);
+          //dd($booking);
         $data = array();
         if(!empty($booking))
         {

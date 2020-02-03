@@ -406,7 +406,7 @@
                                                                         <li><span>Persons :</span> {{$booking_adult_child_infant}}</li> 
                                                                         <li><span>Amount :</span> {{$values->total_amount}}</li> </ul>
                                                                 </td>
-                                                                <!-- <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td> -->
+                                                                <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
