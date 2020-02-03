@@ -84,7 +84,7 @@ class PageController extends Controller
         $activityid = crypt::decrypt($id); 
         $data['activities_view'] = Activity::where('status','=','1')->where('id','=',$activityid)->get();
        // dd($data['activities_view']);
-        $data['package_id'] =  DB::table('package_activities as pa')->select('package_id')
+           $data['package_id'] =  DB::table('package_activities as pa')->select('package_id')
                                     ->where('pa.activity_id','=',$activityid)
                                     ->get();
         return view('web.sight_seeing_view')->with('data',$data);

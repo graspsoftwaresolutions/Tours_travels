@@ -182,7 +182,8 @@
                                 	<!-- <h3>Book Hotel</h3>
                                     <p>Find your dream hotel today</p> -->
                                     <!-- <div class="row"> -->
-                                @foreach($data['package_id'] as $values)
+                                @foreach($data['package_id'] as $key => $values)
+                                @if($key<3)
                                 @php  $row_packages = CommonHelper::getRelatedPackges($values->package_id); 
                                  $city_image = CommonHelper::getCityImage($row_packages->to_city_id);  @endphp
                                 <div class="grid-block main-block h-grid-block">
@@ -216,10 +217,8 @@
                                         </div><!-- end grid-btn -->
                                      </div><!-- end h-grid-info -->
                                 </div><!-- end h-grid-block -->
-                               
+                               @endif
                              @endforeach
-                            
-                                    
                                 </div><!-- end booking-form -->
                             </div><!-- end side-bar-block -->
                             
