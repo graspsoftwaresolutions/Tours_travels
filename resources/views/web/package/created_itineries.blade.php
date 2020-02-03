@@ -384,6 +384,11 @@
                                                                 else{
                                                                     $booking_infant_count = $booking_infant_count.' '.'infant_count';
                                                                 }
+                                                                if($booking_adult_count !='')
+                                                                {
+                                                                    
+                                                                }
+
                                                                 $booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count;    
                                                                                                            
                                                         @endphp

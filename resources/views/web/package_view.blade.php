@@ -196,6 +196,17 @@
 .listing-right-custom{
     padding: 5px;
 }
+.glyphicon {
+    position: relative;
+    top: 13px !important;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 
 </style>

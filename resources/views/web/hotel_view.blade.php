@@ -88,7 +88,7 @@
                                             <div class="col-sm-12 col-md-12 tab-text">
                                         		<h3>{{$row->hotel_name}}</h3>
                                                 <h4> {{$country_name}} , {{$state_name}} , {{$city_name}}</h4>
-                                                <h4 style="color: #faa61a;">Over View</h4>
+                                                <h4 style="color: #faa61a;">Overview</h4>
                                                 <p> {!! $row->overview !!}</p>
                                                 <h4 style="color: #faa61a;">Amenites</h4>
                                                 @foreach($hotelAmenites as $values)
@@ -99,7 +99,7 @@
                                                 <p style="color: #faa61a;"> <b> Room Types  </b>
                                                
                                               @foreach($package_hotel_types as $tkey => $types)
-                                               <p class="inner-bullets">  {{ $types->room_type }} - {{ $types->total_rooms }} </p>
+                                               <p class="inner-bullets">  {{ $types->room_type }} - {{ $types->total_rooms }} Room </p>
                                               @endforeach
                                             </p>
                                             </div><!-- end columns -->

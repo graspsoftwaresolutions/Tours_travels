@@ -371,8 +371,17 @@ class ActivityController extends BaseController
         }
         else{
             $Activity->where('id','=',$id)->update(['status'=>'0']);
-            $activity_delete = DB::table('activity_images')->where('activity_id','=',$id)->delete();
-            return redirect('admin/activity')->with('message','Activity Details Deleted Successfully!!');
+            $image_name = DB::table('activity_images')->where('activity_id','=', $id)->select('image_name')->get();
+               
+               foreach($image_name as $values )
+               {
+                 $image_url = storage_path('/app/activity/'.$values->image_name);
+                    if(file_exists($image_url)){
+                        \File::delete($image_url);
+                    }
+               } 
+        $activity_delete = DB::table('activity_images')->where('activity_id','=',$id)->delete(); 
+        return redirect('admin/activity')->with('message','Activity Details Deleted Successfully!!');
         }
     }
 }

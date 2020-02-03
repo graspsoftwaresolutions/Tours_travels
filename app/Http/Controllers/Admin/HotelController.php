@@ -432,6 +432,15 @@ class HotelController extends CommonController
         }
         else{
             $Hotel->where('id','=',$id)->update(['status'=>'0']);
+            $image_name = DB::table('hotel_images')->where('hotel_id','=', $id)->select('image_name')->get();
+               
+               foreach($image_name as $values )
+               {
+                 $image_url = storage_path('/app/hotels/'.$values->image_name);
+                    if(file_exists($image_url)){
+                        \File::delete($image_url);
+                    }
+               }
             $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$id)->delete();
             return redirect('admin/hotels')->with('message','Hotel Details Deleted Successfully!!');
         }
