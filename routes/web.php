@@ -221,6 +221,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/get_state_taxrate', 'Admin\PackageController@getTaxRate')->name('get_state_taxrate');
 
     Route::get('/get-bookinghotel-list', 'Admin\BookingController@PackageHotels')->name('get-bookinghotel-list');
+
+    Route::get('/get-bookingactivity-list', 'Admin\BookingController@PackageActivities')->name('get-bookingactivity-list');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
