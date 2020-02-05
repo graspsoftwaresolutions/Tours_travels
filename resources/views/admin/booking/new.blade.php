@@ -788,6 +788,55 @@
                               </div>
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
+
+                        <h4 class="text-headline">Payment</h4>   
+                        <br>
+                        <div class="row">
+                          <div class="col-xs-5">
+                              <p>
+                                <input name="paymenttype" type="radio" id="paymenttype1" onclick="return ChangePaytype(this.value)" value="1" checked="checked"/>
+                                <label for="paymenttype1">Full Payment</label>
+                              </p>
+                          </div>
+                          <div class="col-xs-7">
+                              <p>
+                                <input name="paymenttype" type="radio" value="2" onclick="return ChangePaytype(this.value)" id="paymenttype2" />
+                                <label for="paymenttype2">Partial Payment</label>
+                              </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div id="partial_pay_area" class="hide">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th width="25%">
+                                  
+                                </th>
+                                <th width="20%">
+                                  %
+                                </th>
+                                 <th width="40%">
+                                  Amount
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="bold">Pay</td>
+                                <td> <input type="text" id="pay_percent" name="pay_percent" class="allow_decimal" value="0" placeholder="Pay percentage">    </td>
+                                <td><input type="text" id="pay_amount" name="pay_amount" class="allow_decimal" value="0" placeholder="Pay Amount"> </td>
+                              </tr>
+                               <tr>
+                                <td class="bold">Balance</td>
+                                <td> <input type="text" id="balance_percent" readonly="" name="balance_percent" class="allow_decimal" value="0" placeholder="Balance percentage">    </td>
+                                <td><input type="text" id="balance_amount" readonly="" name="balance_amount" class="allow_decimal" value="0" placeholder="Balance Amount"> </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                         
+                       </div>
+
                        <center> <a id="pick-actitity-link-5" href="#" onclick="return ViewDetailedSummary()" class="btn btn-sm purple waves-effect waves-light ">View Detailed Summary</a></center>
                         <br>
                         <div class="detailed-summary-area" style="display: none;">
@@ -1488,14 +1537,18 @@
                                 var roomtypesString = '';
                                 var roomtypesHidden = '';
                                 var total_room_cost = 0;
+                                 var a_count = 0;
 
                                 if(package_hotel_data!=null){
                                   $.each(amenitieslist, function(keya, valuea) {
                                       //console.log(keya);
-                                      amenitiesString += valuea.amenities_name;
-                                      if(amenities_len-1!=keya){
-                                          amenitiesString += ', ';
+                                      if(a_count<5){
+                                        amenitiesString += valuea.amenities_name;
+                                        if(amenities_len-1!=keya){
+                                            amenitiesString += ', ';
+                                        }
                                       }
+                                      a_count++;
                                     }); 
                                 }
 
@@ -1628,7 +1681,7 @@
 
                       
 
-                        $("#place-transports").append('<li data-cityid="'+cityid+'" id="transportli-'+cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+state_city_names+'</div><div id="transport_city_'+cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+cityid+'" class="col-md-11 initialCharge_'+cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+cityid+'" class="col-sm-6 control-label">Inter State Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+cityid+'" name="interestrate_'+cityid+'" class="allow_decimal interstaterate_'+stateid+' interestrate" value="0" readonly="" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
+                        $("#place-transports").append('<li data-cityid="'+cityid+'" id="transportli-'+cityid+'" class="tl-item hotel-list-panel"><div class="timeline-icon ti-text">'+state_city_names+'</div><div id="transport_city_'+cityid+'" style="" class="hotel-panel"><div id="transport_citydata_'+cityid+'"> <br><div class="col-md-12 form-horizontal"><div id="initialCharge_'+cityid+'" class="col-md-11 initialCharge_'+cityid+'" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;"><div id="airportpick" class="form-group"> <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_'+cityid+'[]" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_'+cityid+'[]" class="allow_decimal driverbeta" placeholder=""><div class="input-highlight"></div></div></div></div><div class="form-group"> <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label><div class="col-sm-6"><div class="input-field"> <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_'+cityid+'[]" class="allow_decimal tollparking" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> <button type="button" onclick="return AddMoreAirport('+cityid+')" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button></div><div id="moreCharges_'+cityid+'"></div><div class="col-md-11"><div class="form-group"> <label for="interestrate_'+cityid+'" class="col-sm-6 control-label">Inter State Tax</label><div class="col-sm-6"><div class="input-field"> <input type="text" onkeyup="return CalculateTransport()" id="interestrate_'+cityid+'" name="interestrate_'+cityid+'" class="allow_decimal interstaterate_'+stateid+' interestrate" value="0" placeholder=""><div class="input-highlight"></div></div></div></div></div><div class="col-md-1"> &nbsp;</div></div></div></div></li>');
 
                         var transurl = "{{ route('get_package_transports') }}" + '?state_id=' + stateid +'&city_id='+cityid +'&package_id='+packageid;
                         $.ajax({
@@ -1883,6 +1936,38 @@
    function ViewDetailedSummary(){
       $(".detailed-summary-area").toggle();
    }
+   function ChangePaytype(paytype){
+    //alert(paytype);
+      if(paytype==2){
+        $("#partial_pay_area").removeClass('hide');
+      }else{
+        $("#partial_pay_area").addClass('hide');
+      }
+   }
+  $(document).on('keyup', '#pay_percent', function(){
+    var pay_percent = $("#pay_percent").val()=='' ? 0 : $("#pay_percent").val();
+    var bal_percent = 100 - parseFloat(pay_percent);
+    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
+    var payamount = ((total_amount_summary*pay_percent)/100).toFixed(2);
+
+    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(payamount)).toFixed(2);
+
+    $("#pay_amount").val(payamount);
+    $("#balance_percent").val(bal_percent);
+    $("#balance_amount").val(bal_amount);
+  });
+  $(document).on('keyup', '#pay_amount', function(){
+    var pay_amount = $("#pay_amount").val()=='' ? 0 : $("#pay_amount").val();
+    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
+    var paypercent = ((pay_amount*100)/total_amount_summary).toFixed(2);
+    var bal_percent = 100 - parseFloat(paypercent);
+
+    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(pay_amount)).toFixed(2);
+
+    $("#pay_percent").val(paypercent);
+    $("#balance_percent").val(bal_percent);
+    $("#balance_amount").val(bal_amount);
+  });
 </script>
 @endsection
 @section('footerSecondSection')

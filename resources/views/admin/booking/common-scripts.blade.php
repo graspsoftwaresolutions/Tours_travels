@@ -1090,7 +1090,7 @@
      $("#gst_amount").val(tax_amount);
      var overall_total = (parseFloat(tax_amount)+parseFloat(total_package_value)).toFixed(2);
      $("#total_amount,#total_package_summary").val(overall_total);
-     var grand_total = parseFloat(overall_total)-discount_amt;
+     var grand_total = (parseFloat(overall_total)-discount_amt).toFixed(2);
      $("#grand_total_amount,#total_amount_summary").val(grand_total);
 
    });

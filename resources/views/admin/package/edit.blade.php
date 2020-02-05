@@ -866,7 +866,7 @@
                                       <label for="interestrate" class="col-sm-6 control-label">{{__('Inter State Tax') }}</label>
                                       <div class="col-sm-6">     
                                         <div class="input-field">
-                                          <input type="text" onkeyup="return CalculateTransport()" id="interestrate_{{$place->city_id}}" name="interestrate_{{$place->city_id}}" class="allow_decimal interestrate" value="@if($firsttransport){{$firsttransport->interestrate_amount}}@endif" readonly="" placeholder="">    
+                                          <input type="text" onkeyup="return CalculateTransport()" id="interestrate_{{$place->city_id}}" name="interestrate_{{$place->city_id}}" class="allow_decimal interestrate" value="@if($firsttransport){{$firsttransport->interestrate_amount}}@endif" placeholder="">    
                                           <div class="input-highlight"></div>
                                         </div>
                                       </div><!-- /.col- -->

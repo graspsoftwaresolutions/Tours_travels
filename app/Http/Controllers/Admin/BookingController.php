@@ -94,6 +94,18 @@ class BookingController extends Controller
          $SaveBooking->grand_total = $request->grand_total_amount;
          $SaveBooking->booking_number =  CommonHelper::newbookingNumber();
 
+         $paymenttype = $request->paymenttype;
+         $SaveBooking->payment_type = $paymenttype;
+         if($paymenttype==2){
+            $SaveBooking->paid_amount = $request->pay_amount;
+            $SaveBooking->balance_amount = $request->balance_amount;
+            $SaveBooking->paid_percentage = $request->pay_percent;
+            $SaveBooking->balance_percentage = $request->balance_percent;
+         }else{
+            $SaveBooking->paid_amount = $request->grand_total_amount;
+            $SaveBooking->balance_amount = 0;
+         }
+
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 
 
@@ -133,14 +145,14 @@ class BookingController extends Controller
                                     $hotel_room_type_numbers = $request->input('type_hotel_number_count_'.$hotel_id)[$l];
                                     $hotel_room_type_cost = $request->input('hotel_room_cost_'.$hotel_id)[$l];
 
-                                    $package_hotel = new BookingHotel() ;
-                                    $package_hotel->booking_id = $booking_id;
-                                    $package_hotel->city_id = $city_id;
-                                    $package_hotel->hotel_id = $hotel_id;
-                                    $package_hotel->roomtype_id = $hotel_room_type_id;
-                                    $package_hotel->total_rooms = $hotel_room_type_numbers;
-                                    $package_hotel->total_amount = $hotel_room_type_cost;
-                                    $package_hotel->save();
+                                    $booking_hotel = new BookingHotel() ;
+                                    $booking_hotel->booking_id = $booking_id;
+                                    $booking_hotel->city_id = $city_id;
+                                    $booking_hotel->hotel_id = $hotel_id;
+                                    $booking_hotel->roomtype_id = $hotel_room_type_id;
+                                    $booking_hotel->total_rooms = $hotel_room_type_numbers;
+                                    $booking_hotel->total_amount = $hotel_room_type_cost;
+                                    $booking_hotel->save();
 
                                 }
                             }
@@ -156,16 +168,16 @@ class BookingController extends Controller
                                 $activity_count = count($activity_ids);
                                 for($j =0; $j<$activity_count; $j++){
                                     $activity_id = $request->input('second_activity_'.$city_id.'_'.$day_number)[$j];
-                                    $package_activities = new BookingActivities() ;
-                                    $package_activities->booking_id = $booking_id;
-                                    $package_activities->day_numbers = $day_number;
-                                    $package_activities->city_id = $city_id;
-                                    $package_activities->activity_id = $activity_id;
+                                    $booking_activities = new BookingActivities() ;
+                                    $booking_activities->booking_id = $booking_id;
+                                    $booking_activities->day_numbers = $day_number;
+                                    $booking_activities->city_id = $city_id;
+                                    $booking_activities->activity_id = $activity_id;
                                     $activity_cost = $request->input('activity_cost_'.$city_id.'_'.$day_number);
                                     if(isset($activity_cost)){
-                                        $package_activities->total_amount = $activity_cost[$j];
+                                        $booking_activities->total_amount = $activity_cost[$j];
                                     }
-                                    $package_activities->save();
+                                    $booking_activities->save();
                                 }
                             }
                         }
@@ -187,15 +199,15 @@ class BookingController extends Controller
                            $interestrate = $interestrate_amt==null ? 0 : $interestrate_amt;
 
                             if($pickup_amt!=0 || $driverbeta_amt!=0 || $tollparking_amt!=0 || $interestrate!=0){
-                                $package_transports = new BookigTransports() ;
-                                $package_transports->booking_id = $booking_id;
-                                $package_transports->city_id = $city_id;
-                                $package_transports->airportpickup_amount = $pickup_amt;
-                                $package_transports->driverbeta_amount = $driverbeta_amt;
-                                $package_transports->tollparking_amount = $tollparking_amt;
-                                $package_transports->interestrate_amount = $interestrate;
-                                $package_transports->day_numbers = $m+1;
-                                $package_transports->save();
+                                $booking_transports = new BookigTransports() ;
+                                $booking_transports->booking_id = $booking_id;
+                                $booking_transports->city_id = $city_id;
+                                $booking_transports->airportpickup_amount = $pickup_amt;
+                                $booking_transports->driverbeta_amount = $driverbeta_amt;
+                                $booking_transports->tollparking_amount = $tollparking_amt;
+                                $booking_transports->interestrate_amount = $interestrate;
+                                $booking_transports->day_numbers = $m+1;
+                                $booking_transports->save();
                             }
                             
                         }
