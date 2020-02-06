@@ -14,7 +14,7 @@ class AddDaynumberToPackageActivities extends Migration
     public function up()
     {
         Schema::table('package_activities', function (Blueprint $table) {
-            $table->unsignedBigInteger('day_numbers')->nullable();
+            $table->unsignedBigInteger('day_numbers');
         });
     }
 

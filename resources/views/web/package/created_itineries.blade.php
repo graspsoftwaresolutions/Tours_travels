@@ -343,7 +343,6 @@
                                                             $converted_date = date('Y-m-d', strtotime($date_format));
                                                             $date_one = date("d",strtotime($converted_date));
                                                             $month = date("M",strtotime($converted_date));
-
                                                             $country_name = CommonHelper::getCountryName($values->to_country_id);
                                                             $state_name = CommonHelper::getstateName($values->to_state_id);
                                                             $city_name = CommonHelper::getcityName($values->to_city_id);
@@ -362,7 +361,6 @@
                                                             else{
                                                                 $booking_adult_count = $booking_adult_count.' '.'Adults';
                                                             }
-
                                                                 if($booking_child_count == 0)
                                                                 {
                                                                     $booking_child_count = '';
@@ -388,9 +386,7 @@
                                                                 {
                                                                     
                                                                 }
-
-                                                                $booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count;    
-                                                                                                           
+                                                                $booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count;                                           
                                                         @endphp
                                                             <tr>
                                                                 <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>{{$date_one}}</h3><br><p>{{$month}}</p></div></td>
@@ -409,9 +405,11 @@
                                                                         }@endphp
                                                                         <li><span>Places :</span> [{{$citiesList}}]</li> 
                                                                         <li><span>Persons :</span> {{$booking_adult_child_infant}}</li> 
-                                                                        <li><span>Amount :</span> {{$values->total_amount}}</li> </ul>
+                                                                        <li><span>Amount :</span> {{$values->total_amount}}</li> 
+                                                                    </ul>
                                                                 </td>
-                                                                <td class="dash-list-btn"><button class="btn btn-orange">Cancel</button><button class="btn">Approve</button></td>
+
+                                                                <td class="dash-list-btn"><button style="color:white" class="btn btn-success">Approved</button></td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
