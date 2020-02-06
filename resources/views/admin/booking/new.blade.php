@@ -882,6 +882,16 @@
                               </div>
                             </div>
                          </div>
+                          <div class="form-group hide">
+                            <label for="extra_cost" class="col-sm-5 control-label">Extra cost
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="extra_cost" name="extra_cost" readonly="true" class="allow_decimal " value="0" placeholder="Extra Charges">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                         </div>
                          <div class="form-group">
                             <label style="font-size: 10px;" for="additional_transport" class="col-sm-5 control-label">Additional+Transport Charges
                             </label>
@@ -893,6 +903,7 @@
                               </div>
                             </div>
                          </div>
+                          
                           <div class="form-group">
                             <label for="total_package_value" class="col-sm-5 control-label">Sub Total
                             </label>
@@ -952,7 +963,7 @@
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
                       </div>
-                        <div class="hide">
+                        <div class="">
                         <h5 class="text-headline">Additional Persons</h5> 
                         <small>[Incl. Transport Charges &amp; Additional Charges]</small>
                          <div class="form-group">
@@ -1936,38 +1947,7 @@
    function ViewDetailedSummary(){
       $(".detailed-summary-area").toggle();
    }
-   function ChangePaytype(paytype){
-    //alert(paytype);
-      if(paytype==2){
-        $("#partial_pay_area").removeClass('hide');
-      }else{
-        $("#partial_pay_area").addClass('hide');
-      }
-   }
-  $(document).on('keyup', '#pay_percent', function(){
-    var pay_percent = $("#pay_percent").val()=='' ? 0 : $("#pay_percent").val();
-    var bal_percent = 100 - parseFloat(pay_percent);
-    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
-    var payamount = ((total_amount_summary*pay_percent)/100).toFixed(2);
-
-    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(payamount)).toFixed(2);
-
-    $("#pay_amount").val(payamount);
-    $("#balance_percent").val(bal_percent);
-    $("#balance_amount").val(bal_amount);
-  });
-  $(document).on('keyup', '#pay_amount', function(){
-    var pay_amount = $("#pay_amount").val()=='' ? 0 : $("#pay_amount").val();
-    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
-    var paypercent = ((pay_amount*100)/total_amount_summary).toFixed(2);
-    var bal_percent = 100 - parseFloat(paypercent);
-
-    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(pay_amount)).toFixed(2);
-
-    $("#pay_percent").val(paypercent);
-    $("#balance_percent").val(bal_percent);
-    $("#balance_amount").val(bal_amount);
-  });
+  
 </script>
 @endsection
 @section('footerSecondSection')

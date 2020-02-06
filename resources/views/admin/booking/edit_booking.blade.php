@@ -211,9 +211,15 @@
       border-radius: 5px;
   }
 
-  .activities-summary{
-    padding-top: 40px;
+   .activities-summary{
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
+  
+  .summary-activity-citysection{
+    padding-top: 25px;
+  }
+
 
   .timeline-icon.ti-text {
       width: auto !important;
@@ -236,6 +242,31 @@
   }
   input[readonly] {
       background-color: #e9ecef;
+  }
+  .hotel-list-panel{
+    margin-bottom: 20px;
+  }
+  .media-img {
+    width: 21%;
+    height: inherit;
+  }
+  .mt7{
+    margin-top: 7px !important;
+  }
+  .card.media-card-sm img {
+      width: 100px;
+      height: 140px;
+  }
+  .card.media-card-sm {
+      height: 140px;
+  }
+
+  .btn-circle {
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
   }
 
 </style>
@@ -969,7 +1000,10 @@
                           
                       </div>
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
-                           @foreach($data['booking_place'] as $place) 
+                          @php
+                             $sum_total_nights = 0;
+                          @endphp
+                          @foreach($data['booking_place'] as $place) 
                            
                             @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
@@ -982,52 +1016,62 @@
                                 <div class="timeline-icon ti-text"> <span class="summary-day-title">Day <span id="summary-night-{{$place->city_id}}" class="summaryno"></span></span> <br> {{ $place_state_name }} - <span id="summary-city-name-{{$place->city_id}}">{{ $place_city_name }}</span><input type="text" name="summary-city[]" class="summary-city hide" id="summary-city-{{$place->city_id}}" value="{{$place->city_id}}"></div>
 
                                 <div id="summary-hotelarea-{{$place->city_id}}" class="overall-place-activitylist">
-                                  @if($place->nights_count!=0)
                                   @php
-                                     $sum_package_hotel = CommonHelper::getBookingHotel($booking_info->id,$place->city_id);
-                                      $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
-                                     
-                                      $amenitystring = '';
-
-                                      if($sum_package_hotel!=null){
-                                         foreach($sum_package_hotel->amenities as $key => $amenity){
-                                          $amenitystring .= $amenity->amenities_name;
-                                          if($amenity_count-1 != $key){
-                                            $amenitystring .= ', ';
-                                          } 
-                                        }
-                                      }
-                                     
-
-                                      $roomtypesstring = '';
-                                      $type_count = $sum_package_hotel!=null ? count($sum_package_hotel->roomtypes) : 0;
-
-                                      if($sum_package_hotel!=null){
-                                        foreach($sum_package_hotel->roomtypes as $key => $roomtype){
-                                          if($roomtype->pivot->roomtype_id==$sum_package_hotel->roomtype_id){
-                                            $roomtypesstring = $roomtype->room_type.' - '.$sum_package_hotel->total_rooms;
-                                            //dd($roomtypesstring);
-                                          } 
-                                        }
-                                      }
-                                      $sum_package_activities = CommonHelper::getBookingActivities($booking_info->id,$place->city_id);
+                                    $sum_package_hotels = CommonHelper::getBookingHotels($booking_info->id,$place->city_id);
                                   @endphp
-                                  @if($sum_package_hotel!=null)
+                                  @foreach($sum_package_hotels as $sum_hotel)
                                     @php
+                                      $sum_package_hotel_types = CommonHelper::getBookingHotelTypes($booking_info->id,$place->city_id,$sum_hotel->hotel_id);
+                                      $sum_package_hotel = CommonHelper::getBookingHotelDetails($booking_info->id,$place->city_id,$sum_hotel->hotel_id);
+
+                                      $amenitystring = '';
+                                      $a_count = 0;
+
+                                      if($sum_package_hotel!=null){
+                                        foreach($sum_package_hotel->amenities as $key => $amenity){
+                                          if($a_count<4){
+                                            $amenitystring .= $amenity->amenities_name;
+                                            if($amenity_count-1 != $key){
+                                              $amenitystring .= ', ';
+                                            } 
+                                          }
+                                          $a_count++;
+                                        }
+                                      }
+                                      
                                       $hotelimages = $sum_package_hotel->hotelimages;
                                       $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                                     @endphp
-                                  <div id="summary_hotel_id_{{$place->city_id}}" class="msg-wrapper">
-                                    <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-{{$place->city_id}}" src="{{ $hotel_image }}" alt="" class="avatar "><a id="summary-hotel-name-{{$place->city_id}}" class="msg-from" style="display: initial;">{{ $sum_package_hotel->hotel_name }}</a><br><a id="summary-hotel-type-{{$place->city_id}}" class="msg-sub">{{ $roomtypesstring }}</a>
-                                    <p id="summary-features-{{$place->city_id}}">{{ $amenitystring }}</p>
-                                  </div>
-                                  @endif
-                                  @endif
+                                    <div id="summary-hotel-picked-{{$sum_package_hotel->id}}" class="">
+                                      <div id="summary_hotel_id_{{$sum_package_hotel->id}}" class="msg-wrapper">
+                                        <img style="width:80px !important;height:80px !important;" id="summary-hotel-img-{{$place->city_id}}" src="{{ $hotel_image }}" alt="" class="avatar "><a id="summary-hotel-name-{{$place->city_id}}" class="msg-from" style="display: initial;">{{ $sum_package_hotel->hotel_name }}</a><br>
+                                        <a id="summary-hotel-type-{{$place->city_id}}" class="msg-sub">
+                                           @foreach($sum_package_hotel_types as $tkey => $types)
+                                                 {{ $types->room_type }} - {{ $types->total_rooms }}, 
+                                            @endforeach
+                                        </a>
+                                        <p id="summary-features-{{$place->city_id}}">{{ $amenitystring }}</p>
+                                      </div>
+                                    </div>
+                                  @endforeach
                                   <div style="clear:both"></div>
                                 </div>
+                                
+                                @php
+                                 
+                                   $sum_night_count = $place->nights_count;
+                                  //$sum_package_activities = CommonHelper::getBookingActivities($booking_info->id,$place->city_id);
+                                @endphp
 
                                 <div style="clear:both"></div>
-                                <div id="summary-activity-section-{{$place->city_id}}" class="activities-summary">
+                                <div class="summary-activity-citysection" id="summary-activity-citysection-{{$place->city_id}}">
+                                @for($n=1;$n<=$sum_night_count;$n++)
+                                @php
+                                   $summary_daynumber = $sum_total_nights+$n;
+                                   $sum_package_activities = CommonHelper::getBookingActivitiesDays($booking_info->id,$place->city_id,$summary_daynumber);
+                                @endphp
+                                <b style="font-size:18px;">Day {{$summary_daynumber}}</b>
+                                <div id="summary-activity-section-{{$place->city_id}}-{{$summary_daynumber}}" class="activities-summary">
                                   @foreach($sum_package_activities as $activity)
                                   @php
                                     $activityimages = $activity->activity_images;
@@ -1036,7 +1080,7 @@
                                      $package_activity_cost= CommonHelper::getBookingActivityCost($booking_info->id,$activity->id);
                                   @endphp
                                   <div id="summary_city_activity_id_{{ $activity->id }}" class="">
-                                    <h3 style="text-decoration: underline;">{{ $activity->title_name }} <a class="pull-right"><i class="fa fa-inr"></i> {{ $package_activity_cost }}</a></h3>
+                                    <h3 style="text-decoration: underline;">{{ $activity->title_name }} <a class="pull-right hide"><i class="fa fa-inr"></i> {{ $package_activity_cost }}</a></h3>
                                     <div class="sub-summary-activity">
                                       <h5>Overview</h5>
                                       <div id="activity-summary-overview" class="activity-description">
@@ -1046,6 +1090,11 @@
                                     </div>
                                   </div>
                                   @endforeach
+                                </div>
+                                @endfor
+                                  @php
+                                    $sum_total_nights += $sum_night_count;
+                                  @endphp
                                 </div>
                               </li>
                             
@@ -1180,6 +1229,55 @@
                               </div>
                             </div><!-- /.col- -->
                         </div><!-- /.form-group -->
+
+                         <h4 class="text-headline">Payment</h4>   
+                        <br>
+                        <div class="row">
+                          <div class="col-xs-5">
+                              <p>
+                                <input name="paymenttype" type="radio" id="paymenttype1" onclick="return ChangePaytype(this.value)" value="1" @if($booking_info->payment_type==1) checked @endif />
+                                <label for="paymenttype1">Full Payment</label>
+                              </p>
+                          </div>
+                          <div class="col-xs-7">
+                              <p>
+                                <input name="paymenttype" type="radio" @if($booking_info->payment_type==2) checked @endif value="2" onclick="return ChangePaytype(this.value)" id="paymenttype2" />
+                                <label for="paymenttype2">Partial Payment</label>
+                              </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div id="partial_pay_area" class="@if($booking_info->payment_type==1) hide @endif">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th width="25%">
+                                  
+                                </th>
+                                <th width="20%">
+                                  %
+                                </th>
+                                 <th width="40%">
+                                  Amount
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="bold">Pay</td>
+                                <td> <input type="text" id="pay_percent" name="pay_percent" class="allow_decimal" value="{{$booking_info->paid_percentage}}" placeholder="Pay percentage">    </td>
+                                <td><input type="text" id="pay_amount" name="pay_amount" class="allow_decimal" value="{{$booking_info->paid_amount}}" placeholder="Pay Amount"> </td>
+                              </tr>
+                               <tr>
+                                <td class="bold">Balance</td>
+                                <td> <input type="text" id="balance_percent" readonly="" name="balance_percent" class="allow_decimal" value="{{$booking_info->balance_percentage}}" placeholder="Balance percentage">    </td>
+                                <td><input type="text" id="balance_amount" readonly="" name="balance_amount" class="allow_decimal" value="{{$booking_info->balance_amount}}" placeholder="Balance Amount"> </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                         
+                       </div>
+
                        <center> <a id="pick-actitity-link-5" href="#" onclick="return ViewDetailedSummary()" class="btn btn-sm purple waves-effect waves-light ">View Detailed Summary</a></center>
                         <br>
                         <div class="detailed-summary-area" style="display: none;">
@@ -1210,7 +1308,7 @@
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="transport_charges" name="transport_charges" readonly="true" class="allow_decimal " value="{{ $booking_info->transport_additional_charges/2 }}" placeholder="Additional Charges">    
+                                <input type="text" id="transport_charges" name="transport_charges" readonly="true" class="allow_decimal " value="{{ round($booking_info->transport_additional_charges-$booking_info->additional_charges-$booking_info->extra_amount,2) }}" placeholder="Additional Charges">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div>
@@ -1220,7 +1318,17 @@
                             </label>
                             <div class="col-sm-7">     
                               <div class="input-field">
-                                <input type="text" id="additional_charges" name="additional_charges" readonly="true" class="allow_decimal " value="{{ $booking_info->transport_additional_charges/2 }}" placeholder="Additional Charges">    
+                                <input type="text" id="additional_charges" name="additional_charges" readonly="true" class="allow_decimal " value="{{ $booking_info->additional_charges }}" placeholder="Additional Charges">    
+                                <div class="input-highlight"></div>
+                              </div>
+                            </div>
+                         </div>
+                          <div class="form-group hide">
+                            <label for="extra_cost" class="col-sm-5 control-label">Extra cost
+                            </label>
+                            <div class="col-sm-7">     
+                              <div class="input-field">
+                                <input type="text" id="extra_cost" name="extra_cost" readonly="true" class="allow_decimal " value="{{ $booking_info->extra_amount }}" placeholder="Extra Charges">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div>
@@ -1231,7 +1339,7 @@
                             <div class="col-sm-7">     
                               <div class="input-field">
                                 <input type="text" id="additional_transport" name="additional_transport" readonly="true" class="allow_decimal" value="{{ $booking_info->transport_additional_charges }}" placeholder="">    
-                                <input type="text" id="pack_additional_transport" name="pack_additional_transport" readonly="true" class="allow_decimal hide" value="{{ $package_info->transport_charges+$package_info->additional_charges }}" placeholder="">    
+                                <input type="text" id="pack_additional_transport" name="pack_additional_transport" readonly="true" class="allow_decimal hide" value="{{ $package_info->additional_charges }}" placeholder="">    
                                 <div class="input-highlight"></div>
                               </div>
                             </div>
@@ -1610,7 +1718,8 @@
              $("#total_activities").val(total_activity_cost);
             // var total_pack_cost = parseFloat(total_hotel_cost)+parseFloat(total_activity_cost);
               //$("#total_package_value").val(total_pack_cost);
-              $("#transport_charges").trigger('keyup');
+             // $("#transport_charges").trigger('keyup');
+              $("#additional_transport").trigger('keyup');
             }
             // if(newIndex===3){
             //   $(".main-wrapper").addClass('menu-hidden');
