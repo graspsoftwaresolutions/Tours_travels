@@ -31,7 +31,7 @@
   <div class="row">                <div id="content" class="col-sm-12">      <div class="sp-content">
         <div class="icon"><i class="fa fa-check"></i></div>
         Dear User,
-        <p>herewith we have attched your booking invoice</p>
+        <p>herewith we have attached your booking invoice</p>
       </div>
     </div>
 </div>

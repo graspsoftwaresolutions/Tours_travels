@@ -93,7 +93,7 @@ class BookingController extends Controller
          $SaveBooking->to_date = $request->to_date;
          $SaveBooking->grand_total = $request->grand_total_amount;
          $SaveBooking->booking_number =  CommonHelper::newbookingNumber();
-
+         $SaveBooking->created_by = Auth::user()->id;
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
 

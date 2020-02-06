@@ -94,6 +94,7 @@ class TourBookingController extends Controller
         $booking->infant_price = $Package_details->infant_price;
         $booking->total_accommodation = $Package_details->total_accommodation;
         $booking->total_activities = $Package_details->total_activities;
+        $booking->additional_charges = $Package_details->additional_charges;
         $booking->discount_amount = 0;
         $transport_additional_charges = $Package_details->transport_charges+$Package_details->additional_charges;
         $booking->transport_additional_charges = $transport_additional_charges;
