@@ -20,7 +20,39 @@
          CalculateTotalTravellers();
       });
    });
-   function CalculateTotalTravellers(){
+   // function CalculateTotalTravellers(){
+   //    var childcount = $("#child-count-val").val()=='' ? 0 : parseInt($("#child-count-val").val());
+   //    var adultcount = $("#adult-count-val").val()=='' ? 0 : parseInt($("#adult-count-val").val());
+   //    var infantcount = $("#infant-count-val").val()=='' ? 0 :  parseInt($("#infant-count-val").val());
+     
+
+   //    if(adultcount==0){
+   //      $(".adult-travellers").val(1);
+   //      $(".adult-count").text(1);
+   //      adultcount = 1;
+   //      $("#adult-count-val").val(1);
+   //      alert('Adults should be minimum 1 member');
+
+   //    }
+   //    var total_countable = parseInt(childcount)+parseInt(adultcount);
+   //    $(".activity_person_cost").each(function() {
+   //      var activitycostid = $(this).attr('id');
+   //     // alert($(this).val());
+   //      var activitycostval = $(this).val()=='' || $(this).val()=='null' || typeof($(this).val())=='object' ? 0 : $(this).val();
+   //      cost_arr = activitycostid.split('_');
+   //      var activity_id = cost_arr[3];
+   //      var total_cost = activitycostval*total_countable;
+   //      $("#total_activity_value_"+activity_id).text(total_cost);
+   //      $("#summary_activity_value_"+activity_id).text(total_cost);
+   //      $("#activity_cost_"+activity_id).val(total_cost);
+
+   //      console.log(activitycostval);
+   //    });
+   //    //console.log('child-'+childcount+',adult-'+adultcount+',infant-'+infantcount);
+
+   //    $("#total-travellers").text(childcount+adultcount+infantcount);
+   // }
+  function CalculateTotalTravellers(){
       var childcount = $("#child-count-val").val()=='' ? 0 : parseInt($("#child-count-val").val());
       var adultcount = $("#adult-count-val").val()=='' ? 0 : parseInt($("#adult-count-val").val());
       var infantcount = $("#infant-count-val").val()=='' ? 0 :  parseInt($("#infant-count-val").val());
@@ -37,8 +69,7 @@
       var total_countable = parseInt(childcount)+parseInt(adultcount);
       $(".activity_person_cost").each(function() {
         var activitycostid = $(this).attr('id');
-       // alert($(this).val());
-        var activitycostval = $(this).val()=='' || $(this).val()=='null' || typeof($(this).val())=='object' ? 0 : $(this).val();
+        var activitycostval = $(this).val()=='null' ? 0 : $(this).val();
         cost_arr = activitycostid.split('_');
         var activity_id = cost_arr[3];
         var total_cost = activitycostval*total_countable;
@@ -46,8 +77,59 @@
         $("#summary_activity_value_"+activity_id).text(total_cost);
         $("#activity_cost_"+activity_id).val(total_cost);
 
-        console.log(activitycostval);
+        //console.log(activitycostid);
       });
+
+      var adult_count_val = $("#adult-count-val").val();
+      var pack_adult_count_val = $("#pack-adult-count-val").val();
+
+      var child_count_val = $("#child-count-val").val();
+      var pack_child_count_val = $("#pack-child-count-val").val();
+
+      var infant_count_val = $("#infant-count-val").val();
+      var pack_infant_count_val = $("#pack-infant-count-val").val();
+
+      var additional_charges = $("#additional_charges").val()=='' ? 0 : $("#additional_charges").val();
+      var transport_charges = $("#transport_charges").val()=='' ? 0 : $("#transport_charges").val();
+      var pack_additional_transport = additional_transport+transport_charges;
+      var new_additional_transport = pack_additional_transport;
+      if(adult_count_val!=pack_adult_count_val){
+        var adult_price = $("#adult_price").val();
+        if(adult_count_val>pack_adult_count_val){
+          var difff_adult = parseInt(adult_count_val)-parseInt(pack_adult_count_val);
+          var extracost = parseFloat(difff_adult*adult_price);
+        }else{
+           var difff_adult = parseInt(pack_adult_count_val)-parseInt(adult_count_val);
+           var extracost = -parseFloat(difff_adult*adult_price);
+        }
+      }
+      if(child_count_val!=pack_child_count_val){
+        var child_price = $("#child_price").val();
+        if(child_count_val>pack_child_count_val){
+          var difff_adult = parseInt(child_count_val)-parseInt(pack_child_count_val);
+          var extracost = parseFloat(difff_adult*child_price);
+        }else{
+           var difff_adult = parseInt(pack_adult_count_val)-parseInt(adult_count_val);
+           var extracost = -parseFloat(difff_adult*child_price);
+        }
+
+      }
+      if(infant_count_val!=pack_infant_count_val){
+        var infant_price = $("#infant_price").val();
+        if(infant_count_val>pack_infant_count_val){
+          var difff_adult = parseInt(infant_count_val)-parseInt(pack_infant_count_val);
+          var extracost = parseFloat(difff_adult*child_price);
+        }else{
+           var difff_adult = parseInt(pack_infant_count_val)-parseInt(infant_count_val);
+           var extracost = -parseFloat(difff_adult*child_price);
+        }
+      }
+      new_additional_transport = parseFloat(pack_additional_transport)+parseFloat(extracost)
+
+      new_additional_transport = new_additional_transport<0 ? 0 : new_additional_transport;
+      $("#extra_cost").val(extracost);
+      //$("#additional_transport").val(new_additional_transport);
+      $("#additional_transport").trigger('keyup');
       //console.log('child-'+childcount+',adult-'+adultcount+',infant-'+infantcount);
 
       $("#total-travellers").text(childcount+adultcount+infantcount);
@@ -1066,12 +1148,16 @@
      var additional_charges = $("#additional_charges").val();
      var total_accommodation = $("#total_accommodation").val();
      var total_activities = $("#total_activities").val();
+     var extra_cost = $("#extra_cost").val();
 
      additional_charges = additional_charges=='' ? 0 : parseFloat(additional_charges);
      transport_charges = transport_charges=='' ? 0 : parseFloat(transport_charges);
+     extra_cost = extra_cost=='' ? 0 : parseFloat(extra_cost);
 
-     $("#additional_transport").val(parseInt(additional_charges)+parseInt(transport_charges));
-     var additional_transport = $("#additional_transport").val();
+     var additional_transport = parseFloat(additional_charges)+parseFloat(transport_charges)+parseFloat(extra_cost);
+     additional_transport = additional_transport<0 ? 0 : additional_transport;
+     $("#additional_transport").val(additional_transport);
+     //var additional_transport = $("#additional_transport").val();
      var discount_amt = $("#discount_amt").val();
      
      //total_package_value = total_package_value=='' ? 0 : parseFloat(total_package_value);
@@ -1099,6 +1185,38 @@
     discount_amt = discount_amt=='' ? 0 : parseFloat(discount_amt);
     $("#discount_amt_one").val(discount_amt);
      $("#additional_transport").trigger('keyup');
+  });
+   function ChangePaytype(paytype){
+    //alert(paytype);
+      if(paytype==2){
+        $("#partial_pay_area").removeClass('hide');
+      }else{
+        $("#partial_pay_area").addClass('hide');
+      }
+   }
+  $(document).on('keyup', '#pay_percent', function(){
+    var pay_percent = $("#pay_percent").val()=='' ? 0 : $("#pay_percent").val();
+    var bal_percent = 100 - parseFloat(pay_percent);
+    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
+    var payamount = ((total_amount_summary*pay_percent)/100).toFixed(2);
+
+    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(payamount)).toFixed(2);
+
+    $("#pay_amount").val(payamount);
+    $("#balance_percent").val(bal_percent);
+    $("#balance_amount").val(bal_amount);
+  });
+  $(document).on('keyup', '#pay_amount', function(){
+    var pay_amount = $("#pay_amount").val()=='' ? 0 : $("#pay_amount").val();
+    var total_amount_summary = $("#total_amount_summary").val()=='' ? 0 : $("#total_amount_summary").val();
+    var paypercent = ((pay_amount*100)/total_amount_summary).toFixed(2);
+    var bal_percent = 100 - parseFloat(paypercent);
+
+    var bal_amount = (parseFloat(total_amount_summary) - parseFloat(pay_amount)).toFixed(2);
+
+    $("#pay_percent").val(paypercent);
+    $("#balance_percent").val(bal_percent);
+    $("#balance_amount").val(bal_amount);
   });
 
 
