@@ -200,6 +200,13 @@
 .listing-right-custom{
     padding: 5px;
 }
+/* .error {
+    color:red;
+}
+.valid {
+    color:green;
+} */
+
 </style>
 
 @endsection
@@ -443,7 +450,6 @@
 
                                     <!-- <div class="tab-content"> -->
                                     	<div class="tab-pane fade in active">
-                                          
                                         <form id="payment_form" class="form-horizontal" method="post" action="{{route('booking_confirm')}}">
                                         @csrf
                                         <input type="hidden" name="packageid" value="{{$package_info->id}}">
@@ -462,13 +468,14 @@
                                             <div class="form-group">
                                             <label class="control-label col-sm-4" for="email">Payment Mode:</label>
                                             <div class="col-sm-8">
-                                               <select id="payment_mode" name="payment_mode" class="form-control" >
+                                               <select id="payment_mode" required name="payment_mode" class="form-control" >
                                                     <option selected="true" value="0" disabled>Select</option>
                                                     <option value="card">Card</option>
                                                     <option value="cash">Cash</option>
                                                     <option value="online_payment">Online Payment</option>
                                                </select>
                                             </div>
+                                            
                                             </div>
                                             <div class="online_mode hide">
                                                 <div class="form-group">
@@ -509,41 +516,34 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-4" for="pwd">Expiry Month</label>
-                                                <div class="col-sm-8">      
-                                                    <select class="form-control" name="expiry_month">
-                                                    <option selected="true" disabled value="0">Select month</option>
-                                                    <option value="January">January</option>
-                                                    <option value="February">February</option>
-                                                    <option value="March">March</option>
-                                                    <option value="April">April</option>
-                                                    <option value="May">May</option>
-                                                    <option value="June">June</option>
-                                                    <option value="July">July</option>
-                                                    <option value="August">August</option>
-                                                    <option value="September">September</option>
-                                                    <option value="October">October</option>
-                                                    <option value="November">November</option>
-                                                    <option value="December">December</option>
-
+                                                <label class="control-label col-sm-4" for="pwd">Expiry Date</label>
+                                                <div class="col-sm-4">      
+                                                    <select  class="form-control" id="expiry_month" name="cardExpYear">
+                                                    <option selected="true" disabled value="0">MM</option>
+                                                        @for($i=1;$i<=12;$i++)
+                                                            @if($i<=9)
+                                                               <option value="{{$i}}">0{{$i}}</option>
+                                                            @else
+                                                               <option value="{{$i}}">{{$i}}</option>
+                                                            @endif
+                                                        @endfor
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-4" for="pwd">Expiry Year</label>
-                                                <div class="col-sm-8">  
-                                                <select class="form-control" name="expiry_year">
-                                             @php   $this_year = date("Y"); // Run this only once
-                                                for ($year = $this_year; $year <= $this_year + 20; $year++) {
-                                                    @endphp
-                                                      <option value={{$year}}>{{$year}} </option>
-                                                      @php
-                                                } @endphp       
-                                                </select>
-                                                    
-                                                   
+                                                <div class="col-sm-4">      
+                                                    <select  class="form-control" id="expiry_year" name="cardExpYear">
+                                                    <option selected="true" disabled value="0">YYYY</option>
+                                                    @php   $this_year = date("Y"); // Run this only once
+                                                    for ($year = $this_year; $year <= $this_year + 20; $year++) {
+                                                        @endphp
+                                                        <option value={{$year}}> {{$year}}  </option>
+                                                        @php
+                                                    } @endphp
+                                                    </select>
                                                 </div>
+                                                <br>
+                                                <!-- <div class="errorTxt"></div> -->
                                             </div>
+                                            
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Package Amount</label>
@@ -595,6 +595,13 @@
     $("#package_menu_id").addClass('active');
     $(document).ready(function(e){
         $(":input").inputmask();
+        $('#expiry_year').change(function(e){
+                var expiry_year = $('#expiry_year').val();
+                var expiry_month = $('#expiry_month').val();
+             
+        });
+
+       
     
       $('#payment_mode').change(function(e){
         var payment_mode =  $('#payment_mode').val();
@@ -621,32 +628,57 @@
             },
             card_number : {
                 minlength: 16,
-                // maxlength: 16,
-               // digits : true,
             },
             cvv : {
                 minlength: 3,
                 maxlength: 3,
-                // digits : true,
+            },
+            cardExpYear: {
+               
+            CCExp: {
+                month: '#expiry_month',
+                year: '#expiry_year'
+            },
             },
         },
-        //For custom messages
         messages: {
             payment_mode: {
                 required: '{{__("Please select Payment Mode") }}',
             },
             card_number : {
                 minlength: '{{__("Please enter 16 digits") }}',
-                // maxlength: '{{__("Please enter only 16 digits") }}',
-              //  digits : "Numbers only",
+
             },  
             cvv : {
                 minlength: '{{__("Please enter 3 digits") }}',
                 maxlength: '{{__("Please enter only 3 digits") }}',
-                // digits : "Numbers only",
+                
             },
         },
+        errorLabelContainer: '.errorTxt',
     });
-    });
+    $.validator.addMethod('CCExp', function(value, element, params) {
+    var minMonth = new Date().getMonth() + 1;
+    var minYear = new Date().getFullYear();
+    var month = parseInt($(params.month).val(), 10);
+    var year = parseInt($(params.year).val(), 10);
+
+    return ( !year || !month ||  year > minYear || (year === minYear && month >= minMonth));
+    }, 'Expiration date is not correct..');
+    // $.validator.addMethod('CCExp',
+    //             function (value, element,params) {
+    //         var today = new Date();
+    //         var thisYear = today.getFullYear();
+    //         var expMonth = parseInt($(params.month).val(), 10);
+    //         var expYear = parseInt($(params.year).val(), 10);
+
+    //         return (expMonth >= 1 
+    //                 && expMonth <= 12
+    //                 && (expYear >= thisYear && expYear < thisYear + 20)
+    //                 && (expYear == thisYear ? expMonth >= (today.getMonth() + 1) : true))
+    //     },
+    //     "Must be a valid Expiry Date"
+    //     );
+        });
 </script>
 @endsection

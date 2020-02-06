@@ -97,6 +97,8 @@ class TourBookingController extends Controller
         $transport_additional_charges = $Package_details->transport_charges+$Package_details->additional_charges;
         $booking->transport_additional_charges = $transport_additional_charges;
         $booking->grand_total = $Package_details->total_amount;
+        $booking->paid_amount = $Package_details->total_amount;
+        $booking->balance_amount = 0;
         $booking->payment_mode = $request->payment_mode;
         $booking->reference_number = $request->reference_number;
         $booking->payment_type = 1;
