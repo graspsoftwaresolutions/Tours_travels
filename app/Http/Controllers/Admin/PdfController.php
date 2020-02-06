@@ -34,9 +34,8 @@ class PdfController extends Controller
         //dd($data);
         if($data!='')
         {
-            return view('admin.package.pdf.packagepdf')->with($data);
+          //  return view('admin.package.pdf.packagepdf')->with($data);
            $pdf = PDF::loadView('admin.package.pdf.packagepdf', $data);
-            // return  $pdf->stream();
             return $pdf->download($packageid.'_package_details.pdf');
         }
     }
@@ -59,7 +58,6 @@ class PdfController extends Controller
          $data['booking_place'] = DB::table('booking_place as bp')
                                      ->leftjoin('booking_master as bm','bm.id','=','bp.booking_id')
                                      ->where('bm.id','=',$bookingid)->get();
-        // dd($data['booking_place']);
          $data['website_data'] = Website::where('status','=','1')->get();
         
          if($data!='')

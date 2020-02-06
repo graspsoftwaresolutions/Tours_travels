@@ -14,10 +14,12 @@ use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
 use App\Model\Admin\BookigTransports;
+use App\Helpers\CommonHelper;
 
 use DB;
 use Illuminate\Support\Facades\Crypt;
 use Auth;
+use PDF;
 
 class TourBookingController extends Controller
 {
@@ -47,7 +49,6 @@ class TourBookingController extends Controller
     }
     public function booking_now($id,$fromdate,$todate)
     {
-        
         $packageid = crypt::decrypt($id);
         $form_date = crypt::decrypt($fromdate);
         $data['form_date'] = $form_date;
@@ -102,6 +103,7 @@ class TourBookingController extends Controller
         $booking->payment_mode = $request->payment_mode;
         $booking->reference_number = $request->reference_number;
         $booking->payment_type = 1;
+        $booking->booking_number =  CommonHelper::newbookingNumber();
         //$booking->payment_mode = $request->payment_mode;
         $booking->user_booking = 1;
         $booking->created_by = Auth::user()->id;
@@ -161,6 +163,24 @@ class TourBookingController extends Controller
             $BookigTransports->interestrate_amount = $data['package_transports'][$i]->interestrate_amount;
             $BookigTransports->save();
         }
+
+        $data['booking_details'] = DB::table('booking_master')->where('id','=',$booking_last_id)->get();
+        $user_id = DB::table('booking_master')->where('id','=',$booking_last_id)->pluck('customer_id')->first();
+        
+        $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
+        
+        if($data['booking_details']!='')
+        {
+           // return view('web.tour.pdf.booking_invoicepdf')->with('data',$data);
+            $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
+            $pdf->save(storage_path('app/pdf/'.$booking_last_id.'_booking_invoice.pdf'));
+        }              
+        $to_email =  $customer_data->email;
+       // $to_email =  'mounika.bizsoft@gmail.com';
+        $cc_email = 'shyni.bizsoft@gmail.com';
+
+       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_last_id,$customer_data));
+
         return redirect()->route('itineray_created')->with('message','Your Booked Trips'); 
     }
 }

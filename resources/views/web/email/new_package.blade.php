@@ -152,9 +152,7 @@
                                                                 </tr>
                                                                 <tr><td height="10" width="580"></td></tr>
                                                             </tbody>
-                                                        </table>
-                                                        
-                                                        
+                                                        </table>                    
                                                         <table border="0" cellpadding="0" cellspacing="0" width="580">
                                                             <tbody>
                                                                 <tr>
@@ -165,8 +163,7 @@
                                                                 </tr>
                                                                 <tr><td height="10" width="580"></td></tr>
                                                             </tbody>
-                                                        </table>
-                                                        
+                                                        </table> 
                                                     </td>
                                                     <td width="30"></td>
                                                 </tr>

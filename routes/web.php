@@ -208,6 +208,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('website','Admin\SettingsController@websiteSettings')->name('website.new');
     Route::post('website_save','Admin\SettingsController@websiteSave')->name('website_save');
     Route::get('/booking-edit/{parameter}','Admin\BookingController@EditBooking')->name('booking.edit');
+    Route::get('/booking-invoice/{parameter}','Admin\BookingController@bookingInvoice')->name('booking.invoice');
 
     //Currency 
     Route::get('/currency','Admin\SettingsController@currencySettings')->name('currency.new');

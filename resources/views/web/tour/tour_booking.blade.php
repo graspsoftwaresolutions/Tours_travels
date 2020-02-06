@@ -556,7 +556,7 @@
                                             </div>
                                             <div class="form-group">        
                                             <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" class="btn btn-orange pull-right">Submit</button>
+                                                <button type="submit" id="savePaymentButton" class="btn btn-orange pull-right">Submit</button>
                                             </div>
                                             </div>
                                         </form>
@@ -657,6 +657,10 @@
         },
         errorLabelContainer: '.errorTxt',
     });
+    $('#payment_form').submit(function() {
+        spinner.show();
+       return true;
+     });
     $.validator.addMethod('CCExp', function(value, element, params) {
     var minMonth = new Date().getMonth() + 1;
     var minYear = new Date().getFullYear();
@@ -665,20 +669,6 @@
 
     return ( !year || !month ||  year > minYear || (year === minYear && month >= minMonth));
     }, 'Expiration date is not correct..');
-    // $.validator.addMethod('CCExp',
-    //             function (value, element,params) {
-    //         var today = new Date();
-    //         var thisYear = today.getFullYear();
-    //         var expMonth = parseInt($(params.month).val(), 10);
-    //         var expYear = parseInt($(params.year).val(), 10);
-
-    //         return (expMonth >= 1 
-    //                 && expMonth <= 12
-    //                 && (expYear >= thisYear && expYear < thisYear + 20)
-    //                 && (expYear == thisYear ? expMonth >= (today.getMonth() + 1) : true))
-    //     },
-    //     "Must be a valid Expiry Date"
-    //     );
         });
 </script>
 @endsection

@@ -596,4 +596,14 @@ class CommonHelper
     {
         return $packageName = DB::table('package_master')->where('id','=',$id)->pluck('package_name')->first();
     }
+    public static function getCustomerData($id)
+    {
+        return $customerDetails = DB::table('customer_details')->where('id','=',$id)->first();
+    }
+    public static function getBookingPlaceDetails($bookingid)
+    {
+        return   $data['booking_place'] = DB::table('booking_place')
+                                     ->where('booking_id','=',$bookingid)->get();
+                               
+    }
 }

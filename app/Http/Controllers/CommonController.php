@@ -218,12 +218,7 @@ class CommonController extends Controller
 				else{
                    
                     $actions .="&nbsp;&nbsp; <a href='$delete' class='btn btn-sm red waves-effect waves-circle waves-light' onclick='return ConfirmDeletion()' ><i class='mdi mdi-delete'></i></a>";
-                    
-                    
                 }
-                
-               
-              
                 $nestedData['options'] = $actions;
                 $data[] = $nestedData;
 
@@ -231,8 +226,6 @@ class CommonController extends Controller
         }
         return $data;
     }
-
-    
    /*
         Input $result = query result (array)
         Input $deleteRoute = Delete Route Name (string)

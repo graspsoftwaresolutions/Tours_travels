@@ -428,5 +428,11 @@ class BookingController extends Controller
                  ->first();
         return json_encode($transports);
     }
+    public function bookingInvoice($encid)
+    {
+        $bookingid = crypt::decrypt($encid);
+        $booking_details = DB::table('booking_master')->where('id','=',$bookingid)->first();
 
+       
+    }
 }

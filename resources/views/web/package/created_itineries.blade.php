@@ -380,7 +380,7 @@
                                                                     $booking_infant_count = $booking_infant_count.' '.'Infant';
                                                                 }
                                                                 else{
-                                                                    $booking_infant_count = $booking_infant_count.' '.'infant_count';
+                                                                    $booking_infant_count = $booking_infant_count.' '.'infants';
                                                                 }
                                                                 if($booking_adult_count !='')
                                                                 {
