@@ -226,6 +226,16 @@ class CommonHelper
         
     }
 
+     public static function getBookingHotels($bookingid,$cityid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotels_data = DB::table('booking_hotel as bh')->select('bh.hotel_id')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)->groupBy('bh.hotel_id')->get();
+
+        return $hotels_data;
+        
+    }
+
     public static function getPackageHotelTypes($packageid,$cityid,$hotelid){
        DB::select( DB::raw('set sql_mode=""'));
         $hotels_rooms = DB::table('package_hotel as ph')->select('ph.roomtype_id','ph.total_rooms','ph.total_amount','type.room_type')
@@ -239,8 +249,35 @@ class CommonHelper
         
     }
 
+    public static function getBookingHotelTypes($bookingid,$cityid,$hotelid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotels_rooms = DB::table('booking_hotel as bh')->select('bh.roomtype_id','bh.total_rooms','bh.total_amount','type.room_type')
+                      ->leftjoin('room_type as type','type.id','=','bh.roomtype_id')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)
+                    ->where('bh.hotel_id','=',$hotelid)
+                    ->get();
+
+        return $hotels_rooms;
+        
+    }
+
 
     public static function getPackageHotelDetails($packageid,$cityid,$hotelid){
+        $hotel_data = Hotel::with(
+            array(
+                'amenities'=>function($query){
+                    $query->select('amenities_name');
+                },
+                //'roomtypes',
+                'hotelimages'
+            ))->where('id','=',$hotelid)->first();
+
+        return $hotel_data;
+        
+    }
+
+    public static function getBookingHotelDetails($bookingid,$cityid,$hotelid){
         $hotel_data = Hotel::with(
             array(
                 'amenities'=>function($query){
@@ -285,6 +322,22 @@ class CommonHelper
         return $activities;
     }
 
+     public static function getBookingActivitiesDays($bookingid,$cityid,$daynumber){
+        
+        $activity_ids = DB::table('booking_activities as ba')
+                    ->where('ba.booking_id','=',$bookingid)
+                    ->where('ba.city_id','=',$cityid)
+                    ->where('ba.day_numbers','=',$daynumber)
+                    ->pluck('ba.activity_id');
+        
+        $activities = Activity::with(
+            array(
+                'activity_images'
+            ))->whereIn('id',$activity_ids)->get();
+        //dd($activities);
+        return $activities;
+    }
+
     public static function getPackageActivityCost($packageid,$activityid){
          $activity_amount = DB::table('package_activities as pa')
                     ->where('pa.package_id','=',$packageid)
@@ -293,6 +346,15 @@ class CommonHelper
                    // dd(  $activity_amount);
         return $activity_amount==null ? 0 : $activity_amount;
     }
+
+    // public static function getBookingActivityCost($bookingid,$activityid){
+    //      $activity_amount = DB::table('booking_activities as ba')
+    //                 ->where('ba.booking_id','=',$bookingid)
+    //                 ->where('ba.activity_id','=',$activityid)
+    //                 ->pluck('ba.total_amount')->first();
+    //                // dd(  $activity_amount);
+    //     return $activity_amount==null ? 0 : $activity_amount;
+    // }
     public static function getHotelImages($hotel_id)
     {
         $hotel_images = DB::table('hotel_images')->where('hotel_id','=',$hotel_id)->select('image_name')->Orderby('id', 'asc')->limit(3)->get();
@@ -453,6 +515,12 @@ class CommonHelper
    public static function getPackageTransports($packageid,$cityid){
         $transprts = DB::table('package_transports as t')
                    ->where('t.package_id','=',$packageid)
+                   ->where('t.city_id','=',$cityid)->orderBy('day_numbers','asc')->get();
+        return $transprts;
+   }
+   public static function getBookingTransports($bookingid,$cityid){
+        $transprts = DB::table('booking_transports as t')
+                   ->where('t.booking_id','=',$bookingid)
                    ->where('t.city_id','=',$cityid)->orderBy('day_numbers','asc')->get();
         return $transprts;
    }

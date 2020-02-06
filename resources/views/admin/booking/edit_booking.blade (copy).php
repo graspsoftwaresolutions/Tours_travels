@@ -619,113 +619,106 @@
                   <h4 class="text-headline">Accommodation</h4>
                   <div class="row">
                     <ul id="place-hotels" class="timeline bg-color-switch mt40 timeline-single">
-                      @foreach($data['booking_place'] as $key => $place)
+                        @foreach($data['booking_place'] as $key => $place)
 
-                           
+                           @if($place->nights_count!=0)
                             @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
                               $place_city_data = CommonHelper::getcityDetails($place->city_id);
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
 
-                              $package_hotels = CommonHelper::getBookingHotels($booking_info->id,$place->city_id);
+                              //$place_city_name = CommonHelper::getcityName($place->city_id);
+                              $package_hotel = CommonHelper::getBookingHotel($booking_info->id,$place->city_id);
+                              //dd($package_hotel->roomtype);
+                             
+
+                              $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
+
+                             // 
+                              $amenitystring = '';
+
+                              if($package_hotel!=null){
+                                foreach($package_hotel->amenities as $key => $amenity){
+                                  $amenitystring .= $amenity->amenities_name;
+                                  if($amenity_count-1 != $key){
+                                    $amenitystring .= ', ';
+                                  } 
+                                }
+                              }
+                              
+                              //dd($package_hotel);
+
+                              $roomtypesstring = '';
+                              $type_count = $package_hotel!=null ? count($package_hotel->roomtypes) : 0;
+                              $room_cost = 0;
+                              $cityhotelid = '';
+                              $cityhotelroomtype = '';
+                              $cityhotelroomnumbers = 0;
+                               
+                              if($package_hotel!=null){
+                                $room_cost = $package_hotel->total_amount;
+                                $cityhotelid = $package_hotel->id;
+                                $cityhotelroomtype = $package_hotel->roomtype_id;
+                                $cityhotelroomnumbers = $package_hotel->total_rooms;
+                                foreach($package_hotel->roomtypes as $key => $roomtype){
+
+                                  if($roomtype->pivot->roomtype_id==$package_hotel->roomtype_id){
+                                    $roomtypesstring = $roomtype->room_type.' - '.$package_hotel->total_rooms;
+
+                                    
+                                  }
+                                 
+                                }
+                              }
                              
                             @endphp
 
-                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item hotel-list-panel">
-                                
+                              <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item">
                                 <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
-                                <div id="hotel_city_{{ $place->city_id }}" style="background: #f2f2f2;" class="hotel-panel">
-                                  <div id="hotel_citydata_{{ $place->city_id }}">
-                                  @foreach($package_hotels as $hotel)
+                                <div class="card media-card-sm">
+                                  <div id="picked-hotelmedia-{{ $place->city_id }}" class="media">
+                                    @if($package_hotel!=null)
                                     @php
-                                      $package_hotel_types = CommonHelper::getBookingHotelTypes($booking_info->id,$place->city_id,$hotel->hotel_id);
-                                     // dd($package_hotel_types);
-                                      $package_hotel = CommonHelper::getBookingHotelDetails($booking_info->id,$place->city_id,$hotel->hotel_id);
+                                      $hotelimages = $package_hotel->hotelimages;
+                                      $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
                                     @endphp
-                                      <div id="picked_city_hotel_{{ $package_hotel->id }}" class="card media-card-sm">
-                                        <div id="picked-hotelmedia-{{ $package_hotel->id }}" class="media">
-                                          
-                                          @php
-                                            $hotelimages = $package_hotel->hotelimages;
-                                            $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
 
-                                            $amenity_count = $package_hotel!=null ? count($package_hotel->amenities) : 0;
-
-                                            $amenitystring = '';
-                                            $a_count = 0;
-
-                                            if($package_hotel!=null){
-                                              foreach($package_hotel->amenities as $key => $amenity){
-                                                if($a_count<4){
-                                                  $amenitystring .= $amenity->amenities_name;
-                                                  if($amenity_count-1 != $key){
-                                                    $amenitystring .= ', ';
-                                                  } 
-                                                }
-                                                $a_count++;
-                                              }
-                                            }
-
-                                            $rating_string = '';
-                                            if($package_hotel!=null){
-                                              $ratings = $package_hotel->ratings;
-                                             
-                                              if($ratings!=null){
-                                                $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
-                                              }
-                                            }
-                                            $total_hotel_prices = 0;
-                                          @endphp
-
-                                          <div class="media-left media-img">
-                                            <a href="#">
-                                              <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
-                                            </a>
-                                          </div>
-                                          <div class="media-body p10">
-
-                                            <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
-                                            <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
-                                            <p class="sub-text mt7">{{ $amenitystring }}</p>
-                                            <p class="sub-text mt7">
-                                              @foreach($package_hotel_types as $tkey => $types)
-                                                 {{ $types->room_type }} - {{ $types->total_rooms }}
-                                                 @if($tkey!=count($package_hotel_types)-1)
-                                                    ,
-                                                 @endif
-                                                 @php $total_hotel_prices += $types->total_rooms * $types->total_amount; @endphp
-                                                  <input type="text" class="hide hotel_room_cost" name="hotel_room_cost_{{ $package_hotel->id }}[]" id="hotel_room_cost_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_amount }}"/>
-                                                  <input type="text" class="hide type_hotel_number_count" name="type_hotel_number_count_{{ $package_hotel->id }}[]" id="type_hotel_number_count_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->total_rooms }}"/>
-                                                  <input type="text" class="hide hotel_room_type{{ $package_hotel->id }}" name="hotel_room_type_{{ $package_hotel->id }}[]" id="hotel_room_type_{{ $package_hotel->id }}_{{ $types->roomtype_id }}" value="{{ $types->roomtype_id }}"/>
-                                              @endforeach
-                                             
-                                              <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> {{ $total_hotel_prices }} </span> 
-
-                                              <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},1)" class="btn btn-sm blue waves-effect waves-light ">Change</button>
-
-                                               <button id="remove_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="return RemoveHotelDB({{ $booking_info->id }}, {{ $package_hotel->id }},{{$place->city_id}})" class="btn btn-sm red waves-effect waves-light ">Remove</button>
-                                              
-                                            </p>
-                                            <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $package_hotel->id }}"/>
-                                            <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
-                                            <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $package_hotel->id }}[]" id="hotel_cost_{{ $package_hotel->id }}" value="{{ $total_hotel_prices }}"/>
-                                            <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $package_hotel->id }}[]" id="hotel_number_count_{{ $package_hotel->id }}" value="{{ $types->total_rooms }}"/>
-                                          </div>
-                                          
-                                         
-                                        </div>
-                                      </div>
-                                      
-                                  @endforeach
-                                   </div>
-                                   <button id="add_hotel_button_{{ $place->city_id }}" style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light">+ Add Hotel</button>
-                                 </div>
+                                    <div class="media-left media-img">
+                                      <a href="#">
+                                        <img class="responsive-img" src="{{ $hotel_image }}" alt="Hotel Image">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
+                                      <p>{{ $place_state_name }} - {{ $place_city_name }}</p>
+                                      <p class="sub-text mt10">{{ $amenitystring }}</p>
+                                      <p class="sub-text mt10">{{ $roomtypesstring }} <span class="" style="margin-left: 20px;font-weight:bold;">at <i class="fa fa-inr"></i> {{ $room_cost }} </span> <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 20px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{$package_hotel->roomtype_id}},{{$package_hotel->total_rooms}})" class="btn btn-sm blue waves-effect waves-light ">Edit Hotel</button>
+                                        <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right">Pick Hotel</button>
+                                      </p>
+                                      <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $cityhotelid }}"/>
+                                      <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
+                                      <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $place->city_id }}[]" id="hotel_cost_{{ $place->city_id }}" value="{{ $room_cost }}"/>
+                                      <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $place->city_id }}[]" id="hotel_number_count_{{ $place->city_id }}" value="{{ $cityhotelroomnumbers }}"/>
+                                      <input type="text" class="hide hotel_room_type" name="hotel_room_type_{{ $place->city_id }}[]" id="hotel_room_type_{{ $place->city_id }}" value="{{ $cityhotelroomtype }}"/>
+                                    </div>
+                                    @else
+                                    <div class="media-left media-img">
+                                      <a>
+                                        <img class="responsive-img" src="{{ asset('public/assets/images/no_image.jpg') }}" alt="Hotel Image">
+                                      </a>
+                                    </div>
+                                    <div class="media-body p10">
+                                      <h4 class="media-heading">Please choose hotel</h4> 
+                                      <button id="add_hotel_button_{{ $place->city_id }}" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add Hotel</button>
+                                    </div>
+                                    @endif
+                                  </div>
+                                </div>
                               </li>
 
-                           
+                           @endif
                         @endforeach
-                       
                     </ul>
                     <div id="dummy-hotels">
                       
@@ -741,60 +734,45 @@
                   <h4 class="text-headline">Activities</h4>
                   <div class="row">
                     <ul id="place-activities" class="timeline bg-color-switch mt40 timeline-single">
-                       @php
-                        $pack_total_nights = 0;
-                      @endphp
-                      @foreach($data['booking_place'] as $place)
+                       @foreach($data['booking_place'] as $place)
                         @php 
                               $place_state_name = CommonHelper::getstateName($place->state_id);
                               $place_city_data = CommonHelper::getcityDetails($place->city_id);
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
 
-                             
-                              $pack_night_count = $place->nights_count;
-                              
-                              //dd($place);
+                              $package_activities = CommonHelper::getBookingActivities($booking_info->id,$place->city_id);
+                             // dd($package_activities);
                         @endphp
-                        @for($n=1;$n<=$pack_night_count;$n++)
-                        @php
-                           $pack_daynumber = $pack_total_nights+$n;
-                           $package_activities = CommonHelper::getBookingActivitiesDays($booking_info->id,$place->city_id,$pack_daynumber);
-                        @endphp
-                        <li data-cityid="{{$place->city_id}}" id="picked-activityli-{{$place->city_id}}-{{$pack_daynumber}}" class="tl-item list-group-item picked-activityli-{{$place->city_id}} item-avatar msg-row unread">
-                          <div class="timeline-icon ti-text">{{ $place_city_name }} - Day {{ $pack_daynumber }}</div>
+                        <li data-cityid="{{$place->city_id}}" id="picked-activityli-{{$place->city_id}}" class="tl-item list-group-item item-avatar msg-row unread">
+                          <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
                         @if($package_activities!=null)
-                            <ul id="place-activitylist-{{$place->city_id}}-{{$pack_daynumber}}" style="list-style: none !important;" class="place-activitylist" >
+                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" >
                               @foreach($package_activities as $activity)
                                @php
                                   $activityimages = $activity->activity_images;
                                   $act_image = count($activityimages)>0 ? asset('storage/app/activity/'.$activityimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
-                                  //dd($activity);
+                                 // dd($activity);
                                   $package_activity_cost= CommonHelper::getBookingActivityCost($booking_info->id,$activity->id);
                                 @endphp
                               <li>
                                 <div id="city_activity_id_{{ $activity->id }}" class="msg-wrapper">
-                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from hide"><i class="fa fa-inr hide"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
+                                  <img src="{{ $act_image }}" alt="" class="avatar "><a class="msg-sub">{{ $activity->title_name }}</a><a class="msg-from"><i class="fa fa-inr"></i> <span id="total_activity_value_{{ $activity->id }}">{{ $package_activity_cost }}</span></a>
                                   <p>
-                                    <input type="text" class="hide" name="second_activity_{{$place->city_id}}_{{$pack_daynumber}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
-                                    <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}_{{$pack_daynumber}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
-                                    <input type="text" class="hide activity_person_cost" name="activity_person_cost_{{$place->city_id}}_{{$pack_daynumber}}[]"  id="activity_person_cost_{{ $activity->id }}" value="{{$activity->amount}}" />
+                                    <input type="text" class="hide" name="second_activity_{{$place->city_id}}[]" id="second_activity_{{$place->city_id}}" value="{{ $activity->id }}"/>
+                                    <input type="text" class="hide activity_cost" name="activity_cost_{{$place->city_id}}[]" id="activity_cost_{{ $activity->id }}" value="{{ $package_activity_cost }}"/>
+                                    <input type="text" class="hide activity_person_cost" name="activity_person_cost_{{$place->city_id}}[]"  id="activity_person_cost_{{ $activity->id }}" value="{{$activity->amount}}" />
                                     <a onclick="return RemoveActivityDB({{ $booking_info->id }}, {{ $activity->id }},{{$place->city_id}})" style="color: red;cursor:pointer;" class="">Remove</a></p>
                                 </div>
                               </li>
                               @endforeach
                             </ul>
-                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{ $pack_daynumber }})" class="btn btn-sm purple waves-effect waves-light pull-right" style="top: -20px;"><i class="mdi mdi-plus left"></i>Add activity</a>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right" style="top: -20px;"><i class="mdi mdi-plus left"></i>Add activity</a>
                         @else
-                            <ul id="place-activitylist-{{$place->city_id}}-{{$pack_daynumber}}" style="list-style: none !important;" class="place-activitylist" ></ul>
-                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{ $pack_daynumber }})" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
+                            <ul id="place-activitylist-{{$place->city_id}}" style="list-style: none !important;" class="place-activitylist" ></ul>
+                            <a id="pick-actitity-link-{{$place->city_id}}" href="#" onclick="PickActity({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light pull-right"><i class="mdi mdi-plus left"></i>Add activity</a>
                         @endif
                         </li>
-                        @endfor
-                        @php
-                          $pack_total_nights += $pack_night_count;
-                        @endphp
-                       
                       @endforeach
                     </ul>
                     <div id="dummy-activities">
@@ -803,131 +781,6 @@
                   </div>
                 </div>
             
-            </fieldset>
-            <h3>Transportation</h3>
-            <fieldset>
-                <div class="col-sm-12">
-                  <h4 class="text-headline">Transportation Charges [Total : <span id="totaltransportcharges"></span>]</h4>
-                  <div class="row">
-                    <ul id="place-transports" class="timeline bg-color-switch mt40 timeline-single">
-                        @foreach($data['booking_place'] as $place)
-                        @php 
-                          $place_state_name = CommonHelper::getstateName($place->state_id);
-                          $place_city_data = CommonHelper::getcityDetails($place->city_id);
-                          $place_city_name = $place_city_data->city_name;
-                          $place_city_image = $place_city_data->city_image;
-
-                          $interest_tax_amt = CommonHelper::getInterestRateTax($place->state_id);
-                          $packagetransports = CommonHelper::getBookingTransports($booking_info->id,$place->city_id);
-                         // dd($packagetransports);
-                          $firsttransport = count($packagetransports)>0 ? $packagetransports[0] : '';
-                          //dd($firsttransport);
-                        @endphp
-                        <li data-cityid="{{$place->city_id}}" id="transportli-{{$place->city_id}}" class="tl-item hotel-list-panel">
-                          <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
-                          <div id="transport_city_{{$place->city_id}}" style="" class="hotel-panel"> 
-                            <div id="transport_citydata_{{$place->city_id}}"> 
-                              <br>
-                              <div class="col-md-12 form-horizontal">
-                                  <div id="initialCharge_{{$place->city_id}}" class="col-md-11 initialCharge_{{$place->city_id}}" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;">
-                                       <div id="airportpick" class="form-group">
-                                        <label for="airportpickup" class="col-sm-6 control-label">{{__('Airport(pickup/Drop)') }}</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->airportpickup_amount}}@endif" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                        
-                                      </div><!-- /.form-group -->
-                                     
-                                      <div class="form-group">
-                                        <label for="driverbeta" class="col-sm-6 control-label">{{__('Driver beta') }}</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->driverbeta_amount}}@endif" class="allow_decimal driverbeta" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                      </div><!-- /.form-group -->
-                                      <div class="form-group">
-                                        <label for="tollparking" class="col-sm-6 control-label">{{__('Toll & Parking') }}</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_{{$place->city_id}}[]" value="@if($firsttransport){{$firsttransport->tollparking_amount}}@endif" class="allow_decimal tollparking" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                      </div><!-- /.form-group -->
-                                  </div>
-                                  <div class="col-md-1">
-                                    <button type="button" onclick="return AddMoreAirport({{$place->city_id}})" class="btn btn-circle theme waves-effect waves-circle waves-light"><i class="mdi mdi-plus"></i></button>
-                                  </div>
-                                  <div id="moreCharges_{{$place->city_id}}">
-                                  @foreach($packagetransports as $key => $transports)
-                                  @if($key!=0)
-                                  <div id="initialCharge_{{$place->city_id}}" class="col-md-11 initialCharge_{{$place->city_id}}" style="border-bottom: 1px solid #d4c8c8;padding-bottom: 15px; margin-bottom: 10px;">
-                                       <div id="airportpick" class="form-group">
-                                        <label for="airportpickup" class="col-sm-6 control-label">Airport(pickup/Drop)</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="airportpickup" onkeyup="return CalculateTransport()" class="allow_decimal airportpickup" name="airportpickup_{{$place->city_id}}[]" value="{{$transports->airportpickup_amount}}" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                        
-                                      </div><!-- /.form-group -->
-                                     
-                                      <div class="form-group">
-                                        <label for="driverbeta" class="col-sm-6 control-label">Driver beta</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="driverbeta" onkeyup="return CalculateTransport()" name="driverbeta_{{$place->city_id}}[]" value="{{$transports->driverbeta_amount}}" class="allow_decimal driverbeta" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                      </div><!-- /.form-group -->
-                                      <div class="form-group">
-                                        <label for="tollparking" class="col-sm-6 control-label">Toll &amp; Parking</label>
-                                        <div class="col-sm-6">     
-                                          <div class="input-field">
-                                            <input type="text" id="tollparking" onkeyup="return CalculateTransport()" name="tollparking_{{$place->city_id}}[]" value="{{$transports->tollparking_amount}}" class="allow_decimal tollparking" placeholder="">    
-                                            <div class="input-highlight"></div>
-                                          </div>
-                                        </div><!-- /.col- -->
-                                      </div><!-- /.form-group -->
-                                  </div><div class="col-md-1"><button type="button" onclick="return RemoveMoreAirport(this,{{$place->city_id}})" class="btn btn-circle theme waves-effect red waves-circle waves-light"><i class="mdi mdi-delete"></i></button></div>
-                                  @endif
-                                  @endforeach
-                                  </div>
-                                  <div class="col-md-11">
-                                     <div class="form-group">
-                                      <label for="interestrate" class="col-sm-6 control-label">{{__('Inter State Tax') }}</label>
-                                      <div class="col-sm-6">     
-                                        <div class="input-field">
-                                          <input type="text" onkeyup="return CalculateTransport()" id="interestrate_{{$place->city_id}}" name="interestrate_{{$place->city_id}}" class="allow_decimal interestrate" value="@if($firsttransport){{$firsttransport->interestrate_amount}}@endif" placeholder="">    
-                                          <div class="input-highlight"></div>
-                                        </div>
-                                      </div><!-- /.col- -->
-                                    </div><!-- /.form-group -->
-                                  </div>
-                                 
-                                  <div class="col-md-1">
-                                    &nbsp;
-                                  </div>
-                                 
-                              </div>
-                               
-                            </div>
-                          </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                    <div id="dummy-transports">
-                      
-                    </div>
-                  </div>
-                </div>
             </fieldset>
             <h3>Summary</h3>
             <fieldset>
@@ -1590,10 +1443,6 @@
                return formsubmit;
             }
             if(newIndex===3){
-              CalculateTransport();
-            }
-            if(newIndex===4){
-              CalculateDaysNights();
               $("#travel-section").addClass('hide');
               $(".price-section").removeClass('hide');
               var total_hotel_cost = 0;

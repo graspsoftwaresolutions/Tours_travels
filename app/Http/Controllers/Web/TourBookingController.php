@@ -99,7 +99,8 @@ class TourBookingController extends Controller
         $booking->grand_total = $Package_details->total_amount;
         $booking->payment_mode = $request->payment_mode;
         $booking->reference_number = $request->reference_number;
-        $booking->payment_mode = $request->payment_mode;
+        $booking->payment_type = 1;
+        //$booking->payment_mode = $request->payment_mode;
         $booking->user_booking = 1;
         $booking->created_by = Auth::user()->id;
         $booking->save();

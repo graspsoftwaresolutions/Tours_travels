@@ -223,6 +223,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/get-bookinghotel-list', 'Admin\BookingController@PackageHotels')->name('get-bookinghotel-list');
 
     Route::get('/get-bookingactivity-list', 'Admin\BookingController@PackageActivities')->name('get-bookingactivity-list');
+    Route::get('/get_package_transports', 'Admin\BookingController@getTransportdata')->name('get_package_transports');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');

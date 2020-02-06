@@ -12,6 +12,7 @@ use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
 use App\Model\Admin\ActivityImages;
+use App\Model\Admin\BookigTransports;
 use App\Model\Admin\Package;
 use App\Model\Admin\Activity;
 use Session;
@@ -93,12 +94,25 @@ class BookingController extends Controller
          $SaveBooking->grand_total = $request->grand_total_amount;
          $SaveBooking->booking_number =  CommonHelper::newbookingNumber();
 
+         $paymenttype = $request->paymenttype;
+         $SaveBooking->payment_type = $paymenttype;
+         if($paymenttype==2){
+            $SaveBooking->paid_amount = $request->pay_amount;
+            $SaveBooking->balance_amount = $request->balance_amount;
+            $SaveBooking->paid_percentage = $request->pay_percent;
+            $SaveBooking->balance_percentage = $request->balance_percent;
+         }else{
+            $SaveBooking->paid_amount = $request->grand_total_amount;
+            $SaveBooking->balance_amount = 0;
+         }
+
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 
 
           $check_picked_state = $request->input('picked_state');
 			if( isset($check_picked_state)){
-				$state_count = count($request->input('picked_state'));
+                $state_count = count($request->input('picked_state'));
+                $total_nights = 0;
 				for($i =0; $i<$state_count; $i++){
 					$state_id = $request->input('picked_state')[$i];
                     $city_id = $request->input('picked_city')[$i];
@@ -116,43 +130,86 @@ class BookingController extends Controller
                     $booking_place->nights_count = $nights_count;
                     $booking_place->save();
 
+                    $check_hotel_id = $request->input('second_hotel_'.$city_id);
                     $hotel_id = $request->input('second_hotel_'.$city_id);
                    
-                    if(isset($hotel_id)){
-                        $booking_hotel = new BookingHotel() ;
-                        $booking_hotel->booking_id = $booking_id;
-                        $booking_hotel->city_id = $city_id;
-                        $booking_hotel->hotel_id = $hotel_id[0];
-                        $hotel_nos = $request->input('hotel_number_count_'.$city_id);
-                        $hotel_room_type = $request->input('hotel_room_type_'.$city_id);
-                        if(isset($hotel_room_type)){
-                            $booking_hotel->roomtype_id = $hotel_room_type[0];
+                    if(isset($check_hotel_id)){
+                        $hotel_count = count($request->input('second_hotel_'.$city_id));
+                        for($k =0; $k<$hotel_count; $k++){
+                            $hotel_id = $request->input('second_hotel_'.$city_id)[$k];
+                            $check_hotel_typeid = $request->input('hotel_room_type_'.$hotel_id);
+                            if(isset($check_hotel_typeid)){
+                                $hoteltype_count = count($request->input('hotel_room_type_'.$hotel_id));
+                                for($l =0; $l<$hoteltype_count; $l++){
+                                    $hotel_room_type_id = $request->input('hotel_room_type_'.$hotel_id)[$l];
+                                    $hotel_room_type_numbers = $request->input('type_hotel_number_count_'.$hotel_id)[$l];
+                                    $hotel_room_type_cost = $request->input('hotel_room_cost_'.$hotel_id)[$l];
+
+                                    $booking_hotel = new BookingHotel() ;
+                                    $booking_hotel->booking_id = $booking_id;
+                                    $booking_hotel->city_id = $city_id;
+                                    $booking_hotel->hotel_id = $hotel_id;
+                                    $booking_hotel->roomtype_id = $hotel_room_type_id;
+                                    $booking_hotel->total_rooms = $hotel_room_type_numbers;
+                                    $booking_hotel->total_amount = $hotel_room_type_cost;
+                                    $booking_hotel->save();
+
+                                }
+                            }
                         }
-                        if(isset($hotel_nos)){
-                            $booking_hotel->total_rooms = $hotel_nos[0];
-                        }
-                        $hotel_cost = $request->input('hotel_cost_'.$city_id);
-                        if(isset($hotel_cost)){
-                            $booking_hotel->total_amount = $hotel_cost[0];
-                        }
-                        
-                        $booking_hotel->save();
+                       
                     }
 
-                    $activity_ids = $request->input('second_activity_'.$city_id);
-                    if( isset($activity_ids)){
-                        $activity_count = count($activity_ids);
-                        for($j =0; $j<$activity_count; $j++){
-                            $activity_id = $request->input('second_activity_'.$city_id)[$j];
-                            $booking_activities = new BookingActivities() ;
-                            $booking_activities->booking_id = $booking_id;
-                            $booking_activities->city_id = $city_id;
-                            $booking_activities->activity_id = $activity_id;
-                            $activity_cost = $request->input('activity_cost_'.$city_id);
-                            if(isset($activity_cost)){
-                                $booking_activities->total_amount = $activity_cost[$j];
+                    if($nights_count>0){
+                        for($n=1;$n<=$nights_count;$n++){
+                            $day_number = $total_nights+$n;
+                            $activity_ids = $request->input('second_activity_'.$city_id.'_'.$day_number);
+                            if( isset($activity_ids)){
+                                $activity_count = count($activity_ids);
+                                for($j =0; $j<$activity_count; $j++){
+                                    $activity_id = $request->input('second_activity_'.$city_id.'_'.$day_number)[$j];
+                                    $booking_activities = new BookingActivities() ;
+                                    $booking_activities->booking_id = $booking_id;
+                                    $booking_activities->day_numbers = $day_number;
+                                    $booking_activities->city_id = $city_id;
+                                    $booking_activities->activity_id = $activity_id;
+                                    $activity_cost = $request->input('activity_cost_'.$city_id.'_'.$day_number);
+                                    if(isset($activity_cost)){
+                                        $booking_activities->total_amount = $activity_cost[$j];
+                                    }
+                                    $booking_activities->save();
+                                }
                             }
-                            $booking_activities->save();
+                        }
+                        
+                    }
+                    $total_nights += $nights_count;
+
+                    $pickup_ids = $request->input('airportpickup_'.$city_id);
+                    if( isset($pickup_ids)){
+                        $pickup_count = count($pickup_ids);
+                        for($m =0; $m<$pickup_count; $m++){
+                            $pickup_amt = $request->input('airportpickup_'.$city_id)[$m];
+                            $driverbeta_amt = $request->input('driverbeta_'.$city_id)[$m];
+                            $tollparking_amt = $request->input('tollparking_'.$city_id)[$m];
+                            $interestrate_amt = $m==0 ? $request->input('interestrate_'.$city_id) : 0;
+                           $pickup_amt = $pickup_amt==null ? 0 : $pickup_amt;
+                           $driverbeta_amt = $driverbeta_amt==null ? 0 : $driverbeta_amt;
+                           $tollparking_amt = $tollparking_amt==null ? 0 : $tollparking_amt;
+                           $interestrate = $interestrate_amt==null ? 0 : $interestrate_amt;
+
+                            if($pickup_amt!=0 || $driverbeta_amt!=0 || $tollparking_amt!=0 || $interestrate!=0){
+                                $booking_transports = new BookigTransports() ;
+                                $booking_transports->booking_id = $booking_id;
+                                $booking_transports->city_id = $city_id;
+                                $booking_transports->airportpickup_amount = $pickup_amt;
+                                $booking_transports->driverbeta_amount = $driverbeta_amt;
+                                $booking_transports->tollparking_amount = $tollparking_amt;
+                                $booking_transports->interestrate_amount = $interestrate;
+                                $booking_transports->day_numbers = $m+1;
+                                $booking_transports->save();
+                            }
+                            
                         }
                     }
                    // dd($hotel_id);
@@ -193,6 +250,8 @@ class BookingController extends Controller
         $booking_id = $request->input('booking_id');
         return DB::table('booking_activities')->where('booking_id','=',$booking_id)->where('activity_id','=',$activity_id)->delete();
     }
+
+
 
     public function bookingUpdate(Request $request){
         // return $request->all();
@@ -347,12 +406,27 @@ class BookingController extends Controller
                 array(
                     'activity_images'
                 ))->where('id',$activityid)->get();
-            $activity_data['activity_data'] =  $activities;
-            $activity_data['cost'] = CommonHelper::getPackageActivityCost($package_id,$activityid);
+            $activity_data[$activityid]['activity_data'] =  $activities;
+            $activity_data[$activityid]['cost'] = CommonHelper::getPackageActivityCost($package_id,$activityid);
+            $activity_data[$activityid]['daynumber'] =  $day_number;
             
         }
        // $package_activities = CommonHelper::getPackageActivities($package_id,$city_id,$day_number);
         return $activity_data;
+    }
+
+    public function getTransportdata(Request $request){
+        $package_id = $request->input('package_id');
+        $city_id = $request->input('city_id');
+        $state_id = $request->input('state_id');
+        $transports = DB::table('package_transports')
+                 ->select('city_id',DB::raw('sum(airportpickup_amount) as airportpickup_amount'),DB::raw('sum(driverbeta_amount) as driverbeta_amount'),DB::raw('sum(tollparking_amount) as tollparking_amount'),DB::raw('sum(interestrate_amount) as interestrate_amount'))
+                 ->where('city_id',$city_id)
+                 ->where('package_id',$package_id)
+                 ->groupBy('city_id')
+                // ->dump()
+                 ->first();
+        return json_encode($transports);
     }
 
 }
