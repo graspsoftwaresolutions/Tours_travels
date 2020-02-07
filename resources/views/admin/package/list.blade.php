@@ -273,8 +273,8 @@
 //    // $('#datatable-master').dataTable();
 // })(jQuery);
 
-function ConfirmDeletion() {
-    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+function ConfirmMail() {
+    if (confirm("{{ __('Are you sure you want to send Email?') }}")) {
         return true;
     } else {
         return false;

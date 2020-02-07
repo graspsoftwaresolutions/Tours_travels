@@ -25,12 +25,18 @@
 </style>
 </head>
 <body class="support-request_success">
-
+@php $username = Ucfirst($customer_data->name); @endphp
 <div class="container">
-  <div class="row">                <div id="content" class="col-sm-12">      <div class="sp-content">
+  <div class="row"> <div id="content" class="col-sm-12">      <div class="sp-content">
         <div class="icon"><i class="fa fa-check"></i></div>
-        Dear User,
-        <p>herewith we have attached your booking invoice</p>
+         Dear {{$username}},
+         <p>Thank you for choosing to Tours and travel.</p> 
+         <p>Your booking Has Been Submitted, We will confirm your booking with you soon.</p> 
+         <p>Thank you for choosing to Tours and travel.</p>  
+         <p>Yours sincerely,</p> 
+          @php $companydata = CommonHelper::getWebsiteDetails(); @endphp
+          <p>{{$companydata->company_name}}</p>
+        <p></p>
       </div>
     </div>
 </div>

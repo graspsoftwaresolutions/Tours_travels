@@ -105,7 +105,6 @@ class TourBookingController extends Controller
         $booking->reference_number = $request->reference_number;
         $booking->payment_type = 1;
         $booking->booking_number =  CommonHelper::newbookingNumber();
-        //$booking->payment_mode = $request->payment_mode;
         $booking->user_booking = 1;
         $booking->created_by = Auth::user()->id;
         $booking->save();
@@ -172,15 +171,16 @@ class TourBookingController extends Controller
         
         if($data['booking_details']!='')
         {
+            $booking_number = $data['booking_details'][0]->booking_number;
            // return view('web.tour.pdf.booking_invoicepdf')->with('data',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-            $pdf->save(storage_path('app/pdf/'.$data['booking_details'][0]->booking_number.'_booking_invoice.pdf'));
+            $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
         }              
         $to_email =  $customer_data->email;
-       // $to_email =  'mounika.bizsoft@gmail.com';
+        //$to_email =  'mounika.bizsoft@gmail.com';
         $cc_email = 'shyni.bizsoft@gmail.com';
 
-       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_last_id,$customer_data));
+       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_number,$customer_data));
 
         return redirect()->route('itineray_created')->with('message','Your Booked Trips'); 
     }

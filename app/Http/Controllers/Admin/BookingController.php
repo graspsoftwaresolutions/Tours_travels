@@ -499,9 +499,9 @@ class BookingController extends Controller
     {
         $bookingid = crypt::decrypt($encid);
         $data['booking_details'] = DB::table('booking_master')->where('id','=',$bookingid)->get();
-        $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
+           $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
         
-        $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
+              $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
         
         if($data['booking_details']!='')
         { 
@@ -516,8 +516,7 @@ class BookingController extends Controller
 
        \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_number,$customer_data));
 
-       $data = [];
-       return view('admin.booking.list')->with('data',$data);
+       return redirect('admin/booking_list')->with('message','Mail Sent Successfully!!');
     }
 
     //Booking Follow up view

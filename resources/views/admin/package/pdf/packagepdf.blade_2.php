@@ -244,10 +244,8 @@
                               <p style="margin-left:90px;">{!! $activity->overview !!}</p>  <!-- <textarea> </textarea> -->
 
                                @php
-                                    //  dd($activity);
-                               
-                                   $inclusion = $activity->inclusion_name; 
-                                   
+                                    //  dd($activity);               
+                                   $inclusion = $activity->inclusion_name;     
                                     if(!empty($inclusion))
                                     {
                                         $someArray = json_decode($inclusion, true);
@@ -300,7 +298,6 @@
                           <td >Infant per price : {{$package->infant_price ? $package->infant_price : ''}} </td>
                         </tr>         
 						</table>
-
               <div style="width:80%;margin:0 auto;">
                             <h2 style="text-align:left;"><b>  Contact Info</b> </h2>	
                         </div>

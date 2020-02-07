@@ -210,10 +210,9 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/booking-edit/{parameter}','Admin\BookingController@EditBooking')->name('booking.edit');
     Route::get('/booking-invoice/{parameter}','Admin\BookingController@bookingInvoice')->name('booking.invoice');
 
-    //Currency 
+    //Currency
     Route::get('/currency','Admin\SettingsController@currencySettings')->name('currency.new');
     Route::post('/currency_save','Admin\SettingsController@currencySave')->name('currency_save');
-
     Route::get('/delete_booking_activity','Admin\BookingController@DeleteActivity')->name('delete_booking_activity');
     Route::post('/booking_update', 'Admin\BookingController@bookingUpdate')->name('booking_update');
     Route::get('/packages_customized', 'Admin\PackageController@CustomizedList')->name('package.customized');
