@@ -174,7 +174,7 @@ class TourBookingController extends Controller
         {
            // return view('web.tour.pdf.booking_invoicepdf')->with('data',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-            $pdf->save(storage_path('app/pdf/'.$booking_last_id.'_booking_invoice.pdf'));
+            $pdf->save(storage_path('app/pdf/'.$data['booking_details'][0]->booking_number.'_booking_invoice.pdf'));
         }              
         $to_email =  $customer_data->email;
        // $to_email =  'mounika.bizsoft@gmail.com';

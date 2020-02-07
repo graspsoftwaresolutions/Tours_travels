@@ -47,6 +47,7 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
+                                    <th width="20%">{{__('Itinerary Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
                                     <th width="15%">{{__('Itinerary Type')}}</th>
                                     <th width="15%">{{__('Adult Count')}} </th>
@@ -147,6 +148,9 @@
             },
         },
         "columns": [
+            {
+                "data": "package_number"
+            },
             {
                 "data": "package_name"
             },

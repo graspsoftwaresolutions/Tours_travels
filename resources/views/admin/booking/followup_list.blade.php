@@ -47,6 +47,7 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
+                                <th width="20%">{{__('Booking Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
                                     <th width="20%">{{__('Customer Name')}} </th>
                                     <th width="20%">{{__('Total Amount ')}} </th>
@@ -110,6 +111,9 @@
             },
         },
         "columns": [
+            {
+                "data": "booking_number"
+            },
             {
                 "data": "package_name"
             },

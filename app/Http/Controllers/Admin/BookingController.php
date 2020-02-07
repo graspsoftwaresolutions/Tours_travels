@@ -19,6 +19,7 @@ use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
 use Auth;
+use PDF;
 class BookingController extends Controller
 {
     public function __construct()
@@ -300,7 +301,8 @@ class BookingController extends Controller
          $SaveBooking->from_date = $request->from_date;
          $SaveBooking->to_date = $request->to_date;
          $SaveBooking->grand_total = $request->grand_total_amount;
-         $SaveBooking->user_booking  = 0;         
+         $SaveBooking->user_booking  = 0;   
+         $SaveBooking->payment_mode  = 'cash';      
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
 
@@ -496,7 +498,26 @@ class BookingController extends Controller
     public function bookingInvoice($encid)
     {
         $bookingid = crypt::decrypt($encid);
-        $booking_details = DB::table('booking_master')->where('id','=',$bookingid)->first();
+        $data['booking_details'] = DB::table('booking_master')->where('id','=',$bookingid)->get();
+        $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
+        
+        $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
+        
+        if($data['booking_details']!='')
+        { 
+           $booking_number = $data['booking_details'][0]->booking_number;
+           // return view('web.tour.pdf.booking_invoicepdf')->with('data',$data);
+            $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
+            $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
+        }              
+        $to_email =  $customer_data->email;
+      //  $to_email =  'mounika.bizsoft@gmail.com';
+        $cc_email = 'shyni.bizsoft@gmail.com';
+
+       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_number,$customer_data));
+
+       $data = [];
+       return view('admin.booking.list')->with('data',$data);
     }
 
     //Booking Follow up view

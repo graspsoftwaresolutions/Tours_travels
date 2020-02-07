@@ -47,6 +47,7 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
+                                    <th width="20%">{{__('Booking Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
                                     <th width="20%">{{__('Customer Name')}} </th>
                                     <th width="20%">{{__('Total Amount ')}} </th>
@@ -111,6 +112,9 @@
         },
         "columns": [
             {
+                "data": "booking_number"
+            },
+            {
                 "data": "package_name"
             },
             {
@@ -133,101 +137,8 @@
    // $('#datatable-master').dataTable();
 })(jQuery);
 
-// (function($){
-   
-//     $('#datatable-master').DataTable({
-    
-//     "columnDefs": [{
-//       "visible": false,
-//       "targets": 0
-//     }],
-//     "order": [
-//       [0, 'asc']
-//     ],
-//      // dom: 'lBfrtip', 
-//      //    buttons: [
-//      //       {
-//      //           extend: 'pdf',
-//      //           footer: true,
-//      //           exportOptions: {
-//      //                columns: [0,1]
-//      //            },
-//      //            title : 'State List',
-//      //            text: '<i class="fa fa-file-pdf-o"></i>',
-//      //            titleAttr: 'pdf'
-//      //       },
-//      //       {
-//      //           extend: 'excel',
-//      //           footer: false,
-//      //           exportOptions: {
-//      //                columns: [0,1]
-//      //            },
-//      //            title : 'State List',
-//      //            text:    '<i class="fa fa-file-excel-o"></i>',
-//      //            titleAttr: 'excel'
-//      //       },
-//      //        {
-//      //           extend: 'print', 
-//      //           footer: false,
-//      //           exportOptions: {
-//      //                columns: [0,1]
-//      //            },
-//      //            title : 'State List',
-//      //            text:   '<i class="fa fa-files-o"></i>',
-//      //            titleAttr: 'print'
-//      //       }  
-//      //    ],
-//     // "drawCallback": function (settings) {
-//     //   var api = this.api();
-//     //   var rows = api.rows({
-//     //     page: 'current'
-//     //   }).nodes();
-//     //   var last = null;
-
-//     //   api.column(0, {
-//     //     page: 'current'
-//     //   }).data().each(function (group, i) {
-//     //     if (last !== group) {
-//     //       $(rows).eq(i).before(
-//     //         '<tr class="group"><td colspan="2">' + group + '</td></tr>'
-//     //       );
-
-//     //       last = group;
-//     //     }
-//     //   });
-//     // },
-//     "processing": true,
-//         "serverSide": true,
-//         "ajax": {
-//             "url": "{{ url('/ajax_activities_list') }}",
-//             "dataType": "json",
-//             "type": "POST",
-//             "data": {
-//                 _token: "{{csrf_token()}}"
-//             },
-//             "error": function (jqXHR, textStatus, errorThrown) {
-//                 if(jqXHR.status==419){
-//                     alert('Your session has expired, please login again');
-//                     window.location.href = base_url;
-//                 }
-//             },
-//         },
-//         "columns": [{
-//                 "data": "hotel_name"
-//             },
-//             {
-//                 "data": "contact_name"
-//             },
-//             {
-//                 "data": "options"
-//             }
-//         ]
-//   });
-//    // $('#datatable-master').dataTable();
-// })(jQuery);
-
-function ConfirmDeletion() {
-    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
+function ConfirmMail() {
+    if (confirm("{{ __('Are you sure you want to send email?') }}")) {
         return true;
     } else {
         return false;
