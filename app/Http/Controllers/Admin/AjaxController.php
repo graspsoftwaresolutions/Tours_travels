@@ -928,12 +928,12 @@ class AjaxController extends CommonController
     {   
         $columns = array( 
 
-            0 => 'package_name', 
+            0 => 'id', 
             1 => 'customer_name', 
             1 => 'grand_total',
             3 => 'state_name',
             4 => 'city_name',
-            5 => 'id'
+            5 => 'package_name'
         );
 
         $totalData = DB::table('booking_master as b')
@@ -963,7 +963,7 @@ class AjaxController extends CommonController
                     ->join('city as cit','cit.id','=','p.to_city_id')
                     ->join('state as st','st.id','=','p.to_state_id')
             ->orderBy($order,$dir)
-            ->where('p.status','=','1')
+            ->where('b.status','=','1')
             ->where('b.user_booking','=','0')
             ->get()->toArray();
         }else{
@@ -976,8 +976,9 @@ class AjaxController extends CommonController
             ->offset($start)
             ->limit($limit)
             ->orderBy($order,$dir)
-            ->where('p.status','=','1')
+            ->where('b.status','=','1')
             ->where('b.user_booking','=','0')
+           // ->dump()
             ->get()->toArray();
         }
         //$Activity->dump();
@@ -1055,7 +1056,8 @@ class AjaxController extends CommonController
                 $nestedData['state_name'] = $booking->state_name;
                 $enc_id = Crypt::encrypt($booking->id);
                 $edit = route('booking.edit',$enc_id);
-                $pdf = route('booking.invoice',$enc_id);
+               // $pdf = route('booking.invoice',$enc_id);  
+                $pdf = route('booking.pdf',$enc_id);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Invoice' href='$pdf'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
                 
@@ -1076,12 +1078,12 @@ class AjaxController extends CommonController
     {
         $columns = array( 
 
-            0 => 'package_name', 
+            0 => 'id', 
             1 => 'customer_name', 
             1 => 'grand_total',
             3 => 'state_name',
             4 => 'city_name',
-            5 => 'id'
+            5 => 'package_name'
         );
 
         $totalData = DB::table('booking_master as b')
@@ -1207,6 +1209,155 @@ class AjaxController extends CommonController
                 $edit = route('booking.edit',$enc_id);
                 $pdf = route('booking.pdf',$enc_id);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>";
+                $nestedData['options'] = $actions;
+                
+                $data[] = $nestedData;
+            }
+        }
+        //dd($totalFiltered);
+
+        $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+        echo json_encode($json_data); 
+    }
+    public function ajax_followupbooking_list(Request $request)
+    {   
+        $columns = array( 
+
+            0 => 'id', 
+            1 => 'customer_name', 
+            1 => 'grand_total',
+            3 => 'paid_amount',
+            4 => 'balance_amount',
+            5 => 'package_name'
+        );
+
+        $totalData = DB::table('booking_master as b')
+            ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+            ->join('package_master as p','p.id','=','b.package_id')
+            ->join('customer_details as cd','cd.id','=','b.customer_id')
+            ->join('city as cit','cit.id','=','p.to_city_id')
+            ->join('state as st','st.id','=','p.to_state_id')
+            ->where('b.payment_type','=','2')
+        ->count();
+        
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+        if( $limit == -1){ 
+            $booking = DB::table('booking_master as b')
+                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
+            ->orderBy($order,$dir)
+            ->where('b.status','=','1')
+            ->where('b.payment_type','=','2')
+            ->get()->toArray();
+        }else{
+                $booking =  DB::table('booking_master as b')
+                            ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                            ->join('package_master as p','p.id','=','b.package_id')
+                            ->join('customer_details as cd','cd.id','=','b.customer_id')
+                            ->join('city as cit','cit.id','=','p.to_city_id')
+                            ->join('state as st','st.id','=','p.to_state_id')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('b.status','=','1')
+                ->where('b.payment_type','=','2')
+               // ->dump()
+                ->get()->toArray();
+            }
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+        $booking =DB::table('booking_master as b')
+                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
+                    ->where('b.status','=','1')
+                    ->where('b.payment_type','=','2')
+                    ->where(function($query) use ($search){
+                    $query->orWhere('p.package_name', 'LIKE',"%{$search}%")
+                    
+                    ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+                      ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%"); 
+                })
+                ->orderBy($order,$dir)
+                ->get()->toArray();
+        }else{
+        $booking = DB::table('booking_master as b')
+                ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                ->join('package_master as p','p.id','=','b.package_id')
+                ->join('customer_details as cd','cd.id','=','b.customer_id')
+                ->join('city as cit','cit.id','=','p.to_city_id')
+                ->join('state as st','st.id','=','p.to_state_id')
+                ->where('b.status','=','1')
+                ->where('b.payment_type','=','2')
+                    ->where(function($query) use ($search){
+                        $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+                        ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                        ->orWhere('city_name', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                    })
+                    ->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }
+            $totalFiltered = DB::table('booking_master as b')
+                    ->select('b.id','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
+                    ->where('b.status','=','1')
+                    ->where('b.payment_type','=','2')
+                    ->where('p.id','LIKE',"%{$search}%")
+                    ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+                    ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                ->count();
+        }
+        // $table ="activities";
+        //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+        //   dd($Activity);
+        $data = array();
+        if(!empty($booking))
+        {
+            foreach ($booking as $booking)
+            {  
+                $nestedData['id'] = $booking->id;
+                $nestedData['package_name'] = $booking->package_name;
+                $nestedData['grand_total'] = $booking->grand_total;
+                $nestedData['customer_name'] = $booking->name;
+                $nestedData['paid_amount'] = $booking->paid_amount;
+                $nestedData['balance_amount'] = $booking->balance_amount;
+                $enc_id = Crypt::encrypt($booking->id);
+                $edit = route('booking.edit',$enc_id);
+                //$pdf = route('booking.invoice',$enc_id);
+                $pdf = route('booking.pdf',$enc_id);
+                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Invoice' href='$pdf'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
                 
                 $data[] = $nestedData;

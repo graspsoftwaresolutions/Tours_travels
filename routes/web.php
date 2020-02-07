@@ -220,11 +220,13 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('/ajax_cust_package_list','Admin\PackageController@ajax_cust_package_list')->name('ajax_cust_package_list');
 
     Route::get('/get_state_taxrate', 'Admin\PackageController@getTaxRate')->name('get_state_taxrate');
-
     Route::get('/get-bookinghotel-list', 'Admin\BookingController@PackageHotels')->name('get-bookinghotel-list');
 
     Route::get('/get-bookingactivity-list', 'Admin\BookingController@PackageActivities')->name('get-bookingactivity-list');
     Route::get('/get_package_transports', 'Admin\BookingController@getTransportdata')->name('get_package_transports');
+    
+    Route::get('/follow_up_booking', 'Admin\BookingController@followupBooking')->name('booking.followup');
+    Route::post('/ajax_followupbooking_list','Admin\AjaxController@ajax_followupbooking_list')->name('ajax_followupbooking_list');
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
@@ -258,7 +260,6 @@ Route::get('/dashboard','Web\PackageController@createdItineray')->name('itineray
 
 Route::post('/direct_booking','Web\TourBookingController@bookingSave')->name('direct_booking');
 Route::get('/add_package','Web\PackageController@AddPackage')->name('add_package');
-
 Route::get('/city_hotels','Web\PackageController@HotelsList')->name('web.city_hotels');
 Route::get('city_activities','Web\PackageController@ActivitiesList')->name('web.city_activities');
 Route::get('/city_hotels_details','Web\PackageController@HotelDetails')->name('web.city_hotels_details');

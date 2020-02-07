@@ -18,7 +18,7 @@ use App\Model\Admin\Activity;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
-
+use Auth;
 class BookingController extends Controller
 {
     public function __construct()
@@ -94,6 +94,7 @@ class BookingController extends Controller
          $SaveBooking->grand_total = $request->grand_total_amount;
          $SaveBooking->booking_number =  CommonHelper::newbookingNumber();
          $SaveBooking->created_by = Auth::user()->id;
+         $SaveBooking->user_booking = 0;
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
 
@@ -299,7 +300,7 @@ class BookingController extends Controller
          $SaveBooking->from_date = $request->from_date;
          $SaveBooking->to_date = $request->to_date;
          $SaveBooking->grand_total = $request->grand_total_amount;
-
+         $SaveBooking->user_booking  = 0;         
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
 
@@ -496,7 +497,16 @@ class BookingController extends Controller
     {
         $bookingid = crypt::decrypt($encid);
         $booking_details = DB::table('booking_master')->where('id','=',$bookingid)->first();
+    }
 
-       
+    //Booking Follow up view
+    public function followupBooking()
+    {
+        return view('admin.booking.followup_list');
+    }
+    //Booking Follow up list
+    public function ajax_followupbooking_list(Request $request)
+    {
+        
     }
 }

@@ -532,6 +532,7 @@
 @section('footerSection')
 <script>
 $(document).ready(function(){
+    
 //     $("#form_date").on("change", function(){
 //        var date = new Date($("#form_date").val());
 //            days = parseInt($("#nightcount").val(), 10);
@@ -547,39 +548,47 @@ $(document).ready(function(){
     Date.prototype.toInputFormat = function() {
         var yyyy = this.getFullYear().toString();
         var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+        console.log(mm);
         var dd  = this.getDate().toString();
-        // return yyyy + "/" + (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]); 
         return (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0])  + "/" + yyyy;
         };
-  //$(".datepicker").datepicker({});
 });
-(function($) {
 
+(function($) {
+   
+    // $('#form_date').datepicker({
+    //     format: 'dd/mm/yyyy'
+    // });
 	// Cache Selectors
 	var date1		=$('.dpd1'),
 		date2		=$('.dpd2');
 	
-	
 	//Date Picker//
 	var nowTemp = new Date();
+    console.log(nowTemp);
 	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+  //  var now = new Date(nowTemp.getFullYear(),nowTemp.getDate(),  nowTemp.getMonth(), 0, 0, 0, 0);
 	 
 	var checkin = date1.datepicker({
 		onRender: function(date) {
 			return date.valueOf() < now.valueOf() ? 'disabled' : '';
 		}
 	}).on('changeDate', function(ev) {
+       
 		if (ev.date.valueOf() > checkout.date.valueOf()) {
 			var newDate = new Date(ev.date)
 			newDate.setDate(newDate.getDate() + 2);
-            //console.log(newDate.getDate() + 1);
+           // console.log(newDate.getDate() + 2);
 			checkout.setValue(newDate);
 		}
+       
         var date = new Date($("#form_date").val());
+      //  console.log(date);
            days = parseInt($("#nightcount").val(), 10);
         
         if(!isNaN(date.getTime())){
             date.setDate(date.getDate() + days);
+            
             
             $("#to_date").val(date.toInputFormat());
         } else {
