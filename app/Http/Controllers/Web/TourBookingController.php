@@ -72,7 +72,8 @@ class TourBookingController extends Controller
         
         $booking = new Booking();
         $booking->package_id = $request->packageid;
-        $booking->customer_id = Auth::user()->id;
+        $authid = Auth::user()->id;
+        $booking->customer_id = DB::table('users')->where('id','=',$authid)->pluck('customer_id')->first();
         $booking->package_type = $Package_details->package_type;
         $booking->adult_count = $Package_details->adult_count;
         $booking->from_date = $request->form_date;
@@ -167,7 +168,7 @@ class TourBookingController extends Controller
         $data['booking_details'] = DB::table('booking_master')->where('id','=',$booking_last_id)->get();
         $user_id = DB::table('booking_master')->where('id','=',$booking_last_id)->pluck('customer_id')->first();
         
-        $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
+        $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
         
         if($data['booking_details']!='')
         {

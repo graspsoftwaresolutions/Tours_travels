@@ -503,7 +503,7 @@ class BookingController extends Controller
         $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
         
         if($data['booking_details']!='' && $user_id!='')
-        { 
+        {
            $booking_number = $data['booking_details'][0]->booking_number;
            // return view('web.tour.pdf.booking_invoicepdf',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);

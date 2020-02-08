@@ -15,7 +15,7 @@
 @endsection
 @section('main-content')
 @php 
-   $authid =  Auth::user()->id ;
+   $authid =  Auth::user()->id ; 
    if($authid!='' && $authid!=null)
    {
         $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);  
