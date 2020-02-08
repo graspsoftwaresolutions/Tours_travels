@@ -400,7 +400,6 @@ class BookingController extends Controller
                         
                     }
                     $total_nights += $nights_count; 
-                    $testflag = 1;
 
                     $pickup_ids = $request->input('airportpickup_'.$city_id);
                     if( isset($pickup_ids)){
