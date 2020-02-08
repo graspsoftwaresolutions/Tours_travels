@@ -50,9 +50,12 @@
                                 <th width="20%">{{__('Booking Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
                                     <th width="20%">{{__('Customer Name')}} </th>
+                                    <th width="20%">{{__('Adult Count')}} </th>
                                     <th width="20%">{{__('Total Amount ')}} </th>
                                     <th width="20%">{{__('Paid Amount')}} </th>
                                     <th width="20%">{{__('Balance Amount')}} </th>
+                                    <th width="20%">{{__('State')}} </th>
+                                    <th width="20%">{{__('City')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
@@ -121,6 +124,9 @@
                 "data": "customer_name"
             },
             {
+                "data": "adult_count"
+            },
+            {
                 "data": "grand_total"
             },
             {
@@ -129,6 +135,13 @@
             {
                 "data": "balance_amount"
             },
+            {
+                "data": "state_name"
+            },
+            {
+                "data": "city_name"
+            },
+           
             {
                 "data": "options"
             }

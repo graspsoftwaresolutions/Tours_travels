@@ -12,7 +12,6 @@
       	$package_place_data = $package_place;
         $package_hotel_data = $package_hotel;
 		$custom_data  = $customized_data;
-		
    @endphp
 	<title>{{$package->package_name ? ucfirst($package->package_name) : ''}}</title>
 	<style>
@@ -130,7 +129,6 @@
 		  $company_state_name = CommonHelper::getstateName($company_data->state_id);
 		  $company_city_name = CommonHelper::getcityName($company_data->city_id);
 	  @endphp
-	
 		<div class="first-page" style="background-image: url({{ asset('/public/assets/images/boxes_only_3.png') }});background-repeat: no-repeat;background-position: right;">
 			<br>
 			<table class="company_headings" width="100%">
@@ -209,7 +207,6 @@
                $summary_cities .= $sum_city_name.', ';
                $night_count = $place->nights_count>0 ? $night_count+$place->nights_count : $night_count;
             }
-            
         @endphp   
 		<h4 style="color: #548594;font-weight: bold;">Itinerary Information</h4>
 		<div class="first-page-sections" width="35%" style="float: left;width: 30%">
@@ -250,7 +247,6 @@
 			<div class="content" style="font-size: 14px;">
 				{{ $package_type ? ucfirst($package_type) : ''}}
 			</div>
-			
 		</div>
 		<div width="70%" style="float: left;">
 			&nbsp;
@@ -268,8 +264,6 @@
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
 							  $nightcount = $place->nights_count ;
-				
-
 				if($nightcount == 1 )
                 {
                     $days_val = 'Day '.$startday ;
@@ -380,7 +374,7 @@
                                               $ratings = $package_hotel->ratings;
                                              
                                               if($ratings!=null){
-                                                $rating_string = $ratings.' <i id="pickviewrating" class="pickviewrating mdi mdi-star"></i>';
+                                                $rating_string = $ratings.' <i class="fas fa-star"></i>';
                                               }
                                             }
                                             $total_hotel_prices = 0;
@@ -399,7 +393,7 @@
 														@php
 														for ($i = 1; $i <= $rating_string; $i++) {
 															@endphp
-													 	  <i class="fa fa-star orange"></i> 
+													 	  <i class="fa fa-star"></i> 
 															@php
 														}
 													}

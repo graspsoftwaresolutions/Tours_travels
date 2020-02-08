@@ -6,7 +6,6 @@
 
 @endsection
 @section('main-content')
-
 <section class="content-wrapper">
 
     <!-- =========================================================== -->
@@ -47,7 +46,7 @@
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="20%">{{__('Itinerary Number')}}</th>
+                                    <th width="15%">{{__('Itinerary Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
                                     <th width="15%">{{__('Itinerary Type')}}</th>
                                     <th width="15%">{{__('Adult Count')}} </th>
@@ -273,8 +272,8 @@
 //    // $('#datatable-master').dataTable();
 // })(jQuery);
 
-function ConfirmMail() {
-    if (confirm("{{ __('Are you sure you want to send Email?') }}")) {
+function ConfirmDeletion() {
+    if (confirm("{{ __('Are you sure you want to delete?') }}")) {
         return true;
     } else {
         return false;

@@ -499,23 +499,22 @@ class BookingController extends Controller
     {
         $bookingid = crypt::decrypt($encid);
         $data['booking_details'] = DB::table('booking_master')->where('id','=',$bookingid)->get();
-           $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
+        $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
+        $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
         
-              $customer_data = DB::table('users')->where('id','=',$user_id)->select('name','email')->first();
-        
-        if($data['booking_details']!='')
+        if($data['booking_details']!='' && $user_id!='')
         { 
            $booking_number = $data['booking_details'][0]->booking_number;
            // return view('web.tour.pdf.booking_invoicepdf',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-           return  $pdf->stream();
+             return  $pdf->stream();
             $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
-        }              
-        $to_email =  $customer_data->email;
-     //   $to_email =  'mounika.bizsoft@gmail.com';
-        $cc_email = 'shyni.bizsoft@gmail.com';
+            
+                $to_email =  $customer_data->email;
+                $cc_email = 'shyni.bizsoft@gmail.com';
 
-      // \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_number,$customer_data));
+            \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingInvoice($booking_number,$customer_data));
+        }              
 
        return redirect('admin/booking_list')->with('message','Mail Sent Successfully!!');
     }
