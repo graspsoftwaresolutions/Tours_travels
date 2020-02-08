@@ -9,7 +9,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Booking Invoice!</title>
 <link href="{{ asset('public/web-assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i%7CMerriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
@@ -25,18 +24,19 @@
 </style>
 </head>
 <body class="support-request_success">
-@php $username = Ucfirst($customer_data->name); @endphp
+
 <div class="container">
-  <div class="row"> <div id="content" class="col-sm-12">      <div class="sp-content">
+  <div class="row">                
+      <div id="content" class="col-sm-12">      <div class="sp-content">
         <div class="icon"><i class="fa fa-check"></i></div>
-         Dear {{$username}},
-         <p>Thank you for choosing to Tours and travel.</p> 
-         <p>Your booking Has Been Submitted, We will confirm your booking with you soon.</p> 
-         <p>Thank you for choosing to Tours and travel.</p>  
-         <p>Yours sincerely,</p> 
-          @php $companydata = CommonHelper::getWebsiteDetails(); @endphp
-          <p>{{$companydata->company_name}}</p>
-        <p></p>
+        @php $username = Ucfirst($customer_data->name); @endphp
+        @php $companydata = CommonHelper::getWebsiteDetails(); @endphp
+        Dear {{Ucfirst($username)}},  
+          <p style='text-align:center;' > Thank you for choosing to {{Ucfirst($companydata->company_name)}}. </p>
+          <p style='text-align:center;' >Your booking Has Been Submitted, We will confirm your booking with you soon.</p>
+          <p style='text-align:center;' > Herewith we have attached your booking invoice</p>  </div>
+          <p>Yours sincerely,</p>
+          <p>{{Ucfirst($companydata->company_name)}}</p>
       </div>
     </div>
 </div>

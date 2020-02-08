@@ -79,8 +79,6 @@
                                                                 <tr><td height="10" width="580"></td></tr>
                                                             </tbody>
                                                         </table>
-                                                        
-                                                        
                                                         <table border="0" cellpadding="0" cellspacing="0" width="580">
                                                             <tbody>
                                                                 <tr>
@@ -94,7 +92,6 @@
                                                                         <div style="font-size:13px;color:rgb(68,68,68);margin-top:0px;margin-bottom:8px;font-family:Arial,Helvetica,Geneva,sans-serif" align="left">
                                                                             <table>
                                                                                 <tbody>
-                                                                               
                                                                                 <tr>
                                                                                     <td>No of persons</td>
                                                                                     <td>: {{ $package_data->adult_count }} adults, {{ $package_data->child_count }} children, {{ $package_data->infant_count }} infants</td>

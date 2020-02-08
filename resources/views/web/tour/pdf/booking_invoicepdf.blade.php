@@ -11,7 +11,7 @@
 </style>
 </head>
 @php 
-//$row = $data['booking_details'][0]; 
+//$row = $data['booking_details'][0];
 $row = $booking_details[0];
 $website_dat = CommonHelper::getWebsiteDetails();   
 //$data['booking_place_data'] = CommonHelper::getBookingPlaceDetails($row->id);
@@ -24,7 +24,7 @@ $date_array = explode("-",$row->from_date);
 $date_format = $date_array[2]."-".$date_array[1]."-".$date_array[0];
 $from_date = date('d-M-Y', strtotime($date_format)); 
 
-$date_array1 = explode("-",$row->to_date);           							
+$date_array1 = explode("-",$row->to_date);						
 $date_format1 = $date_array1[2]."-".$date_array1[1]."-".$date_array1[0];
 $to_date = date('d-M-Y', strtotime($date_format1)); 
 @endphp
@@ -32,12 +32,11 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 <div class="page">
 <table id="table1" style="width:100%;" border="0">
 	<tr>
-		<td colspan="2" style="font-size: 30px;color: #2b80a2;font-weight:bold;"> {{Ucfirst($website_dat->company_name)}} </td>
-		<td colspan="2" style="text-align:right;font-weight:bold;"> Web: {{ $website_dat->company_website ? $website_dat->company_website : '' }} </td>
+		<td colspan="2" style="font-size: 20px;color: #2b80a2;font-weight:bold;"> {{Ucfirst($website_dat->company_name)}} </td>
+		<td colspan="2" style="text-align:right;font-weight:bold;font-size:13px;"> Web: {{ $website_dat->company_website ? $website_dat->company_website : '' }} </td>
 	</tr>
 	<tr>
-		<td colspan="2" style="letter-spacing: 2px;font-size: 11px;padding-left: 30px;font-weight:bold;"></td>
-		<td colspan="2" style="text-align:right;font-weight:bold;">E-mail:{{ $website_dat->company_email ? $website_dat->company_email : '' }}</td>
+		<td colspan="4" style="text-align:right;font-weight:bold;font-size:13px;">E-mail:{{ $website_dat->company_email ? $website_dat->company_email : '' }}</td>
 	</tr>
 	<tr>
 		<td colspan="4">
@@ -45,7 +44,7 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 		</td>
 	</tr>
 	<tr>
-		<td colspan="4" style="text-align:right;font-size: 27px;color: #2b80a2;padding-bottom: 30px; padding-top: 20px;font-weight:bold;">
+		<td colspan="4" style="text-align:right;font-size: 22px;color: #2b80a2;padding-bottom: 30px; padding-top: 20px;font-weight:bold;">
 	 
         @if($row->payment_type ==1 )
              INVOICE 
@@ -55,18 +54,18 @@ $to_date = date('d-M-Y', strtotime($date_format1));
         </td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="padding-bottom: 30px;">
-			<table  style="width: 100%;  border-collapse:collapse;border: 1px solid black;">
+		<td  colspan="2" style="padding-bottom: 30px;vertical-align: top;">
+			<table  style="width: 90%;  border-collapse:collapse;border: 1px solid black;">
 			
 				<tr>
 					<th style="text-align:center;background: #01518f;font-weight:bold;color:#fff">TO</th>
 				</tr>
 				<tr>
-					<td style="">
+					<td style="padding-left:13px;">
                     <br> 
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$customer_data->address_one ? Ucfirst($customer_data->address_one) : ''}}, {{$customer_data->address_two ? Ucfirst($customer_data->address_two) : ''}}
+					{{$customer_data->address_one ? Ucfirst($customer_data->address_one) : ''}}, {{$customer_data->address_two ? Ucfirst($customer_data->address_two) : ''}}
 					<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$customer_country_name}},{{$customer_state_name}}, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$customer_city_name}} - {{$customer_data->zipcode ? $customer_data->zipcode : ''}}   <br>&nbsp;&nbsp;&nbsp;&nbsp; {{$customer_data->phone}} , <br>&nbsp;&nbsp;&nbsp;&nbsp; {{$customer_data->email}}  <br> &nbsp;&nbsp;&nbsp;&nbsp;</td>
+					{{$customer_country_name}},{{$customer_state_name}}, <br>{{$customer_city_name}} - {{$customer_data->zipcode ? $customer_data->zipcode : ''}}   <br> {{$customer_data->phone}} , <br> {{$customer_data->email}}  <br> <br></td>
                    
                 </tr>
 			</table>
@@ -85,22 +84,22 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 			</table>
 		</td> -->
 		<td align="right"  style="padding-bottom: 30px;vertical-align:top;">
-			<table  style="width: 100%;border-collapse:collapse;border: 1px solid black;">
+			<table  style="width: 90%;border-collapse:collapse;border: 1px solid black;">
 				<tr>
 					<td colspan="1" style="text-align:center;background:#01518f;font-weight:bold;color:#fff">DATE</td>
 				</tr>
 				<tr>
-					<td style="text-align:center;font-weight:bold;"><br><br>{{$from_date}} to {{$to_date}}<br><br><br></td>
+					<td style="text-align:center;font-weight:bold;"><br><br>{{$from_date}} To <br> {{$to_date}}<br><br><br></td>
 				</tr>
 			</table>
 		</td>
 		<td align="right" style="padding-bottom: 30px;vertical-align:top;">
-			<table  style="width: 100%; border-collapse:collapse;border: 1px solid black;">
+			<table  style="width: 90%; border-collapse:collapse;border: 1px solid black;">
 				<tr>
 					<td colspan="1" style="text-align:center;background:#01518f;font-weight:bold;color:#fff">INVOICE</td>
 				</tr>
 				<tr>
-					<td style="text-align:center;font-weight:bold;"><br><br>#{{$row->booking_number}}<br><br><br></td>
+					<td style="text-align:center;font-weight:bold;"><br><br>#{{$row->booking_number}}<br><br><br><br></td>
 				</tr>
 			</table>
 		</td>
@@ -117,20 +116,17 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 	</tr>
 	
 	<tr>
-		<td colspan="1" style="font-weight:bold;color: #2b80a2;    font-size: 30px;">Places
+		<td colspan="1" style="font-weight:bold;color: #2b80a2;    font-size: 28px;">Places
 		<hr style="margin: 8px 0px;">
 		</td>
 		<td></td>
 		<td></td>
-		<td colspan="1" style="text-align:left;font-weight:bold;color: #2b80a2;    font-size: 30px;padding-right: 54px;">Details
+		<td colspan="1" style="text-align:left;font-weight:bold;color: #2b80a2; font-size: 28px;padding-right: 62px;">Details
 		<hr style="margin: 8px 0px;">
 		</td>
-		
 	</tr>
-	
 	<tr>
-	
-		<td colspan="2" style="padding-left: 22px;">
+		<td colspan="2" style="">
 		@php
 			$total_nights =0 ;
 			$startday = 1;
@@ -202,14 +198,10 @@ $to_date = date('d-M-Y', strtotime($date_format1));
                 else{
                     $booking_infant_count = $booking_infant_count.' '.'infants';
                 }
-                if($booking_adult_count !='')
-                {
-                    
-                }
                 $booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count; @endphp
 		</td>
-		<td colspan="2" style="text-align:right;    padding-right: 17px;">Package : &nbsp; {{Ucfirst($packagename)}} 
-		<p style="padding-right: 28px;">Persons :  &nbsp; {{$booking_adult_child_infant}} </p></td>
+		<td colspan="2" style="text-align:right; ">Package : &nbsp; {{Ucfirst($packagename)}} 
+		<p >Persons :  &nbsp; {{$booking_adult_count}} {{$booking_child_count}} <br> {{$booking_infant_count}}  </p></td>
 	</tr>
 	<tr>
 		<td colspan="2" style="padding-bottom: 25px;"></td>
@@ -219,24 +211,24 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 
 	<tr style="background:#01518f;color:#fff">
 	
-		<td colspan="2" style="font-weight:bold;border: 1px solid #000;    padding-left: 20px;">DESCRIPTION</td>
-		<td colspan="2" style="text-align:right;font-weight:bold;border: 1px solid #000;">AMOUNT</td>
+		<td colspan="3" style="font-weight:bold;border: 1px solid #000;    padding-left: 20px;">DESCRIPTION</td>
+		<td colspan="1" style="text-align:right;font-weight:bold;border: 1px solid #000;">AMOUNT</td>
 	</tr>
 	<tr>
-		<td colspan="2" style="border: 1px solid #000;padding-top: 15px; padding-bottom: 20px; padding-left: 20px;">
+		<td colspan="3" style="border: 1px solid #000;padding-top: 15px; padding-bottom: 20px; padding-left: 20px;">
 			Package  with tax({{$row->tax_percentage}}%) <br>
 			Discount <br>
 		</td>
-		<td colspan="2" style="text-align:right;  border-collapse:collapse;border: 1px solid black;">
+		<td colspan="1" style="text-align:right;  border-collapse:collapse;border: 1px solid black;">
 		{{$row->total_amount}} <br>
 		{{$row->discount_amount}} <br>
 		
 		</td>
 	</tr>
 	<tr>
-		<td colspan="1" style="text-align:center; border: 1px solid #000;">Thank you for your Booking!</td>
-		<td colspan="1" style="font-weight:bold; border: 1px solid #000;">TOTAL</td>
-		<td colspan="2" style="text-align:right; border: 1px solid #000;padding-bottom: 15px;">{{$row->grand_total}}</td>
+		<td colspan="2" style="text-align:center; border: 1px solid #000;">Thank you for your Booking!</td>
+		<td colspan="1" style="font-weight:bold; border: 1px solid #000;text-align:center;">TOTAL</td>
+		<td colspan="1" style="text-align:right; border: 1px solid #000;padding-bottom: 15px;">{{$row->grand_total}}</td>
 	</tr>
 	<tr><td colspan="4">&nbsp;</td></tr>
 	<tr >
@@ -246,8 +238,8 @@ $to_date = date('d-M-Y', strtotime($date_format1));
 	</tr>
 	
 	<tr>
-		<td colspan="1" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  &nbsp; &nbsp; &nbsp;{{Ucfirst($row->payment_mode)}}</td>
-		<td colspan="3"></td>
+		<td colspan="2" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; :  &nbsp;{{Ucfirst($row->payment_mode)}}</td>
+		<td colspan="2"></td>
 
 	</tr>
 	@if($row->payment_mode == 'online_payment')
