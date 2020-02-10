@@ -33,14 +33,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                        
                         	<div class="flex-content">
                                 <div class="custom-form custom-form-fields">
                                     <h3>Registration</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                      <form method="POST" action="{{ route('register') }}">
 										@csrf
-                                            
                                         <div class="form-group">
                                             <!-- <input type="text" class="form-control" placeholder="Username"  required/> -->
 											 <div class="form-group row">
@@ -77,8 +75,6 @@
                                         </div>
 
                                         <div class="form-group">
-                                            
-											
 											<!--<label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label> -->
 												
 													<input id="phone" placeholder="Enter Phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
@@ -88,13 +84,9 @@
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
-												
-											
                                              <span><i class="fa fa-phone"></i></span>
                                         </div>
-                                       
                                         <div class="form-group">
-                                          
 											  <input id="password" type="password" placeholder="Password"  required class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
 															@error('password')
@@ -197,5 +189,49 @@
     </div>
 </div>
 @include('layouts.footer')
+
 @include('layouts.foot-script')
+<script>
+$(function() {
+    $('select[name=country_id]').change(function() {
+       // alert('ok');
+        var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+
+        $.get(url, function(data) {
+            $('#state_id').empty('');
+            $("#state_id").append("<option value=''>Select</option>");
+            $("#state_id").selectpicker("refresh");
+            //var select = $('form select[name=state_id]');
+
+           // select.empty();
+            //$("#state_id").append("<option value=''>Select</option>");
+            $.each(data, function(key, value) {
+                $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
+                    '</option>');
+            });
+             $("#state_id").selectpicker("refresh");
+        });
+    });
+
+    $('select[name=state_id]').change(function() {
+       // alert('ok');
+        var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
+
+        $.get(url, function(data) {
+            $('#city_id').empty('');
+            $("#city_id").append("<option value=''>Select</option>");
+            $("#city_id").selectpicker("refresh");
+            //var select = $('form select[name=state_id]');
+
+           // select.empty();
+            //$("#state_id").append("<option value=''>Select</option>");
+            $.each(data, function(key, value) {
+                $("#city_id").append('<option value=' + value.id + '>' + value.city_name +
+                    '</option>');
+            });
+             $("#city_id").selectpicker("refresh");
+        });
+    });
+});
+</script>
 @endsection

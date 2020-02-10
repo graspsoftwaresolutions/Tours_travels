@@ -72,6 +72,11 @@ class CommonHelper
         $converted_date = date('Y-m-d', strtotime($date_format));
         return $converted_date;
      }
+     public static function getCountryDetails()
+     {
+        $data['country_view'] = Country::where('status','=','1')->get();
+        return $data['country_view'];
+     }
 
     public static function convert_date_datepicker($date){
         return date('d/M/Y', strtotime($date));
@@ -82,17 +87,13 @@ class CommonHelper
          $country_exists = Country::where('country_name','=',$countryname)->count();    
          return  $country_exists;
      }
-
      public static function DefaultCountry()
      {
          return 130;
      }
-	 
-    
     public static function getStateList($countryid){
         return DB::table('state')->select('id','state_name')->where('status','=','1')->where('country_id','=',$countryid)->get();
     }
-
     public static function getCCTestMail(){
         $ccmail = env("MAIL_CC",'test@gmail.com');
         return $ccmail;

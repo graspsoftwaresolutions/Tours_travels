@@ -291,7 +291,6 @@
 					 
 					    <h3>Photo Gallery</h3>
 					    <fieldset>
-
 					    	<div class="col-sm-12">
                     <h4 class="text-headline">Photo Gallery</h4>
                     <p>Airtport Hotels The Right Way To Start A Short Break Holiday</p>
@@ -308,7 +307,6 @@
                           </div>
                           </div><!-- /.input-field -->
                           </br>
-
                           <code>Note:  Max file size : 2MB, Max width*height : 1200*700px, File Type : .png, .jpg and .jpeg</code>
                            </br>
                     </br>

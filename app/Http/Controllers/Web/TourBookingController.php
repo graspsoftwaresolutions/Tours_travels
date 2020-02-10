@@ -169,7 +169,7 @@ class TourBookingController extends Controller
         $user_id = DB::table('booking_master')->where('id','=',$booking_last_id)->pluck('customer_id')->first();
         
         $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
-        
+
         if($data['booking_details']!='')
         {
             $booking_number = $data['booking_details'][0]->booking_number;

@@ -15,12 +15,11 @@
 @endsection
 @section('main-content')
 @php 
-   $authid =  Auth::user()->id ; 
+   $authid =  Auth::user()->id ;
    if($authid!='' && $authid!=null)
    {
-        $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);  
+        $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);
         $Created_Booking = CommonHelper::getCreatedBooking($authid);    
-       
    }
 @endphp
             <!--===== INNERPAGE-WRAPPER ====-->
@@ -228,6 +227,7 @@
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <tbody>
+                                                    @if($Created_Itineraries!=null && $Created_Itineraries!='')
                                                     @foreach($Created_Itineraries as $values)
                                                         @php
                                                             $package_night = CommonHelper::getPackagePlace($values->packageid);
@@ -311,6 +311,7 @@
                                                             <td class="wishlist-btn hidden-sm"><span class="label label-warning" style="background-color: #faa61a;font-size: 19px;">INR : {{$values->total_amount}}</span></td>
                                                         </tr>
                                                         @endforeach
+                                                        @endif
                                                      </tbody>
                                                  </table>
                                             </div><!-- end table-responsive -->
@@ -337,6 +338,8 @@
                                                     
                                                          $booked_date = CommonHelper::convert_date_datepicker($values->from_date);
                                                             $date = $values->from_date;
+                                                            $bookenc_id = Crypt::encrypt($values->package_id);
+                                                            $packview = route('package.details',$bookenc_id); 
 
                                                             $date_array = explode("-",$date);           							
                                                             $date_format = $date_array[2]."-".$date_array[1]."-".$date_array[0];
@@ -391,11 +394,12 @@
                                                             <tr>
                                                                 <td class="dash-list-icon booking-list-date"><div class="b-date"><h3>{{$date_one}}</h3><br><p>{{$month}}</p></div></td>
                                                                 <td class="dash-list-text booking-list-detail">
-                                                                <a href="{{$view}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
+                                                                <a href="{{$packview}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
                                                                     <ul class="list-unstyled booking-info">
                                                                         <li><span>Booking Date:</span> {{$booked_date}}</li>
                                                                         <li><span>Reference Number </span> {{$values->booking_number}}</li>
-                                                                        @php $cityid = CommonHelper::getPackagePlaceCitiy($values->packageid); 
+                                                                        @php $cityid = CommonHelper::getPackagePlaceCitiy($values->package_id);  
+                                                                        
                                                                         $prefixx = $citiesListt = ''; 
                                                                         foreach ($cityid as $val) 
                                                                         {
@@ -403,7 +407,7 @@
                                                                             $citiesListt .= $prefixx . '"' . $city_name . '"';
                                                                             $prefix = ', ';
                                                                         }@endphp
-                                                                        <li><span>Places :</span> [{{$citiesList}}]</li> 
+                                                                        <li><span>Places :</span> [{{$citiesListt}}]</li> 
                                                                         <li><span>Persons :</span> {{$booking_adult_child_infant}}</li> 
                                                                         <li><span>Amount :</span> {{$values->total_amount}}</li> 
                                                                     </ul>
@@ -557,7 +561,6 @@
             </div><!-- end container -->
         </section><!-- end newsletter-1 -->
 @endsection
-		
 @section('footerSection')
 <script type="text/javascript">
 $("#home_menu_id").removeClass('active');

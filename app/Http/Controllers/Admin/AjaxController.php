@@ -1064,7 +1064,7 @@ class AjaxController extends CommonController
                 $nestedData['paid_amount'] = $booking->paid_amount;
                 $enc_id = Crypt::encrypt($booking->id);
                 $edit = route('booking.edit',$enc_id);
-                $mail = route('booking.invoice',$enc_id);  
+                $mail = route('booking.invoice',[$enc_id,'booking']);  
                 $pdf = route('booking.pdf',$enc_id);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
@@ -1223,7 +1223,7 @@ class AjaxController extends CommonController
                 $enc_id = Crypt::encrypt($booking->id);
                 $edit = route('booking.edit',$enc_id);
                 $pdf = route('booking.pdf',$enc_id);
-                $mail = route('booking.invoice',$enc_id);  
+                $mail = route('booking.invoice',[$enc_id,'confirm-booking']);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
                 
@@ -1382,7 +1382,7 @@ class AjaxController extends CommonController
                 $enc_id = Crypt::encrypt($booking->id);
                 $edit = route('booking.edit',$enc_id);
                 $pdf = route('booking.pdf',$enc_id);
-                $mail = route('booking.invoice',$enc_id);  
+                $mail = route('booking.invoice',[$enc_id,'followup-booking']);  
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
                 

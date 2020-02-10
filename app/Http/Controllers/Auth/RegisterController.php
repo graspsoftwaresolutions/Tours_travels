@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\Model\Admin\CustomerDetails;
 
 class RegisterController extends Controller
 {
@@ -65,12 +65,41 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
-        ]);
+            // $email_valid = $data['email'];
+            // $phone_valid = $data['phone'];
+
+            // if($email_valid!='' && $phone_valid!=''){
+            //     $auth_email_count = User::where('email','=',$email_valid)->count();
+            //     $customer_email_count = CustomerDetails::where('email','=',$email_valid)->count();
+            //     $auth_phone_count = User::where('phone','=',$phone_valid)->count();
+            //     $customer_phone_count = CustomerDetails::where('phone','=',$phone_valid)->count();
+            // }
+            // if($auth_email_count>0 && $customer_email_count>0)
+            // {
+            //    // return view('auth.register')->with('message','Email Already Exists');
+            //    return redirect('/');
+            // }
+            // elseif($auth_phone_count> 0 && $customer_phone_count >0 )
+            // {
+            //    // return view('auth.register')->with('message','Phone number Already Exists');
+            //    return redirect('/');
+            // }
+            // else{
+                $CustomerDetails = new CustomerDetails();
+                $CustomerDetails->name = $data['name'] ; 
+                $CustomerDetails->email = $data['email'] ; 
+                $CustomerDetails->phone = $data['phone'] ; 
+                $CustomerDetails->save();
+                $customerid = $CustomerDetails->id;
+
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'password' => Hash::make($data['password']),
+                    'customer_id'=>$customerid,
+                ]);
+            // }
     }
         
 }

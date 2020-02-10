@@ -312,6 +312,8 @@ class CommonController extends Controller
                      ->orwhere("c.phone","LIKE","%{$keyword}%")
                     // ->orwhere('c.zipcode','like', '%'.$keyword.'%')
                     // ->orwhere('cit.city_name','like', '%'.$keyword.'%')
+                    
+                  //  ->dump()
                 ->get();
         }
         
