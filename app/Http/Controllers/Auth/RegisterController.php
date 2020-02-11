@@ -40,7 +40,6 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -52,11 +51,16 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required','numeric'],
+            'country_id' => ['required'],
+            'state_id' => ['required'],
+            'city_id' => ['required'],
+            'address_one' => ['required'],
+            'address_two' => ['required'],
+            'pincode' => ['required'],
+            'phone' => ['required','numeric', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -65,41 +69,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-            // $email_valid = $data['email'];
-            // $phone_valid = $data['phone'];
+        $CustomerDetails = new CustomerDetails();
+        $CustomerDetails->name = $data['name'] ; 
+        $CustomerDetails->email = $data['email'] ; 
+        $CustomerDetails->phone = $data['phone'] ;
+        $CustomerDetails->country_id = $data['country_id'] ;
+        $CustomerDetails->state_id = $data['state_id'] ;
+        $CustomerDetails->city_id = $data['city_id'] ;
+        $CustomerDetails->address_one = $data['address_one'] ;
+        $CustomerDetails->address_two = $data['address_two'] ;
+        $CustomerDetails->zipcode = $data['pincode'] ;
+        $CustomerDetails->save();
+        $customerid = $CustomerDetails->id;
 
-            // if($email_valid!='' && $phone_valid!=''){
-            //     $auth_email_count = User::where('email','=',$email_valid)->count();
-            //     $customer_email_count = CustomerDetails::where('email','=',$email_valid)->count();
-            //     $auth_phone_count = User::where('phone','=',$phone_valid)->count();
-            //     $customer_phone_count = CustomerDetails::where('phone','=',$phone_valid)->count();
-            // }
-            // if($auth_email_count>0 && $customer_email_count>0)
-            // {
-            //    // return view('auth.register')->with('message','Email Already Exists');
-            //    return redirect('/');
-            // }
-            // elseif($auth_phone_count> 0 && $customer_phone_count >0 )
-            // {
-            //    // return view('auth.register')->with('message','Phone number Already Exists');
-            //    return redirect('/');
-            // }
-            // else{
-                $CustomerDetails = new CustomerDetails();
-                $CustomerDetails->name = $data['name'] ; 
-                $CustomerDetails->email = $data['email'] ; 
-                $CustomerDetails->phone = $data['phone'] ; 
-                $CustomerDetails->save();
-                $customerid = $CustomerDetails->id;
-
-                return User::create([
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'phone' => $data['phone'],
-                    'password' => Hash::make($data['password']),
-                    'customer_id'=>$customerid,
-                ]);
-            // }
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'country_id' => $data['country_id'],
+            'state_id' => $data['state_id'],
+            'city_id' => $data['city_id'],
+            'address_one' => $data['address_one'],
+            'address_two' => $data['address_two'],
+            'pincode' => $data['pincode'],
+            'password' => Hash::make($data['password']),
+            'customer_id'=>$customerid,
+        ]);
     }
-        
 }

@@ -231,6 +231,9 @@ $(document).ready(function(){
                required: true,
                digits : true,
             },
+            "address_one" : {
+               required: true,   
+            },
             "phone" : {
                required: true,
                digits : true,
@@ -273,6 +276,9 @@ $(document).ready(function(){
                required: "Please, enter Phone Number",
                digits : "Numbers only",
                remote: "Phone Number Already Exists",
+            },
+            "address_one" : {
+               required: "Please, enter address",
             },
 			},
 			submitHandler: function (form) {

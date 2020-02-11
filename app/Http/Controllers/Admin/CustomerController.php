@@ -71,8 +71,10 @@ class CustomerController extends BaseController
             $alpha='a';
             $randomPassword = CommonHelper::random_password($length,$alpha);
             $pass = Hash::make($randomPassword);
+
+            DB::table('users')->insert(['name'=>$CustomerDetails->name,'password'=>$pass,'email'=>$CustomerDetails->email ,'phone' =>$CustomerDetails->phone ,'customer_id'=>$customerid ,'country_id'=>$CustomerDetails->country_id,'state_id'=>$CustomerDetails->state_id,'city_id'=>$request->city_id,'address_one'=>$CustomerDetails->address_one,'address_two'=>$CustomerDetails->address_two,'pincode'=>$CustomerDetails->zipcode]);
              
-            DB::table('users')->insert(['name'=>$CustomerDetails->name , 'password'=>$pass,'email'=>$CustomerDetails->email ,'phone' =>$CustomerDetails->phone ,'customer_id'=>$CustomerDetails->id]);
+            // DB::table('users')->insert(['name'=>$CustomerDetails->name , 'password'=>$pass,'email'=>$CustomerDetails->email ,'phone' =>$CustomerDetails->phone ,'customer_id'=>$CustomerDetails->id]);
 
             $details = [
                 'name'=>$CustomerDetails->name,

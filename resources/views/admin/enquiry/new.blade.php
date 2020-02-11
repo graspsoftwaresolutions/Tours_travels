@@ -533,7 +533,10 @@ $(document).ready(function(){
                 
                 
             },
-            },  
+            }, 
+            "customer_address_one" : {
+               required: true,
+            },
       },
       messages: {
         "name": {
@@ -561,6 +564,9 @@ $(document).ready(function(){
                required: "Please, enter Phone Number",
                digits : "Numbers only",
                remote: "Phone Number Already Exists!"
+            },
+            "customer_address_one" : {
+               required: "Please, Enter address one",
             },
       },
       submitHandler: function (form) {

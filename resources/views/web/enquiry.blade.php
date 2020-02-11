@@ -78,13 +78,12 @@
                   </div>
                   <div class="form-group col-md-6">
                      <select name='type' id='type' class="form-control">
-                        <option value='0'>Select Type</option>
+                        <option value='0' selected="true" disabled>Select Type</option>
                         <option value='general'>General</option>
                         <option value='package'>Package</option>
                      </select>
                   </div> 
                   <div class="clearfix"></div>
-                  <!-- <div class="row packages" > -->
                       <div class="col-sm-12 packages" >
                         <div class="form-group">
                           <label for="" style='padding: 10px 0px;'><strong>Select Packages:</strong></label>
@@ -104,12 +103,118 @@
                         </div>
                       </div>
                     <!-- </div> -->
-                    <div class="clearfix"></div>
+                    <div class="clearfix"></div> 
+                                  @php $data['country_view'] = CommonHelper::getCountryDetails(); @endphp
+											<div class="col-md-6">
+												 <div class="form-group">
+													<select name="country_id" style="@if(Auth::check()) pointer-events:none; @endif"  required="true" id="country_id" value="{{ old('country_id') }}"  class="form-control @error('country_id') is-invalid @enderror"> 
+														<option value="0" selected="true" disabled="true"> Select Country </option>
+                                                @foreach($data['country_view'] as $value)
+                                                
+                                                <option value="{{$value->id}}" @if(Auth::check()) @if(Auth::user()->country_id==$value->id)  selected @endif @endif>
+                                                   {{$value->country_name}}</option>
+                                                @endforeach
+													</select>
+													@error('country_id')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+												 </div>
+											</div>
+											@if(Auth::check())
+											<div class="col-md-6">
+                                    <div class="form-group"> 
+                                       <!-- To validate the select add class "select-validate" -->     
+                                             @php
+                                             $stateName = CommonHelper::getstateName(Auth::user()->state_id);
+                                             @endphp
+                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="form-control @error('country_id') is-invalid @enderror" data-live-search="true" data-width="100%">
+                                             <option value="0" selected="true">{{ $stateName }}
+                                             </option>
+                                            </select>
+                                       <div class="input-highlight"></div>
+                                       </div>
+											</div>
+                                 @else
+                                 <div class="col-md-6">
+                                    <div class="select-row form-group"> 
+                                       <!-- To validate the select add class "select-validate" -->     
+                                       <select id="state_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif" name="state_id" class="form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
+                                             <option value="0" selected="">{{__('Select State') }}
+                                             </option>
+                                             @if(Auth::check())
+                                             @php
+                                             $stateName = CommonHelper::getstateName(Auth::user()->state_id);
+                                             @endphp
+                                               <option value="{{ $stateName }}" >{{ $stateName }}</option>
+                                 
+                                             @endif
+                                       </select>   
+                                       <div class="input-highlight"></div>
+                                       </div>
+											</div>
+                                 @endif
+                                 <div class="clearfix"></div>
+                                 @if(Auth::check())
+											<div class="col-md-6">
+                                    <div class="form-group"> 
+                                       <!-- To validate the select add class "select-validate" -->     
+                                             @php
+                                             $cityName = CommonHelper::getcityName(Auth::user()->city_id);
+                                             @endphp
+                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="form-control @error('city_id') is-invalid @enderror" data-live-search="true" data-width="100%">
+                                             <option value="0" selected="true">{{ $cityName }}
+                                             </option>
+                                            </select>
+                                       <div class="input-highlight"></div>
+                                       </div>
+											</div>
+                                 @else
+											<div class="col-md-6">
+												 <div class="form-group">
+													<select name="city_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif"  id="city_id" value="{{ old('city_id') }}" class="form-control @error('city_id') is-invalid @enderror"> 
+														<option value="0"> Select City </option>
+													</select>
+													@error('city_id')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+												 </div>
+											</div>
+                                 @endif
+											 <div class="col-md-6">
+												 <div class="form-group">
+													<input id="pincode" type="pincode" value="{{ Auth::check() ? Auth::user()->pincode : '' }}" placeholder="Pincode" class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" name="pincode" required autocomplete="Pincode">
+													<span><i class="fa fa-lock"></i></span>
+												 </div>
+											</div>
+                                 <div class="clearfix"></div>
+											<div class="col-md-6">
+												 <div class="form-group">
+														<input placeholder="Address One" value="{{ Auth::check() ? Auth::user()->address_one : '' }}" class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" name="address_one" id="address_one">
+															@error('address_one')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+													<span><i class="fa fa-lock"></i></span> 
+												 </div>
+											</div>
+											<div class="col-md-6">
+												 <div class="form-group">
+														<input placeholder="Address Two" value="{{ Auth::check() ? Auth::user()->address_two : '' }}" class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" name="address_two" id="address_two">
+															@error('address_two')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+													<span><i class="fa fa-lock"></i></span> 
+												 </div>
+											</div>
                   <div class="form-group col-md-6">
                      <textarea class="form-control" id='message' name='message' placeholder="Message" ></textarea>
-                  </div>
-                  <div class="form-group col-md-6">
-                     <textarea class="form-control" id='address' name='address' placeholder="Address" ></textarea>
                   </div>
                   <div class="clearfix"></div>
                   <input type='submit' id="SaveEnquiryButton" value='submit' class='pull-right btn btn-orange'>
@@ -204,6 +309,55 @@
 
 
 $(document).ready(function(){
+   $('#country_id').change(function(){
+       var countryID = $(this).val();
+      
+       if(countryID!='' && countryID!='undefined')
+       {
+			if(countryID){
+				$.ajax({
+				type:"GET",
+				url:" {{ URL::to('/get-state-list') }}?country_id="+countryID,
+				success:function(res){               
+					if(res){
+						$("#state_id").empty();
+						$("#state_id").append("<option value='0' disabled selected='true'>Select State</option>");
+						$.each(res,function(key,entry){
+							$("#state_id").append($('<option>Select State</option>').attr('value', entry.id).text(entry.state_name));
+						});
+					}
+					}
+				});
+			}
+	   }
+	});
+
+	$('#state_id').change(function(){
+       var StateId = $(this).val();
+       if(StateId!='' && StateId!='undefined')
+       {
+         $.ajax({
+            type: "GET",
+            url : "{{'get-cities-list'}}?State_id="+StateId,
+            dataType: "json",
+            url : "{{ URL::to('/get-cities-list') }}?State_id="+StateId,
+            success:function(res){
+                if(res)
+                {
+                    $('#city_id').empty();
+					$("#city_id").append("<option value='0' disabled selected='true'>Select City</option>");
+                    $.each(res,function(key,entry){
+                        $('#city_id').append($('<option></option>').attr('value',entry.id).text(entry.city_name));
+                    });   
+                }else{
+                    $('#city_id').empty();
+                }
+            }
+         });
+       }else{
+           $('#city_id').empty();
+       }
+   });
 
     $('.packages').hide();
    $('#type').change(function(){
@@ -228,7 +382,23 @@ $(document).ready(function(){
 					required: true,
                email : true,
 				},
-            "type" : {
+            "country_id": {
+					required: true,
+               
+				},
+            "state_id": {
+					required: true,
+				},
+            "city_id": {
+					required: true,
+				},
+            "address_one": {
+					required: true,
+				},
+            "address_two": {
+					required: true,
+				},
+            "pincode" : {
                required: true,
             },
             "phone" : {
@@ -256,6 +426,25 @@ $(document).ready(function(){
             },
             "message" : {
                required: "Please, enter message",
+            },
+            "country_id": {
+					required: "Please choose country",
+               
+				},
+            "state_id": {
+					required: "Please choose state",
+				},
+            "city_id": {
+					required: "Please choose city",
+				},
+            "address_one": {
+					required: "Please Enter Address",
+				},
+            "address_two": {
+					required: "Please Enter Address",
+				},
+            "pincode" : {
+               required: "Please Enter Pincode",
             },
 			},
 			submitHandler: function (form) {
@@ -290,6 +479,7 @@ $(document).ready(function(){
 });
 $(document).on('submit','form#formValidate',function(){
       $("#SaveEnquiryButton").prop('disabled',true);
+      
 });
 $("#home_menu_id").removeClass('active');
 $("#enquiry_menu_id").addClass('active');

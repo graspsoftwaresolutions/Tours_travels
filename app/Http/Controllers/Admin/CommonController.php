@@ -306,8 +306,8 @@ class CommonController extends Controller
         if($keyword!='')
         {
             $result = DB::table('customer_details as c')->select(DB::raw("CONCAT(c.name,'-',c.phone,'-',c.id) AS value"),'c.name','c.email','c.phone','c.address_one','c.address_two','c.zipcode','cit.city_name','s.state_name','c.id as customer_id')
-                    ->join('city as cit','cit.id','=','c.city_id')
-                    ->join('state as s','s.id','=','c.state_id')
+                    ->leftjoin('city as cit','cit.id','=','c.city_id')
+                    ->leftjoin('state as s','s.id','=','c.state_id')
                      ->orwhere("c.name","LIKE","%{$keyword}%")
                      ->orwhere("c.phone","LIKE","%{$keyword}%")
                     // ->orwhere('c.zipcode','like', '%'.$keyword.'%')

@@ -419,7 +419,7 @@
                                   $defcountry = CommonHelper::DefaultCountry();
                                   @endphp
                                   @foreach($data['country_view'] as $value)
-                                  <option value="{{$value->id}}" >
+                                  <option value="{{$value->id}}">
                                   {{$value->country_name}}</option>
                                   @endforeach
                                </select>

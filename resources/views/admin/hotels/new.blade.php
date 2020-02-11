@@ -131,7 +131,6 @@
                             </div>
                           </div>
                       </div>
-
                       <div class="col-md-4">
                           <div class="select-row form-group">
                               <label for="country_id" class="block">{{__('Country Name') }}<span style="color:red">*</span></label>                 

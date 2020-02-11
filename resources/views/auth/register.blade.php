@@ -8,8 +8,10 @@
 	background: url({{ asset('public/web-assets/images/cover-registration.jpg') }}) 50% 36%;
     background-size: 145%;
 }
+.clearfix{
+	clear:both;
+}
 </style>
-
  <div class="page-background lr-page">
       <div class="page-background lr-page">
 <!--================ PAGE-COVER =================-->
@@ -26,42 +28,32 @@
                 </div><!-- end row -->
             </div><!-- end container -->
         </section><!-- end page-cover -->
-		
 		        <!--===== INNERPAGE-WRAPPER ====-->
         <section class="innerpage-wrapper">
         	<div id="registration" class="innerpage-section-padding">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                        	<div class="flex-content">
+                        	<div class="flex-content custom-form custom-form-fields">
                                 <div class="custom-form custom-form-fields">
                                     <h3>Registration</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                      <form method="POST" action="{{ route('register') }}">
 										@csrf
-                                        <div class="form-group">
-                                            <!-- <input type="text" class="form-control" placeholder="Username"  required/> -->
-											 <div class="form-group row">
-													<!--<label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label> -->
+										 <div class="row">
+											<div class="col-md-6">
+												 <div class="form-group">
+													<input id="name" Placeholder="UserName" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-													<div class="col-md-12">
-														<input id="name" Placeholder="UserName" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-														@error('name')
-															<span class="invalid-feedback" role="alert">
-																<strong>{{ $message }}</strong>
-															</span>
-														@enderror
-													</div>
-												</div>
-                                             <span><i class="fa fa-user"></i></span>
-                                        </div>
-        
-                                        <div class="form-group">
-                                            
-											
-											<!--<label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label> -->
-												
+													@error('name')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+													<span><i class="fa fa-user"></i></span>
+												 </div>
+											</div>
+											<div class="col-md-6">
+												 <div class="form-group">
 													<input id="email" placeholder="Email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
 													@error('email')
@@ -69,54 +61,127 @@
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
-												
-											
-                                             <span><i class="fa fa-envelope"></i></span>
-                                        </div>
-
-                                        <div class="form-group">
-											<!--<label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label> -->
-												
+													<span><i class="fa fa-envelope"></i></span>
+												 </div>
+											</div>
+											<div class="clearfix"></div>
+											<div class="col-md-6">
+												 <div class="form-group">
 													<input id="phone" placeholder="Enter Phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
-
 													@error('phone')
 														<span class="invalid-feedback" role="alert">
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
-                                             <span><i class="fa fa-phone"></i></span>
-                                        </div>
-                                        <div class="form-group">
-											  <input id="password" type="password" placeholder="Password"  required class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+												<span><i class="fa fa-phone"></i></span>
+												 </div>
+											</div>
+											@php $data['country_view'] = CommonHelper::getCountryDetails(); @endphp
+											<div class="col-md-6">
+												 <div class="form-group">
+													<select name="country_id" required="true" id="country_id" value="{{ old('country_id') }}"  class="form-control @error('country_id') is-invalid @enderror"> 
+														<option value="0" selected="true" disabled="true"> Select Country </option>
+                                                        @foreach($data['country_view'] as $value)
+                                                        <option value="{{$value->id}}">
+                                                            {{$value->country_name}}</option>
+                                                        @endforeach
+													</select>
+													@error('country_id')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+												 </div>
+											</div>
+											<div class="clearfix"></div>
+											<div class="col-md-6">
+                                            <div class="select-row form-group">
+                                               
+                                                <!-- To validate the select add class "select-validate" -->     
+                                                <select id="state_id" required="true"  name="state_id" class="form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
+                                                    <option value="0" selected="">{{__('Select State') }}
+                                                    </option>
+                                                </select>   
+                                                <div class="input-highlight"></div>
+                                                </div>
+											</div>
+											<div class="col-md-6">
+												 <div class="form-group">
+													<select name="city_id" required="true"  id="city_id" value="{{ old('city_id') }}" class="form-control @error('city_id') is-invalid @enderror"> 
+														<option value="0"> Select City </option>
+													</select>
+													@error('city_id')
+														<span class="invalid-feedback" role="alert">
+															<strong>{{ $message }}</strong>
+														</span>
+													@enderror
+												 </div>
+											</div>
+											<div class="clearfix"></div>
+											 <div class="col-md-6">
+												 <div class="form-group">
+													<input id="pincode" type="pincode" placeholder="Pincode" value="{{ old('pincode') }}" class="form-control @error('pincode') is-invalid @enderror" name="pincode" required autocomplete="Pincode">
+													<span><i class="fa fa-lock"></i></span>
+												 </div>
+											</div>
+											<div class="col-md-6">
+												 <div class="form-group">
+														<input placeholder="Address One" value="{{ old('address_one') }}" class="form-control  @error('address_one') is-invalid @enderror" name="address_one" id="address_one">
+															@error('address_one')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+													<span><i class="fa fa-lock"></i></span> 
+												 </div>
+											</div>
+											<div class="clearfix"></div>
+											<div class="col-md-6">
+												 <div class="form-group">
+														<input placeholder="Address Two" value="{{ old('address_two') }}" class="form-control  @error('address_two') is-invalid @enderror" name="address_two" id="address_two">
+															@error('address_two')
+																<span class="invalid-feedback" role="alert">
+																	<strong>{{ $message }}</strong>
+																</span>
+															@enderror
+													<span><i class="fa fa-lock"></i></span> 
+												 </div>
+											</div>
+											<div class="col-md-6">
+												 <div class="form-group">
+													<input id="password" type="password" placeholder="Password" required class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
 															@error('password')
 																<span class="invalid-feedback" role="alert">
 																	<strong>{{ $message }}</strong>
 																</span>
 															@enderror
-                                             <span><i class="fa fa-lock"></i></span> 
-                                        </div>
-        
-                                        <div class="form-group">
-											  
-												<input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+													<span><i class="fa fa-lock"></i></span> 
+												 </div>
+											</div>
+											 <div class="col-md-6">
+												 <div class="form-group">
+													<input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 											
-                                             <span><i class="fa fa-lock"></i></span>
-                                        </div>
-                                        <button type="submit" class="btn btn-orange btn-block">
-                                    {{ __('Register') }}
-                                </button>
-                                       
+													<span><i class="fa fa-lock"></i></span>
+												 </div>
+											</div>
+											<div class="clearfix"></div>
+										 </div>
+                                   
+                                        <button type="submit" class="btn btn-orange pull-right ">
+											{{ __('Register') }}
+										</button>
                                     </form>
-                                    
                                     <div class="other-links">
                                     	<p class="link-line">Already Have An Account ? <a href="{{ route('login') }}">Login Here</a></p>
                                     </div><!-- end other-links -->
                                 </div><!-- end custom-form -->
-                                
-                                <div class="flex-content-img custom-form-img">
-                                    <img src="{{ asset('public/web-assets/images/registration.jpg') }}" class="img-responsive" alt="registration-img" />
-                                </div><!-- end custom-form-img -->
+                                <!-- <div class="flex-content-img custom-form-img">
+									 <h3>Registration</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                  <!--  <img src="{{ asset('public/web-assets/images/registration.jpg') }}" class="img-responsive" alt="registration-img" /> -->
+                               <!--  </div> -->
                             </div><!-- end form-content -->
                             
                         </div><!-- end columns -->
@@ -192,46 +257,78 @@
 
 @include('layouts.foot-script')
 <script>
-$(function() {
-    $('select[name=country_id]').change(function() {
-       // alert('ok');
-        var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+$(document).ready(function(e){
+	$('#country_id').change(function(){
+       var countryID = $(this).val();
+      
+       if(countryID!='' && countryID!='undefined')
+       {
+			if(countryID){
+				$.ajax({
+				type:"GET",
+				url:" {{ URL::to('/get-state-list') }}?country_id="+countryID,
+				success:function(res){               
+					if(res){
+						$("#state_id").empty();
+						$("#state_id").append("<option value='0' disabled selected='true'>Select State</option>");
+						$.each(res,function(key,entry){
+							$("#state_id").append($('<option>Select State</option>').attr('value', entry.id).text(entry.state_name));
+						});
+					}
+					}
+				});
+			}
+	   }
+	});
 
-        $.get(url, function(data) {
-            $('#state_id').empty('');
-            $("#state_id").append("<option value=''>Select</option>");
-            $("#state_id").selectpicker("refresh");
-            //var select = $('form select[name=state_id]');
+	$('#state_id').change(function(){
+       var StateId = $(this).val();
+       if(StateId!='' && StateId!='undefined')
+       {
+         $.ajax({
+            type: "GET",
+            url : "{{'get-cities-list'}}?State_id="+StateId,
+            dataType: "json",
+            url : "{{ URL::to('/get-cities-list') }}?State_id="+StateId,
+            success:function(res){
+                if(res)
+                {
+                    $('#city_id').empty();
+					$("#city_id").append("<option value='0' disabled selected='true'>Select City</option>");
+                    $.each(res,function(key,entry){
+                        $('#city_id').append($('<option></option>').attr('value',entry.id).text(entry.city_name));
+                    });   
+                }else{
+                    $('#city_id').empty();
+                }
+            }
+         });
+       }else{
+           $('#city_id').empty();
+       }
+   });
 
-           // select.empty();
-            //$("#state_id").append("<option value=''>Select</option>");
-            $.each(data, function(key, value) {
-                $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
-                    '</option>');
-            });
-             $("#state_id").selectpicker("refresh");
-        });
-    });
 
-    $('select[name=state_id]').change(function() {
-       // alert('ok');
-        var url = "{{ url('get-cities-list') }}" + '?State_id=' + $(this).val();
 
-        $.get(url, function(data) {
-            $('#city_id').empty('');
-            $("#city_id").append("<option value=''>Select</option>");
-            $("#city_id").selectpicker("refresh");
-            //var select = $('form select[name=state_id]');
 
-           // select.empty();
-            //$("#state_id").append("<option value=''>Select</option>");
-            $.each(data, function(key, value) {
-                $("#city_id").append('<option value=' + value.id + '>' + value.city_name +
-                    '</option>');
-            });
-             $("#city_id").selectpicker("refresh");
-        });
-    });
+//     $('select[name=country_id]').change(function() {
+//      // alert('ok');
+//       var url = "{{ url('get-state-list') }}" + '?country_id=' + $(this).val();
+   
+//       $.get(url, function(data) {
+//           $('#state_id').empty('');
+//           $("#state_id").append("<option value=''>Select</option>");
+//           $("#state_id").selectpicker("refresh");
+//           //var select = $('form select[name=state_id]');
+//          // select.empty();
+//           //$("#state_id").append("<option value=''>Select</option>");
+//           $.each(data, function(key, value) {
+//               $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
+//                   '</option>');
+//           });
+//            $("#state_id").selectpicker("refresh");
+//       });
+//    });
 });
 </script>
 @endsection
