@@ -19,7 +19,7 @@
    if($authid!='' && $authid!=null)
    {
         $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);
-        $Created_Booking = CommonHelper::getCreatedBooking($authid);    
+        $Created_Booking = CommonHelper::getCreatedBooking($authid);     
    }
 @endphp
             <!--===== INNERPAGE-WRAPPER ====-->
