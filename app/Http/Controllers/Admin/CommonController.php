@@ -335,6 +335,7 @@ class CommonController extends Controller
                     ->leftjoin('city as cf','cf.id','=','p.from_city_id')
                     ->leftjoin('state as sf','sf.id','=','p.from_state_id')
                     ->leftjoin('country as ctf','ctf.id','=','p.from_country_id')
+                    ->where('p.status', '=',"1")
                     ->where(function($query) use ($keyword){
                         $query->where('p.package_name', 'LIKE',"%{$keyword}%")
                         ->orwhere("s.state_name","LIKE","%{$keyword}%")
