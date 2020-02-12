@@ -94,7 +94,7 @@
       var pack_additional_transport = additional_transport+transport_charges;
       var new_additional_transport = pack_additional_transport;
       if(adult_count_val!=pack_adult_count_val){
-        var adult_price = $("#adult_price").val();
+        var adult_price = $("#adult_price").val()=='' ? 0 : $("#adult_price").val();
         if(adult_count_val>pack_adult_count_val){
           var difff_adult = parseInt(adult_count_val)-parseInt(pack_adult_count_val);
           var extracost = parseFloat(difff_adult*adult_price);
@@ -104,7 +104,7 @@
         }
       }
       if(child_count_val!=pack_child_count_val){
-        var child_price = $("#child_price").val();
+        var child_price = $("#child_price").val()=='' ? 0 : $("#child_price").val();
         if(child_count_val>pack_child_count_val){
           var difff_adult = parseInt(child_count_val)-parseInt(pack_child_count_val);
           var extracost = parseFloat(difff_adult*child_price);
@@ -115,13 +115,13 @@
 
       }
       if(infant_count_val!=pack_infant_count_val){
-        var infant_price = $("#infant_price").val();
+        var infant_price = $("#infant_price").val()=='' ? 0 : $("#infant_price").val();
         if(infant_count_val>pack_infant_count_val){
           var difff_adult = parseInt(infant_count_val)-parseInt(pack_infant_count_val);
-          var extracost = parseFloat(difff_adult*child_price);
+          var extracost = parseFloat(difff_adult*infant_price);
         }else{
            var difff_adult = parseInt(pack_infant_count_val)-parseInt(infant_count_val);
-           var extracost = -parseFloat(difff_adult*child_price);
+           var extracost = -parseFloat(difff_adult*infant_price);
         }
       }
       new_additional_transport = parseFloat(pack_additional_transport)+parseFloat(extracost)
