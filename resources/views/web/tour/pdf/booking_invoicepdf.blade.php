@@ -61,10 +61,10 @@
 							</tr>
 							<tr>
 								<td style="padding-left:13px;">
+								<br> 
+								{{$customer_data->address_one ? Ucfirst($customer_data->address_one) : ''}}, {{$customer_data->address_two ? Ucfirst($customer_data->address_two) : ''}}
 								<br>
-								{{$customer_data->address_one ? Ucfirst($customer_data->address_one) : ''}} {{$customer_data->address_two ? Ucfirst($customer_data->address_two) : ''}}
-								<br>
-								{{$customer_country_name}} &nbsp; {{$customer_state_name}} <br>{{$customer_city_name}}  {{$customer_data->zipcode ? $customer_data->zipcode : ''}}   <br> {{$customer_data->phone}}  <br> {{$customer_data->email}}  <br> <br></td>
+								{{$customer_country_name}},{{$customer_state_name}}, <br>{{$customer_city_name}} - {{$customer_data->zipcode ? $customer_data->zipcode : ''}}   <br> {{$customer_data->phone}} , <br> {{$customer_data->email}}  <br> <br></td>
 							</tr>
 						</table>
 					</td>
@@ -101,7 +101,7 @@
 						</table>
 					</td>
 					<td colspan="1">
-						<table style="taxt-align:left;">
+						<table style="text-align:left;margin-left: 35px;">
 							<tr>
 								<td  style="font-weight:bold;color: #2b80a2; font-size: 28px;">Details
 								<hr style="margin: 8px 0px;">
@@ -113,7 +113,7 @@
 			</table>
 			<table style="width:100%;">
 				<tr>
-					<td colspan="1" style="">
+					<td  style="">
 						@php
 						$total_nights =0 ;
 						$startday = 1;
@@ -191,10 +191,10 @@
 						}
 						$booking_adult_child_infant = $booking_adult_count.' '.$booking_child_count.' '.$booking_infant_count; @endphp
 					</td>
-					<td colspan="1" style="padding-right:15px;">
+					<td  style="padding-right:10px;">
 						<table>
 							<tr>
-								<td  colspan="1">Package : &nbsp; {{Ucfirst($packagename)}} </td>
+								<td  colspan="1" >Package : &nbsp; {{Ucfirst($packagename)}} </td>
 							</tr>
 							<tr>
 								<td colspan="1">Persons :  &nbsp; {{$booking_adult_child_infant}}</td>
@@ -246,8 +246,3 @@
 		</div>
 	</body>
 </html>
-
-
-
-
-

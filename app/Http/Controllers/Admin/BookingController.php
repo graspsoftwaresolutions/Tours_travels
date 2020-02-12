@@ -508,7 +508,7 @@ class BookingController extends Controller
            $booking_number = $data['booking_details'][0]->booking_number;
            // return view('web.tour.pdf.booking_invoicepdf',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-           //  return  $pdf->stream();
+          //  return  $pdf->stream();
             $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
             
                 $to_email =  $customer_data->email;

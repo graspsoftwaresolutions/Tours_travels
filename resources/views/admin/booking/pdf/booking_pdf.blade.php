@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 @php $company_data = $website_data[0]; 
-     $booking_data = $booking_data[0];
+     $booking_data = $booking_data[0]; 
      $package_data = $booking_package[0];
      $customer_data = $booking_customer[0];
      $booking_place_details = $booking_place;
@@ -396,7 +396,7 @@
                 @php $slno++; @endphp
                 @endforeach   
 				<p style="color:#4A7885;"><label style="margin-left:10px; font-size:15px !important; padding: 10px; background: #b39371;
-    color: #fff;width:50%"><b> Total Cost </b>  : {{$booking_data->grand_total ? $booking_data->grand_total : '' }} </label>  </p>
+    width:50%"><b style="color:white;"> Total Cost </b>  : {{ $booking_data->grand_total}} </label>  </p>
                 <!-- <p ><b> Price Summary </b> </p>
                         <table width="100%" class="package_table"> 
 							<tr> 
