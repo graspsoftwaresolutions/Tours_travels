@@ -18,6 +18,11 @@
    {
       pointer-events: none;
    }
+   .selectstyle
+   {
+      height: 44px;
+      padding-left: 37px;
+   }
    /* #loader {
   display: none;
   position: fixed;
@@ -62,30 +67,39 @@
                @include('includes.messages')
                <form method='post' id='formValidate' >
                @csrf
-                  <div class="form-group col-md-6">
-                    
-                     <input type="hidden" value="{{ Auth::check() ? Auth::user()->id : '' }}" name='auth_id' id='auth_id' class="form-control" placeholder="Name"  />
-                     <input type="text" value="{{ Auth::check() ? Auth::user()->name : old('name') }}" name='name' id='name' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="Name"  />
-                     
+               <div class="col-md-6">
+                        <div class="form-group">
+                         <input type="hidden" value="{{ Auth::check() ? Auth::user()->id : '' }}" name='auth_id' id='auth_id' class="form-control" placeholder="Name"  />
+                           <input type="text" value="{{ Auth::check() ? Auth::user()->name : old('name') }}" name='name' id='name' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="Name"  /> 
+                           <span><i class="fa fa-user"></i></span>
+                        </div>
                   </div>
-                  <div class="form-group col-md-6">
-                     <input type="email" name='email' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}"  value="{{ Auth::check() ? Auth::user()->email : '' }}" id='email'  placeholder="Email or Username"  />
-                     
+                  <div class=" col-md-6">
+                        <div class="form-group">
+                            <input type="email" name='email' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}"  value="{{ Auth::check() ? Auth::user()->email : '' }}" id='email'  placeholder="Email or Username"  />
+                            <span><i class="fa fa-envelope"></i></span>
+                        </div>
                   </div>
                   <div class="clearfix"></div>
-                  <div class="form-group col-md-6">
-                     <input type="text" name='phone' value="{{ Auth::check() ? Auth::user()->phone : '' }}" id='phone' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="phone" />
-                  </div>
-                  <div class="form-group col-md-6">
-                     <select name='type' id='type' class="form-control">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <input type="text" name='phone' value="{{ Auth::check() ? Auth::user()->phone : '' }}" id='phone' class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" placeholder="phone" />
+                     <span><i class="fa fa-phone"></i></span>
+                    </div>
+                    </div>
+                  <div class="col-md-6">
+                   <div class="form-group">
+                     <select name='type' id='type' class="form-control selectstyle">
                         <option value='0' selected="true" disabled>Select Type</option>
                         <option value='general'>General</option>
                         <option value='package'>Package</option>
                      </select>
+                     <span><i class="fa fa-list-alt" aria-hidden="true"></i></span>
+                     </div> 
                   </div> 
                   <div class="clearfix"></div>
                       <div class="col-sm-12 packages" >
-                        <div class="form-group">
+                        <div class="form-group ">
                           <label for="" style='padding: 10px 0px;'><strong>Select Packages:</strong></label>
                           <div class="row"> 
                               @foreach($data['packages_view'] as $value)
@@ -107,7 +121,7 @@
                                   @php $data['country_view'] = CommonHelper::getCountryDetails(); @endphp
 											<div class="col-md-6">
 												 <div class="form-group">
-													<select name="country_id" style="@if(Auth::check()) pointer-events:none; @endif"  required="true" id="country_id" value="{{ old('country_id') }}"  class="form-control @error('country_id') is-invalid @enderror"> 
+													<select name="country_id" style="@if(Auth::check()) pointer-events:none; @endif"  required="true" id="country_id" value="{{ old('country_id') }}"  class="selectstyle form-control @error('country_id') is-invalid @enderror"> 
 														<option value="0" selected="true" disabled="true"> Select Country </option>
                                                 @foreach($data['country_view'] as $value)
                                                 
@@ -120,6 +134,7 @@
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
+                                       <span><i class="fa fa-flag" aria-hidden="true"></i></span>
 												 </div>
 											</div>
 											@if(Auth::check())
@@ -129,7 +144,7 @@
                                              @php
                                              $stateName = CommonHelper::getstateName(Auth::user()->state_id);
                                              @endphp
-                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="form-control @error('country_id') is-invalid @enderror" data-live-search="true" data-width="100%">
+                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="form-control @error('country_id') is-invalid @enderror selectstyle" data-live-search="true" data-width="100%">
                                              <option value="0" selected="true">{{ $stateName }}
                                              </option>
                                             </select>
@@ -140,7 +155,7 @@
                                  <div class="col-md-6">
                                     <div class="select-row form-group"> 
                                        <!-- To validate the select add class "select-validate" -->     
-                                       <select id="state_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif" name="state_id" class="form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
+                                       <select id="state_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif" name="state_id" class="selectstyle form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
                                              <option value="0" selected="">{{__('Select State') }}
                                              </option>
                                              @if(Auth::check())
@@ -151,6 +166,7 @@
                                  
                                              @endif
                                        </select>   
+                                       <span><i class="fa fa-flag" aria-hidden="true"></i></span>
                                        <div class="input-highlight"></div>
                                        </div>
 											</div>
@@ -163,17 +179,18 @@
                                              @php
                                              $cityName = CommonHelper::getcityName(Auth::user()->city_id);
                                              @endphp
-                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="form-control @error('city_id') is-invalid @enderror" data-live-search="true" data-width="100%">
+                                             <select  style="@if(Auth::check()) pointer-events:none; @endif" class="selectstyle form-control @error('city_id') is-invalid @enderror" data-live-search="true" data-width="100%">
                                              <option value="0" selected="true">{{ $cityName }}
                                              </option>
                                             </select>
+                                            <span><i class="fa fa-flag" aria-hidden="true"></i></span>
                                        <div class="input-highlight"></div>
                                        </div>
 											</div>
                                  @else
 											<div class="col-md-6">
 												 <div class="form-group">
-													<select name="city_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif"  id="city_id" value="{{ old('city_id') }}" class="form-control @error('city_id') is-invalid @enderror"> 
+													<select name="city_id" required="true" style="@if(Auth::check()) pointer-events:none; @endif"  id="city_id" value="{{ old('city_id') }}" class="selectstyle form-control @error('city_id') is-invalid @enderror"> 
 														<option value="0"> Select City </option>
 													</select>
 													@error('city_id')
@@ -181,13 +198,14 @@
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
+                                       <span><i class="fa fa-flag" aria-hidden="true"></i></span>
 												 </div>
 											</div>
                                  @endif
 											 <div class="col-md-6">
 												 <div class="form-group">
 													<input id="pincode" type="pincode" value="{{ Auth::check() ? Auth::user()->pincode : '' }}" placeholder="Pincode" class="{{ Auth::check() ? 'read form-control' : 'form-control'}}" name="pincode" required autocomplete="Pincode">
-													<span><i class="fa fa-lock"></i></span>
+													<span><i class="fa fa-map-pin" aria-hidden="true"></i></span>
 												 </div>
 											</div>
                                  <div class="clearfix"></div>
@@ -199,7 +217,7 @@
 																	<strong>{{ $message }}</strong>
 																</span>
 															@enderror
-													<span><i class="fa fa-lock"></i></span> 
+                                             <span><i class="fa fa-address-card"></i></span>
 												 </div>
 											</div>
 											<div class="col-md-6">
@@ -210,11 +228,14 @@
 																	<strong>{{ $message }}</strong>
 																</span>
 															@enderror
-													<span><i class="fa fa-lock"></i></span> 
+                                             <span><i class="fa fa-address-card"></i></span>
 												 </div>
 											</div>
-                  <div class="form-group col-md-6">
-                     <textarea class="form-control" id='message' name='message' placeholder="Message" ></textarea>
+                  <div class=" col-md-6">
+                    <div class="form-group">
+                        <textarea class="form-control" id='message' name='message' placeholder="Message" ></textarea>
+                        <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        </div>
                   </div>
                   <div class="clearfix"></div>
                   <input type='submit' id="SaveEnquiryButton" value='submit' class='pull-right btn btn-orange'>

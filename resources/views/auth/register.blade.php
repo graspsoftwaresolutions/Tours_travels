@@ -11,6 +11,11 @@
 .clearfix{
 	clear:both;
 }
+.selectstyle
+{
+	height: 44px;
+    padding-left: 37px;
+}
 </style>
  <div class="page-background lr-page">
       <div class="page-background lr-page">
@@ -79,18 +84,20 @@
 											@php $data['country_view'] = CommonHelper::getCountryDetails(); @endphp
 											<div class="col-md-6">
 												 <div class="form-group">
-													<select name="country_id" required="true" id="country_id" value="{{ old('country_id') }}"  class="form-control @error('country_id') is-invalid @enderror"> 
+													<select name="country_id" required="true" id="country_id" value="{{ old('country_id') }}"  class="selectstyle form-control @error('country_id') is-invalid @enderror"> 
 														<option value="0" selected="true" disabled="true"> Select Country </option>
                                                         @foreach($data['country_view'] as $value)
                                                         <option value="{{$value->id}}">
                                                             {{$value->country_name}}</option>
                                                         @endforeach
 													</select>
+													
 													@error('country_id')
 														<span class="invalid-feedback" role="alert">
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
+													<span><i class="fa fa-flag" aria-hidden="true"></i></span>
 												 </div>
 											</div>
 											<div class="clearfix"></div>
@@ -98,16 +105,17 @@
                                             <div class="select-row form-group">
                                                
                                                 <!-- To validate the select add class "select-validate" -->     
-                                                <select id="state_id" required="true"  name="state_id" class="form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
+                                                <select id="state_id" required="true"   name="state_id" class="selectstyle form-control @error('state_id') is-invalid @enderror" value="{{ old('state_id') }}" data-live-search="true" data-width="100%">
                                                     <option value="0" selected="">{{__('Select State') }}
                                                     </option>
                                                 </select>   
+												<span><i class="fa fa-flag" aria-hidden="true"></i></span>
                                                 <div class="input-highlight"></div>
                                                 </div>
 											</div>
 											<div class="col-md-6">
 												 <div class="form-group">
-													<select name="city_id" required="true"  id="city_id" value="{{ old('city_id') }}" class="form-control @error('city_id') is-invalid @enderror"> 
+													<select name="city_id"  required="true"  id="city_id" value="{{ old('city_id') }}" class="selectstyle form-control @error('city_id') is-invalid @enderror"> 
 														<option value="0"> Select City </option>
 													</select>
 													@error('city_id')
@@ -115,13 +123,14 @@
 															<strong>{{ $message }}</strong>
 														</span>
 													@enderror
+													<span><i class="fa fa-flag" aria-hidden="true"></i></span>
 												 </div>
 											</div>
 											<div class="clearfix"></div>
 											 <div class="col-md-6">
 												 <div class="form-group">
 													<input id="pincode" type="pincode" placeholder="Pincode" value="{{ old('pincode') }}" class="form-control @error('pincode') is-invalid @enderror" name="pincode" required autocomplete="Pincode">
-													<span><i class="fa fa-lock"></i></span>
+													<span><i class="fa fa-map-pin" aria-hidden="true"></i></span>
 												 </div>
 											</div>
 											<div class="col-md-6">
@@ -132,7 +141,7 @@
 																	<strong>{{ $message }}</strong>
 																</span>
 															@enderror
-													<span><i class="fa fa-lock"></i></span> 
+															<span><i class="fa fa-address-card"></i></span>
 												 </div>
 											</div>
 											<div class="clearfix"></div>
@@ -144,7 +153,7 @@
 																	<strong>{{ $message }}</strong>
 																</span>
 															@enderror
-													<span><i class="fa fa-lock"></i></span> 
+															<span><i class="fa fa-address-card"></i></span>
 												 </div>
 											</div>
 											<div class="col-md-6">

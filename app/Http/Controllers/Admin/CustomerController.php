@@ -57,7 +57,7 @@ class CustomerController extends BaseController
             $count = DB::table('users')->where('customer_id','=',$customerid)->count();
             if($count > 0)
             {
-                DB::table('users')->where('customer_id','=',$customerid)->update(['name'=>$data['name'],'phone' =>$data['phone']]);
+                DB::table('users')->where('customer_id','=',$customerid)->update(['name'=>$data['name'],'phone' =>$data['phone'],'country_id'=>$data['country_id'],'state_id'=>$data['state_id'],'city_id'=>$data['city_id'],'address_one'=>$data['address_one'],'address_two'=>$data['address_two'],'pincode'=>$data['zipcode'] ]);
             }          
             $CustomerDetails =  CustomerDetails::find($data['id']);
             Session::flash('message', 'Customer Detail Updated Succesfully');
@@ -91,8 +91,7 @@ class CustomerController extends BaseController
         }
     }
     public function customerEdit($id)
-    { 
-       
+    {
         $id = crypt::decrypt($id);
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();

@@ -1092,7 +1092,7 @@
                      <div class="col-sm-4">
                         <div class="form-group input-field label-float">
                            <input placeholder="Address One" class="clearable" id="customer_address_one" name="address_one" type="text">
-                           <label for="customer_address_one" class="fixed-label">{{__('Address One') }}</label>
+                           <label for="customer_address_one" class="fixed-label">{{__('Address One') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                         <!-- /.form-group -->     
@@ -1104,7 +1104,7 @@
                         <div class="form-group input-field label-float">
                            <div class="input-field label-float">
                               <input placeholder="Address Two" class="clearable" id="customer_address_two" name="address_two" type="text">
-                              <label for="customer_address_two" class="fixed-label">{{__('Address Two') }}</label>
+                              <label for="customer_address_two" class="fixed-label">{{__('Address Two') }}<span style="color:red">*</span></label>
                               </select>
                               <div class="input-highlight"></div>
                            </div>
@@ -1827,6 +1827,12 @@
                required: true,
                digits : true,
             },
+            "customer_address_one" : {
+               required: true,
+            },
+            "customer_address_two" : {
+               required: true,
+            },
             "phone" : {
                required: true,
                digits : true,
@@ -1867,6 +1873,13 @@
                required: "Please, Enter Zipcode",
                digits : "Numbers only",
             },
+            "customer_address_one" : {
+               required: "Please, Enter address",
+            },
+            "customer_address_two" : {
+               required: "Please, Enter address",
+            },
+            
             "phone" : {
                required: "Please, enter Phone Number",
                digits : "Numbers only",
@@ -1894,7 +1907,6 @@
                      $('#city_id').selectpicker('val', '');
                      $('#customer_id').val(response.userid);
                      $('#customer_name').val(response.data.name);
-
                 }
               }
            });

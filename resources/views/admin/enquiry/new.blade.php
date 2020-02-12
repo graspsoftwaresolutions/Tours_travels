@@ -319,7 +319,7 @@
                      <div class="col-sm-4">
                         <div class="form-group input-field label-float">
                            <input placeholder="Address One" class="clearable" id="customer_address_one" name="address_one" type="text">
-                           <label for="customer_address_one" class="fixed-label">{{__('Address One') }}</label>
+                           <label for="customer_address_one" class="fixed-label">{{__('Address One') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
                         <!-- /.form-group -->     
@@ -331,7 +331,7 @@
                         <div class="form-group input-field label-float">
                            <div class="input-field label-float">
                               <input placeholder="Address Two" class="clearable" id="customer_address_two" name="address_two" type="text">
-                              <label for="customer_address_two" class="fixed-label">{{__('Address Two') }}</label>
+                              <label for="customer_address_two" class="fixed-label">{{__('Address Two') }}<span style="color:red">*</span></label>
                               </select>
                               <div class="input-highlight"></div>
                            </div>
@@ -489,21 +489,21 @@ $(document).ready(function(){
         "name": {
           required: true,
         },
-            "email": {
-          required: true,
-               email : true,
-               remote: {
-                url: "{{ url('/customer_emailexists')}}",
-                type: "post",
-                data: {
-                     email: function() {
-                        return $("#email").val();
-                    },
-                    _token: "{{csrf_token()}}",
-                    email: $(this).data('email')
-                },  
-            },
-        },
+         "email": {
+            required: true,
+            email : true,
+            remote: {
+               url: "{{ url('/customer_emailexists')}}",
+               type: "post",
+               data: {
+                  email: function() {
+                     return $("#email").val();
+                  },
+                  _token: "{{csrf_token()}}",
+                  email: $(this).data('email')
+               },  
+         },
+         },
             "country_id" : {
                required: true,
             },
@@ -529,10 +529,8 @@ $(document).ready(function(){
                     },
                     _token: "{{csrf_token()}}",
                     phone: $(this).data('phone')
-                },
-                
-                
-            },
+                },   
+               },
             }, 
             "customer_address_one" : {
                required: true,
@@ -595,7 +593,6 @@ $(document).ready(function(){
            });
          }
     });
-
 });
 // $(document).on('submit','form#customerformValidate',function(){
 //         $("#saveCustomerButton").prop('disabled',true);
