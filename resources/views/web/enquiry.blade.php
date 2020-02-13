@@ -148,6 +148,7 @@
                                              <option value="0" selected="true">{{ $stateName }}
                                              </option>
                                             </select>
+                                            <span><i class="fa fa-flag" aria-hidden="true"></i></span>
                                        <div class="input-highlight"></div>
                                        </div>
 											</div>

@@ -372,11 +372,13 @@
                                             <br>
                                             @for($n=1;$n<=$pack_night_count;$n++)
                                             @php
+                                            $j = 0;
                                             $pack_daynumber = $pack_total_nights+$n;
                                             $package_activities = CommonHelper::getPackageActivitiesDays($package_info->id,$place->city_id,$pack_daynumber);
                                           
                                               //  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
                                             @endphp
+                                            <p> Day - {{$pack_daynumber}}  </p>
                                             @foreach($package_activities as $activity)
                                             @php
                                                 $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
@@ -408,10 +410,13 @@
                                                     $hours_and_minutes = $hours.' '.$minutes;                                                  
                                             @endphp
                                             <div class="timeline-heading"> 
-                                                    <p> Day - {{$pack_daynumber}}  </p>
-                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title"> {{ $activity->title_name }}</h4> </a>
-                                                     <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
-
+                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title" style="margin-left: 15px;">* {{ $activity->title_name }}</h4> </a>
+                                                     <p style="margin-left: 15px;"><small class="text-muted"> Duration : {{ $hours_and_minutes }} </small> </p>
+                                                     <!-- <p style="margin-left: 15px;"></p> -->
+                                                     <!-- <div class="row">
+                                                          <div class="col-md-2">  <i class="glyphicon glyphicon-time"></i></div>  
+                                                          <div class="col-md-10"> {{ $hours_and_minutes }} </div>
+                                                     </div> -->
                                             </div>
                                             @endforeach
                                             @endfor

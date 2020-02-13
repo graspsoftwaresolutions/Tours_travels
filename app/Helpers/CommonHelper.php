@@ -323,7 +323,7 @@ class CommonHelper
             array(
                 'activity_images'
             ))->whereIn('id',$activity_ids)->get();
-        //dd($activities);
+       // dd($activities);
         return $activities;
     }
 

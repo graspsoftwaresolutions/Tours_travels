@@ -208,10 +208,48 @@
                                     $city_name = CommonHelper::getcityName($row_packages->to_city_id);
 
                                     @endphp
+                                    @php
+                                        $adult_count = $row_packages->adult_count;
+                                        $child_count = $row_packages->child_count;
+                                        $infant_count = $row_packages->infant_count;
+                                        if($adult_count == 0 )
+                                        {
+                                            $adult_count = '';
+                                        }
+                                        elseif($adult_count == 1){
+                                            $adult_count = $adult_count.' '.'Adult';
+                                        }
+                                        else{
+                                            $adult_count = $adult_count.' '.'Adults';
+                                        }
+
+                                            if($child_count == 0)
+                                            {
+                                                $child_count = '';
+                                            }
+                                            elseif($child_count == 1){
+                                                $child_count = $child_count.' '.'Child';
+                                            }
+                                            else{
+                                                $child_count = $child_count.' '.'Childrens';
+                                            }
+
+                                            if($infant_count == 0)
+                                            {
+                                                $infant_count = '';
+                                            }
+                                            elseif($infant_count == 1){
+                                                $infant_count = $infant_count.' '.'Infant';
+                                            }
+                                            else{
+                                                $infant_count = $infant_count.' '.'infant_count';
+                                            }
+                                            $adult_child_infant = $adult_count.' '.$child_count.' '.$infant_count;                                                  
+                                        @endphp
                                      <div class="block-info h-grid-info">
                                          <h5 class="block-title"><a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}">{{$row_packages->package_name}}</a></h5>
                                          <p class="">{{ $country_name}} - {{ $state_name}} - {{ $city_name}} </p>
-                                         <p class="">{{ $row_packages->adult_count}} Adult {{ $row_packages->child_count}} Childern  {{ $row_packages->infant_count}} Infants </p>
+                                         <p class="">{{$adult_child_infant}} </p>
                                         <div class="grid-btn">
                                             <a href="{{route('package.details',Crypt::encrypt($row_packages->id))}}" class="btn btn-orange btn-block btn-lg">View More</a>
                                         </div><!-- end grid-btn -->

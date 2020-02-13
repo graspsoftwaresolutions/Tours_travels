@@ -107,6 +107,7 @@ class TourBookingController extends Controller
         $booking->payment_type = 1;
         $booking->booking_number =  CommonHelper::newbookingNumber();
         $booking->user_booking = 1;
+        $booking->status = 0;
         $booking->created_by = Auth::user()->id;
         $booking->save();
 
