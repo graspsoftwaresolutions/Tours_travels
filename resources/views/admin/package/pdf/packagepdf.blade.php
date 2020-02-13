@@ -465,7 +465,8 @@
 									$package_activities = CommonHelper::getPackageActivitiesDays($package->packageautoid,$place->city_id,$pack_daynumber);
 									//dd($package_activities);			
 									@endphp
-
+									<hr style="margin : 0px 0 20px 10px">
+									<p><b>Day : </b> {{ $pack_daynumber  }}  - Activities</p>			
 									@foreach($package_activities as $activity)
 									@php
 									$activityimages = $activity->activity_images;
@@ -475,9 +476,9 @@
 										$activity_images  = CommonHelper::getActivityImages($activity->id);
 									@endphp
                           <div class="clearfix"></div>
-						  <hr style="margin : 0px 0 20px 10px">
+						  
 						  <!-- <h2 style="margin : 0px 0 20px 10px" class=""></h2> -->
-						  <p><b>Day : </b> {{ $pack_daynumber  }}  - Activities</p>
+						  
                         <div class="" style="float: left;width: 20%;font-size: 16px;margin-left: 20px;margin-right: 10px; padding: 0px;background: #b39371;color: #fff; ">
 	                        <p class="inner-bullets" style="margin: 5px;"> <b> Activity Name <br> </b> </p>
 	                    </div>

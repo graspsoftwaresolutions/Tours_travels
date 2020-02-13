@@ -385,7 +385,6 @@
                                                 
                                                 $hours = floor($activity->duartion_hours / 60) ;
                                                 $minutes = floor($activity->duartion_hours % 60) ;
-
                                                 if($hours == 0 )
                                                 {
                                                     $hours = '';

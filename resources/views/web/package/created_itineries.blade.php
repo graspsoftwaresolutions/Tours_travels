@@ -399,15 +399,16 @@
                                                                         <li><span>Booking Date:</span> {{$booked_date}}</li>
                                                                         <li><span>Reference Number </span> {{$values->booking_number}}</li>
                                                                         @php $cityid = CommonHelper::getPackagePlaceCitiy($values->package_id);  
-                                                                        
-                                                                        $prefixx = $citiesListt = ''; 
-                                                                        foreach ($cityid as $val) 
-                                                                        {
-                                                                            $city_name = CommonHelper::getcityName($val->city_id);
-                                                                            $citiesListt .= $prefixx . '"' . $city_name . '"';
-                                                                            $prefix = ', ';
-                                                                        }@endphp
-                                                                        <li><span>Places :</span> [{{$citiesListt}}]</li> 
+                                                                              $city_count = count($cityid);
+                                                                              $prefixx = $citiesListt = '';  
+                                                                              foreach ($cityid as $val) 
+                                                                                {
+                                                                                    $city_name = CommonHelper::getcityName($val->city_id);
+                                                                                    $citiesListt .= $prefixx . '"' . $city_name . '"';
+                                                                                    $prefixx = ', ';
+                                                                                }@endphp
+																		  <li><span>Places :</span> [{{$citiesListt}}]</li>
+                                                                      
                                                                         <li><span>Persons :</span> {{$booking_adult_child_infant}}</li> 
                                                                         <li><span>Amount :</span> {{$values->total_amount}}</li> 
                                                                     </ul>
