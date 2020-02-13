@@ -289,10 +289,7 @@
                                                             <td class="list-text wishlist-text">
                                                             <a href="{{$view}}" style="text-decoration:none;">  <h3>{{$values->package_name}}  </a><span><small> [ {{ $night_count }} Nights and {{ $night_count+1 }} Days ] </small></span>
                                                                 </h3> 
-
                                                                 <p> <b>Reference Number </b>  :  &nbsp;  #{{$values->reference_number}}</p>
-                                                               
-
                                                                     @php $city_id = CommonHelper::getPackagePlaceCitiy($values->packageid); 
                                                                     $prefix = $citiesList = ''; 
                                                                     foreach ($city_id as $valu) 

@@ -34,13 +34,14 @@
         <h4 style='text-align:center'>Your Enquiry Has Been Submitted!</h4>
         <p style='text-align:center'>We will get in touch with you soon.</p>
         <p style='text-align:center'>  Normally it took 8-16 hours to respond to any enquiry.</p>
-        <p style='text-align:center'>You'll be notify by E-mail when we answer to your enquiry. Please register with us to serve you better.<br></p><p><br></p><p>Thank You<br></p>      </div>
+        <p style='text-align:center'>You'll be notify by E-mail when we answer to your enquiry.<br></p><p><br></p><p>Thank You<br></p>      </div>
       </div>
     </div>
 </div>
 <footer>
   <div class="container">
-  <p> Website URL : http://demo.graspsoftwaresolutions.com/tours/ </p>
+  @php $website = CommonHelper::getWebsiteDetails(); @endphp
+  <p> Website URL : {{ $website->company_website ? $website->company_website : '' }}  </p>
 	</a>
 	</h4>
   </div>
