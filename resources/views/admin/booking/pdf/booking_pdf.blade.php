@@ -157,14 +157,13 @@
 			   
                 <tr> 
 					<td> 
-					
 					<p> Name  : {{ $customer_data->name ? ucfirst($customer_data->name) : ''}}</p> 
 					<p> Email : {{ $customer_data->email ? $customer_data->email : ''}} </p>
 					<p> Phone : {{ $customer_data->phone ? $customer_data->phone : ''}} </p>
 					@php $customer_country_name = CommonHelper::getCountryName($customer_data->country_id);
 					$customer_state_name = CommonHelper::getstateName($customer_data->state_id);
 					$customer_city_name = CommonHelper::getcityName($customer_data->city_id);
-			 	@endphp
+			 		@endphp
 					<p> Country : {{ $customer_country_name ? $customer_country_name : ''}} </p>
 					<p> State : {{ $customer_state_name ? $customer_state_name : ''}} </p>
 					<p> City : {{ $customer_city_name ? $customer_city_name : ''}} </p>
@@ -200,7 +199,7 @@
                 }
             @endphp
 			
-			<p > {{$sno+1}} . {{ $place_state_name }}, {{ $place_city_name }} </p>
+			<p> {{$sno+1}} . {{ $place_state_name }}, {{ $place_city_name }} </p>
 			<div class="inner-bullets" > * {{$days_val}} [ {{$nights }} ] </div>
 			@php $sno++; @endphp
 		
@@ -217,8 +216,7 @@
 			  @endphp
 			   @if($place->nights_count!=0)
 				  @php
-					 $sum_package_hotel = CommonHelper::getBookingHotel($booking_data->id,$place->city_id);
-					 
+					  $sum_package_hotel = CommonHelper::getBookingHotel($booking_data->id,$place->city_id);
 					  $amenity_count = $sum_package_hotel!=null ? count($sum_package_hotel->amenities) : 0;
 					 
 					  $amenitystring = '';

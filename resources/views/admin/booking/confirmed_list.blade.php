@@ -14,7 +14,6 @@
     <!-- =========================================================== -->
 
         <div class="aside-panel"></div>
-
         <div class="container-fluid">           
 
             <div class="page-header">

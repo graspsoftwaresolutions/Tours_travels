@@ -291,6 +291,10 @@ class CommonHelper
         return $hotel_data;
         
     }
+    public static function getHotelName($hotel_id)
+    {
+        return $hotelname = DB::table('hotels')->where('id','=',$hotel_id)->pluck('hotel_name')->first();
+    }
 
     public static function getPackageActivities($packageid,$cityid){
         //dd($packageid);

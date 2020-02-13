@@ -707,6 +707,10 @@
                                               }
                                             }
                                             $total_hotel_prices = 0;
+                                            $enc_hotelid = Crypt::encrypt($hotel->hotel_id);
+                                            $place_cityid = $place->city_id;
+                                            $booking_id = $booking_info->id;
+                                            $mailConfirmation = route('hotel_confirmation',[$enc_hotelid,$place_cityid,$booking_id]);
                                           @endphp
 
                                           <div class="media-left media-img">
@@ -717,6 +721,11 @@
                                           <div class="media-body p10">
 
                                             <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
+                                            <span class="pull-right" style="font-size: 20px;">
+                                            <!-- <a  title='Hotel Confirmation'  href='{{$mailConfirmation}}' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a> -->
+                                            
+                                            
+                                            </span>
                                             <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
                                             <p class="sub-text mt7">{{ $amenitystring }}</p>
                                             <p class="sub-text mt7">
@@ -2298,6 +2307,15 @@
 
    
   }
+  function ConfirmMail() {
+    if (confirm("{{ __('Are you sure you want to send email?') }}")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 </script>
 @endsection
 @section('footerSecondSection')

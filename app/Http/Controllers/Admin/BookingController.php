@@ -15,6 +15,7 @@ use App\Model\Admin\ActivityImages;
 use App\Model\Admin\BookigTransports;
 use App\Model\Admin\Package;
 use App\Model\Admin\Activity;
+use App\Model\Admin\Website;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
@@ -301,7 +302,15 @@ class BookingController extends Controller
          $SaveBooking->from_date = $request->from_date;
          $SaveBooking->to_date = $request->to_date;
          $SaveBooking->grand_total = $request->grand_total_amount;
-         $SaveBooking->user_booking  = 0;   
+         $update_user_booking = DB::table('booking_master')->where('id','=',$auto_id)->pluck('user_booking')->first();
+         if($update_user_booking == 1)
+         {
+            $SaveBooking->user_booking  = 1;  
+         }
+         else{
+            $SaveBooking->user_booking  = 0;
+         } 
+        //$SaveBooking->user_booking  = 0;
          $SaveBooking->payment_mode  = 'cash';      
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
@@ -534,9 +543,18 @@ class BookingController extends Controller
     {
         return view('admin.booking.followup_list');
     }
-    //Booking Follow up list
-    public function ajax_followupbooking_list(Request $request)
+    public function hotelConfirmation($hotelid,$cityid,$bookingid)
     {
+         $hotel_id = Crypt::decrypt($hotelid);
         
+         if($hotel_id!='')
+         {
+            $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
+            $from_mail = Website::pluck('company_website')->first();
+           // $to_mail = $toMailDetails->contact_email;
+            $to_mail = 'mounika.bizsoft@gmail.com';
+            $cc_email = 'shyni.bizsoft@gmail.com';
+            \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\hotelConfirmation($hotel_id,$cityid,$bookingid));
+         }
     }
 }
