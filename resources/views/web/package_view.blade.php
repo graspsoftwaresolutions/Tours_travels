@@ -355,7 +355,7 @@
                                             }
                                             $total_hotel_prices = 0;
                                           @endphp
-                                          <div style="margin-top: 15px;" class="row">
+                                             <div style="margin-top: 15px;" class="row">
                                                 <div class="col-md-3 col-sm-12">
                                                     <img src="{{ $hotel_image }}" class="img-responsive" style="height: 100px !important;border-radius: 5px;width:111px;" alt="tour-img">
                                                 </div>
@@ -395,18 +395,17 @@
                                                 else{
                                                     $hours = $hours.' '.'hours';
                                                 }
-
-                                                    if($minutes == 0)
-                                                    {
-                                                        $minutes = '';
-                                                    }
-                                                    elseif($minutes == 1){
-                                                        $minutes = $minutes.' '.'minute';
-                                                    }
-                                                    else{
-                                                        $minutes = $minutes.' '.'minutes';
-                                                    }
-                                                    $hours_and_minutes = $hours.' '.$minutes;                                                  
+                                                if($minutes == 0)
+                                                {
+                                                    $minutes = '';
+                                                }
+                                                elseif($minutes == 1){
+                                                    $minutes = $minutes.' '.'minute';
+                                                }
+                                                else{
+                                                    $minutes = $minutes.' '.'minutes';
+                                                }
+                                                $hours_and_minutes = $hours.' '.$minutes;                                                  
                                             @endphp
                                             <div class="timeline-heading"> 
                                                     <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title" style="margin-left: 15px;">* {{ $activity->title_name }}</h4> </a>
@@ -424,10 +423,8 @@
                                             @endphp
                                          </div>
                                       </div>
-                                     </li>
+                                     </li> 
                                         @php
-                                       
-                                        
                                         $startday = $startday+$nightcount;
                                         @endphp
                                     @endforeach
@@ -452,12 +449,13 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <div class="form-group left-icon">
                                             <!-- <input type="text" id="to_date" name="to_date" autocomplete="off"  required class="form-control dpd2" placeholder="Check Out" > -->
-                                            <input type="text"   id="to_date" name="to_date" autocomplete="off" class="form-control dpd2"  placeholder="Check Out" >
+                                            <input type="text" style="pointer-events:none;"   id="to_date" name="to_date" autocomplete="off" class="form-control dpd2"  placeholder="Check Out" >
                                         </div>
                                     </div><!-- end columns -->
                                 </div><!-- end row --> 
-                                <button type="submit"  class="btn btn-orange">BOOK </button>
-                               
+                                    
+                                   
+                                    <button type="submit"  class="btn btn-orange">BOOK </button>
                             </form>
                             <br>
                             <br>

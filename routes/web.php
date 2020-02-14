@@ -267,7 +267,6 @@ Route::get('/city_hotels_details','Web\PackageController@HotelDetails')->name('w
 Route::get('city_activity_details','Web\PackageController@ActivityDetails')->name('web.city_activity_details');
 Route::post('/package_save', 'Web\PackageController@packageSave')->name('web.package_save');
 Route::put('package_search','Web\PackageController@packageSearch')->name('package_search');
-
 Route::get('package_search','Web\PackageController@packageSearch')->name('package_search');
 Route::post('fromcountry_autocomplete','CommonController@FromCounrtyAutocomplete')->name('fromcountry_autocomplete');
 

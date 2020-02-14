@@ -410,8 +410,7 @@
                                                                         <li><span>Amount :</span> {{$values->total_amount}}</li> 
                                                                     </ul>
                                                                 </td>
-
-                                                                <td class="dash-list-btn"><button style="color:white" class="btn btn-success">Approved</button></td>
+                                                                <td class="dash-list-btn">@if($values->status==0) <button style="color:white" class="btn btn-danger"> Pending </button> @else <button style="color:white" class="btn btn-success"> Approved </button> @endif</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>

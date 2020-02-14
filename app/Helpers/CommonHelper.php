@@ -496,10 +496,14 @@ class CommonHelper
        $result = DB::table('website_settings')->where('status','=','1')->first();
        return $result;
    }
+   public static function getBookingExistance($customerid,$packageid)
+   {
+        $booking_data = Db::table('booking_master')->select('from_date','to_date')->where('customer_id','=',$customerid)->where('package_id','=',$packageid)->where('user_booking','=','1')->first();
+        return $booking_data;
+   }
    public static function getPackageData($id)
    {
         $result = DB::table('package_master')->where('id','=',$id)
-                
                         ->first();
                         //dd($result);
         return $result;

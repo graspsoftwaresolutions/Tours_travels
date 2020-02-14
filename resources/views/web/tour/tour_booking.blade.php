@@ -375,6 +375,7 @@
                                           
                                               //  $sum_package_activities = CommonHelper::getPackageActivities($package_info->id,$place->city_id);
                                             @endphp
+                                            <p> Day - {{$pack_daynumber}}  </p>
                                             @foreach($package_activities as $activity)
                                             @php
                                                 $activityduration = round($activity->duartion_hours/60).' hour '.($activity->duartion_hours%60).' minutes';
@@ -406,8 +407,8 @@
                                                     $hours_and_minutes = $hours.' '.$minutes;                                                  
                                             @endphp
                                             <div class="timeline-heading"> 
-                                                    <p> Day - {{$pack_daynumber}}  </p>
-                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title"> {{ $activity->title_name }}</h4> </a>
+                                                    
+                                                    <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title"> * {{ $activity->title_name }}</h4> </a>
                                                      <p style="margin-left: 15px;"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ $hours_and_minutes }}</small></p>
 
                                             </div>
@@ -447,7 +448,8 @@
                                    <!-- end lg-bform-heading -->
                                 
                                 <div class="payment-tabs">
-
+                                @include('includes.messages') 
+                                <br>
                                     <!-- <div class="tab-content"> -->
                                     	<div class="tab-pane fade in active">
                                         <form id="payment_form" class="form-horizontal" method="post" action="{{route('booking_confirm')}}">
