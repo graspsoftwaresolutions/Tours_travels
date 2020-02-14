@@ -62,6 +62,8 @@
 							<tr>
 								<td style="padding-left:13px;">
 								<br> 
+								{{Ucfirst($customer_data->name)}},
+								<br> 
 								{{$customer_data->address_one ? Ucfirst($customer_data->address_one) : ''}}, {{$customer_data->address_two ? Ucfirst($customer_data->address_two) : ''}}
 								<br>
 								{{$customer_country_name}},{{$customer_state_name}}, <br>{{$customer_city_name}} - {{$customer_data->zipcode ? $customer_data->zipcode : ''}}   <br> {{$customer_data->phone}} , <br> {{$customer_data->email}}  <br> <br></td>
@@ -233,7 +235,7 @@
 				</tr>
 				@if($row->payment_mode == 'online_payment')
 				<tr>
-					<td colspan="1" style="padding: 5px;">Code &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; &nbsp; &nbsp; {{$row->reference_number ? $row->reference_number : ''}}</td>
+					<td colspan="1" style="padding: 5px;">Reference Number &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; {{$row->reference_number ? $row->reference_number : ''}}</td>
 				</tr>
 				@endif
 			</table>

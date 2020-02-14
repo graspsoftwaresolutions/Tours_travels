@@ -1102,7 +1102,7 @@ class AjaxController extends CommonController
             ->join('customer_details as cd','cd.id','=','b.customer_id')
             ->join('city as cit','cit.id','=','p.to_city_id')
             ->join('state as st','st.id','=','p.to_state_id')
-            ->where('b.status','=','1')
+            ->where('b.status','=','0')
             ->where('b.user_booking','=','1')
         ->count();
      
@@ -1125,7 +1125,7 @@ class AjaxController extends CommonController
             ->join('city as cit','cit.id','=','p.to_city_id')
             ->join('state as st','st.id','=','p.to_state_id')
             ->orderBy($order,$dir)
-            ->where('b.status','=','1')
+            ->where('b.status','=','0')
             ->where('b.user_booking','=','1')
             ->get()->toArray();
         }else{
@@ -1138,7 +1138,7 @@ class AjaxController extends CommonController
             ->offset($start)
             ->limit($limit)
             ->orderBy($order,$dir)
-            ->where('b.status','=','1')
+            ->where('b.status','=','0')
             ->where('b.user_booking','=','1')
             
             ->get()->toArray();
@@ -1153,7 +1153,7 @@ class AjaxController extends CommonController
         ->join('customer_details as cd','cd.id','=','b.customer_id')
         ->join('city as cit','cit.id','=','p.to_city_id')
         ->join('state as st','st.id','=','p.to_state_id')
-                    ->where('b.status','=','1')
+                    ->where('b.status','=','0')
                     ->where('b.user_booking','=','1')
                     ->where(function($query) use ($search){
                     $query->orWhere('p.package_name', 'LIKE',"%{$search}%")
@@ -1172,7 +1172,7 @@ class AjaxController extends CommonController
         ->join('customer_details as cd','cd.id','=','b.customer_id')
         ->join('city as cit','cit.id','=','p.to_city_id')
         ->join('state as st','st.id','=','p.to_state_id')
-                ->where('b.status','=','1')
+                ->where('b.status','=','0')
                 ->where('b.user_booking','=','0')
                     ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
@@ -1193,7 +1193,7 @@ class AjaxController extends CommonController
                         ->join('customer_details as cd','cd.id','=','b.customer_id')
                         ->join('city as cit','cit.id','=','p.to_city_id')
                         ->join('state as st','st.id','=','p.to_state_id')
-                    ->where('b.status','=','1')
+                    ->where('b.status','=','0')
                     ->where('b.user_booking','=','1')
                     ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->where('p.id','LIKE',"%{$search}%")

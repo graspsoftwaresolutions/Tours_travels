@@ -77,8 +77,7 @@ class TourBookingController extends Controller
             $packageid = Crypt::encrypt($packageid);
             $fromdate = Crypt::encrypt($form_date);
             $todate = Crypt::encrypt($to_date);
-            return  redirect()->route('book_now',[$packageid,$fromdate,$todate])->with('error','Package Already Booked'); 
-          
+            return  redirect()->route('book_now',[$packageid,$fromdate,$todate])->with('error','Package Already Booked');        
         }
         else{
             $Package_details = DB::table('package_master as p')->where('id','=',$packageid)->first();
@@ -149,7 +148,6 @@ class TourBookingController extends Controller
                 $BookingActivities->day_numbers = $data['package_activities'][$i]->day_numbers;
                 $BookingActivities->save();
             }
-
             $data['package_hotel'] = DB::table('package_hotel')->where('package_id','=',$packageid)->get();
 
             for($i=0;$i<count($data['package_hotel']);$i++)
@@ -178,12 +176,9 @@ class TourBookingController extends Controller
                 $BookigTransports->interestrate_amount = $data['package_transports'][$i]->interestrate_amount;
                 $BookigTransports->save();
             }
-
             $data['booking_details'] = DB::table('booking_master')->where('id','=',$booking_last_id)->get();
             $user_id = DB::table('booking_master')->where('id','=',$booking_last_id)->pluck('customer_id')->first();
-            
             $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
-
             if($data['booking_details']!='')
             {
                 $booking_number = $data['booking_details'][0]->booking_number;
@@ -198,6 +193,5 @@ class TourBookingController extends Controller
 
             return redirect()->route('itineray_created')->with('message','Your Booked Trips'); 
         }
-    }
-        
+    }  
 }
