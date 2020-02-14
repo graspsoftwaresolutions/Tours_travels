@@ -554,7 +554,7 @@ class CommonHelper
      {
         $customer_id = DB::table('users')->where('id','=',$userid)->pluck('customer_id')->first();
         $result = Booking::where('customer_id','=',$customer_id)->where('user_booking','=',1)
-                    ->select('id as bookingid','package_id','from_date','to_date','to_country_id','to_state_id','to_city_id','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number')->get();
+                    ->select('id as bookingid','package_id','from_date','to_date','to_country_id','to_state_id','to_city_id','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number','booking_number')->get();
                     return $result;
      }
    }

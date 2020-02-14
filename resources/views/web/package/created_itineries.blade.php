@@ -393,8 +393,8 @@
                                                                 <td class="dash-list-text booking-list-detail">
                                                                 <a href="{{$packview}}" style="text-decoration:none;"> <h3>{{$packagename}}</h3> </a>
                                                                     <ul class="list-unstyled booking-info">
-                                                                        <li><span>Booking Date:</span> {{$booked_date}}</li>
-                                                                        <li><span>Reference Number </span> {{$values->booking_number}}</li>
+                                                                        <li><span>Booking Date:</span> {{$booked_date}} </li>
+                                                                        <li><span>Reference Number : </span> {{$values->booking_number}}</li>
                                                                         @php $cityid = CommonHelper::getPackagePlaceCitiy($values->package_id);  
                                                                               $city_count = count($cityid);
                                                                               $prefixx = $citiesListt = '';  
