@@ -19,6 +19,7 @@ use App\Model\Admin\Website;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
+use App\Model\Admin\BookingHotelConfirmation;
 use Auth;
 use PDF;
 class BookingController extends Controller
@@ -552,10 +553,31 @@ class BookingController extends Controller
          {
             $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
             $from_mail = Website::pluck('company_website')->first();
-           // $to_mail = $toMailDetails->contact_email;
-            $to_mail = 'mounika.bizsoft@gmail.com';
-            $cc_email = 'shyni.bizsoft@gmail.com';
-            \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\hotelConfirmation($hotel_id,$cityid,$bookingid));
+            $to_mail = $toMailDetails->contact_email;
+          //  $to_mail = 'mounika.bizsoft@gmail.com';
+            //$cc_email = 'shyni.bizsoft@gmail.com';
+            $cc_email = 'murugan.bizsoft@gmail.com';
+            if( $to_mail!=''){
+                \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmation($hotel_id,$cityid,$bookingid));
+
+                $booking_hotel = DB::table('booking_hotel')->where('booking_id','=',$bookingid)->where('hotel_id','=',$hotel_id)->get();
+
+                foreach($booking_hotel as $hotel)
+                {
+                    $BookingHotel = new BookingHotelConfirmation();
+                    $BookingHotel->booking_id = $bookingid;
+                    $BookingHotel->city_id = $hotel->city_id;
+                    $BookingHotel->hotel_id = $hotel->hotel_id;
+                    $BookingHotel->roomtype_id = $hotel->roomtype_id;
+                    $BookingHotel->total_rooms = $hotel->total_rooms; 
+                    $BookingHotel->total_amount = $hotel->total_amount;
+                    $BookingHotel->approval_status = 0;
+                    $BookingHotel->save();
+                }
+            }
+            
          }
+         return redirect('admin/home')->with('success', ['Mail send successfully to hotel']);   
+         //return view('admin.email.hotel_confirmation');
     }
 }

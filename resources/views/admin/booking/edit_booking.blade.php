@@ -268,6 +268,11 @@
     height: 32px;
     line-height: 32px;
   }
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color:#ccc;
+  }
 
 </style>
 @endsection
@@ -711,6 +716,8 @@
                                             $place_cityid = $place->city_id;
                                             $booking_id = $booking_info->id;
                                             $mailConfirmation = route('hotel_confirmation',[$enc_hotelid,$place_cityid,$booking_id]);
+                                            $hotelconfirmation_status = CommonHelper::getHotelConfirmationStatus($booking_info->id,$place->city_id,$hotel->hotel_id);
+                                            $confirmation_count = CommonHelper::HotelConfirmationCount($booking_info->id,$place->city_id,$hotel->hotel_id);
                                           @endphp
 
                                           <div class="media-left media-img">
@@ -722,7 +729,10 @@
 
                                             <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
                                             <span class="pull-right" style="font-size: 20px;">
-                                            <!-- <a  title='Hotel Confirmation'  href='{{$mailConfirmation}}' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a> -->
+                                            @if($confirmation_count>0)
+                                              <a  title='Hotel Confirmation' target="_blank" style="color: orange;" class="" href='' ><i class='mdi mdi-ticket-confirmation'></i></a>
+                                            @endif
+                                            <a  title='Hotel Confirmation' target="_blank" class="@if($hotelconfirmation_status>0) disabled @endif" href='{{$mailConfirmation}}' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>
                                             
                                             
                                             </span>

@@ -194,4 +194,12 @@ class TourBookingController extends Controller
             return redirect()->route('itineray_created')->with('message','Your Booked Trips'); 
         }
     }  
+
+    public function ViewhotelConfirmation($enchotelid,$encemailid,$encbookingid){
+        $hotel_id = Crypt::decrypt($enchotelid);
+        $email_id = Crypt::decrypt($encemailid);
+        $booking_id = Crypt::decrypt($encbookingid);
+        $data = [];
+        return view('web.tour.booking_confirmation')->with('data',$data);
+    }
 }
