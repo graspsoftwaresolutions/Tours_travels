@@ -27,7 +27,7 @@
                 <div class="tab-content" >
                     <div id="flights" class="tab-pane in active">
                         <form method="post" action="{{route('activity_search')}}">
-                        @csrf   
+                        @csrf
                              <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
                                     <!-- <div class="row"> -->
@@ -60,11 +60,8 @@
         </div><!-- end row -->
     </div><!-- end container -->
 </div><!-- end search-tabs -->
-            </div><!-- end container -->
-            
+    </div><!-- end container -->       
         </section><!-- end page-cover -->
-
-
            <!--===== INNERPAGE-WRAPPER ====-->
            <section class="innerpage-wrapper">
         	<div id="hotel-listing" class="innerpage-section-padding">
@@ -74,8 +71,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 content-side">
                         @php 
                         if(count($data['activities_view'])>0) 
-                        {
-                            
+                        {  
                             @endphp
 							@foreach($data['activities_view'] as $values)
                             @php $activityimage = CommonHelper::getActivityImages($values->id); @endphp
