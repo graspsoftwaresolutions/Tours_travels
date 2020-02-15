@@ -134,7 +134,9 @@
                                     <div class="list-info h-list-info">
                                         <h3 class="block-title"><a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}">{{$values->title_name}}</a></h3>
                                        <br> <h5>{{$country_name}} , {{$state_name}} , {{$city_name}}  </h5>
-                                        <p>{!! $values->short_description ? substr($values->short_description, 0, 200) : '' !!}..More</p>
+                                         @if($values->short_description!='')   
+                                            <p>{!! $values->short_description ? substr($values->short_description, 0, 200) : '' !!}..More</p>
+                                        @endif
                                         <a href="{{route('sightseeing_viewmore',Crypt::encrypt($values->id))}}" class="btn btn-orange btn-lg">View More</a>
                                      </div><!-- end h-list-info -->
                             	</div><!-- end list-content -->

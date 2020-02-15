@@ -21,6 +21,7 @@
         $Created_Itineraries = CommonHelper::getCreatedItineraries($authid);
         $Created_Booking = CommonHelper::getCreatedBooking($authid);     
    }
+   $website_dat = CommonHelper::getWebsiteDetails(); 
 @endphp
             <!--===== INNERPAGE-WRAPPER ====-->
             <section class="innerpage-wrapper">
@@ -30,7 +31,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                         	<div class="dashboard-heading">
                                 <h2>My <span>Trips</span></h2>
-                                <p>Hi {{ Auth::check() ? Auth::user()->name : '' }}, Welcome to Aspire Tours and Travels!</p>
+                                <p>Hi {{ Auth::check() ? Auth::user()->name : '' }}, Welcome to {{Ucfirst($website_dat->company_name)}}!</p>
                                 <p>All your trips booked with us will appear here and you'll be able to manage everything!</p>
                             </div><!-- end dashboard-heading -->
                         	
