@@ -409,7 +409,7 @@
                                             @endphp
                                             <div class="timeline-heading"> 
                                                     <a style="text-decoration:none;" href="{{route('sightseeing_viewmore',Crypt::encrypt($activity->id))}}"> <h4 class="timeline-title" style="margin-left: 15px;">* {{ $activity->title_name }}</h4> </a>
-                                                     <p style="margin-left: 15px;"><small class="text-muted"> Duration : {{ $hours_and_minutes }} </small> </p>
+                                                     <p style="margin-left: 28px;"><small class="text-muted"> Duration : {{ $hours_and_minutes }} </small> </p>
                                                      <!-- <p style="margin-left: 15px;"></p> -->
                                                      <!-- <div class="row">
                                                           <div class="col-md-2">  <i class="glyphicon glyphicon-time"></i></div>  

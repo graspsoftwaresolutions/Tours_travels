@@ -172,7 +172,7 @@
                                        </div>
 											</div>
                                  @endif
-                                 <div class="clearfix"></div>
+                                 <div class="clearfix"></div> 
                                  @if(Auth::check())
 											<div class="col-md-6">
                                     <div class="form-group"> 
@@ -232,6 +232,7 @@
                                              <span><i class="fa fa-address-card"></i></span>
 												 </div>
 											</div>
+                                 <div class="clearfix"></div> 
                   <div class=" col-md-6">
                     <div class="form-group">
                         <textarea class="form-control" id='message' name='message' placeholder="Message" ></textarea>

@@ -7,7 +7,9 @@
 @endsection
 
 @section('main-content')
-   
+   @php 
+   $website_dat = CommonHelper::getWebsiteDetails();   
+   @endphp
      <!--========== PAGE-COVER =========-->
     <section class="page-cover dashboard">
         <div class="container">
@@ -30,7 +32,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="dashboard-heading">
                                 <h2>Travel <span>Profile</span></h2>
-                                <p>Hi {{ ucfirst(Auth::user()->name) }}, Welcome to Tours and Travels!</p>
+                                <p>Hi {{ ucfirst(Auth::user()->name) }}, Welcome to {{Ucfirst($website_dat->company_name)}}!</p>
                                 <p>All your trips booked with us will appear here and you'll be able to manage everything!</p>
                             </div><!-- end dashboard-heading -->
                             

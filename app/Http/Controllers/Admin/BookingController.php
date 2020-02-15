@@ -100,7 +100,7 @@ class BookingController extends Controller
          $SaveBooking->user_booking = 0;
          $SaveBooking->additional_charges = $request->additional_charges;
          $SaveBooking->extra_amount = $request->extra_cost;
-         $SaveBooking->payment_mode  = 'cash';    
+         $SaveBooking->payment_mode  = 2;    
 
          $paymenttype = $request->paymenttype;
          $SaveBooking->payment_type = $paymenttype;
