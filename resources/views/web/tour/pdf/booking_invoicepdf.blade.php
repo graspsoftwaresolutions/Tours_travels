@@ -229,13 +229,18 @@
 				</tr>
 			</table>
 			<br>
-			<table>
+			<table width="100%">
 				<tr>
-					<td colspan="1" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; :  &nbsp;{{Ucfirst($row->payment_mode)}}</td>
+					<td colspan="1" width="50%" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; :  &nbsp;{{Ucfirst($row->payment_mode)}}</td>
+					@if($row->payment_type ==2 )
+					<td width="50%">Balance ({{ $row->balance_percentage }} %) &nbsp; &nbsp; &nbsp; : {{ $row->balance_amount }}</td>
+					@else
+					<td></td>
+					@endif
 				</tr>
 				@if($row->payment_mode == 'online_payment')
 				<tr>
-					<td colspan="1" style="padding: 5px;">Reference Number &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; {{$row->reference_number ? $row->reference_number : ''}}</td>
+					<td colspan="1" colspan="2" style="padding: 5px;">Reference Number &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; {{$row->reference_number ? $row->reference_number : ''}}</td>
 				</tr>
 				@endif
 			</table>
