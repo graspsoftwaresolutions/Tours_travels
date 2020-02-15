@@ -472,9 +472,9 @@
                                             <div class="col-sm-8">
                                                <select id="payment_mode" required name="payment_mode" class="form-control" >
                                                     <option selected="true" value="0" disabled>Select</option>
-                                                    <option value="card">Card</option>
-                                                    <option value="cash">Cash</option>
-                                                    <option value="online_payment">Online Payment</option>
+                                                    <option value="1">Card</option>
+                                                    <option value="2">Cash</option>
+                                                    <option value="3">Online Payment</option>
                                                </select>
                                             </div>
                                             
@@ -492,9 +492,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-sm-4" for="pwd">Card Type</label>
                                                 <div class="col-sm-8">          
-                                                    <input type="radio" id="credit" value="credit" name="payment_mode">
+                                                    <input type="radio" id="credit" value="1" name="card_type">
                                                     <label for = "credit">Credit</label>
-                                                    <input type="radio" id="debit" value="debit" name="payment_mode">
+                                                    <input type="radio" id="debit" value="2" name="card_type">
                                                     <label for = "debit">Debit</label>
                                                 </div>
                                             </div>
@@ -607,17 +607,17 @@
     
       $('#payment_mode').change(function(e){
         var payment_mode =  $('#payment_mode').val();
-            if(payment_mode == 'online_payment')
+            if(payment_mode == '3')
             {
                 $('.online_mode').removeClass('hide');
                 $('.card_mode').addClass('hide');
             }
-            else if(payment_mode == 'cash')
+            else if(payment_mode == '2')
             {
                 $('.online_mode').addClass('hide');
                 $('.card_mode').addClass('hide');
             }
-            else if(payment_mode == 'card')
+            else if(payment_mode == '1')
             {
                 $('.card_mode').removeClass('hide');
                 $('.online_mode').addClass('hide');

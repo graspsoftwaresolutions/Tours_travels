@@ -231,14 +231,14 @@
 			<br>
 			<table width="100%">
 				<tr>
-					<td colspan="1" width="50%" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; :  &nbsp;{{Ucfirst($row->payment_mode)}}</td>
+					<td colspan="1" width="50%" style="padding: 5px;">Payment Mode &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; :  &nbsp; @if($row->payment_mode==1) 'Card' @elseif($row->payment_mode==2)  Cash @else Online Payment @endif </td>
 					@if($row->payment_type ==2 )
 					<td width="50%">Balance ({{ $row->balance_percentage }} %) &nbsp; &nbsp; &nbsp; : {{ $row->balance_amount }}</td>
 					@else
 					<td></td>
 					@endif
 				</tr>
-				@if($row->payment_mode == 'online_payment')
+				@if($row->payment_mode == '3')
 				<tr>
 					<td colspan="1" colspan="2" style="padding: 5px;">Reference Number &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; {{$row->reference_number ? $row->reference_number : ''}}</td>
 				</tr>
