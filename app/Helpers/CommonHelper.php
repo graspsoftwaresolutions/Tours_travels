@@ -72,6 +72,13 @@ class CommonHelper
         $converted_date = date('Y-m-d', strtotime($date_format));
         return $converted_date;
      }
+     public static function convert_date_frontend($date)
+     {
+        $date_array = explode("-",$date);           							
+        $date_format = $date_array[2]."-".$date_array[1]."-".$date_array[0];
+        $converted_date = date('m/d/Y', strtotime($date_format));
+        return $converted_date;
+     }
      public static function getCountryDetails()
      {
         $data['country_view'] = Country::where('status','=','1')->get();

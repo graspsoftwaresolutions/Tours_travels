@@ -930,18 +930,20 @@ class AjaxController extends CommonController
 
             0 => 'id', 
             1 => 'customer_name', 
-            1 => 'grand_total',
+            2 => 'grand_total',
             3 => 'state_name',
             4 => 'city_name',
             5 => 'package_name',
             6 => 'booking_number',
             7 => 'adult_count',
             8 => 'paid_amount',
-            9 => 'balance_amount'
+            9 => 'balance_amount',
+            10 => 'from_date',
+            11 => 'to_date'
         );
 
         $totalData = DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','p.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+            ->select('b.id','b.booking_number','cd.name','p.package_name','p.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
             ->join('package_master as p','p.id','=','b.package_id')
             ->join('customer_details as cd','cd.id','=','b.customer_id')
             ->join('city as cit','cit.id','=','p.to_city_id')
@@ -961,7 +963,7 @@ class AjaxController extends CommonController
         {            
         if( $limit == -1){ 
             $booking = DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
@@ -972,7 +974,7 @@ class AjaxController extends CommonController
             ->get()->toArray();
         }else{
             $booking =  DB::table('booking_master as b')
-                        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+                        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
                         ->join('package_master as p','p.id','=','b.package_id')
                         ->join('customer_details as cd','cd.id','=','b.customer_id')
                         ->join('city as cit','cit.id','=','p.to_city_id')
@@ -991,7 +993,7 @@ class AjaxController extends CommonController
         $search = $request->input('search.value'); 
         if( $limit == -1){
         $booking =DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1003,14 +1005,19 @@ class AjaxController extends CommonController
                     ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                 })
                 ->orderBy($order,$dir)
                 ->get()->toArray();
         }else{
         $booking = DB::table('booking_master as b')
-                ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+                ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
                 ->join('package_master as p','p.id','=','b.package_id')
                 ->join('customer_details as cd','cd.id','=','b.customer_id')
                 ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1019,11 +1026,16 @@ class AjaxController extends CommonController
                 ->where('b.user_booking','=','0')
                     ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                         ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                         ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                         ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                        ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                        ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
-                        ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
-                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                        ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                        ->orWhere('b.to_date', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                     })
                     ->offset($start)
                     ->limit($limit)
@@ -1031,7 +1043,7 @@ class AjaxController extends CommonController
                     ->get()->toArray();
         }
             $totalFiltered = DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1039,11 +1051,16 @@ class AjaxController extends CommonController
                     ->where('b.status','=','1')
                     ->where('b.user_booking','=','0')
                     ->where('p.id','LIKE',"%{$search}%")
-                    ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
+                    ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
-                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%") 
                 ->count();
         }
         // $table ="activities";
@@ -1055,6 +1072,11 @@ class AjaxController extends CommonController
             foreach ($booking as $booking)
             {  
                 $nestedData['id'] = $booking->id;
+                $nestedData['package_name'] = $booking->package_name;
+                $fromdate = CommonHelper::convert_date_frontend($booking->from_date);
+                $nestedData['from_date'] = $fromdate;
+                $todate = CommonHelper::convert_date_frontend($booking->to_date);
+                $nestedData['to_date'] = $todate;
                 $nestedData['package_name'] = $booking->package_name;
                 $nestedData['grand_total'] = $booking->grand_total;
                 $nestedData['customer_name'] = $booking->name;
@@ -1096,18 +1118,18 @@ class AjaxController extends CommonController
             6 => 'booking_number',
             7 => 'adult_count',
             8 => 'paid_amount',
+            9 => 'from_date',
+            10 => 'to_date'
         );
-
         $totalData = DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-            ->join('package_master as p','p.id','=','b.package_id')
-            ->join('customer_details as cd','cd.id','=','b.customer_id')
-            ->join('city as cit','cit.id','=','p.to_city_id')
-            ->join('state as st','st.id','=','p.to_state_id')
-            ->where('b.status','=','0')
-            ->where('b.user_booking','=','1')
+        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.from_date','b.to_date')
+        ->join('package_master as p','p.id','=','b.package_id')
+        ->join('customer_details as cd','cd.id','=','b.customer_id')
+        ->join('city as cit','cit.id','=','p.to_city_id')
+        ->join('state as st','st.id','=','p.to_state_id')
+        ->where('b.status','=','0')
+        ->where('b.user_booking','=','1')
         ->count();
-     
 
         $totalFiltered = $totalData; 
 
@@ -1116,73 +1138,83 @@ class AjaxController extends CommonController
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-
         if(empty($request->input('search.value')))
         {            
         if( $limit == -1){ 
             $booking = DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-            ->join('package_master as p','p.id','=','b.package_id')
-            ->join('customer_details as cd','cd.id','=','b.customer_id')
-            ->join('city as cit','cit.id','=','p.to_city_id')
-            ->join('state as st','st.id','=','p.to_state_id')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
             ->orderBy($order,$dir)
             ->where('b.status','=','0')
             ->where('b.user_booking','=','1')
             ->get()->toArray();
         }else{
             $booking =  DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-            ->join('package_master as p','p.id','=','b.package_id')
-            ->join('customer_details as cd','cd.id','=','b.customer_id')
-            ->join('city as cit','cit.id','=','p.to_city_id')
-            ->join('state as st','st.id','=','p.to_state_id')
+                        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
+                        ->join('package_master as p','p.id','=','b.package_id')
+                        ->join('customer_details as cd','cd.id','=','b.customer_id')
+                        ->join('city as cit','cit.id','=','p.to_city_id')
+                        ->join('state as st','st.id','=','p.to_state_id')
             ->offset($start)
             ->limit($limit)
             ->orderBy($order,$dir)
             ->where('b.status','=','0')
             ->where('b.user_booking','=','1')
-            
+           // ->dump()
             ->get()->toArray();
         }
+        //$Activity->dump();
         }
         else {
         $search = $request->input('search.value'); 
         if( $limit == -1){
         $booking =DB::table('booking_master as b')
-        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-        ->join('package_master as p','p.id','=','b.package_id')
-        ->join('customer_details as cd','cd.id','=','b.customer_id')
-        ->join('city as cit','cit.id','=','p.to_city_id')
-        ->join('state as st','st.id','=','p.to_state_id')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','0')
                     ->where('b.user_booking','=','1')
                     ->where(function($query) use ($search){
                     $query->orWhere('p.package_name', 'LIKE',"%{$search}%")
                     ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
-                      ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                 })
                 ->orderBy($order,$dir)
                 ->get()->toArray();
         }else{
-        $booking =DB::table('booking_master as b')
-        ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-        ->join('package_master as p','p.id','=','b.package_id')
-        ->join('customer_details as cd','cd.id','=','b.customer_id')
-        ->join('city as cit','cit.id','=','p.to_city_id')
-        ->join('state as st','st.id','=','p.to_state_id')
+        $booking = DB::table('booking_master as b')
+                ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
+                ->join('package_master as p','p.id','=','b.package_id')
+                ->join('customer_details as cd','cd.id','=','b.customer_id')
+                ->join('city as cit','cit.id','=','p.to_city_id')
+                ->join('state as st','st.id','=','p.to_state_id')
                 ->where('b.status','=','0')
-                ->where('b.user_booking','=','0')
+                ->where('b.user_booking','=','1')
                     ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
-                        ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
+                         ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                         ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                         ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                        ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                        ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
-                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                        ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                        ->orWhere('b.to_date', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                     })
                     ->offset($start)
                     ->limit($limit)
@@ -1190,30 +1222,40 @@ class AjaxController extends CommonController
                     ->get()->toArray();
         }
             $totalFiltered = DB::table('booking_master as b')
-                        ->select('b.id','b.booking_number','cd.name','p.package_name','p.adult_count','p.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount')
-                        ->join('package_master as p','p.id','=','b.package_id')
-                        ->join('customer_details as cd','cd.id','=','b.customer_id')
-                        ->join('city as cit','cit.id','=','p.to_city_id')
-                        ->join('state as st','st.id','=','p.to_state_id')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.adult_count','b.paid_amount','b.balance_amount','b.balance_amount','b.from_date','b.to_date')
+                    ->join('package_master as p','p.id','=','b.package_id')
+                    ->join('customer_details as cd','cd.id','=','b.customer_id')
+                    ->join('city as cit','cit.id','=','p.to_city_id')
+                    ->join('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','0')
                     ->where('b.user_booking','=','1')
-                    ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->where('p.id','LIKE',"%{$search}%")
+                    ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
-                    ->orWhere('state_name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
+                    ->orWhere('state_name', 'LIKE',"%{$search}%") 
                 ->count();
         }
         // $table ="activities";
         //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
-          //dd($booking);
+        //   dd($Activity);
         $data = array();
         if(!empty($booking))
         {
             foreach ($booking as $booking)
             {  
                 $nestedData['id'] = $booking->id;
+                $nestedData['package_name'] = $booking->package_name;
+                $fromdate = CommonHelper::convert_date_frontend($booking->from_date);
+                $nestedData['from_date'] = $fromdate;
+                $todate = CommonHelper::convert_date_frontend($booking->to_date);
+                $nestedData['to_date'] = $todate;
                 $nestedData['package_name'] = $booking->package_name;
                 $nestedData['grand_total'] = $booking->grand_total;
                 $nestedData['customer_name'] = $booking->name;
@@ -1222,13 +1264,13 @@ class AjaxController extends CommonController
                 $nestedData['booking_number'] = $booking->booking_number;
                 $nestedData['adult_count'] = $booking->adult_count;
                 $nestedData['paid_amount'] = $booking->paid_amount;
+                $nestedData['balance_amount'] = $booking->balance_amount ? $booking->balance_amount : '---' ;
                 $enc_id = Crypt::encrypt($booking->id);
                 $edit = route('booking.edit',$enc_id);
+                $mail = route('booking.invoice',[$enc_id,'booking']);  
                 $pdf = route('booking.pdf',$enc_id);
-                $mail = route('booking.invoice',[$enc_id,'confirm-booking']);
                 $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>";
                 $nestedData['options'] = $actions;
-                
                 $data[] = $nestedData;
             }
         }
@@ -1241,7 +1283,9 @@ class AjaxController extends CommonController
         "data"            => $data   
         );
         echo json_encode($json_data); 
+        
     }
+
     public function ajax_followupbooking_list(Request $request)
     {   
         $columns = array( 
@@ -1256,10 +1300,12 @@ class AjaxController extends CommonController
             7 => 'state_name',
             8 => 'city_name',
             9 => 'adult_count',
+            10 => 'from_date',
+            11 => 'to_date'
         );
 
         $totalData = DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
             ->join('package_master as p','p.id','=','b.package_id')
             ->join('customer_details as cd','cd.id','=','b.customer_id')
             ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1279,7 +1325,7 @@ class AjaxController extends CommonController
         {            
         if( $limit == -1){ 
             $booking = DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1290,7 +1336,7 @@ class AjaxController extends CommonController
             ->get()->toArray();
         }else{
                 $booking =  DB::table('booking_master as b')
-                            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                             ->join('package_master as p','p.id','=','b.package_id')
                             ->join('customer_details as cd','cd.id','=','b.customer_id')
                             ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1308,7 +1354,7 @@ class AjaxController extends CommonController
         $search = $request->input('search.value'); 
         if( $limit == -1){
         $booking =DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1319,15 +1365,20 @@ class AjaxController extends CommonController
                     $query->orWhere('p.package_name', 'LIKE',"%{$search}%")
                     ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
-                      ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                 })
                 ->orderBy($order,$dir)
                 ->get()->toArray();
         }else{
         $booking = DB::table('booking_master as b')
-                ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                 ->join('package_master as p','p.id','=','b.package_id')
                 ->join('customer_details as cd','cd.id','=','b.customer_id')
                 ->join('city as cit','cit.id','=','p.to_city_id')
@@ -1336,11 +1387,16 @@ class AjaxController extends CommonController
                 ->where('b.payment_type','=','2')
                     ->where(function($query) use ($search){
                         $query->orWhere('package_name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                         ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                         ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                        ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                        ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                         ->orWhere('city_name', 'LIKE',"%{$search}%")
-                        ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
-                        ->orWhere('state_name', 'LIKE',"%{$search}%");
+                        ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                        ->orWhere('b.to_date', 'LIKE',"%{$search}%")
+                        ->orWhere('state_name', 'LIKE',"%{$search}%"); 
                     })
                     ->offset($start)
                     ->limit($limit)
@@ -1348,18 +1404,22 @@ class AjaxController extends CommonController
                     ->get()->toArray();
         }
             $totalFiltered = DB::table('booking_master as b')
-                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount')
+                    ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date')
                     ->join('package_master as p','p.id','=','b.package_id')
                     ->join('customer_details as cd','cd.id','=','b.customer_id')
                     ->join('city as cit','cit.id','=','p.to_city_id')
                     ->join('state as st','st.id','=','p.to_state_id')
                     ->where('b.status','=','1')
                     ->where('b.payment_type','=','2')
-                    ->where('p.id','LIKE',"%{$search}%")
+                    ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
                     ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
                     ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%")
                     ->orWhere('city_name', 'LIKE',"%{$search}%")
-                    ->orWhere('b.booking_number', 'LIKE',"%{$search}%")
+                    ->orWhere('b.from_date', 'LIKE',"%{$search}%")
+                    ->orWhere('b.to_date', 'LIKE',"%{$search}%")
                     ->orWhere('state_name', 'LIKE',"%{$search}%")
                 ->count();
         }
@@ -1373,6 +1433,10 @@ class AjaxController extends CommonController
             {  
                 $nestedData['id'] = $booking->id;
                 $nestedData['package_name'] = $booking->package_name;
+                $fromdate = CommonHelper::convert_date_frontend($booking->from_date);
+                $nestedData['from_date'] = $fromdate;
+                $todate = CommonHelper::convert_date_frontend($booking->to_date);
+                $nestedData['to_date'] = $todate;
                 $nestedData['grand_total'] = $booking->grand_total;
                 $nestedData['customer_name'] = $booking->name;
                 $nestedData['paid_amount'] = $booking->paid_amount;

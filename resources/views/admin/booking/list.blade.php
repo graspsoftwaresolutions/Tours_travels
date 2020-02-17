@@ -49,13 +49,15 @@
                                 <tr>
                                     <th width="20%">{{__('Booking Number')}}</th>
                                     <th width="20%">{{__('Itinerary Name')}}</th>
+                                    <th width="10%">{{__('From Date')}}</th>
+                                    <th width="10%">{{__('To Date')}}</th>
                                     <th width="20%">{{__('Customer Name')}} </th>
-                                    <th width="20%">{{__('Adult Count')}} </th>
-                                    <th width="20%">{{__('Total Amount ')}} </th>
+                                    <th width="10%">{{__('Adult Count')}} </th>
+                                    <th width="10%">{{__('Total Amount ')}} </th>
                                     <th width="20%">{{__('Paid Amount ')}} </th>
                                     <th width="20%">{{__('Balance Amount ')}} </th>
-                                    <th width="20%">{{__('To State')}} </th>
-                                    <th width="20%">{{__('To City')}} </th>
+                                    <th width="10%">{{__('To State')}} </th>
+                                    <th width="10%">{{__('To City')}} </th>
                                     <th> {{__('Action') }}</th>
                                 </tr>
                             </thead>                
@@ -119,6 +121,12 @@
             },
             {
                 "data": "package_name"
+            },
+            {
+                "data": "from_date"
+            },
+            {
+                "data": "to_date"
             },
             {
                 "data": "customer_name"
