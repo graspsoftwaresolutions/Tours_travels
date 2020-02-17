@@ -623,4 +623,47 @@ class CommonHelper
                                      ->where('booking_id','=',$bookingid)->get();
                                
     }
+    public static function getBookingPlaceNights($bookingid,$cityid)
+    {
+        return  DB::table('booking_place')
+                                     ->where('booking_id','=',$bookingid)->where('city_id','=',$cityid)->pluck('nights_count')->first();
+                               
+    }
+    public static function getBookinginfo($bookingid)
+    {
+        return  DB::table('booking_master')
+                                     ->where('id','=',$bookingid)->first();
+                               
+    }
+
+    public static function getHotelConfirmationStatus($bookingid,$cityid,$hotelid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotelscount = DB::table('booking_hotel_confirmation as bh')
+                    //->select('bh.roomtype_id','bh.total_rooms','bh.total_amount','type.room_type')
+                     // ->leftjoin('room_type as type','type.id','=','bh.roomtype_id')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)
+                    ->where('bh.hotel_id','=',$hotelid)
+                    //->dump()
+                    ->count();
+
+        return $hotelscount;
+        
+    }
+
+    public static function HotelConfirmationCount($bookingid,$cityid,$hotelid){
+       DB::select( DB::raw('set sql_mode=""'));
+        $hotelscount = DB::table('booking_hotel_confirmation as bh')
+                    //->select('bh.roomtype_id','bh.total_rooms','bh.total_amount','type.room_type')
+                     // ->leftjoin('room_type as type','type.id','=','bh.roomtype_id')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)
+                    ->where('bh.hotel_id','=',$hotelid)
+                    ->where('bh.approval_status','!=',0)
+                    //->dump()
+                    ->count();
+
+        return $hotelscount;
+        
+    }
 }

@@ -228,6 +228,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::post('/ajax_followupbooking_list','Admin\AjaxController@ajax_followupbooking_list')->name('ajax_followupbooking_list');
     
     Route::get('/hotel_Confirmation/{hotelid}/{cityid}/{bookingid}', 'Admin\BookingController@hotelConfirmation')->name('hotel_confirmation');
+
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
@@ -280,4 +281,6 @@ Route::get('sight_seeing_view/{parameter}','PageController@sightSeeingViewMore')
 Route::get('hotel_view/{parameter}/{parameter1}','PageController@hotelDetails');
 Route::get('book-now/{parameter}/{formdate}/{todate}','Web\TourBookingController@booking_now')->name('book_now');
 Route::post('booking_confirm','Web\TourBookingController@bookingConfirm')->name('booking_confirm');
+
+Route::get('/view_hotel_Confirmation/{hotelid}/{emailid}/{bookingid}', 'Web\TourBookingController@ViewhotelConfirmation')->name('view_hotel_Confirmation');
 
