@@ -73,6 +73,7 @@
     <!-- =========================================================== -->
     <!-- End page content  -->
     <!-- =========================================================== -->
+   
 
     </section> <!-- /.content-wrapper -->
 @endsection
@@ -157,6 +158,9 @@
    // $('#datatable-master').dataTable();
 })(jQuery);
 
+
+
+
 function ConfirmMail() {
     if (confirm("{{ __('Are you sure you want to send email?') }}")) {
         return true;
@@ -164,6 +168,7 @@ function ConfirmMail() {
         return false;
     }
 }
+
 
 
 

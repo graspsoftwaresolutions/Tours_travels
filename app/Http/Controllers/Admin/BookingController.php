@@ -16,6 +16,7 @@ use App\Model\Admin\BookigTransports;
 use App\Model\Admin\Package;
 use App\Model\Admin\Activity;
 use App\Model\Admin\Website;
+use App\Model\Admin\PaymentHistory;
 use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
@@ -579,5 +580,37 @@ class BookingController extends Controller
          }
          return redirect('admin/home')->with('success', ['Mail send successfully to hotel']);   
          //return view('admin.email.hotel_confirmation');
+    }
+    public function followupPaymentHistorySave(Request $request)
+    {
+        $data = $request->all();
+        $due_date = $data['due_date'];
+        $payment_date = $data['payment_date'];
+        $reason = $data['reason'];
+        $amount = $data['amount']; 
+        $followed_by = $data['followed_by']; 
+        $amount = $data['amount']; 
+        $payment_mode = 'cash';
+        $booking_id = $data['bookingid'];
+        $booking_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
+            'due_date' => $due_date, 'followed_by' => $followed_by , 'follow_status' => 1 , 'due_date_reason' => $reason 
+        ]);
+        if($payment_date != null && $payment_date != '')
+        {
+            $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
+            $paymentHistory = new PaymentHistory();
+            $paymentHistory->customer_id = $customer_id;
+            $paymentHistory->booking_id = $booking_id;
+            $paymentHistory->payment_date = $payment_date;
+            $paymentHistory->payment_amount = $amount;
+            $paymentHistory->payment_mode = $payment_mode;
+            $paymentHistory->reference_number = '';
+            $paymentHistory->created_by = Auth::user()->id;
+            $paymentHistory->status = 1;
+            $paymentHistory->save();
+            
+        }
+          
+        return json_encode($booking_update);
     }
 }

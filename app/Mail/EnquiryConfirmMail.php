@@ -31,6 +31,7 @@ class EnquiryConfirmMail extends Mailable
     {
         
         return $this->subject('Enquiry')
+                ->with(['message' => $this])
                 ->view('web.email.enquiryConfirmEmail');
         
        

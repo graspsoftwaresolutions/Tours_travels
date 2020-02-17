@@ -126,7 +126,7 @@
                           <div class="form-group">
                               <div class="input-field label-float">
                                 <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" type="text">
-                                <label for="contact_email" class="fixed-label">{{__('Contact Email') }}</label>
+                                <label for="contact_email" class="fixed-label">{{__('Contact Email') }} <span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>
@@ -517,6 +517,11 @@
                if($("#contact_name").val()==''){
                   $('.contact_name-error').remove();
                   $( '<div id="contact_name-error" class="error contact_name-error custom-error">Please Enter Contact Name.</div>' ).insertAfter( '#contact_name' );
+                  formsubmit =false; 
+               }
+               if($("#contact_email").val()==''){
+                  $('.contact_email-error').remove();
+                  $( '<div id="contact_email-error" class="error contact_email-error custom-error">Please Enter Contact Email.</div>' ).insertAfter( '#contact_email' );
                   formsubmit =false; 
                }
               //  if($("#ratings").val()==''){
