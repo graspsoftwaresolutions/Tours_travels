@@ -1,6 +1,6 @@
 
 @php 
-$bookingid=1;$cityid=3;$hotel_id=6;
+
 $website_data = CommonHelper::getWebsiteDetails();
 $hotel_info = CommonHelper::getBookingHotelDetails($bookingid,$cityid,$hotel_id);
 $booking_info = CommonHelper::getBookinginfo($bookingid,$cityid,$hotel_id);

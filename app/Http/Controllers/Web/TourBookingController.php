@@ -199,7 +199,21 @@ class TourBookingController extends Controller
         $hotel_id = Crypt::decrypt($enchotelid);
         $email_id = Crypt::decrypt($encemailid);
         $booking_id = Crypt::decrypt($encbookingid);
-        $data = [];
+        $city_id = DB::table('booking_hotel')
+                                     ->where('booking_id','=',$booking_id)
+                                     ->where('hotel_id','=',$hotel_id)
+                                     ->pluck('city_id')->first();
+        
+        $booking_hotel_types = CommonHelper::getBookingHotelTypes($booking_id,$city_id,$hotel_id);
+        // dd($package_hotel_types);
+        $booking_hotel = CommonHelper::getBookingHotelDetails($booking_id,$city_id,$hotel_id);
+
+        $data['city_id'] = $city_id;
+        $data['booking_id'] = $booking_id;
+        $data['hotel_id'] = $hotel_id;
+        $data['email_id'] = $email_id;
+        $data['booking_hotel_types'] = $booking_hotel_types;
+        $data['booking_hotel'] = $booking_hotel;
         return view('web.tour.booking_confirmation')->with('data',$data);
     }
 }
