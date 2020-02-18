@@ -285,3 +285,6 @@ Route::post('booking_confirm','Web\TourBookingController@bookingConfirm')->name(
 
 Route::get('/view_hotel_Confirmation/{hotelid}/{emailid}/{bookingid}', 'Web\TourBookingController@ViewhotelConfirmation')->name('view_hotel_Confirmation');
 
+
+Route::post('/confirm_hotel_rooms', 'Web\TourBookingController@confirmHotels')->name('confirmHotels');
+

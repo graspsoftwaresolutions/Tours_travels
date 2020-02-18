@@ -49,6 +49,7 @@
 
             $package_hotel_types = $data['booking_hotel_types'];
             $package_hotel = $data['booking_hotel'];
+            //dd($package_hotel);
 
             $hotelimages = $package_hotel->hotelimages;
             $hotel_image = count($hotelimages)>0 ? asset('storage/app/hotels/'.$hotelimages[0]->image_name) : asset("public/assets/images/no_image.jpg");
@@ -117,6 +118,11 @@
                             </div>
                             <br>
                             <br>
+                            <form id="submitconfirmation"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{ route('confirmHotels') }}">
+                            @csrf
+                            <input type="text" class="" name="bookinghotelid" id="bookinghotelid" value="{{$package_hotel->id}}">
+                            <input type="text" class="" name="bookingid" id="bookingid" value="{{$data['booking_id']}}">
+                            <input type="text" class="" name="cityid" id="cityid" value="{{$data['city_id']}}">
                             <div class="col-md-8">
                                 <table class="table table-bordered">
                                     <thead class="bold">
@@ -128,22 +134,44 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $slno = 0;
+                                        $room_numbers = 0;
+                                        $total_amt = 0;
+                                    @endphp
                                     @foreach($package_hotel_types as $tkey => $types)
-                                    <tr>
+                                    <tr id="roomtypetr_{{$slno}}">
                                         <td>{{ $types->room_type }}</td>
                                         <td>
-                                         <input type="text" class="form-control" name="hotel_roomtypes_3[]" id="hotel_roomtypes_3" value="{{$types->total_rooms}}">
+                                              <input type="text" class="form-control hide" name="roomtypeid[]" id="roomtypeid_{{$slno}}" readonly="" value="{{$types->roomtype_id}}">
+                                            <input type="number" class="form-control hide" name="maxhotel_roomnumbers[]" id="maxhotel_roomnumbers_{{$slno}}" readonly="" value="{{$types->total_rooms}}">
+                                         <input type="number" class="form-control hotel_roomnumbers" min="1" oninput="return CheckRoomMaximum(this.value,{{$slno}})" onkeyup="return CheckRoomMaximum(this.value,{{$slno}})" max="{{$types->total_rooms}}" name="hotel_roomnumbers[]" id="hotel_roomnumbers_{{$slno}}" value="{{$types->total_rooms}}">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="hotel_roomtypes_3[]" id="hotel_roomtypes_3" value="{{ $types->total_rooms * $types->total_amount }}">
+                                            <input type="text" class="form-control hide" name="type_amount[]" id="type_amount_{{$slno}}" value="{{ $types->total_amount }}" readonly="" >
+                                            <input type="text" class="form-control hotel_type_amount" name="hotel_type_amount[]" onkeyup="return UpdateTotals()" id="hotel_type_amount_{{$slno}}" value="{{ $types->total_rooms * $types->total_amount }}">
                                         </td>
-                                        <td><i class="fa fa-trash fa-lg "></i></td>
+                                        <td><a class="btn btn-danger btn-block btn-sm" onclick="return DeleteRow({{$slno}})">Delete</a></td>
                                     </tr>
+                                    @php
+                                        $slno++;
+                                        $room_numbers += $types->total_rooms;
+                                        $total_amt += $types->total_rooms * $types->total_amount;
+                                    @endphp
                                     @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Total</td>
+                                            <td> <input type="text" class="form-control" name="total_rooms[]" id="total_rooms" value="{{ $room_numbers }}" readonly="" ></td>
+                                            <td> <input type="text" class="form-control " name="total_amount[]" id="total_amount" value="{{ $total_amt }}" readonly="" ></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
                                   </table>
+                                  <button type="submit" class="btn btn-orange pull-right">Submit</button>
                             </div><!-- end form-content -->
-                            
+                            </form>
                         </div><!-- end columns -->
                     </div><!-- end row -->
                 </div><!-- end container -->         
@@ -207,7 +235,7 @@ $(document).ready(function(e){
        }
    });
 
-
+   
 
 
 //     $('select[name=country_id]').change(function() {
@@ -229,5 +257,49 @@ $(document).ready(function(e){
 //       });
 //    });
 });
+function CheckRoomMaximum(numbers, slno){
+    //alert(numbers);
+    maxroom_numbers = parseInt($("#maxhotel_roomnumbers_"+slno).val());
+    actnumbers = parseInt(numbers);
+    if(numbers>maxroom_numbers){
+        $("#hotel_roomnumbers_"+slno).val(maxroom_numbers);
+    }
+    CalculateRoomCost();
+    UpdateTotals();
+ }
+ function CalculateRoomCost(){
+    //alert(23);
+    $(".hotel_roomnumbers").each(function() {
+        var hotel_roomnumbers = $(this).val();
+
+        var numbersid = $(this).attr('id');
+        numbers_arr = numbersid.split('_');
+        var slno = numbers_arr[2];
+       // alert(slno);
+        var type_amount =parseFloat($("#type_amount_"+slno).val());
+        var total_amt = type_amount*hotel_roomnumbers;
+        $("#hotel_type_amount_"+slno).val(total_amt);
+
+    });
+ }
+ function DeleteRow(slno){
+    $("#roomtypetr_"+slno).remove();
+    UpdateTotals();
+ }
+ function UpdateTotals(){
+    var tot_hotel_roomnumbers = 0;
+    $(".hotel_roomnumbers").each(function() {
+         var hotel_roomnumbers = $(this).val()=='' ? 0 : parseInt($(this).val());
+         tot_hotel_roomnumbers += parseInt(hotel_roomnumbers);
+    });
+    $("#total_rooms").val(tot_hotel_roomnumbers);
+    var tot_hotel_amount = 0;
+    $(".hotel_type_amount").each(function() {
+         var hotel_type_amount = $(this).val()=='' ? 0 : parseFloat($(this).val());
+         tot_hotel_amount += parseFloat(hotel_type_amount);
+    });
+    $("#total_amount").val(tot_hotel_amount);
+
+ }
 </script>
 @endsection

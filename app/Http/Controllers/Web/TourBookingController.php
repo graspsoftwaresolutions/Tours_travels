@@ -15,6 +15,7 @@ use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
 use App\Model\Admin\BookigTransports;
 use App\Helpers\CommonHelper;
+use App\Model\Admin\BookingHotelConfirmation;
 
 use DB;
 use Illuminate\Support\Facades\Crypt;
@@ -205,7 +206,7 @@ class TourBookingController extends Controller
                                      ->pluck('city_id')->first();
         
         $booking_hotel_types = CommonHelper::getBookingHotelTypes($booking_id,$city_id,$hotel_id);
-        // dd($package_hotel_types);
+        // / dd($city_id);
         $booking_hotel = CommonHelper::getBookingHotelDetails($booking_id,$city_id,$hotel_id);
 
         $data['city_id'] = $city_id;
@@ -215,5 +216,34 @@ class TourBookingController extends Controller
         $data['booking_hotel_types'] = $booking_hotel_types;
         $data['booking_hotel'] = $booking_hotel;
         return view('web.tour.booking_confirmation')->with('data',$data);
+    }
+
+    public function confirmHotels(Request $request){
+        $booking_id = $request->input('bookingid');
+        $bookinghotelid = $request->input('bookinghotelid');
+        $city_id = $request->input('cityid');
+        DB::table('booking_hotel_confirmation')->where('booking_id','=',$booking_id)->where('hotel_id','=',$bookinghotelid)->delete();
+
+        $roomtypeid = $request->input('roomtypeid');
+        $type_count = count($roomtypeid);
+        for($i =0; $i<$type_count; $i++){
+            $roomtypeid = $request->input('roomtypeid')[$i];
+            $hotel_roomnumbers = $request->input('hotel_roomnumbers')[$i];
+            $type_amount = $request->input('type_amount')[$i];
+            $hotel_type_amount = $request->input('hotel_type_amount')[$i];
+
+            $BookingHotel = new BookingHotelConfirmation();
+            $BookingHotel->booking_id = $booking_id;
+            $BookingHotel->city_id = $city_id;
+            $BookingHotel->hotel_id = $bookinghotelid;
+            $BookingHotel->roomtype_id = $roomtypeid;
+            $BookingHotel->total_rooms = $hotel_roomnumbers; 
+            $BookingHotel->total_amount = $type_amount;
+            $BookingHotel->approval_status = 1;
+            $BookingHotel->updated_total = $hotel_type_amount;
+            //return $BookingHotel;
+            $BookingHotel->save();
+        }
+        return redirect('/home')->with('message','Thank you!!');
     }
 }
