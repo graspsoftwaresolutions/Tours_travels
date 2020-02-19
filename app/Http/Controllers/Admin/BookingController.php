@@ -21,6 +21,8 @@ use Session;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Admin\CustomerDetails;
 use App\Model\Admin\BookingHotelConfirmation;
+use App\Model\Admin\FollowupHistory;
+
 use Auth;
 use PDF;
 class BookingController extends Controller
@@ -592,25 +594,65 @@ class BookingController extends Controller
         $amount = $data['amount']; 
         $payment_mode = 'cash';
         $booking_id = $data['bookingid'];
-        $booking_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
-            'due_date' => $due_date, 'followed_by' => $followed_by , 'follow_status' => 1 , 'due_date_reason' => $reason 
-        ]);
-        if($payment_date != null && $payment_date != '')
-        {
+        $due_amount = DB::table('booking_master')->where('id','=',$booking_id)->pluck('balance_amount')->first();
+        
+        if($payment_date != null && $payment_date != '' && $amount !='')
+        { 
             $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
             $paymentHistory = new PaymentHistory();
             $paymentHistory->customer_id = $customer_id;
             $paymentHistory->booking_id = $booking_id;
             $paymentHistory->payment_date = $payment_date;
+            if($amount)
+            {
+                $payment_details =  DB::table('booking_master')->where('id','=',$booking_id)->select('grand_total','paid_amount','paid_percentage','balance_amount','balance_percentage')->first();
+                if($payment_details->balance_amount!=0)
+                {
+                    $paid_amount = number_format($payment_details->paid_amount+$amount,2,'.', '');  
+                    $total = $payment_details->grand_total;
+                    $number = number_format($payment_details->paid_amount+$amount,2,'.', '');
+                  //  $number = $payment_details->paid_amount+$amount;
+                    $paid_percentage = CommonHelper::get_percentage($total, $number); 
+                    
+                    $balance_amount = number_format($payment_details->balance_amount-$amount,2,'.', '');
+                    $balance_percentage = number_format(100-$paid_percentage,2,'.', '');
+                    $booking_amount_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
+                        'paid_amount' => $paid_amount , 'balance_amount' => $balance_amount , 'paid_percentage'=>$paid_percentage , 'balance_percentage' => $balance_percentage 
+                        ]);
+                }
+                $balance = DB::table('booking_master')->where('id','=',$booking_id)->select('paid_amount','grand_total')->first();
+                if($balance->paid_amount == $balance->grand_total)
+                {
+                    $booking_amount_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
+                    'payment_type' => '1'
+                     ]);
+                }
+            }
             $paymentHistory->payment_amount = $amount;
             $paymentHistory->payment_mode = $payment_mode;
             $paymentHistory->reference_number = '';
+            $paymentHistory->followed_by = $followed_by;
             $paymentHistory->created_by = Auth::user()->id;
             $paymentHistory->status = 1;
-            $paymentHistory->save();
-            
+            $paymentHistory->save();   
         }
-          
-        return json_encode($booking_update);
+        if($due_date != null && $due_date!= '')
+        {
+            $booking_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
+                'due_date' => $due_date , 'follow_status' => 1 
+            ]);
+            $FollowupHistory = new FollowupHistory();
+            $FollowupHistory->booking_id = $booking_id;
+            $FollowupHistory->due_date = $due_date;
+            $balance_amount = DB::table('booking_master')->where('id','=',$booking_id)->pluck('balance_amount')->first();
+            $FollowupHistory->due_amount = $balance_amount;
+            $FollowupHistory->due_reason = $reason;
+            $FollowupHistory->followed_by = $followed_by;
+            $FollowupHistory->followed_date = date('Y-m-d');
+            $FollowupHistory->created_by = Auth::user()->id;
+            $FollowupHistory->status = 1;
+            $FollowupHistory->save();
+        }
+        return json_encode($booking_id);
     }
 }

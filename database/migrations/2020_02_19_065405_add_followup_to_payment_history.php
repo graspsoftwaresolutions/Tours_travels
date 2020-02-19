@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddReasonToBookingMaster extends Migration
+class AddFollowupToPaymentHistory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddReasonToBookingMaster extends Migration
      */
     public function up()
     {
-        Schema::table('booking_master', function (Blueprint $table) {
-            $table->longtext('due_date_reason')->nullable();
+        Schema::table('payment_history', function (Blueprint $table) {
+            $table->string('followed_by')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddReasonToBookingMaster extends Migration
      */
     public function down()
     {
-        Schema::table('booking_master', function (Blueprint $table) {
+        Schema::table('payment_history', function (Blueprint $table) {
             //
         });
     }

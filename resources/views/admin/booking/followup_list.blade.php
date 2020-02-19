@@ -144,7 +144,7 @@
                                         </div>
                                         <div class="col-sm-6 paymentdate hide">
                                             <div class="form-group  input-field label-float">
-                                                <input autofocus type="date" class="datepicker" name="payment_date" value="{{date('d-m-Y')}}" id="payment_date"/>
+                                                     <input type="date"  class="datepicker"  value="{{ date('Y-m-d') }}" name="payment_date" >
                                                 <label for="payment_date" class="fixed-label">{{__('Payment Date') }}<span style="color:red">*</span></label>
                                                 <div class="input-highlight"></div>
                                                 </div>
@@ -166,7 +166,7 @@
                                         <div class="clearfix"></div>
                                         <div class="col-sm-6 ">
                                             <div class="form-group input-field label-float">
-                                                <input  type="text" class="datepicker" name="followed_by" id="followed_by"/>
+                                                <input  type="text" required class="form-control" name="followed_by" id="followed_by"/>
                                                 <label for="due_date" class="fixed-label">{{__('Followed By') }}<span style="color:red">*</span></label>
                                                 <div class="input-highlight"></div>
                                                 </div>

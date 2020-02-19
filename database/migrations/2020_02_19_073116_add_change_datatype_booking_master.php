@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDueDateToBookingMaster extends Migration
+class AddChangeDatatypeBookingMaster extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddDueDateToBookingMaster extends Migration
     public function up()
     {
         Schema::table('booking_master', function (Blueprint $table) {
-            $table->date('due_date')->nullable();
-            $table->string('follow_status')->default(0);
+            $table->float('paid_percentage', 8, 2)->default(0)->change();
+            $table->float('balance_percentage', 8, 2)->default(0)->change();
         });
     }
 
