@@ -730,7 +730,7 @@
                                             <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
                                             <span class="pull-right" style="font-size: 20px;">
                                             @if($confirmation_count>0)
-                                              <a  title='Hotel Confirmation' target="_blank" style="color: orange;" class="" href='' ><i class='mdi mdi-ticket-confirmation'></i></a>
+                                              <a title='Confirmation Details' onclick="HotelConfirmations({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{ $booking_info->id }})" style="color: orange;cursor: pointer;" class="" ><i class='mdi mdi-ticket-confirmation'></i></a>
                                             @endif
                                             <a  title='Hotel Confirmation' target="_blank" class="@if($hotelconfirmation_status>0) disabled @endif" href='{{$mailConfirmation}}' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>
                                             
@@ -751,11 +751,11 @@
                                               @endforeach
                                              
                                               <span class="" style="margin-left: 20px;font-weight:bold;"><i class="fa fa-inr"></i> {{ $total_hotel_prices }} </span> 
-
+                                              @if($confirmation_count==0)
                                               <button id="edit_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="EditHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},1)" class="btn btn-sm blue waves-effect waves-light ">Change</button>
 
                                                <button id="remove_hotel_button_{{ $place->city_id }}" style="margin-left: 10px;" type="button" onclick="return RemoveHotelDB({{ $booking_info->id }}, {{ $package_hotel->id }},{{$place->city_id}})" class="btn btn-sm red waves-effect waves-light ">Remove</button>
-                                              
+                                              @endif
                                             </p>
                                             <input type="text" class="hide" name="second_hotel_{{ $place->city_id }}[]" id="second_hotel_{{ $place->city_id }}" value="{{ $package_hotel->id }}"/>
                                             <input type="text" class="hide" name="second_city_id[]" id="second_city_id" value="{{ $place->city_id }}"/>
@@ -1611,6 +1611,52 @@
    <!-- /.container-fluid -->
    
     @include('admin.package.common-modal')
+    <div id="ConfirmHotelModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header theme">
+                    <button type="button" class="btn-close modal-close" data-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title" style="padding-left: 10px;">Hotel Confirmation Details</h1>
+                </div><!-- /.modal-header -->
+                
+                <div class="modal-body">
+                    <h2 id="confirm-hotel-name" class=""></h2>
+                    
+                    <div id="HotelTypeList" class="col-sm-12">
+                      <table class="table table-bordered">
+                          <thead class="bold">
+                            <tr>
+                              <th width="40%">Type</th>
+                              <th width="20%">No of rooms</th>
+                              <th>Amount</th>
+                             
+                            </tr>
+                          </thead>
+                           <tbody id="confirmHotelTyes">
+                             
+                                                                                               
+                           </tbody>
+                          <tfoot>
+                              <tr>
+                                  <td>Total</td>
+                                  <td> <span id="totalhotelrooms">50</span></td>
+                                  <td> <span id="totalhotelamount">50</span></td>
+                                  
+                              </tr>
+                          </tfoot>
+                        </table>
+                       
+                        
+                    </div><!-- /.row -->    
+                </div><!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button class="btn-flat waves-effect waves-theme" data-dismiss="modal">Close</button>
+                    
+                </div><!-- /.modal-footer -->
+                
+              </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </section>
 <!-- /.content-wrapper -->
 @endsection
@@ -2318,12 +2364,39 @@
    
   }
   function ConfirmMail() {
-    if (confirm("{{ __('Are you sure you want to send email?') }}")) {
-        return true;
-    } else {
-        return false;
-    }
-}
+      if (confirm("{{ __('Are you sure you want to send email?') }}")) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+
+  function HotelConfirmations(paramscity,hotelid,bookingid){
+      var passparamscity = "{  cityid: "+paramscity.cityid+",  stateid: "+paramscity.stateid+", cityname: '"+paramscity.cityname+"', statename: '"+paramscity.statename+"' , cityimage: '"+paramscity.cityimage+"' }";
+      var url = "{{ route('get_hotel_confimations') }}" + '?booking_id=' + bookingid + '&hotel_id='+hotelid + '&city_id='+paramscity.cityid;
+       $("#confirmHotelTyes").empty();
+      $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function(resultdata) {
+          var hotel_details= resultdata.hotel_details;
+          var room_types= resultdata.room_types;
+          $("#confirm-hotel-name").text(hotel_details.hotel_name);
+          var total_count = 0;
+          var total_amount = 0;
+          $.each(room_types, function(keya, valuea) {
+            $("#confirmHotelTyes").append('<tr id="roomtypetr_0"><td>'+valuea.room_type+'</td><td> '+valuea.total_rooms+'</td><td> '+valuea.updated_total+'</td></tr>');
+              total_count += parseInt(valuea.total_rooms);
+              total_amount += parseFloat(valuea.updated_total);
+          }); 
+          $("#totalhotelrooms").text(total_count);
+          $("#totalhotelamount").text(total_amount);
+          //console.log(room_types);
+        }
+      });
+       $("#ConfirmHotelModal").modal();
+  }
 
 
 </script>

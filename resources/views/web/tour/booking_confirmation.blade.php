@@ -120,9 +120,9 @@
                             <br>
                             <form id="submitconfirmation"  class="paper formValidate" method="post" enctype="multipart/form-data"  action="{{ route('confirmHotels') }}">
                             @csrf
-                            <input type="text" class="" name="bookinghotelid" id="bookinghotelid" value="{{$package_hotel->id}}">
-                            <input type="text" class="" name="bookingid" id="bookingid" value="{{$data['booking_id']}}">
-                            <input type="text" class="" name="cityid" id="cityid" value="{{$data['city_id']}}">
+                            <input type="text" class="hide" name="bookinghotelid" id="bookinghotelid" value="{{$package_hotel->id}}">
+                            <input type="text" class="hide" name="bookingid" id="bookingid" value="{{$data['booking_id']}}">
+                            <input type="text" class="hide" name="cityid" id="cityid" value="{{$data['city_id']}}">
                             <div class="col-md-8">
                                 <table class="table table-bordered">
                                     <thead class="bold">

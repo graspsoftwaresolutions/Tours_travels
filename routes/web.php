@@ -229,6 +229,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/hotel_Confirmation/{hotelid}/{cityid}/{bookingid}', 'Admin\BookingController@hotelConfirmation')->name('hotel_confirmation');
     
     Route::post('/followup_payment_history','Admin\BookingController@followupPaymentHistorySave')->name('booking.followup_payment_history');
+    Route::get('/get_hotel_confimations', 'Admin\BookingController@HotelConfirmations')->name('get_hotel_confimations');
 
 });
 
