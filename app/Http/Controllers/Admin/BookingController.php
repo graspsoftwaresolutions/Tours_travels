@@ -666,6 +666,7 @@ class BookingController extends Controller
         }
         return json_encode($booking_id);
     }
+
     public function dueDateNotificationList()
     {
         $current_date = date('Y-m-d');
@@ -673,5 +674,24 @@ class BookingController extends Controller
         $duedate_followup_list_count = FollowupHistory::where('due_date','=',$current_date)
         ->orwhere('due_date','=',$tomorrow_date)->count();
         return view('admin.booking.due_date_list');
+    }
+
+    public function HotelConfirmations(Request $request){
+        $booking_id = $request->input('booking_id');
+        $hotel_id = $request->input('hotel_id');
+        $city_id = $request->input('city_id');
+        $hotel_details = CommonHelper::getBookingHotelDetails($booking_id,$city_id,$hotel_id);
+        $hotel_info['hotel_details'] = $hotel_details;
+
+        DB::select( DB::raw('set sql_mode=""'));
+        $hotels_rooms = DB::table('booking_hotel_confirmation as bh')->select('bh.roomtype_id','bh.total_rooms','bh.total_amount','type.room_type','bh.updated_total')
+                      ->leftjoin('room_type as type','type.id','=','bh.roomtype_id')
+                    ->where('bh.booking_id','=',$booking_id)
+                    ->where('bh.city_id','=',$city_id)
+                    ->where('bh.hotel_id','=',$hotel_id)
+                    ->get();
+        $hotel_info['room_types'] = $hotels_rooms;
+      
+        return $hotel_info;
     }
 }

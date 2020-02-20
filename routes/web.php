@@ -233,6 +233,8 @@ Route::group( [ 'prefix' => 'admin' ], function()
     
     Route::post('/ajax_due_date_list','Admin\AjaxController@ajax_due_date_list')->name('ajax_due_date_list');
     
+    Route::get('/get_hotel_confimations', 'Admin\BookingController@HotelConfirmations')->name('get_hotel_confimations');
+
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');
