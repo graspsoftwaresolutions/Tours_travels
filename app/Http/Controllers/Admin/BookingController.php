@@ -705,4 +705,15 @@ class BookingController extends Controller
                                 ->where('customer_id','=',$customer_id)->get();
         return view('admin.booking.payment_history')->with('data',$data);
     }
+    public function followupHistory($bookingid)
+    {
+        $booking_id = Crypt::decrypt($bookingid);
+        $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
+        $data['customer_deatils'] = DB::table('customer_details')->where('id','=',$customer_id)->first();
+        $data['booking_details'] = DB::table('booking_master')->where('id','=',$booking_id)->first();
+        $data['followup_details'] = DB::table('followup_history')
+                                ->where('booking_id','=',$booking_id)
+                                ->where('customer_id','=',$customer_id)->get();
+        return view('admin.booking.followup_history')->with('data',$data);
+    }
 }

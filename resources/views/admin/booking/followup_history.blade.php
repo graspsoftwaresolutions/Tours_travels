@@ -38,8 +38,8 @@
             <div class="page-header">
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
-                    <li>Masters</li>
-                    <li>{{__('Payment History List') }}</li>
+                    <li>Booking</li>
+                    <li>{{__('Follow Up History List') }}</li>
                 </ul>
             </div>
             <div class="page-content">
@@ -50,9 +50,9 @@
                             <div class="pull-right">
                                
                                  <a href="#:;" class="icon action toolbar-collapse hide"></a>
-                                 <a href="{{route('bookings.list')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Back</a>
+                                 <a href="{{route('booking.followup')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Back</a>
                             </div>
-                            <h3 class="title medium">{{__('Payment History List') }}</h3>
+                            <h3 class="title medium">{{__('Follow Up  History List') }}</h3>
                         </div>
                     </div>
                     @php $customer_data =   $data['customer_deatils'];
@@ -65,7 +65,7 @@
                             <h5 class="card-title design">Customer Details</h5>
                             <div class="card panel">
                                     <div class="card-body">
-                                        <p class="card-text"><b>Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
+                                        <p class="card-text"><b> Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
                                         <p class="card-text"><b>Email : </b> {{$customer_data->email ? $customer_data->email : '' }}</p>
                                         <p class="card-text"><b>phone : </b> {{$customer_data->phone ? $customer_data->phone : '' }}</p>
                                         <p class="card-text"><b>Address : </b> {{$customer_data->address_one ? $customer_data->address_one : '' }}</p>
@@ -76,7 +76,7 @@
                             <h5 class="card-title design">Booking Details</h5>
                             <div class="card panel">
                                     <div class="card-body">
-                                    <p class="card-text"><b>Package Name : </b> {{$package_name ? $package_name : '' }}</p>
+                                    <p class="card-text"><b>Package Name : </b> {{$package_name ?  Ucfirst($package_name) : '' }}</p>
                                         <p class="card-text"><b>Total Amount : </b> {{$booking_data->grand_total ? $booking_data->grand_total : '' }}</p>
                                         <p class="card-text"><b>Paid Amount : </b> {{$booking_data->paid_amount ? $booking_data->paid_amount : '' }}</p>
                                         <p class="card-text"><b>Balance Amount : </b> {{$booking_data->balance_amount ? $booking_data->balance_amount : '0.00' }}</p>
@@ -86,29 +86,28 @@
                         </div>                        
                             <br>
                             <div class="container">
-                            <h2>Payment List</h2>
+                            <h2>Follow Up History List</h2>
                             <div class="panel panel-default">
                             <table id="datatable-master" class="display nowrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th width="20%">{{__('Payment Date') }}</th>
-                                    <th width="20%">{{__('Payment Amount') }}</th>
-                                    <th width="20%">{{__('Payment Mode') }}</th>
-                                    <th width="20%">{{__('Reference Number') }}</th>
+                                    <th width="20%">{{__('Due Date') }}</th>
+                                    <th width="20%">{{__('Due Amount') }}</th>
+                                    <th width="20%">{{__('Followed Date') }}</th>
                                     <th width="20%">{{__('Followed by') }}</th>
                                 </tr>
                             </thead>       
                             <tbody>
-                                @foreach($data['payment_details'] as $values)
+                                @foreach($data['followup_details'] as $values)
                                 <tr>
-                                     @php $date = CommonHelper::convert_date_frontend($values->payment_date);
-                                     
-                                      @endphp
+                                    @php $date = CommonHelper::convert_date_frontend($values->due_date);
+                                        $followed_date = CommonHelper::convert_date_frontend($values->followed_date);
+                                     @endphp
                                     <td>{{$date ? $date : '----'}}</td>
-                                    <td>{{$values->payment_amount ? $values->payment_amount : '----'}}</td>
-                                    <td>{{$values->payment_mode ? $values->payment_mode : '----'}}</td>
-                                    <td>{{$values->reference_number ? $values->reference_number : '----'}}</td>
-                                    <td>{{$values->followed_by}}</td>
+                                    <td>{{$values->due_amount ? $values->due_amount : '----'}}</td>
+                                    <td>{{$followed_date ? $followed_date : '----'}}</td>
+                                    <td>{{$values->followed_by ? $values->followed_by : '----'}}</td>
+                                    
                                 </tr>
                                 @endforeach
                             </tbody>        

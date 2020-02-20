@@ -234,6 +234,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/get_hotel_confimations', 'Admin\BookingController@HotelConfirmations')->name('get_hotel_confimations');
     
     Route::get('/payment_history/{id}', 'Admin\BookingController@paymentHistory')->name('booking.payment_history');
+    Route::get('/followup_history/{id}', 'Admin\BookingController@followupHistory')->name('booking.followup_history');
 
 });
 
