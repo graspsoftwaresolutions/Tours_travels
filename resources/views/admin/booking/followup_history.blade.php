@@ -65,9 +65,9 @@
                             <h5 class="card-title design">Customer Details</h5>
                             <div class="card panel">
                                     <div class="card-body">
-                                        <p class="card-text"><b> Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
+                                        <p class="card-text"><b>Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
                                         <p class="card-text"><b>Email : </b> {{$customer_data->email ? $customer_data->email : '' }}</p>
-                                        <p class="card-text"><b>phone : </b> {{$customer_data->phone ? $customer_data->phone : '' }}</p>
+                                        <p class="card-text"><b>Phone : </b> {{$customer_data->phone ? $customer_data->phone : '' }}</p>
                                         <p class="card-text"><b>Address : </b> {{$customer_data->address_one ? $customer_data->address_one : '' }}</p>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                             <tbody>
                                 @foreach($data['followup_details'] as $values)
                                 <tr>
-                                    @php $date = CommonHelper::convert_date_frontend($values->due_date);
+                                     @php $date = CommonHelper::convert_date_frontend($values->due_date);
                                         $followed_date = CommonHelper::convert_date_frontend($values->followed_date);
                                      @endphp
                                     <td>{{$date ? $date : '----'}}</td>

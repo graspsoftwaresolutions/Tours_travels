@@ -67,7 +67,7 @@
                                     <div class="card-body">
                                         <p class="card-text"><b>Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
                                         <p class="card-text"><b>Email : </b> {{$customer_data->email ? $customer_data->email : '' }}</p>
-                                        <p class="card-text"><b>phone : </b> {{$customer_data->phone ? $customer_data->phone : '' }}</p>
+                                        <p class="card-text"><b>Phone : </b> {{$customer_data->phone ? $customer_data->phone : '' }}</p>
                                         <p class="card-text"><b>Address : </b> {{$customer_data->address_one ? $customer_data->address_one : '' }}</p>
                                     </div>
                                 </div>
