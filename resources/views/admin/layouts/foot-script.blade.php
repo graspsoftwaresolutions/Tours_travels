@@ -1,7 +1,7 @@
 <script src="{{ asset('public/assets/dist/js/jquery.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/bower.min.js') }}"></script>
-<script src="{{ asset('public/web-assets/js/menu-settings.js') }}"></script>
+<!-- <script src="{{ asset('public/web-assets/js/menu-settings.js') }}"></script> -->
 <script type="text/javascript">
 	var base_url = '{{ URL::to("/") }}';
 	var image_url = '{{ asset("storage/app/") }}';
