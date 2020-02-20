@@ -38,6 +38,14 @@ class CommonHelper
 
         return $details;
     }
+    public static function getfirstPackageName($packageid)
+    {
+        $details = DB::table("package_master")->where('id','=',$packageid)
+                                                ->pluck('package_name')
+                                                ->first();
+
+        return $details;
+    }
     
     public static function getlogo()
     {

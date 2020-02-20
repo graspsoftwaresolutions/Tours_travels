@@ -1090,7 +1090,8 @@ class AjaxController extends CommonController
                 $edit = route('booking.edit',$enc_id);
                 $mail = route('booking.invoice',[$enc_id,'booking']);  
                 $pdf = route('booking.pdf',$enc_id);
-                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>";
+                $payment_history = route('booking.payment_history',[$enc_id]);
+                $actions ="<a title='Edit Booking' class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;<a class='btn btn-sm red waves-effect waves-circle waves-light' title='PDF download' href='$pdf'><i class='mdi mdi-arrow-down'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:orange' title='Email Invoice'  href='$mail' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>&nbsp;&nbsp;<a class='btn btn-sm  waves-effect waves-circle waves-light' style='color:white;background:#C71585' title='Payment History'  href='$payment_history'><i class='mdi mdi-currency-rub'></i></a>";
                 $nestedData['options'] = $actions;
                 $data[] = $nestedData;
             }

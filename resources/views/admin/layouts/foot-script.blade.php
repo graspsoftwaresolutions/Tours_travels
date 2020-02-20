@@ -28,6 +28,5 @@ $(".ap-body").mCustomScrollbar({
 	autoHideScrollbar: 2,
 	autoExpandScrollbar:true
 });
-
 })();	
 </script>
