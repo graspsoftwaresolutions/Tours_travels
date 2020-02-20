@@ -1594,4 +1594,152 @@ class AjaxController extends CommonController
 
         echo json_encode($json_data); 
     }
+    public function ajax_due_date_list(Request $request)
+    {
+        $columns = array( 
+
+            0 => 'id', 
+            1 => 'name', 
+            1 => 'phone',
+            3 => 'due_date',
+            4 => 'paid_amount',
+            5 => 'balance_amount',
+            6 => 'grand_total',
+            
+        );
+        $current_date = date('Y-m-d');
+        $tomorrow_date = date('Y-m-d',strtotime("+1 days"));
+
+        $totalData = DB::table('booking_master as b')
+            ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+            ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+            ->leftjoin('followup_history as f','b.id','=','f.booking_id')
+            ->where('f.due_date','=',$current_date)
+            ->orwhere('f.due_date','=',$tomorrow_date)
+            ->count();
+        
+        $totalFiltered = $totalData; 
+
+        $limit = $request->input('length');
+
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {            
+        if( $limit == -1){ 
+            $booking = DB::table('booking_master as b')
+                    ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+                    ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+                    ->leftjoin('followup_history as f','b.id','=','f.booking_id')  
+            ->orderBy($order,$dir)
+            ->where('f.due_date','=',$current_date)
+            ->orwhere('f.due_date','=',$tomorrow_date)
+            ->get()->toArray();
+        }else{
+                $booking =  DB::table('booking_master as b')
+                ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+                ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+                ->leftjoin('followup_history as f','b.id','=','f.booking_id')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->where('f.due_date','=',$current_date)
+                ->orwhere('f.due_date','=',$tomorrow_date)
+               // ->dump()
+                ->get()->toArray();
+            }
+        }
+        else {
+        $search = $request->input('search.value'); 
+        if( $limit == -1){
+        $booking = DB::table('booking_master as b')
+                ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+                ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+                ->leftjoin('followup_history as f','b.id','=','f.booking_id')
+                    ->where('f.due_date','=',$current_date)
+                    ->orwhere('f.due_date','=',$tomorrow_date)
+                    ->where(function($query) use ($search){
+                    $query->orWhere('cd.phone', 'LIKE',"%{$search}%")
+                    ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+                    ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                    ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                    ->orWhere('b.balance_amount', 'LIKE',"%{$search}%")
+                    ->orWhere('f.due_date', 'LIKE',"%{$search}%")
+                    ->orWhere('paid_amount', 'LIKE',"%{$search}%"); 
+                })
+                ->orderBy($order,$dir)
+                ->get()->toArray();
+        }else{
+        $booking = DB::table('booking_master as b')
+                    ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+                    ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+                    ->leftjoin('followup_history as f','b.id','=','f.booking_id')
+                    ->where('f.due_date','=',$current_date)
+                    ->orwhere('f.due_date','=',$tomorrow_date)
+                    ->where(function($query) use ($search){
+                        $query->orWhere('cd.phone', 'LIKE',"%{$search}%")
+                        ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+                        ->orWhere('cd.name', 'LIKE',"%{$search}%")
+                        ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+                        ->orWhere('b.balance_amount', 'LIKE',"%{$search}%")
+                        ->orWhere('f.due_date', 'LIKE',"%{$search}%")
+                        ->orWhere('paid_amount', 'LIKE',"%{$search}%");  
+                    })
+                    ->offset($start)
+                    ->limit($limit)
+                    ->orderBy($order,$dir)
+                    ->get()->toArray();
+        }
+            $totalFiltered = DB::table('booking_master as b')
+            ->select('b.id','b.booking_number','cd.name','cd.phone','b.total_amount','b.grand_total','b.paid_amount','b.balance_amount','f.due_date')
+            ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
+            ->leftjoin('followup_history as f','b.id','=','f.booking_id')
+            ->where('f.due_date','=',$current_date)
+            ->orwhere('f.due_date','=',$tomorrow_date)
+            ->orWhere('cd.phone', 'LIKE',"%{$search}%")
+            ->orWhere('b.grand_total', 'LIKE',"%{$search}%")
+            ->orWhere('cd.name', 'LIKE',"%{$search}%")
+            ->orWhere('b.adult_count', 'LIKE',"%{$search}%")
+            ->orWhere('b.balance_amount', 'LIKE',"%{$search}%")
+            ->orWhere('f.due_date', 'LIKE',"%{$search}%")
+            ->orWhere('paid_amount', 'LIKE',"%{$search}%")
+            ->count();
+        }
+        // $table ="activities";
+        //$data = $this->CommonAjaxReturn($Activity, 2, '', 1,$table,'activity.editactivity'); 
+        //   dd($Activity);
+        $data = array();
+        if(!empty($booking))
+        {
+            foreach ($booking as $booking)
+            {  
+                $nestedData['id'] = $booking->id;
+                $nestedData['name'] = $booking->name;
+                $nestedData['phone'] = $booking->phone;
+                $nestedData['grand_total'] = $booking->grand_total;
+                $nestedData['paid_amount'] = $booking->paid_amount;
+                $nestedData['balance_amount'] = $booking->balance_amount;
+                $nestedData['due_date'] = $booking->due_date;
+                $enc_id = Crypt::encrypt($booking->id);
+                $edit = route('booking.edit',$enc_id);
+                $pdf = route('booking.pdf',$enc_id);
+                $mail = route('booking.invoice',[$enc_id,'followup-booking']);  
+                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;";
+                $nestedData['options'] = $actions;
+                
+                $data[] = $nestedData;
+            }
+        }
+        //dd($totalFiltered);
+
+        $json_data = array(
+        "draw"            => intval($request->input('draw')),  
+        "recordsTotal"    => intval($totalData),  
+        "recordsFiltered" => intval($totalFiltered), 
+        "data"            => $data   
+        );
+        echo json_encode($json_data); 
+    }
 }

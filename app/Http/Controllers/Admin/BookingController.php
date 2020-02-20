@@ -595,10 +595,10 @@ class BookingController extends Controller
         $payment_mode = 'cash';
         $booking_id = $data['bookingid'];
         $due_amount = DB::table('booking_master')->where('id','=',$booking_id)->pluck('balance_amount')->first();
+        $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
         
         if($payment_date != null && $payment_date != '' && $amount !='')
-        { 
-            $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
+        {      
             $paymentHistory = new PaymentHistory();
             $paymentHistory->customer_id = $customer_id;
             $paymentHistory->booking_id = $booking_id;
@@ -611,7 +611,6 @@ class BookingController extends Controller
                     $paid_amount = number_format($payment_details->paid_amount+$amount,2,'.', '');  
                     $total = $payment_details->grand_total;
                     $number = number_format($payment_details->paid_amount+$amount,2,'.', '');
-                  //  $number = $payment_details->paid_amount+$amount;
                     $paid_percentage = CommonHelper::get_percentage($total, $number); 
                     
                     $balance_amount = number_format($payment_details->balance_amount-$amount,2,'.', '');
@@ -624,8 +623,18 @@ class BookingController extends Controller
                 if($balance->paid_amount == $balance->grand_total)
                 {
                     $booking_amount_update = DB::table('booking_master')->where('id','=',$booking_id)->update([
-                    'payment_type' => '1'
+                         'payment_type' => '1','due_date' => Null
                      ]);
+
+                     //Follow up History
+                     //Status = 2 - paid completely
+                    $max_updated_date = DB::table('followup_history')->whereRaw('updated_at = (select max(`updated_at`) from followup_history)')
+                                        ->where('booking_id','=',$booking_id)
+                                        ->get();
+                    $followup_status_update = DB::table('followup_history')->where('updated_at','=',$max_updated_date[0]->updated_at)
+                                                ->update([
+                                                    'status' => '2'
+                                                ]);
                 }
             }
             $paymentHistory->payment_amount = $amount;
@@ -649,10 +658,20 @@ class BookingController extends Controller
             $FollowupHistory->due_reason = $reason;
             $FollowupHistory->followed_by = $followed_by;
             $FollowupHistory->followed_date = date('Y-m-d');
+            $FollowupHistory->customer_id = $customer_id;
+
             $FollowupHistory->created_by = Auth::user()->id;
             $FollowupHistory->status = 1;
             $FollowupHistory->save();
         }
         return json_encode($booking_id);
+    }
+    public function dueDateNotificationList()
+    {
+        $current_date = date('Y-m-d');
+        $tomorrow_date = date('Y-m-d',strtotime("+1 days"));
+        $duedate_followup_list_count = FollowupHistory::where('due_date','=',$current_date)
+        ->orwhere('due_date','=',$tomorrow_date)->count();
+        return view('admin.booking.due_date_list');
     }
 }

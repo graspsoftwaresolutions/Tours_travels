@@ -229,7 +229,10 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('/hotel_Confirmation/{hotelid}/{cityid}/{bookingid}', 'Admin\BookingController@hotelConfirmation')->name('hotel_confirmation');
     
     Route::post('/followup_payment_history','Admin\BookingController@followupPaymentHistorySave')->name('booking.followup_payment_history');
-
+    Route::get('/due_date_notification','Admin\BookingController@dueDateNotificationList')->name('due_date_notification');
+    
+    Route::post('/ajax_due_date_list','Admin\AjaxController@ajax_due_date_list')->name('ajax_due_date_list');
+    
 });
 
 Route::get('/get-roomtype-list', 'CommonController@getHotelRoomList');

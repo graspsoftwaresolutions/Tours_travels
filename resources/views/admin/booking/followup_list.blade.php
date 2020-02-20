@@ -236,9 +236,9 @@ $(document).ready(function() {
             success: function(response){
                 if(response)
                 {
-                    alert('Process done Succesfully!!');
-                    $('#masterModal').modal('toggle');
-                    window.location.reload();
+                    // alert('Process done Succesfully!!');
+                    // $('#masterModal').modal('toggle');
+                    // window.location.reload();
                 }
             }
 			});

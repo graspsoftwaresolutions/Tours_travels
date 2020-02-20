@@ -19,12 +19,11 @@ use App\Model\Admin\Booking;
 use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
-
+use App\Model\Admin\FollowupHistory;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Log;
-
 
 class CommonHelper
 {
@@ -673,5 +672,13 @@ class CommonHelper
         } else {
             return 0;
         }
-    }   
+    }
+    public static function getDuedate_members_count()
+    {
+        $current_date = date('Y-m-d');
+        $tomorrow_date = date('Y-m-d',strtotime("+1 days"));
+        
+        return $duedate_followup_list_count = FollowupHistory::where('due_date','=',$current_date)
+        ->orwhere('due_date','=',$tomorrow_date)->count();
+    }
 }

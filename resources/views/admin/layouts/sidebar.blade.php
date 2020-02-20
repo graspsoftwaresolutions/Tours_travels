@@ -68,12 +68,16 @@
                 </li>
               </ul>
             </li-->
+            @php $Duedate_members_count = CommonHelper::getDuedate_members_count(); @endphp
                     <li>
                         <a href="#:;">Profile</a>
                     </li>
 
                     <li>
                         <a href="{{ route('changepassword') }}">{{__('Change Password') }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('due_date_notification') }}">{{__('Notifications') }}({{$Duedate_members_count}})</a>
                     </li>
                     
                     <li class="divider"></li>
