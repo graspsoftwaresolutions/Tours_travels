@@ -79,7 +79,7 @@
                                     <p class="card-text">Package Name : {{$package_name ? $package_name : '' }}</p>
                                         <p class="card-text">Total Amount : {{$booking_data->grand_total ? $booking_data->grand_total : '' }}</p>
                                         <p class="card-text">Paid Amount : {{$booking_data->paid_amount ? $booking_data->paid_amount : '' }}</p>
-                                        <p class="card-text">Balance Amount : {{$booking_data->balance_amount ? $booking_data->balance_amount : '' }}</p>
+                                        <p class="card-text">Balance Amount : {{$booking_data->balance_amount ? $booking_data->balance_amount : '0.00' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -101,12 +101,11 @@
                             <tbody>
                                 @foreach($data['payment_details'] as $values)
                                 <tr>
-                                    <td>{{$values->payment_date}}</td>
-                                    <td>{{$values->payment_amount}}</td>
-                                    <td>{{$values->payment_mode}}</td>
+                                    <td>{{$values->payment_date ? $values->payment_date : '----'}}</td>
+                                    <td>{{$values->payment_amount ? $values->payment_amount : '----'}}</td>
+                                    <td>{{$values->payment_mode ? $values->payment_mode : '----'}}</td>
                                     <td>{{$values->reference_number ? $values->reference_number : '----'}}</td>
                                     <td>{{$values->followed_by}}</td>
-                                   
                                 </tr>
                                 @endforeach
                             </tbody>        
