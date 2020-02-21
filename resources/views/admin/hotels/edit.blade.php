@@ -80,7 +80,7 @@
                         <div class="col-md-12">
                             <div class="input-field label-float">
                                 <input placeholder="Hotel Name" class="clearable" id="hotel_name" name="hotel_name" value="{{ $hotel_data->hotel_name }}" autofocus type="text">
-                                <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }}*</label>
+                                <label for="hotel_name" class="fixed-label">{{__('Hotel Name') }}<span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                           <div class="form-group">
                               <div class="input-field label-float">
                                 <input placeholder="Contact Name" class="clearable" id="contact_name" name="contact_name" value="{{ $hotel_data->contact_name }}" type="text">
-                                <label for="contact_name" class="fixed-label">{{__('Contact Name') }}</label>
+                                <label for="contact_name" class="fixed-label">{{__('Contact Name') }}<span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>
@@ -131,7 +131,7 @@
                           <div class="form-group">
                               <div class="input-field label-float">
                                 <input placeholder="Contact Email" class="clearable" id="contact_email" name="contact_email" value="{{ $hotel_data->contact_email }}" type="text">
-                                <label for="contact_email" class="fixed-label">{{__('Contact Email') }}</label>
+                                <label for="contact_email" class="fixed-label">{{__('Contact Email') }}<span style="color:red">*</span></label>
                                 <div class="input-highlight"></div>
                             </div>
                           </div>

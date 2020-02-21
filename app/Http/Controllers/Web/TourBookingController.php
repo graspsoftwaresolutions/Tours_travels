@@ -271,6 +271,7 @@ class TourBookingController extends Controller
             //return $BookingHotel;
             $BookingHotel->save();
         }
-        return redirect('/home')->with('message','Thank you!!');
+        
+        return redirect('/')->with('message','Thank you!!');
     }
 }

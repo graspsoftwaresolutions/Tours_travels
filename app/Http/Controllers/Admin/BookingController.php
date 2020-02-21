@@ -548,14 +548,31 @@ class BookingController extends Controller
     {
         return view('admin.booking.followup_list');
     }
-    public function hotelConfirmation($hotelid,$cityid,$bookingid)
+    public function hotelConfirmation(Request $request)
     {
-         $hotel_id = Crypt::decrypt($hotelid);
-        
+        $hotel_id = $request->input('hotelid');
+        $cityid = $request->input('city_id');
+        $bookingid = $request->input('booking_id');
+
          if($hotel_id!='')
          {
+            $booking_hotel = DB::table('booking_hotel')->where('booking_id','=',$bookingid)->where('hotel_id','=',$hotel_id)->get();
+
+            foreach($booking_hotel as $hotel)
+            {
+                $BookingHotel = new BookingHotelConfirmation();
+                $BookingHotel->booking_id = $bookingid;
+                $BookingHotel->city_id = $hotel->city_id;
+                $BookingHotel->hotel_id = $hotel->hotel_id;
+                $BookingHotel->roomtype_id = $hotel->roomtype_id;
+                $BookingHotel->total_rooms = $hotel->total_rooms; 
+                $BookingHotel->total_amount = $hotel->total_amount;
+                $BookingHotel->approval_status = 0;
+                $BookingHotel->save();
+            }
+            
             $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
-            $from_mail = Website::pluck('company_website')->first();
+            $from_mail = Website::pluck('company_email')->first();
             $to_mail = $toMailDetails->contact_email;
           //  $to_mail = 'mounika.bizsoft@gmail.com';
             //$cc_email = 'shyni.bizsoft@gmail.com';
@@ -563,25 +580,14 @@ class BookingController extends Controller
             if( $to_mail!=''){
                 \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmation($hotel_id,$cityid,$bookingid));
 
-                $booking_hotel = DB::table('booking_hotel')->where('booking_id','=',$bookingid)->where('hotel_id','=',$hotel_id)->get();
-
-                foreach($booking_hotel as $hotel)
-                {
-                    $BookingHotel = new BookingHotelConfirmation();
-                    $BookingHotel->booking_id = $bookingid;
-                    $BookingHotel->city_id = $hotel->city_id;
-                    $BookingHotel->hotel_id = $hotel->hotel_id;
-                    $BookingHotel->roomtype_id = $hotel->roomtype_id;
-                    $BookingHotel->total_rooms = $hotel->total_rooms; 
-                    $BookingHotel->total_amount = $hotel->total_amount;
-                    $BookingHotel->approval_status = 0;
-                    $BookingHotel->save();
-                }
+                
             }
-            
+              $hotelconfirmation_status = CommonHelper::getHotelConfirmationStatus($bookingid,$cityid,$hotel_id);
+
+              return json_encode($hotelconfirmation_status);
          }
-         return redirect('admin/home')->with('success', ['Mail send successfully to hotel']);   
-         //return view('admin.email.hotel_confirmation');
+       
+         
     }
     public function followupPaymentHistorySave(Request $request)
     {

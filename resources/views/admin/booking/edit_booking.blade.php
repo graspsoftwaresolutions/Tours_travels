@@ -715,7 +715,7 @@
                                             $enc_hotelid = Crypt::encrypt($hotel->hotel_id);
                                             $place_cityid = $place->city_id;
                                             $booking_id = $booking_info->id;
-                                            $mailConfirmation = route('hotel_confirmation',[$enc_hotelid,$place_cityid,$booking_id]);
+                                          //  $mailConfirmation = route('hotel_confirmation',[$enc_hotelid,$place_cityid,$booking_id]);
                                             $hotelconfirmation_status = CommonHelper::getHotelConfirmationStatus($booking_info->id,$place->city_id,$hotel->hotel_id);
                                             $confirmation_count = CommonHelper::HotelConfirmationCount($booking_info->id,$place->city_id,$hotel->hotel_id);
                                           @endphp
@@ -726,14 +726,12 @@
                                             </a>
                                           </div>
                                           <div class="media-body p10">
-
                                             <h4 class="media-heading">{{ $package_hotel->hotel_name }}</h4>
                                             <span class="pull-right" style="font-size: 20px;">
                                             @if($confirmation_count>0)
                                               <a title='Confirmation Details' onclick="HotelConfirmations({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' },{{$package_hotel->id}},{{ $booking_info->id }})" style="color: orange;cursor: pointer;" class="" ><i class='mdi mdi-ticket-confirmation'></i></a>
                                             @endif
-                                            <a  title='Hotel Confirmation' target="_blank" class="@if($hotelconfirmation_status>0) disabled @endif" href='{{$mailConfirmation}}' onclick='return ConfirmMail()'><i class='mdi mdi-email'></i></a>
-                                            
+                                            <a id="hotel_{{$hotel->hotel_id}}" class="@if($hotelconfirmation_status>0) disabled @endif" title='Hotel Confirmation' target="_blank"  onclick='return ConfirmMail( {{ $hotel->hotel_id }}, {{ $place_cityid }}, {{ $booking_id }} )'><i class='mdi mdi-email'></i></a>
                                             
                                             </span>
                                             <p>{{ $place_state_name }} - {{ $place_city_name }} <span class="pull-right" style="font-size: 16px;"> {!! $rating_string !!} </span></p>
@@ -762,20 +760,14 @@
                                             <input type="text" class="hide hotel_cost" name="hotel_cost_{{ $package_hotel->id }}[]" id="hotel_cost_{{ $package_hotel->id }}" value="{{ $total_hotel_prices }}"/>
                                             <input type="text" class="hide hotel_number_count" name="hotel_number_count_{{ $package_hotel->id }}[]" id="hotel_number_count_{{ $package_hotel->id }}" value="{{ $types->total_rooms }}"/>
                                           </div>
-                                          
-                                         
                                         </div>
                                       </div>
-                                      
                                   @endforeach
                                    </div>
                                    <button id="add_hotel_button_{{ $place->city_id }}" style="margin-bottom: 10px;margin-right: 10px;margin-left: 80%;" type="button" onclick="PickHotel({  cityid: {{ $place->city_id }},  stateid: {{ $place->state_id }}, cityname: '{{ $place_city_name }}', statename: '{{ $place_state_name }}' , cityimage: '{{ $place_city_image }}' })" class="btn btn-sm purple waves-effect waves-light">+ Add Hotel</button>
                                  </div>
                               </li>
-
-                           
                         @endforeach
-                       
                     </ul>
                     <div id="dummy-hotels">
                       
@@ -1672,6 +1664,7 @@
 <script src="{{ asset('public/js/jquery.dragsort.js') }}"></script>
 <script src ="{{ asset('public/assets/dist/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
+<script src="{{ asset('public/assets/demo/demo-notifications.js') }}"></script>
   <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
   <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
  <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -2363,12 +2356,30 @@
 
    
   }
-  function ConfirmMail() {
-      if (confirm("{{ __('Are you sure you want to send email?') }}")) {
-          return true;
+  function ConfirmMail(hotelid,cityid,bookingid) {
+    //console.log(hotelid);
+    if (confirm("{{ __('Are you sure you want to send email?') }}")) {
+      var url = "{{ route('hotel_confirmation') }}" + '?hotelid=' + hotelid+'&city_id='+cityid+'&booking_id='+bookingid;
+          $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+          }
+          });
+          $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: "json",
+            success: function(response){
+              if(response>0)
+              {
+                toastr.success('<div class="toast-title">Mail Notification</div> Hotel Confirmation mail sent succesfully!.');
+                $('#hotel_'+hotelid).prop('disabled',true);
+              }
+            }
+        });
       } else {
-          return false;
-      }
+         return false;
+      }  
   }
 
   function HotelConfirmations(paramscity,hotelid,bookingid){
