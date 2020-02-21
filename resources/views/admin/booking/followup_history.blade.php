@@ -63,7 +63,7 @@
                         <div class="row details">
                             <div class="col-md-6">
                             <h5 class="card-title design">Customer Details</h5>
-                            <div class="card panel">
+                                 <div class="card panel">
                                     <div class="card-body">
                                         <p class="card-text"><b>Name : </b> {{$customer_data->name ? Ucfirst($customer_data->name) : '' }}</p>
                                         <p class="card-text"><b>Email : </b> {{$customer_data->email ? $customer_data->email : '' }}</p>

@@ -1730,7 +1730,7 @@ class AjaxController extends CommonController
                 $edit = route('booking.edit',$enc_id);
                 $pdf = route('booking.pdf',$enc_id);
                 $mail = route('booking.invoice',[$enc_id,'followup-booking']);  
-                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-lead-pencil'></i></a>&nbsp;&nbsp;";
+                $actions ="<a class='btn btn-sm blue waves-effect waves-circle waves-light' href='$edit'><i class='mdi mdi-eye'></i></a>&nbsp;&nbsp;";
                 $nestedData['options'] = $actions;
                 
                 $data[] = $nestedData;

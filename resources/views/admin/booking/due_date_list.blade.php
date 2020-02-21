@@ -21,7 +21,7 @@
                 <h1>Tours and Travels</h1>
                 <ul class="breadcrumbs">
                     <li>Due Customers</li>
-                    <li>{{__('Customers List')}}</li>
+                    <li>{{__('Due Customers List')}}</li>
                 </ul>
             </div>          
 
@@ -37,7 +37,7 @@
                             </div>
                             
                             
-                            <h3 class="title medium">{{__('Customers List')}}</h3>
+                            <h3 class="title medium">{{__('Due Date Customers List')}}</h3>
                         </div>
 
                     </div>

@@ -16,6 +16,7 @@ use App\Model\Admin\BookingActivities;
 use App\Model\Admin\BookigTransports;
 use App\Helpers\CommonHelper;
 use App\Model\Admin\BookingHotelConfirmation;
+use App\Model\Admin\PaymentHistory;
 
 use DB;
 use Illuminate\Support\Facades\Crypt;
@@ -177,6 +178,32 @@ class TourBookingController extends Controller
                 $BookigTransports->interestrate_amount = $data['package_transports'][$i]->interestrate_amount;
                 $BookigTransports->save();
             }
+
+            //Payment History
+            $paymentHistory = new PaymentHistory();
+            $paymentHistory->customer_id = DB::table('users')->where('id','=',$authid)->pluck('customer_id')->first();
+            $paymentHistory->booking_id = $booking_last_id;
+            $paymentHistory->payment_date = date('Y-m-d');
+            $paymentHistory->payment_amount = $Package_details->total_amount;
+            if($request->payment_mode == 1)
+            {
+                $payment_mode = 'Card';
+            }
+            elseif($request->payment_mode == 2)
+            {
+                $payment_mode = 'Cash';
+            }
+            else{
+                $payment_mode = 'Online Payment';
+            }
+            $paymentHistory->payment_mode = $payment_mode;
+            $paymentHistory->reference_number = $request->reference_number;
+            $paymentHistory->followed_by = '';
+            $paymentHistory->created_by = Auth::user()->id;
+            $paymentHistory->status = 1;
+            $paymentHistory->save();
+
+
             $data['booking_details'] = DB::table('booking_master')->where('id','=',$booking_last_id)->get();
             $user_id = DB::table('booking_master')->where('id','=',$booking_last_id)->pluck('customer_id')->first();
             $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();

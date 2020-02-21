@@ -428,13 +428,9 @@
                                     @endforeach
                                 </ul>
                              </div>  
-                                
-                           
-                            
+             
                         </div><!-- end columns -->
-						
-                        
-                        
+
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 side-bar right-side-bar">
                                         
                                 <div class="col-xs-12 col-sm-6 col-md-12"> 
