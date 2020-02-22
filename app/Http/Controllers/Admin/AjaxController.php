@@ -540,27 +540,36 @@ class AjaxController extends CommonController
 }
     public function roomtypeNameexists(Request $request)
     {
-        $room_type = $request->room_type;
-        $id = $request->roomtype_id;
+       $room_type =  $request->input('room_type');
+       $roomtype_id = $request->input('roomtype_id');
 
-        if($id != '')
-        {
-            $roomtype_exists = RoomType::where('id','=',$id)
-                                ->where('room_type','=',$room_type)
-                                ->where('status','=','1')->count();
-        }
-        else{
-            $roomtype_exists = RoomType::where('room_type','=',$room_type)
-                                ->where('status','=','1')->count();
-        }
-        if($roomtype_exists > 0)
-        {
-            return "false";
-        }
-        else
-        {
-            return "true";
-        }
+       if(!empty($roomtype_id))
+         {
+            $roomtype_exists = RoomType::where('id','=',$roomtype_id)
+            ->where('room_type','=',$room_type)
+            ->where('status','=','1')->count();
+
+                $roomtype_exists = RoomType::where([
+                 ['room_type','=',$room_type],
+                 ['id','!=',$roomtype_id],
+                 ['status','=','1']
+                 ])->count();
+         }
+         else
+         {
+           $roomtype_exists = RoomType::where([
+                ['room_type','=',$room_type],
+               ['status','=','1'],     
+               ])->count(); 
+         } 
+         if($roomtype_exists > 0)
+         {
+             return "false";
+         }
+         else
+         {
+             return "true";
+         }
     }
     public function ajax_activities_list(Request $request)
     {
