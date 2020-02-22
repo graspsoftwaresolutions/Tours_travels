@@ -581,7 +581,8 @@ class MasterController extends CommonController {
         return redirect('admin/transporation')->with('message', 'Transport added succesfully');
     }
     public function editNewTransporation($id){
-        $id = base64_decode($id);
+        //$id = base64_decode($id);
+        $id = crypt::decrypt($id);
         $data['country_view'] = Country::where('status','=','1')->get();
         $data['state_view'] = State::where('status','=','1')->get();
         $data['edit_view'] = Transportation::where('status','=','1')->where('id','=',$id)->get();

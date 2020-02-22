@@ -65,8 +65,9 @@
                                 <td> @php if($values->unpack_amount_per_km) { echo $values->unpack_amount_per_km; } else{echo '---';  } @endphp </td> </td>
                                 <td> @php if($values->unpack_amount_per_hr) { echo $values->unpack_amount_per_hr; } else{echo '---';  } @endphp </td> </td>
                                     <td>
-                                    @php $encrypted_id = base64_encode($values->tasportation_id); @endphp
-                                    <a href="{{route('edit_transporation',$encrypted_id)}}" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
+                                    @php // $encrypted_id = base64_encode($values->tasportation_id);
+                                     @endphp
+                                    <a href="{{route('edit_transporation', Crypt::encrypt($values->tasportation_id))}}" class="btn btn-sm blue waves-effect waves-circle waves-light"><i class="mdi mdi-lead-pencil"></i></a>
                                    
                                         &nbsp;
                                     </td>

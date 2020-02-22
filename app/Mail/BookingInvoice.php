@@ -32,6 +32,7 @@ class BookingInvoice extends Mailable
     public function build()
     {
         return $this->view('web.email.booking_invoice')
+        ->with(['message' => $this])
         ->attach('storage/app/pdf/'.$this->bookingid."_booking_invoice.pdf");
     }
 }

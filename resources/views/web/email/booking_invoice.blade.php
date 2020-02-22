@@ -1,52 +1,77 @@
-<!DOCTYPE html>
-<!--[if IE]><![endif]-->
-<!--[if IE 8 ]><html dir="ltr" lang="en" class="ie8"><![endif]-->
-<!--[if IE 9 ]><html dir="ltr" lang="en" class="ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html dir="ltr" lang="en">
-<!--<![endif]-->
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link href="{{ asset('public/web-assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i%7CMerriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-<style>
-   .btn {
-        box-sizing: border-box;
-        width: 100%; }
-.btn-primary a {
-        background-color: #3498db;
-        border-color: #3498db;
-        color: #ffffff; }
-</style>
-</head>
-<body class="support-request_success">
+<html>
+	<head>
+	<title>Booking Invoice</title>
+	</head>
+  @php $logo = CommonHelper::getlogo();  @endphp
+  @php $website_dat = CommonHelper::getWebsiteDetails();
+  $myvalue = $website_dat->company_name;
+  $arr = explode(' ',trim($myvalue));
+  $variable = $website_dat->company_name;
+  $str = explode(' ', $variable);
+  $str = array_slice($str, 1);
+  $str = implode(' ', $str);
 
-<div class="container">
-  <div class="row">                
-      <div id="content" class="col-sm-12">      <div class="sp-content">
-        <div class="icon"><i class="fa fa-check"></i></div>
-        @php $website_dat = CommonHelper::getWebsiteDetails();
-        $company_website = $website_dat->company_website;
-         $username = Ucfirst($customer_data->name); 
-        $companydata = CommonHelper::getWebsiteDetails(); @endphp
-        Dear {{Ucfirst($username)}},  
-          <p style='text-align:center;' > Thank you for choosing to {{Ucfirst($companydata->company_name)}}. </p>
-          <p style='text-align:center;' >Your booking Has Been Submitted, We will confirm your booking with you soon.</p>
-          <p style='text-align:center;' > Herewith we have attached your booking invoice</p>  </div>
-          <p>Yours sincerely,</p>
-          <p>{{Ucfirst($companydata->company_name)}}</p>
-      </div>
-    </div>
-</div>
-<footer>
-  <div class="container">
-  <p> Website URL : {{$company_website}} </p>
-	</a>
-	</h4>
-  </div>
-</footer>
-</body></html>
+   @endphp
+	<body>
+		<div style="width:650px;margin: 0 auto;border: 0px solid #c3bbbb;">
+			<table width="100%">
+				<tr>
+					<td style="background:#f7941d; padding: 20px;"></td>
+				</tr>
+			</table>
+			<br>
+			<table width="100%">
+				<tr>
+					<td style="text-align: center;font-weight: bold;">THANK YOU FOR CHOOSING TO</td>
+				</tr>
+			</table>
+			<table width="100%" style="text-align:center;">
+				<tr>
+					<td colspan="1" style="padding-left: 192px;"><img src="{{ $message->embed(storage_path() . '/app/website/'.$website_dat->company_logo) }}" alt="logo" width="80" height="60"></td>
+					<td colspan="1" style="padding-right: 197px;"><span style="color: #f7941d;font-size: 50px;font-weight: bold;    ">{{$arr[0]}}</span> 
+						<br> 
+						<span style="background: #f7941d; color: #fff;font-weight: bold; font-size: 13px;">{{$str}}</span>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<table width="100%"
+				<tr>
+					<td><center><img src="{{ $message->embed(public_path() . '/assets/images/con_img.png') }}" style="width:25%;" height="200"></center></td>
+				</tr>
+			</table>
+			<br>
+			<table width="100%">
+				<tr>
+					<td style="text-align: center;font-weight: bold;">YOUR BOOKING HAS BEEN SUBMITTED,</td>
+				</tr>
+			</table>
+			<br>
+			<table width="100%">
+				<tr>
+					<td style="text-align: center;color: #ff8b00;font-weight: bold;font-size:25px;">WE WILL CONFIRM</td>
+				</tr>
+			</table>
+			<br>
+			<table width="100%">
+				<tr>
+					<td style="text-align: center;font-weight: bold;">YOUR BOOKING  WITH YOU SOON.</td>
+				</tr>
+			</table>
+			<table>
+				<tr> 
+					<td><img src="{{ $message->embed(public_path() . '/assets/images/confirm.png') }}" width="650"></td>
+				</tr>
+				<tr>
+					<td style="text-align:center;background:#ff8b00;padding-top: 40px;padding-bottom: 40px;color: #fff;font-weight:bold;font-size:13px;">HEREWITH WE HAVE ATTACHED <br> YOUR BOOKING INVOICE</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
+
+
+
+
+
