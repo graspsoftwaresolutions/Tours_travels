@@ -663,11 +663,8 @@
                               $place_city_data = CommonHelper::getcityDetails($place->city_id);
                               $place_city_name = $place_city_data->city_name;
                               $place_city_image = $place_city_data->city_image;
-
-                              $package_hotels = CommonHelper::getBookingHotels($booking_info->id,$place->city_id);
-                             
+                              $package_hotels = CommonHelper::getBookingHotels($booking_info->id,$place->city_id); 
                             @endphp
-
                               <li data-cityid="{{ $place->city_id }}" id="picked-hotelli-{{ $place->city_id }}" class="tl-item hotel-list-panel">
                                 
                                 <div class="timeline-icon ti-text">{{ $place_state_name }} - {{ $place_city_name }}</div>
@@ -1243,7 +1240,7 @@
 
                          <h4 class="text-headline">Payment</h4>   
                         <br>
-                        <div class="row">
+                        <div class="row" style="pointer-events: none;"> 
                           <div class="col-xs-5">
                               <p>
                                 <input name="paymenttype" type="radio" id="paymenttype1" onclick="return ChangePaytype(this.value)" value="1" @if($booking_info->payment_type==1) checked @endif />
@@ -1259,7 +1256,7 @@
                         </div>
                         <br>
                         <div id="partial_pay_area" class="@if($booking_info->payment_type==1) hide @endif">
-                          <table>
+                          <table style="pointer-events: none;">
                             <thead>
                               <tr>
                                 <th width="25%">
@@ -1276,7 +1273,7 @@
                             <tbody>
                               <tr>
                                 <td class="bold">Pay</td>
-                                <td> <input type="text" id="pay_percent" name="pay_percent" class="allow_decimal" value="{{$booking_info->paid_percentage}}" placeholder="Pay percentage">    </td>
+                                <td> <input type="text"  id="pay_percent" name="pay_percent" class="allow_decimal" value="{{$booking_info->paid_percentage}}" placeholder="Pay percentage">    </td>
                                 <td><input type="text" id="pay_amount" name="pay_amount" class="allow_decimal" value="{{$booking_info->paid_amount}}" placeholder="Pay Amount"> </td>
                               </tr>
                                <tr>

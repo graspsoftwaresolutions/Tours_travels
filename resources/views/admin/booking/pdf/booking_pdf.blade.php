@@ -393,8 +393,7 @@
                 @endif 
                 @php $slno++; @endphp
                 @endforeach   
-				<p style="color:#4A7885;"><label style="margin-left:10px; font-size:15px !important; padding: 10px; background: #b39371;
-    width:50%"><b style="color:white;"> Total Cost </b>  : {{ $booking_data->grand_total}} </label>  </p>
+				<p> <b> Total Cost </b>  : {{ $booking_data->grand_total}} </label>  </p>
                 <!-- <p ><b> Price Summary </b> </p>
                         <table width="100%" class="package_table"> 
 							<tr> 

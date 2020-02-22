@@ -29,8 +29,10 @@
   <div class="row">                
       <div id="content" class="col-sm-12">      <div class="sp-content">
         <div class="icon"><i class="fa fa-check"></i></div>
-        @php $username = Ucfirst($customer_data->name); @endphp
-        @php $companydata = CommonHelper::getWebsiteDetails(); @endphp
+        @php $website_dat = CommonHelper::getWebsiteDetails();
+        $company_website = $website_dat->company_website;
+         $username = Ucfirst($customer_data->name); 
+        $companydata = CommonHelper::getWebsiteDetails(); @endphp
         Dear {{Ucfirst($username)}},  
           <p style='text-align:center;' > Thank you for choosing to {{Ucfirst($companydata->company_name)}}. </p>
           <p style='text-align:center;' >Your booking Has Been Submitted, We will confirm your booking with you soon.</p>
@@ -42,7 +44,7 @@
 </div>
 <footer>
   <div class="container">
-  <p> Website URL : http://demo.graspsoftwaresolutions.com/tours/ </p>
+  <p> Website URL : {{$company_website}} </p>
 	</a>
 	</h4>
   </div>

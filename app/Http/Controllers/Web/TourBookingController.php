@@ -271,7 +271,12 @@ class TourBookingController extends Controller
             //return $BookingHotel;
             $BookingHotel->save();
         }
-        
+        $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
+        $to_mail =  Website::pluck('company_email')->first();
+        $cc_email = 'mounika.bizsoft@gmail.com';
+        if( $to_mail!=''){
+            \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmationReplyMail($bookinghotelid,$cityid,$bookingid)); 
+        }
         return redirect('/')->with('message','Thank you!!');
     }
 }

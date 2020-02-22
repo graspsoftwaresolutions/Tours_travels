@@ -188,7 +188,7 @@ Route::group( [ 'prefix' => 'admin' ], function()
     Route::get('customer','Admin\CustomerController@customerList')->name('customer.new');
     Route::post('ajax_customer_list','Admin\AjaxController@ajax_customer_list')->name('ajax_customer_list');
     Route::get('customer_new','Admin\CustomerController@customerNew')->name('customer.add');
-    Route::post('customer_save','Admin\CustomerController@custwebomerSave')->name('customer_save');
+    Route::post('customer_save','Admin\CustomerController@customerSave')->name('customer_save');
     Route::get('edit_customer/{parameter}','Admin\CustomerController@customerEdit')->name('customer.edit');
 
     //Enquiry

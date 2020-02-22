@@ -136,12 +136,15 @@
                                             <div class="file-field input-field label-float">
                                                 <div class="btn theme">
                                                 <span>File</span>
-                                                <input type="file" name="city_image" accept="image/*">
+                                                    <input type="file" id="city_image" name="city_image" accept="image/*">
+                                                    
                                                 </div>
+                                               
                                                 <div class="file-path-wrapper">
                                                 <input class="file-path validate" type="text" placeholder="Upload one  file">
                                                 <div class="input-highlight"></div>
                                                 </div>
+                                                <input type="hidden" name="cityimage" id="cityimage">
                                                 </div>
                                             <!-- </div> -->
                                            <br><br>
@@ -229,58 +232,6 @@ $(function() {
     "order": [
       [0, 'asc']
     ],
-	// dom: 'lBfrtip', 
- //        buttons: [
-	// 	   {
-	// 		   extend: 'pdf',
-	// 		   footer: true,
-	// 		   exportOptions: {
-	// 				columns: [0,1]
-	// 			},
- //                title : 'Cities List', 
- //                text: '<i class="fa fa-file-pdf-o"></i>',
- //                titleAttr: 'pdf'
-	// 	   },
-	// 	   {
-	// 		   extend: 'excel',
-	// 		   footer: false,
-	// 		   exportOptions: {
-	// 				columns: [0,1]
-	// 			},
-	// 			title : 'Cities List',
- //                text:    '<i class="fa fa-file-excel-o"></i>',
- //                titleAttr: 'excel'
-	// 	   },
-	// 		{
-	// 		   extend: 'print',
-	// 		   footer: false,
-	// 		   exportOptions: {
-	// 				columns: [0,1]
-	// 			},
-	// 			title : 'Cities List',
- //                text:   '<i class="fa fa-files-o"></i>',
- //                titleAttr: 'print'
-	// 	   }  
-	// 	],
- //    "drawCallback": function (settings) {
- //      var api = this.api();
- //      var rows = api.rows({
- //        page: 'current'
- //      }).nodes();
- //      var last = null;
-
- //      api.column(0, {
- //        page: 'current'
- //      }).data().each(function (group, i) {
- //        if (last !== group) {
- //          $(rows).eq(i).before(
- //            '<tr class="group"><td colspan="2">' + group + '</td></tr>'
- //          );
-
- //          last = group;
- //        }
- //      });
- //    },
 	"processing": true,
         "serverSide": true,
         "ajax": {
@@ -312,12 +263,15 @@ $(function() {
 
                     if(data == null || data == 'undefined' || data == '')
                     {
+                       // $('#cityimage').val('');
                         var location = no_image_url;
                         return '<a  target="_blank" href="'+location+'"><img src="'+location+'" class="avatar" width="50" height="50"/></a>';
                     }
                     else{
                         
                         var location = image_url+'/city/'+data;
+                       // $('#cityimage').val(data);
+
                         return '<a  target="_blank" href="'+location+'"><img src="'+location+'" class="avatar" width="50" height="50"/></a>';
                     }
                     }
@@ -398,6 +352,7 @@ function showaddForm() {
     $('#city_name').val("");
     // $('#cit_image').attr('src', '');
     $("#cit_image").hide();
+    $('#cityimage').val('');
     //document.getElementById('cit_image').src = "#";
     $('#state_id').selectpicker('val', '');
     $('#masterid').val("");
@@ -418,12 +373,15 @@ function showeditForm(cityid) {
             $('#state_id').selectpicker('val', result.state_id);
             $('#city_name').val(result.city_name);
             $("#cit_image").show();
+            
             if(result.city_image == '' || result.city_image == undefined ||  result.city_image == null )
             {
+                $('#cityimage').val('');
                 var location = no_image_url;
                 $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="'+location+'">');
             }
             else{
+                $('#cityimage').val(result.city_image);
                 var location = image_url+'/city/'+result.city_image;
                 $('#cit_image').html('<img style="width:150px;padding-right: 46px;margin-top: -27px;height: 86px;margin-right:10px" src="'+location+'">');
             }

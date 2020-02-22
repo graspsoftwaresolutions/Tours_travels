@@ -87,7 +87,7 @@
                             <br>
                             <div class="container">
                             <h2>Payment List</h2>
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" style="width: 85.5%;">
                             <table id="datatable-master" class="display nowrap" style="width:100%">
                             <thead>
                                 <tr>

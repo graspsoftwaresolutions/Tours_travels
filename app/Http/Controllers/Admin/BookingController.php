@@ -120,6 +120,32 @@ class BookingController extends Controller
          $SaveBooking->save();
          $booking_id = $SaveBooking->id; 
 
+            //Payment History
+            $payment_date = date('Y-m-d');
+            $followed_by = Auth::user()->name();
+            $payment_mode = 'cash';
+            $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
+        
+            if($payment_date != null && $payment_date != '')
+            {      
+                $paymentHistory = new PaymentHistory();
+                $paymentHistory->customer_id = $request->customer_id;
+                $paymentHistory->booking_id = $booking_id;
+                $paymentHistory->payment_date = $payment_date;
+                if($paymenttype==1)
+                {
+                    $paymentHistory->payment_amount = $request->grand_total_amount;
+                }
+                else{
+                    $paymentHistory->payment_amount = $request->pay_amount;
+                }
+                $paymentHistory->payment_mode = $payment_mode;
+                $paymentHistory->reference_number = '';
+                $paymentHistory->followed_by = $followed_by;
+                $paymentHistory->created_by = Auth::user()->id;
+                $paymentHistory->status = 1;
+                $paymentHistory->save();   
+            }
           $check_picked_state = $request->input('picked_state');
 			if( isset($check_picked_state)){
                 $state_count = count($request->input('picked_state'));
@@ -192,12 +218,11 @@ class BookingController extends Controller
                                 }
                             }
                         }
-                        
                     }
                     $total_nights += $nights_count;
 
                     $pickup_ids = $request->input('airportpickup_'.$city_id);
-                    if( isset($pickup_ids)){
+                    if(isset($pickup_ids)){
                         $pickup_count = count($pickup_ids);
                         for($m =0; $m<$pickup_count; $m++){
                             $pickup_amt = $request->input('airportpickup_'.$city_id)[$m];
@@ -220,11 +245,9 @@ class BookingController extends Controller
                                 $booking_transports->day_numbers = $m+1;
                                 $booking_transports->save();
                             }
-                            
                         }
                     }
-                   // dd($hotel_id);
-                    
+                   // dd($hotel_id);  
 				}
             }
         return redirect('admin/booking_list')->with('message','Booking Added Successfully!!');
@@ -586,8 +609,6 @@ class BookingController extends Controller
 
               return json_encode($hotelconfirmation_status);
          }
-       
-         
     }
     public function followupPaymentHistorySave(Request $request)
     {

@@ -195,28 +195,32 @@ class MasterController extends CommonController {
 	public function citySave(Request $request)
     {
         $auto_id = $request->input('masterid');
-        $request->validate([
-            'country_id' => 'required',
-			'state_id' => 'required',
-            'city_name' => 'required',
-            'city_image' => 'required',
-                ], [
-            'country_id.required' => 'please enter Country name',
-			'state_id.required' => 'please enter State name',
-            'city_name.required' => 'please enter City name',
-            'city_image.required' => 'please select City image',
-        ]);
-        $data = $request->all();   
+        
+       $data = $request->all(); 
+
         $defdaultLang = '';
 
         if($auto_id!=''){
+
             $data_exists = City::where([
+                
                 ['city_name','=',$request->input('city_name')],
                 ['state_id','=',$request->input('state_id')],
                 ['id','!=',$auto_id],
                 ['status','=','1']
                 ])->count();
         }else{
+            $request->validate([
+                'country_id' => 'required',
+                'state_id' => 'required',
+                'city_name' => 'required',
+                'city_image' => 'required',
+                    ], [
+                'country_id.required' => 'please enter Country name',
+                'state_id.required' => 'please enter State name',
+                'city_name.required' => 'please enter City name',
+                'city_image.required' => 'please select City image',
+            ]);
             $data_exists = City::where([
                         ['city_name','=',$request->input('city_name')],
                         ['country_id','=',$request->input('country_id')],
@@ -226,13 +230,41 @@ class MasterController extends CommonController {
         }
         if($data_exists>0)
         {
+            
             return  redirect($defdaultLang.'admin/city')->with('error','User Email Already Exists'); 
         }
         else{
+           
+          
+            $old_image =  City::where('id','=',$data['masterid'])->pluck('city_image')->first();
+            if ($data['masterid']!='') {
 
-            $saveCity = $this->City->saveCitydata($data);
+                if(isset($request->city_image))
+                {
+                    $file = $data['city_image'];
+                    $name = time().'.'.$file->getClientOriginalExtension();
+                    $file->move('storage/app/city',$name);
+                    $data['city_image'] = $name;
+                }
+                elseif($old_image == $data['cityimage'] ) {
+                         $name = $data['cityimage'];
+                         $data['cityimage'] = $name;  
+                }
+                
+            
+                $savedata = City::find($data['masterid'])->update($data);
+            } else {
+                
+                if($data['city_image']) {
+                    $file = $data['city_image'];
+                    $name = time().'.'.$file->getClientOriginalExtension();
+                    $file->move('storage/app/city',$name);
+                    $data['city_image'] = $name;
+                }
+                $savedata = City::create($data);
+            }
 
-            if ($saveCity == true) {
+            if ($savedata == true) {
                 if($auto_id!='')
                 {
                     return redirect($defdaultLang . 'admin/city')->with('message', 'City Name Updated Succesfully');
@@ -272,6 +304,7 @@ class MasterController extends CommonController {
             'amenities_name.required' => 'please enter Amenities name',
         ]);
         $data = $request->all();
+
         if($request->input('masterid')!=''){
             $data_exists =  Amenities::where([
                  ['amenities_name','=',$request->input('amenities_name')],

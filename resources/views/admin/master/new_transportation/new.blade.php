@@ -250,10 +250,7 @@
       
                 // select.empty();
                  //$("#state_id").append("<option value=''>Select</option>");
-                 $.each(data, function(key, value) {
-                     $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
-                         '</option>');
-                 });
+                
                   $("#state_id").selectpicker("refresh");
                   $.each(data, function(key, value) {
                      $("#state_id").append('<option value=' + value.id + '>' + value.state_name +
