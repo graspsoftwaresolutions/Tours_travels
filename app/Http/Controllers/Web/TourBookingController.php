@@ -14,6 +14,7 @@ use App\Model\Admin\BookingPlace;
 use App\Model\Admin\BookingHotel;
 use App\Model\Admin\BookingActivities;
 use App\Model\Admin\BookigTransports;
+use App\Model\Admin\Website;
 use App\Helpers\CommonHelper;
 use App\Model\Admin\BookingHotelConfirmation;
 use App\Model\Admin\PaymentHistory;
@@ -271,12 +272,12 @@ class TourBookingController extends Controller
             //return $BookingHotel;
             $BookingHotel->save();
         }
-        $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
-        $to_mail =  Website::pluck('company_email')->first();
-        $cc_email = 'mounika.bizsoft@gmail.com';
-        if( $to_mail!=''){
-            \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmationReplyMail($bookinghotelid,$cityid,$bookingid)); 
-        }
+        // $toMailDetails = DB::table('hotels')->where('id','=',$bookinghotelid)->select('contact_name','contact_email')->first();
+        // $to_mail =  Website::pluck('company_email')->first();
+        // $cc_email = 'mounika.bizsoft@gmail.com';
+        // if( $to_mail!=''){
+        //     \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmationReplyMail($bookinghotelid,$city_id,$booking_id)); 
+        // }
         return redirect('/')->with('message','Thank you!!');
     }
 }
