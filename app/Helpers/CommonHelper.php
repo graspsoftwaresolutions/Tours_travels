@@ -230,7 +230,6 @@ class CommonHelper
         return $hotels;
         
     }
-
     public static function getPackageHotels($packageid,$cityid){
        DB::select( DB::raw('set sql_mode=""'));
         $hotels_data = DB::table('package_hotel as ph')->select('ph.hotel_id')
