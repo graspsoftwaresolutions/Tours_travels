@@ -43,7 +43,7 @@ class CommonHelper
         $details = DB::table("package_master")->where('id','=',$packageid)
                                                 ->pluck('package_name')
                                                 ->first();
-
+        
         return $details;
     }
     
@@ -245,7 +245,9 @@ class CommonHelper
        DB::select( DB::raw('set sql_mode=""'));
         $hotels_data = DB::table('booking_hotel as bh')->select('bh.hotel_id')
                     ->where('bh.booking_id','=',$bookingid)
-                    ->where('bh.city_id','=',$cityid)->groupBy('bh.hotel_id')->get();
+                    ->where('bh.city_id','=',$cityid)->groupBy('bh.hotel_id')
+                  //  ->dump()
+                    ->get();
 
         return $hotels_data;
         
@@ -667,7 +669,7 @@ class CommonHelper
                     ->where('bh.city_id','=',$cityid)
                     ->where('bh.hotel_id','=',$hotelid)
                     ->where('bh.approval_status','!=',0)
-                    //->dump()
+                  //  ->dump()
                     ->count();
 
         return $hotelscount;
@@ -689,4 +691,12 @@ class CommonHelper
         return $duedate_followup_list_count = FollowupHistory::where('due_date','=',$current_date)
         ->orwhere('due_date','=',$tomorrow_date)->count();
     }
+    public static function getBookingDetails($bookingid)
+    {
+        $customer_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
+
+        $result = Booking::where('customer_id','=',$customer_id)->where('id','=',$bookingid)
+        ->select('id as bookingid','package_id','from_date','to_date','to_country_id','to_state_id','to_city_id','adult_count','child_count','infant_count','to_city_id','total_amount','reference_number','booking_number','grand_total')->first();
+        return $result;
+    }   
 }

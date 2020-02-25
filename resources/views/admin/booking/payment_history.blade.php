@@ -42,25 +42,13 @@
                     <li>{{__('Payment History List') }}</li>
                 </ul>
             </div>
-            <div class="page-content">
-                 @include('includes.messages')
-                <div class="paper toolbar-parent mt10">
-                    <div class="p10 theme dropshadow mb4">
-                        <div class="toolbar">
-                            <div class="pull-right">
-                               
-                                 <a href="#:;" class="icon action toolbar-collapse hide"></a>
-                                 <a href="{{route('bookings.list')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Back</a>
-                            </div>
-                            <h3 class="title medium">{{__('Payment History List') }}</h3>
-                        </div>
-                    </div>
-                    @php $customer_data =   $data['customer_deatils'];
+            @php $customer_data =   $data['customer_deatils'];
                          $booking_data = $data['booking_details']; 
                          $package_name = CommonHelper::getfirstPackageName($booking_data->package_id);
                      @endphp
-                    <div class="collapsible-target">
-                        <div class="row details">
+                     
+                    <div class="page-content">
+                    <div class="row">
                             <div class="col-md-6">
                             <h5 class="card-title design">Customer Details</h5>
                             <div class="card panel">
@@ -83,7 +71,22 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>     
+                 @include('includes.messages')
+                <div class="paper toolbar-parent mt10">
+                    <div class="p10 theme dropshadow mb4">
+                        <div class="toolbar">
+                            <div class="pull-right">
+                               
+                                 <a href="#:;" class="icon action toolbar-collapse hide"></a>
+                                 <a href="{{route('bookings.list')}}" class="btn btn-sm cyan waves-effect waves-circle waves-light">Back</a>
+                            </div>
+                            <h3 class="title medium">{{__('Payment History List') }}</h3>
+                        </div>
+                    </div>
+                   
+                    <div class="collapsible-target">
+                                           
                             <br>
                             <div class="container">
                             <h2>Payment List</h2>
