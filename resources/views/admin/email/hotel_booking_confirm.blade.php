@@ -5,7 +5,8 @@ $booking_info = CommonHelper::getBookinginfo($bookingid,$cityid,$hotel_id);
 $nightcount = CommonHelper::getBookingPlaceNights($bookingid,$cityid);
 $booking_places = CommonHelper::getBookingPlaceDetails($bookingid);
 //dd($booking_info);
-$sum_package_hotel_types = CommonHelper::getBookingHotelTypes($bookingid,$cityid,$hotel_id);
+$sum_package_hotel_types = CommonHelper::getConfirmedHotelTypes($bookingid,$cityid,$hotel_id);
+//dd($sum_package_hotel_types);
 $order_no = 1; 
 $days = 0;
 foreach($booking_places as $place){
@@ -83,8 +84,7 @@ $myvalue = $website_data->company_name;
 		<div style="width:600px;margin: 0 auto; border:1px solid #fff;">
 			<div class="container">
 				<div>
-				
-				<img src="{{ env('LIVE_URL') ."public/assets/images/hotel_confirm.png"}}" alt="image" style="width:100%;height:800px;">
+                <img src="{{ env('LIVE_URL') ."public/assets/images/hotel_confirm.png"}}" alt="image" style="width:100%;height:800px;">
 					<table class="top-left" width="100%">
 						<tr>
 							<td colspan="1" style="width: 10%;    padding-left: 22px;"><img src="{{ $message->embed(storage_path() . '/app/website/'.$website_data->company_logo) }}" alt="logo" width="70" height="50"></td>
@@ -157,19 +157,16 @@ $myvalue = $website_data->company_name;
 							<td colspan="1">{{ $types->total_rooms }}</td>
 							
 						</tr>
-						@endforeach
-						<!-- <tr>
-							<td colspan="2" style="text-align:left;color:#f7941d;font-size:20px;font-weight:bold;width:38%">
-								<p style="margin: 0;padding-left: 25px;"> Premium + </p>
-								<hr style="border:1px solid #f7941d;">
-							</td>
-							<td colspan="1">&nbsp;</td>
+                        <td colspan="1" style="padding: 0px 20px; font-size: 13px;" >
+								Cost  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;:  </td>
+                                @if($types->updated_total!=0)
+                                    <td colspan="1">{{ $types->updated_total }}</td>
+                                @else
+                                    <td colspan="1">{{ $types->total_amount }}</td>
+                                @endif
 						</tr>
-						<tr>
-							<td colspan="1" style="padding: 0px 20px; font-size: 13px;" >
-								Rooms Availability  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;: </td>
-							<td colspan="1">2</td>
-						</tr> -->
+						@endforeach
+                        <br>
 						<tr>
 							<td style="font-size:13px;padding: 10px 25px;">Thank You</td>
 						</tr>
@@ -191,14 +188,7 @@ $myvalue = $website_data->company_name;
 						$enc_booking_id = Crypt::encrypt($bookingid);
 						$linkConfirmation = route('view_hotel_Confirmation',[$enc_hotelid,$enc_email,$enc_booking_id]);
 					@endphp
-					<table class="bottom-right">
-						<tr>
-							<td style="text-align: center; padding-top: 25px;padding-bottom: 40px;">
-								<a  target="_blank" href="{{$linkConfirmation}}" class="btn button">Confirm </a>
-								<!-- <button class="button">Confirm</button> -->
-							</td>
-						</tr>
-					</table>
+					
 				</div>
 			</div>
 		</div>

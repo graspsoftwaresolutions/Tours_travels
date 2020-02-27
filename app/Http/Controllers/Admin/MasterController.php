@@ -45,7 +45,6 @@ class MasterController extends CommonController {
     }
     public function countrySave(Request $request)
     {
-
         $request->validate([
             'country_name' => 'required',
                 ], [

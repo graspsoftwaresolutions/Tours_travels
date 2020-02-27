@@ -2354,6 +2354,7 @@
    
   }
   function ConfirmMail(hotelid,cityid,bookingid) {
+   // spinner.show();
     //console.log(hotelid);
     if (confirm("{{ __('Are you sure you want to send email?') }}")) {
       var url = "{{ route('hotel_confirmation') }}" + '?hotelid=' + hotelid+'&city_id='+cityid+'&booking_id='+bookingid;

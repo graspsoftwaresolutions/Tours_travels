@@ -35,15 +35,13 @@
                                  <a href="#:;" class="icon action toolbar-collapse hide"></a>
                                  <button id="addMaster" onClick='showaddForm();' class="btn btn-sm cyan waves-effect waves-circle waves-light ">Add</button>
                             </div>
-                            
-                            
                             <h3 class="title medium">{{__('Country List') }}</h3>
                         </div>
 
                     </div>
 
                     <div class="collapsible-target">
-
+                   
                         <table id="datatable-master" class="table-datatable dt-responsive table-striped table-hover">
                             <thead>
                                 <tr>

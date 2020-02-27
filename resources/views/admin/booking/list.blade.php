@@ -218,9 +218,9 @@ $(document).ready(function() {
             success: function(response){
                 if(response)
                 {
-                   // alert('Status Changed sucessfully!!');
+                    alert('Status Changed sucessfully!!');
                     $('#masterModal').modal('toggle');
-                   // window.location.reload();
+                    window.location.reload();
                 }
             }
 			});
@@ -237,9 +237,11 @@ function ConfirmMail() {
 }
 
 //Model
-$(document).ready(function() {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-   // $('.modal').modal();
+
+$(document).on('submit','form#ChageStatusformValidate',function(){
+     $("#saveStatusButton").prop('disabled',true);
+     $("#saveStatusButton").prop('disabled',true);
+    //loader.showLoader();
 });
 
 $("#master-menu").addClass('active');

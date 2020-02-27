@@ -27,7 +27,7 @@
 			</table>
 			<table width="100%" style="text-align:center;">
 				<tr>
-					<td colspan="1" style="padding-left: 192px;"><img src="{{ $message->embed(storage_path() . '/app/website/'.$website_dat->company_logo) }}" alt="logo" width="80" height="60"></td>
+						<td colspan="1" style="padding-left: 192px;"><img src="{{ $message->embed(storage_path() . '/app/website/'.$website_dat->company_logo) }}" alt="logo" width="80" height="60"></td>
 					<td colspan="1" style="padding-right: 197px;"><span style="color: #f7941d;font-size: 50px;font-weight: bold;    ">{{$arr[0]}}</span> 
 						<br> 
 						<span style="background: #f7941d; color: #fff;font-weight: bold; font-size: 13px;">{{$str}}</span>

@@ -608,9 +608,7 @@ $(document).ready(function(){
 		
 	}).on('changeDate', function(ev) {
 		checkout.hide();
-	}).data('datepicker');
-	
-			
+	}).data('datepicker');		
 })(jQuery);
 </script>
 @endsection

@@ -31,9 +31,9 @@ class BookingConfimationCustomerMail extends Mailable
      */
     public function build()
     {
-        return $this->view('admin.email.booking_confirmation_customer_mail');
-        return $this->view('web.email.booking_confirmation_customer_mail')
-        ->with(['message' => $this])
-        ->attach('storage/app/pdf/'.$this->booking_number."_booking_invoice.pdf");
+        return $this->view('admin.email.booking_confirmation_customer_mail')
+        // return $this->view('web.email.booking_confirmation_customer_mail')
+        // ->with(['message' => $this])
+        ->attach('storage/app/pdf/'.$this->booking_number."_booking_details.pdf");
     }
 }

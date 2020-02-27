@@ -6,6 +6,7 @@
 	var base_url = '{{ URL::to("/") }}';
 	var image_url = '{{ asset("storage/app/") }}';
 	var no_image_url = '{{ asset("public/assets/images/no_image.jpg") }}';
+	var spinner = $('#loader');
 </script>
 @section('footerSection')
 @show

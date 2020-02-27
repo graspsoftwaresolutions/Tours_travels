@@ -304,7 +304,7 @@
                      </div>
                       <div class="col-sm-4">
                         <div class="form-group input-field label-float">
-                           <input type="date" name="to_date" id="to_date"/>
+                           <input type="date" class="datepicker" name="to_date" id="to_date"/>
                            <label for="to_date" class="fixed-label">{{__('To Date') }}<span style="color:red">*</span></label>
                            <div class="input-highlight"></div>
                         </div>
@@ -680,14 +680,13 @@
                                   <span id="summary-state">Bridges</span><br><span id="summary-cities" class="text-small"></span>
                                 </div>
                                 <div class="col-md-4"> 
-                                  <p id="summary-nights"><span class="night-count"></span> nights</p><span id="summary-days" class="text-small"><span class="days-count"></span> days</span>
+                                  <p id="summary-nights"><span class="night-count"></span> nights</p><span id="summary-days" class="text-small"><span class="days-count " ></span> days</span>
                                 </div>
                                  <div class="col-md-4"> 
                                   <p id="summary-family"><span class="adult-count">2</span> Adults <span class="child-count">0</span> Children</p><span id="summary-infants" class="text-small"><span class="infant-count">0</span> Infant</span>
                                 </div>
                             </div>
                           </div>
-                          
                       </div>
                        <ul id="overall-summary" class="timeline overallplacecitylist bg-color-switch mt40 timeline-single">
                           
@@ -1167,10 +1166,10 @@
 <script src="{{ asset('public/js/jquery.dragsort.js') }}"></script>
 <script src ="{{ asset('public/assets/dist/js/jquery-ui.js') }}"></script>
 <script src="{{ asset('public/assets/dist/js/external_sweet_alert.js') }}"></script>
-  <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
-  <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
- <!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- <script src="{{ asset('public/assets/dist/js/sortable-ui.js') }}"></script-->
+<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script-->
+<!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="{{ asset('public/assets/dist/js/sortable-ui.js') }}"></script-->
 <script>
    $("#dashboard_sidebar_li_id").addClass('active');
     var form = $("#wizard1").show();
@@ -1959,6 +1958,60 @@
    function ViewDetailedSummary(){
       $(".detailed-summary-area").toggle();
    }
+   (function($) {
+   
+   // $('#form_date').datepicker({
+   //     format: 'dd/mm/yyyy'
+   // });
+  // Cache Selectors
+  var date1		=$('.dpd1'),
+     date2		=$('.dpd2');
+  
+  //Date Picker//
+  var nowTemp = new Date();
+   console.log(nowTemp);
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+ //  var now = new Date(nowTemp.getFullYear(),nowTemp.getDate(),  nowTemp.getMonth(), 0, 0, 0, 0);
+   
+  var checkin = date1.datepicker({
+     onRender: function(date) {
+        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+     }
+  }).on('changeDate', function(ev) {
+      
+     if (ev.date.valueOf() > checkout.date.valueOf()) {
+        var newDate = new Date(ev.date)
+        newDate.setDate(newDate.getDate() + 2);
+          // console.log(newDate.getDate() + 2);
+        checkout.setValue(newDate);
+     }
+      
+       var date = new Date($("#form_date").val());
+     //  console.log(date);
+          days = parseInt($("#nightcount").val(), 10);
+       
+       if(!isNaN(date.getTime())){
+           date.setDate(date.getDate() + days);
+           
+           
+           $("#to_date").val(date.toInputFormat());
+       } else {
+           alert("Invalid Date");  
+       }
+     checkin.hide();
+     //date2[0].focus();
+     
+  }).data('datepicker');
+  
+  var checkout = date2.datepicker({
+     onRender: function(date) {
+        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+     }
+     
+  }).on('changeDate', function(ev) {
+     checkout.hide();
+  }).data('datepicker');		
+})(jQuery);
   
 </script>
 @endsection

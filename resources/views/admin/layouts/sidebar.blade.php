@@ -95,7 +95,7 @@
             <li id="master-menu" class="menubar-item">
               <a class="menu-dropdown" href="#">
                 <i class="icon mdi mdi-format-list-bulleted"></i>
-                <span class="text">{{ __('Masters') }}</span>
+                <span class="text">{{ __('Masters') }} </span>
               </a>
               <ul class="submenu lvl-1">
                 <li id="country_sidebar_li_id" class="submenu-item">

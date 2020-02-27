@@ -544,9 +544,7 @@ class BookingController extends Controller
         if($data['booking_details']!='' && $user_id!='')
         {
            $booking_number = $data['booking_details'][0]->booking_number;
-           // return view('web.tour.pdf.booking_invoicepdf',$data);
             $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-          //  return  $pdf->stream();
             $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
             
                 $to_email =  $customer_data->email;
@@ -594,17 +592,13 @@ class BookingController extends Controller
                 $BookingHotel->approval_status = 0;
                 $BookingHotel->save();
             }
-            
             $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
             $from_mail = Website::pluck('company_email')->first();
             $to_mail = $toMailDetails->contact_email;
-          //  $to_mail = 'mounika.bizsoft@gmail.com';
-            //$cc_email = 'shyni.bizsoft@gmail.com';
-            $cc_email = 'murugan.bizsoft@gmail.com';
+            $cc_email = 'shyni.bizsoft@gmail.com';
+       
             if( $to_mail!=''){
-                \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmation($hotel_id,$cityid,$bookingid));
-
-                
+                \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelConfirmation($hotel_id,$cityid,$bookingid)); 
             }
               $hotelconfirmation_status = CommonHelper::getHotelConfirmationStatus($bookingid,$cityid,$hotel_id);
 
@@ -746,56 +740,66 @@ class BookingController extends Controller
     }
     public function changeStatus(Request $request)
     {
-      //  $data = $request->all();
           $changeStatus = $request->changeStatus;
           $bookingid = $request->bookingid;
 
-          $result = Booking::where('id','=',$bookingid)->update([ 'status'=>$changeStatus ]);
+          $result = Booking::where('id','=',$bookingid)->update([ 'status'=>$changeStatus ]);  
 
-          $data['booking_details'] = DB::table('booking_master')->where('id','=',$bookingid)->get();
+          $data['booking_data'] = DB::table('booking_master as bm')->select('bm.id','bm.package_id','bm.customer_id','bm.package_type','bm.adult_count','child_count','infant_count','adult_count','con.country_name','st.state_name','cit.city_name','total_package_value','tax_percentage','tax_amount','total_amount','adult_price_person','child_price_person','infant_price','total_accommodation','total_activities','discount_amount','transport_additional_charges','from_country_id','from_state_id','from_city_id','from_date','to_date','grand_total','bm.booking_number')
+                            ->leftjoin('country as con','con.id','=','bm.to_country_id')
+                            ->leftjoin('state as st','st.id','=','bm.to_state_id')
+                            ->leftjoin('city as cit','cit.id','=','bm.to_city_id')
+                            ->where('bm.id','=',$bookingid)->get(); 
+
+          $data['booking_package'] = DB::table('booking_master as bm')
+                                 ->leftjoin('package_master as pm','pm.id','=','bm.package_id')
+                                  ->where('bm.id','=',$bookingid)->get();
+
+          $data['booking_customer'] = DB::table('booking_master as bm')
+                                ->leftjoin('customer_details as cd','cd.id','=','bm.customer_id')
+                                ->where('bm.id','=',$bookingid)->get();         
+          $data['booking_place'] = DB::table('booking_place as bp')
+                                     ->leftjoin('booking_master as bm','bm.id','=','bp.booking_id')
+                                     ->where('bm.id','=',$bookingid)->get();
+          $data['website_data'] = Website::where('status','=','1')->get();
+        
           $user_id = DB::table('booking_master')->where('id','=',$bookingid)->pluck('customer_id')->first();
           $customer_data = DB::table('users')->where('customer_id','=',$user_id)->select('name','email')->first();
-          
-        //   if($data['booking_details']!='' && $user_id!='')
-        //   {
-        //      $booking_number = $data['booking_details'][0]->booking_number;
-        //       $pdf = PDF::loadView('web.tour.pdf.booking_invoicepdf', $data);
-        //       $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
-              
-        //         $to_email =  $customer_data->email;
-        //         $cc_email = 'mounika.bizsoft@gmail.com';
-        //       \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingConfimationCustomerMail($bookingid,$booking_number,$customer_data));
-        //   }
 
-        // $data['booking_data'] = DB::table('booking_master as bm')->select('bm.id','bm.package_id','bm.customer_id','bm.package_type','bm.adult_count','child_count','infant_count','adult_count','con.country_name','st.state_name','cit.city_name','total_package_value','tax_percentage','tax_amount','total_amount','adult_price_person','child_price_person','infant_price','total_accommodation','total_activities','discount_amount','transport_additional_charges','from_country_id','from_state_id','from_city_id','from_date','to_date','grand_total')
-        //                     ->leftjoin('country as con','con.id','=','bm.to_country_id')
-        //                     ->leftjoin('state as st','st.id','=','bm.to_state_id')
-        //                     ->leftjoin('city as cit','cit.id','=','bm.to_city_id')
-        //                     ->where('bm.id','=',$bookingid)->get(); 
+         if($data['booking_data']!='' && $user_id!='')
+          {
+             $booking_number = $data['booking_data'][0]->booking_number;
+              $pdf = PDF::loadView('admin.booking.pdf.booking_pdf', $data);
+              $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_details.pdf'));
+                $to_email =  $customer_data->email;
+                $cc_email = 'shyni.bizsoft@gmail.com';
+             \Mail::to($to_email)->cc($cc_email)->send(new \App\Mail\BookingConfimationCustomerMail($bookingid,$booking_number,$customer_data));
+          }
+          foreach($data['booking_place'] as $place)
+          {
+                $cityid = $place->city_id;
+                $package_hotels = CommonHelper::getBookingHotels($bookingid,$place->city_id); 
+                foreach($package_hotels as $hotel)
+                {
+                    $hotel_id = $hotel->hotel_id;
+                    $toMailDetails = DB::table('hotels')->where('id','=',$hotel_id)->select('contact_name','contact_email')->first();
+                    $from_mail = Website::pluck('company_email')->first();
+                    $to_mail = $toMailDetails->contact_email;
+                    $cc_email = 'shyni.bizsoft@gmail.com';
+            
+                    if( $to_mail!=''){
+                        \Mail::to($to_mail)->cc($cc_email)->send(new \App\Mail\HotelReplyConfirmation($bookingid,$cityid,$hotel_id));
+                    }
+                }
+          }
 
-        //  $data['booking_package'] = DB::table('booking_master as bm')
-        //                          ->leftjoin('package_master as pm','pm.id','=','bm.package_id')
-        //                           ->where('bm.id','=',$bookingid)->get();
-
-        // $data['booking_customer'] = DB::table('booking_master as bm')
-        //                         ->leftjoin('customer_details as cd','cd.id','=','bm.customer_id')
-        //                         ->where('bm.id','=',$bookingid)->get();         
-        //  $data['booking_place'] = DB::table('booking_place as bp')
-        //                              ->leftjoin('booking_master as bm','bm.id','=','bp.booking_id')
-        //                              ->where('bm.id','=',$bookingid)->get();
-        //  $data['website_data'] = Website::where('status','=','1')->get();
-        
-        //  if($data!='')
-        //  {
-        //    //return view('admin.booking.pdf.booking_pdf')->with($data);
-        //     $pdf = PDF::loadView('admin.booking.pdf.booking_pdf', $data);
-        //    // return  $pdf->stream();
-        //    $pdf->save(storage_path('app/pdf/'.$booking_number.'_booking_invoice.pdf'));
-        //  }
-         
-        //   if($result == true)
-        //   {
-        //     return json_encode($result);
-        //   }
+          if($result == true)
+          {
+            return json_encode($result);
+          }
+    }
+    public function hotel_confirm_test()
+    {
+        return view('admin.email.hotel_confirmation');
     }
 }

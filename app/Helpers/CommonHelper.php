@@ -277,6 +277,23 @@ class CommonHelper
         return $hotels_rooms;
         
     }
+    public static function getConfirmedHotelTypes($bookingid,$cityid,$hotelid)
+    {
+        //$hotel_details = CommonHelper::getBookingHotelDetails($bookingid,$cityid,$hotelid);
+        //$hotel_info['hotel_details'] = $hotel_details;
+       //  dd($hotelid);
+        DB::select( DB::raw('set sql_mode=""'));
+        $hotels_rooms = DB::table('booking_hotel_confirmation as bh')->select('bh.roomtype_id','bh.total_rooms','bh.total_amount','type.room_type','bh.updated_total')
+                      ->leftjoin('room_type as type','type.id','=','bh.roomtype_id')
+                    ->where('bh.booking_id','=',$bookingid)
+                    ->where('bh.city_id','=',$cityid)
+                    ->where('bh.hotel_id','=',$hotelid)
+                    ->where('approval_status','=','1')
+                    ->get();
+       // $hotel_info['room_types'] = $hotels_rooms;
+      
+        return $hotels_rooms;
+    }
 
 
     public static function getPackageHotelDetails($packageid,$cityid,$hotelid){

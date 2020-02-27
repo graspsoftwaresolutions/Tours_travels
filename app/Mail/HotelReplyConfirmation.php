@@ -7,19 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class HotelConfirmation extends Mailable
+class HotelReplyConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
     public $hotel_id;
     public $cityid;
     public $bookingid;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($hotel_id,$cityid,$bookingid)
+    public function __construct($bookingid,$cityid,$hotel_id)
     {
         $this->hotel_id = $hotel_id;
         $this->cityid = $cityid;
@@ -32,8 +31,6 @@ class HotelConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Enquiry for Room Availability from Tours')
-                    ->with(['message' => $this])
-                    ->view('admin.email.hotel_confirmation');
+        return $this->view('admin.email.hotel_booking_confirm');
     }
 }
