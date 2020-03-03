@@ -56,6 +56,7 @@ class BookingController extends Controller
 
     public function bookingSave(Request $request)
     {
+       // return Auth::user()->name();
         //return $request->transport_additional_charges;
         //return $request->all();
         $request->validate([
@@ -122,7 +123,7 @@ class BookingController extends Controller
 
             //Payment History
             $payment_date = date('Y-m-d');
-            $followed_by = Auth::user()->name();
+            $followed_by = Auth::guard('admin')->user()->name;
             $payment_mode = 'cash';
             $customer_id = DB::table('booking_master')->where('id','=',$booking_id)->pluck('customer_id')->first();
         

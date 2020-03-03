@@ -1737,20 +1737,20 @@
                  $("#package_name-error").remove();
                }
 
-                if($("#package_type").val()==''){
-                  $('.package_type-error').remove();
-                  $( '<div id="package_type-error" class="error from_city_id-error custom-error">Please choose Type.</div>' ).insertAfter( '#package_type' );
-                  formsubmit =false; 
-               }else{
-                 $("#package_type-error").remove();
-               }
+               //  if($("#package_type").val()==''){
+               //    $('.package_type-error').remove();
+               //    $( '<div id="package_type-error" class="error from_city_id-error custom-error">Please choose Type.</div>' ).insertAfter( '#package_type' );
+               //    formsubmit =false; 
+               // }else{
+               //   $("#package_type-error").remove();
+               // }
 
                if($('#place-sortList li').length==0 && formsubmit==true){
                   alert("Please pick any place");
                   formsubmit =false; 
                }
                 
-               return formsubmit;
+               return true;
             }
             if(newIndex===3){
               CalculateTransport();

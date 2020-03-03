@@ -1379,7 +1379,7 @@ class AjaxController extends CommonController
         );
 
         $totalData = DB::table('booking_master as b')
-            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date','b.package_id',)
+            ->select('b.id','b.booking_number','cd.name','p.package_name','b.adult_count','b.total_amount','p.status','cit.city_name','st.state_name','b.grand_total','b.paid_amount','b.balance_amount','b.from_date','b.to_date','b.package_id')
             ->leftjoin('package_master as p','p.id','=','b.package_id','b.to_city_id as cityid','b.status as booking_status')
             ->leftjoin('customer_details as cd','cd.id','=','b.customer_id')
             ->leftjoin('city as cit','cit.id','=','b.to_city_id')
